@@ -1,0 +1,16 @@
+html, body {
+    background-color: #212529;
+}
+
+.gulag-avatar {
+    background-image: url("assets/images/gulag-avatar.png");
+    background-repeat: no-repeat;
+    width: 512px;
+    height: 363px;
+    margin: 0;
+    padding: 0;
+}
+
+.table-dark td, .table-dark th, .table-dark thead th {
+    border-color: transparent;
+}
