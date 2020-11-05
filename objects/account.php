@@ -30,7 +30,7 @@ class Account {
         $this->id = NULL;
         $this->username = NULL;
         $this->email = NULL;
-        $this->privileges;
+        $this->privileges = NULL;
         $this->authenticated = FALSE;
     }
 

@@ -1,10 +1,8 @@
 <?php
-
 // Logout POST request.
 if (isset($_POST["logout"])) {
   $account->logout();
 }
-
 ?>
 
 <head>
@@ -38,6 +36,12 @@ if (isset($_POST["logout"])) {
           </a>
         </div>
       </li>
+
+      <?php if (($account->isAuthenticated()) && ($account->getPrivileges() & Privileges::Staff)) : ?>
+      <li class="nav-item <?php if ($_SERVER["PHP_SELF"]=="/admin/dashboard.php") { ?>active<?php } ?>">
+        <a class="nav-link" href="/admin/dashboard.php">Admin Panel</a>
+      </li>
+      <?php endif; ?>
     </ul>
     <ul class="navbar-nav ml-auto">
       <div class="searchbar mr-sm-2">

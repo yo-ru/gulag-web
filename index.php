@@ -2,6 +2,9 @@
 // Config
 $config = include("config.php");
 
+// Privileges
+include "objects/privileges.php";
+
 // Try session login.
 include "objects/account.php";
 $account->sessionLogin();
