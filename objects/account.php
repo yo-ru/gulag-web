@@ -18,6 +18,9 @@ class Account {
     // Email
     private $email;
 
+    // Privileges
+    private $privileges;
+
     // Authenticated
     private $authenticated;
 
@@ -27,6 +30,7 @@ class Account {
         $this->id = NULL;
         $this->username = NULL;
         $this->email = NULL;
+        $this->privileges;
         $this->authenticated = FALSE;
     }
 
@@ -43,6 +47,11 @@ class Account {
     // Get Email
     public function getEmail(): string {
         return $this->email;
+    }
+
+    // Get Privileges
+    public function getPrivileges(): int {
+        return $this->privileges;
     }
 
     // Get ID 
@@ -136,6 +145,7 @@ class Account {
                 $this->username = $row["name"];
                 $this->username_safe = $row["name_safe"];
                 $this->email = $row["email"];
+                $this->privileges = $row["priv"];
                 $this->authenticated = TRUE;
                 $this->registerSession();
 
@@ -174,6 +184,7 @@ class Account {
                 $this->username = $row["name"];
                 $this->username_safe = $row["name_safe"];
                 $this->email = $row["email"];
+                $this->privileges = $row["priv"];
                 $this->authenticated = TRUE;
                 unset($row);
             }
@@ -195,6 +206,7 @@ class Account {
         $this->username = NULL;
         $this->username_safe = NULL;
         $this->email = NULL;
+        $this->privileges = NULL;
         $this->authenticated = FALSE;
         
         // If there is an open session remove it from the user_sessions table.
