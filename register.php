@@ -2,11 +2,11 @@
 // Config
 $config = include("config.php");
 
-// Try session login
+// Try session login.
 include "objects/account.php";
 $account->sessionLogin();
 
-// We're already authenticated; Redirect home
+// We're already authenticated; Redirect home.
 if ($account->isAuthenticated()) {
     header("Location: /");
 }

@@ -1,6 +1,6 @@
 <?php
 
-// Logout POST request
+// Logout POST request.
 if (isset($_POST["logout"])) {
   $account->logout();
 }

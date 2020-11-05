@@ -2,7 +2,7 @@
 // Config
 $config = include("config.php");
 
-// Try session login
+// Try session login.
 include "objects/account.php";
 $account->sessionLogin();
 ?>
