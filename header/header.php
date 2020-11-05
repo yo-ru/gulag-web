@@ -1,3 +1,12 @@
+<?php
+
+// Logout POST request
+if (isset($_POST["logout"])) {
+  $account->logout();
+}
+
+?>
+
 <head>
   <!-- Custom Style -->
   <link rel="stylesheet" href="header/header.css">
@@ -35,6 +44,18 @@
           <input class="search_input" type="text" name="search" placeholder="Search for a player...">
           <a class="search_icon"><i class="fa fa-search"></i></a>
       </div>
+      <?php if ($account->isAuthenticated()) : ?>
+      <li class="nav-item active">
+        <a class="nav-link" href="/u/<?php echo $account->getID() ?>">
+            <?php echo $account->getUsername() ?>
+        </a>
+      </li>
+      <li class="nav-item">
+        <form class="m-0" action="" method="post">
+          <input class="nav-link link-button" name="logout" type="submit" value="Logout" />
+        </form>
+      </li>
+      <?php else : ?>
       <li class="nav-item <?php if ($_SERVER["PHP_SELF"]=="/login.php") { ?>active<?php } ?>">
         <a class="nav-link" href="/login.php">
           Login
@@ -45,6 +66,7 @@
           Register
         </a>
       </li>
+      <?php endif; ?>
     </ul>
   </div>
 </nav>

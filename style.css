@@ -14,3 +14,14 @@ html, body {
 .table-dark td, .table-dark th, .table-dark thead th {
     border-color: transparent;
 }
+
+.link-button {
+    background: none;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.link-button:focus {
+    outline: none;
+}

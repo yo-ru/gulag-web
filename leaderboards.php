@@ -1,7 +1,10 @@
-<?php
+<?php session_start();
 // Config
 $config = include("config.php");
 
+// Try session login
+include "objects/account.php";
+$account->sessionLogin();
 ?>
 
 <html>
@@ -44,7 +47,7 @@ $config = include("config.php");
             </div>
             <div class="btn-group" role="group" aria-label="Leaderboard Type">
               <button type="button" class="btn btn-secondary active">Performance</button>
-              <button type="button" class="btn btn-secondary">Relax</button>
+              <button type="button" class="btn btn-secondary">Score</button>
             </div>
           </div>
           <table class="table table-dark text-center mt-3">

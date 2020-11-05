@@ -5,6 +5,21 @@ $config = include("config.php");
 // Try session login
 include "objects/account.php";
 $account->sessionLogin();
+
+// We're already authenticated; Redirect home
+if ($account->isAuthenticated()) {
+    header("Location: /");
+}
+
+// Try form login
+$msg = "";
+if (isset($_POST["login"]) && !empty($_POST["username"]) && !empty($_POST["password"])) {
+    try {
+        $account->login($_POST["username"], $_POST["password"]);
+    } catch (Exception $e) {
+        $msg = $e->getMessage();
+    }
+}
 ?>
 
 <html>
@@ -29,27 +44,25 @@ $account->sessionLogin();
 
     <!-- Content -->
     <div class="container">
-      <div class="row">
-        <div class="col rounded mt-3 mb-3 pl-5 pr-5 bg-dark text-white">
-          <div class="row">
-            <div class="gulag-avatar"></div>
-            <div class="col pl-0 pr-0 text-center justify-content-center align-self-center">
-              <h1 class="font-weight-bold">
-                <?php echo $config->instanceName ?>
-              </h1>
-              <p>
-                Welcome to 
-                <span class="font-weight-bold">
-                  <?php echo $config->instanceName, "." ?>
-                </span>
-                We are a osu! private server mainly based around the relax mod - 
-                featuring score submission, leaderboards & rankings, custom pp, 
-                and much more for both relax and vanilla osu!
-              </p>
-              <a class="btn btn-info btn-lg" href="/docs/connect.php">How to Connect</a>
-              <a class="btn btn-light btn-lg" href="/register.php">Register</a>
-            </div>
+      <div class="row w-50 mx-auto">
+        <div class="col rounded mt-3 mb-3 p-5 bg-dark text-white text-center">
+          <?php if ($msg) : ?>
+          <div class="alert alert-danger" role="alert">
+            <?php echo $msg ?>
           </div>
+          <?php endif; ?>
+          <form action="" method="post">
+            <div class="form-group">
+              <label for="usernameInput">Username</label>
+              <input name="username" type="text" class="form-control" id="usernameInput" aria-describedby="usernameHelp" placeholder="Username">
+              <small id="usernameHelp" class="form-text text-muted">Currently only username logins are available.</small>
+            </div>
+            <div class="form-group">
+              <label for="passwordInput">Password</label>
+              <input name="password" type="password" class="form-control" id="passwordInput" placeholder="Password">
+            </div>
+            <button name="login" type="submit" class="btn btn-secondary">Login</button>
+          </form>
         </div>
       </div>
     </div>
