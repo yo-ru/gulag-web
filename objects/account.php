@@ -117,6 +117,7 @@ class Account {
         $db->query("INSERT INTO stats (id) VALUES (" . $id . ")");
         unset($query);
 
+        // After successful registration, relocate to login page.
         header("Location: /login.php");
     }
 
@@ -136,8 +137,9 @@ class Account {
                 $this->username_safe = $row["name_safe"];
                 $this->email = $row["email"];
                 $this->authenticated = TRUE;
-
                 $this->registerSession();
+
+                // After successful login, relocate to home page.
                 header("Location: /");
             }
             unset($row);
@@ -201,7 +203,8 @@ class Account {
             $db->query("DELETE FROM user_sessions WHERE session_id = \"" . session_id() . "\"");
         }
 
-        header("Location: /");
+        // After successful logout, relocate to login page.
+        header("Location: /login.php");
     }
 }
 
