@@ -78,7 +78,7 @@ class Account {
         }
 
         // Disallowed username; pick another.
-        if (in_array($username, $config->disallowedNames)) {
+        if (in_array(strtolower($username), $config->disallowedNames)) {
             throw new Exception("Disallowed username; pick another.");
         }
 
@@ -107,7 +107,7 @@ class Account {
         }
 
         // Password was deemed too simple.
-        if (in_array($password, $config->disallowedPasswords)) {
+        if (in_array(strtolower($password), $config->disallowedPasswords)) {
             throw new Exception("Password was deemed too simple.");
         }
         
