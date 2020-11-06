@@ -19,7 +19,7 @@ if (isset($_POST["logout"])) {
         <a class="nav-link" href="/leaderboards.php">Leaderboards</a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Information
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
