@@ -49,8 +49,14 @@ $account->sessionLogin();
                 featuring score submission, leaderboards & rankings, custom pp, 
                 and much more for both relax and vanilla osu!
               </p>
+              <?php if ($account->isAuthenticated()) : ?>
+              <a class="btn btn-info btn-lg" href="/u/<?php echo $account->getID() ?>">View Profile</a>
+              <a class="btn btn-light btn-lg" href="/leaderboards.php">View Leaderboards</a>
+              <?php else : ?>
               <a class="btn btn-info btn-lg" href="/docs/connect.php">How to Connect</a>
               <a class="btn btn-light btn-lg" href="/register.php">Register</a>
+              <?php endif; ?>
+
             </div>
           </div>
         </div>
