@@ -4,11 +4,6 @@ if (isset($_POST["logout"])) {
   $account->logout();
 }
 ?>
-
-<head>
-  <!-- Custom Style -->
-  <link rel="stylesheet" href="header/header.css">
-</head>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="/">gulag</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +32,8 @@ if (isset($_POST["logout"])) {
         </div>
       </li>
 
-      <?php if (($account->isAuthenticated()) && ($account->getPrivileges() & Privileges::Staff)) : ?>
+      <?php 
+      if ($account->isAuthenticated() && ($account->getPrivileges() & Privileges::Staff)) : ?>
       <li class="nav-item <?php if ($_SERVER["PHP_SELF"]=="/admin/dashboard.php") { ?>active<?php } ?>">
         <a class="nav-link" href="/admin/dashboard.php">Admin Panel</a>
       </li>

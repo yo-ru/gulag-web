@@ -3,7 +3,7 @@
 $config = include("config.php");
 
 // Database
-include "database/database.php";
+include "assets/database/database.php";
 
 class Account {
     // User ID
@@ -175,7 +175,7 @@ class Account {
         global $db;
         
         /* Check that the Session has been started */
-        if (session_status() == PHP_SESSION_ACTIVE) {
+        if (session_status() === PHP_SESSION_ACTIVE) {
             $query = $db->query("SELECT * FROM users, user_sessions WHERE (user_sessions.session_id = \"" . session_id() . "\") AND (user_sessions.login_time >= (NOW() - INTERVAL 7 DAY)) AND (user_sessions.user_id = users.id)");
             if ($query->num_rows > 0) {
                 // Authentication OK.
@@ -210,7 +210,7 @@ class Account {
         $this->authenticated = FALSE;
         
         // If there is an open session remove it from the user_sessions table.
-        if (session_status() == PHP_SESSION_ACTIVE)
+        if (session_status() === PHP_SESSION_ACTIVE)
         {
             $db->query("DELETE FROM user_sessions WHERE session_id = \"" . session_id() . "\"");
         }

@@ -3,10 +3,10 @@
 $config = include("config.php");
 
 // Privileges
-include "objects/privileges.php";
+include "assets/objects/privileges.php";
 
 // Try session login.
-include "objects/account.php";
+include "assets/objects/account.php";
 $account->sessionLogin();
 
 // We're already authenticated; Redirect home.
@@ -43,7 +43,7 @@ if (isset($_POST["login"]) && !empty($_POST["username"]) && !empty($_POST["passw
   </head>
   <body>
     <!-- Header -->
-    <?php include "header/header.php" ?>
+    <?php include "assets/content/header.php" ?>
 
     <!-- Content -->
     <div class="container">
@@ -71,6 +71,6 @@ if (isset($_POST["login"]) && !empty($_POST["username"]) && !empty($_POST["passw
     </div>
 
     <!-- Footer -->
-    <?php include "footer/footer.php" ?>
+    <?php include "assets/content/footer.php" ?>
   </body>
 </html>

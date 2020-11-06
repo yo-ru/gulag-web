@@ -1,7 +1,3 @@
-<head>
-  <!-- Custom Style -->
-  <link rel="stylesheet" href="footer/footer.css">
-</head>
 <footer class="navbar navbar-inverse fixed-bottom bg-dark navbar-dark">
   <ul class="navbar-nav mr-auto">
     <li class="nav-item">
