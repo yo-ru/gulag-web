@@ -53,3 +53,9 @@ sudo nano nginx.conf
 cp config.sample.php config.php
 nano config.php
 ```
+
+## Debugging/Development
+```sh
+# You can view PHP errors by tailing NGINX's error log.
+sudo tail /var/log/nginx/error.log -n 200
+```
