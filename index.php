@@ -8,6 +8,13 @@ include "assets/objects/privileges.php";
 // Try session login.
 include "assets/objects/account.php";
 $account->sessionLogin();
+
+// Message
+$msg = $_SESSION["msg"] ?? array(
+  "type" => "", 
+  "msg" => ""
+);
+unset($_SESSION["msg"]);
 ?>
 
 <html>
@@ -24,7 +31,7 @@ $account->sessionLogin();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/e5971878b8.js" crossorigin="anonymous"></script>
 
     <!-- Custom Style -->
     <link rel="stylesheet" href="style.css">
@@ -35,7 +42,12 @@ $account->sessionLogin();
 
     <!-- Content -->
     <div class="container">
+      <?php if (array_filter($msg)) : ?>
+      <div class="alert alert-<?php echo $msg["type"] ?> mt-3 mb-0" role="alert">
+        <?php echo $msg["msg"] ?>
+      </div>
       <div class="row">
+        <?php endif; ?>
         <div class="col rounded mt-3 mb-3 pl-5 pr-5 bg-dark text-white">
           <div class="row">
             <div class="gulag-avatar"></div>

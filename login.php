@@ -14,13 +14,18 @@ if ($account->isAuthenticated()) {
     header("Location: /");
 }
 
-// Try form login
-$msg = "";
+// Try form login.
+$msg = $_SESSION["msg"] ?? array(
+  "type" => "", 
+  "msg" => ""
+);
+unset($_SESSION["msg"]);
 if (isset($_POST["login"]) && !empty($_POST["username"]) && !empty($_POST["password"])) {
     try {
         $account->login($_POST["username"], $_POST["password"]);
     } catch (Exception $e) {
-        $msg = $e->getMessage();
+        $msg["type"] = "danger";
+        $msg["msg"] = $e->getMessage();
     }
 }
 ?>
@@ -39,7 +44,7 @@ if (isset($_POST["login"]) && !empty($_POST["username"]) && !empty($_POST["passw
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/e5971878b8.js" crossorigin="anonymous"></script>
 
     <!-- Custom Style -->
     <link rel="stylesheet" href="style.css">
@@ -52,9 +57,12 @@ if (isset($_POST["login"]) && !empty($_POST["username"]) && !empty($_POST["passw
     <div class="container">
       <div class="row w-50 mx-auto">
         <div class="col rounded mt-3 mb-3 p-5 bg-dark text-white text-center">
-          <?php if ($msg) : ?>
-          <div class="alert alert-danger" role="alert">
-            <?php echo $msg ?>
+          <h1 class="text-center text-weight-bold">
+            Login
+          </h1>
+          <?php if (array_filter($msg)) : ?>
+          <div class="alert alert-<?php echo $msg["type"] ?>" role="alert">
+            <?php echo $msg["msg"] ?>
           </div>
           <?php endif; ?>
           <form action="" method="post">
