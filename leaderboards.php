@@ -106,14 +106,14 @@ $users = $db->query($query);
             <div class="text-center">
               <div class="btn-group" role="group" aria-label="Mod Mode">
                 <button name="mod" value="vn" type="submit" class="btn btn-secondary <?php if ($mod=="vn") { ?>active<?php } ?>">Vanilla</button>
-                <button name="mod" value="rx" type="submit" class="btn btn-secondary <?php if ($mod=="rx") { ?>active<?php } ?>">Relax</button>
+                <button name="mod" value="rx" type="submit" class="btn btn-secondary <?php if ($mod=="rx") { ?>active<?php } ?>" <?php if ($mode=="mania") { ?>disabled<?php } ?>>Relax</button>
                 <button name="mod" value="ap" type="submit" class="btn btn-secondary <?php if ($mod=="ap") { ?>active<?php } ?>">Autopilot</button>
               </div>
               <div class="btn-group" role="group" aria-label="Modes">
                 <button name="mode" value="std" type="submit" class="btn btn-secondary <?php if ($mode=="std") { ?>active<?php } ?>">Standard</button>
                 <button name="mode" value="taiko" type="submit" class="btn btn-secondary <?php if ($mode=="taiko") { ?>active<?php } ?>" <?php if ($mod=="ap") { ?>disabled<?php } ?>>Taiko</button>
                 <button name="mode" value="catch" type="submit" class="btn btn-secondary <?php if ($mode=="catch") { ?>active<?php } ?>" <?php if ($mod=="ap") { ?>disabled<?php } ?>>Catch</button>
-                <button name="mode" value="mania" type="submit" class="btn btn-secondary <?php if ($mode=="mania") { ?>active<?php } ?>" <?php if ($mod=="ap") { ?>disabled<?php } ?>>Mania</button>
+                <button name="mode" value="mania" type="submit" class="btn btn-secondary <?php if ($mode=="mania") { ?>active<?php } ?>" <?php if ($mod=="ap"||$mod=="rx") { ?>disabled<?php } ?>>Mania</button>
               </div>
               <div class="btn-group" role="group" aria-label="Leaderboard Type">
                 <button name="type" value="performance" type="submit" class="btn btn-secondary <?php if ($type=="performance") { ?>active<?php } ?>">Performance</button>
