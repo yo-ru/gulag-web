@@ -126,7 +126,11 @@ class Account {
         $db->query("INSERT INTO stats (id) VALUES (" . $id . ")");
         unset($query);
 
-        // After successful registration, relocate to login page.
+        // After successful registration, set message and relocate to login page.
+        $_SESSION["msg"] = array(
+            "type" => "success",
+            "msg" => "You have successfully registered! You may now login."
+        );
         header("Location: /login.php");
     }
 
@@ -150,6 +154,10 @@ class Account {
                 $this->registerSession();
 
                 // After successful login, relocate to home page.
+                $_SESSION["msg"] = array(
+                    "type" => "success",
+                    "msg" => "Welcome <b>" . $this->username . "</b>! You have successfully logged in!"
+                );
                 header("Location: /");
             }
             unset($row);
@@ -215,7 +223,11 @@ class Account {
             $db->query("DELETE FROM user_sessions WHERE session_id = \"" . session_id() . "\"");
         }
 
-        // After successful logout, relocate to login page.
+        // After successful logout, set message and relocate to login page.
+        $_SESSION["msg"] = array(
+            "type" => "success",
+            "msg" => "You have successfully logged out!"
+        );
         header("Location: /login.php");
     }
 }

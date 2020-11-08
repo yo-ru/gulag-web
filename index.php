@@ -8,6 +8,13 @@ include "assets/objects/privileges.php";
 // Try session login.
 include "assets/objects/account.php";
 $account->sessionLogin();
+
+// Message
+$msg = $_SESSION["msg"] ?? array(
+  "type" => "", 
+  "msg" => ""
+);
+unset($_SESSION["msg"]);
 ?>
 
 <html>
@@ -35,7 +42,12 @@ $account->sessionLogin();
 
     <!-- Content -->
     <div class="container">
+      <?php if (array_filter($msg)) : ?>
+      <div class="alert alert-<?php echo $msg["type"] ?> mt-3 mb-0" role="alert">
+        <?php echo $msg["msg"] ?>
+      </div>
       <div class="row">
+        <?php endif; ?>
         <div class="col rounded mt-3 mb-3 pl-5 pr-5 bg-dark text-white">
           <div class="row">
             <div class="gulag-avatar"></div>

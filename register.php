@@ -14,13 +14,18 @@ if ($account->isAuthenticated()) {
     header("Location: /");
 }
 
-// Try form login
-$msg = "";
+// Try form register.
+$msg = $_SESSION["msg"] ?? array(
+  "type" => "", 
+  "msg" => ""
+);
+unset($_SESSION["msg"]);
 if (isset($_POST["register"]) && !empty($_POST["username"]) && !empty($_POST["email"]) && !empty($_POST["password"])) {
     try {
         $account->createAccount($_POST["username"], $_POST["email"], $_POST["password"]);
     } catch (Exception $e) {
-        $msg = $e->getMessage();
+        $msg["type"] = "danger";
+        $msg["msg"] = $e->getMessage();
     }
 }
 ?>
@@ -52,9 +57,12 @@ if (isset($_POST["register"]) && !empty($_POST["username"]) && !empty($_POST["em
     <div class="container">
       <div class="row w-50 mx-auto">
         <div class="col rounded mt-3 mb-3 p-5 bg-dark text-white text-center">
-          <?php if ($msg) : ?>
-          <div class="alert alert-danger" role="alert">
-            <?php echo $msg ?>
+          <h1 class="text-center text-weight-bold">
+            Register
+          </h1>
+          <?php if (array_filter($msg)) : ?>
+          <div class="alert alert-<?php echo $msg["type"] ?>" role="alert">
+            <?php echo $msg["msg"] ?>
           </div>
           <?php endif; ?>
           <form action="" method="post">
