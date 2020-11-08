@@ -68,8 +68,6 @@ if ($type == "performance") {
     $query .= $db->real_escape_string("ORDER BY stats.rscore_" . $mod . "_" . $mode . " DESC;");
 }
 
-
-
 // Fetch users from query.
 $users = $db->query($query);
 ?>
@@ -128,11 +126,13 @@ $users = $db->query($query);
               <tr>
                 <th scope="col">Rank</th>
                 <th scope="col">Name</th>
-                <?php if ($type == "performance") : ?>
+
+                <?php /* Performance */ if ($type == "performance") : ?>
                 <th scope="col">Performance</th>
-                <?php elseif ($type == "score") : ?>
+                <?php /* Score */ elseif ($type == "score") : ?>
                 <th scope="col">Score</th>
                 <?php endif; ?>
+                
                 <th scope="col">Accuracy</th>
                 <th scope="col">Play Count</th>
               </tr>
@@ -142,11 +142,13 @@ $users = $db->query($query);
               <tr>
                 <th scope="row">#<?php echo $key+1 ?></th>
                 <td><?php echo $user["name"]?></td>
-                <?php if ($type == "performance") : ?>
-                <td><?php echo $user["pp_" . $mod . "_" . $mode] ?></td>
-                <?php elseif ($type == "score") : ?>
+
+                <?php /* Performance */ if ($type == "performance") : ?>
+                <td><?php echo $user["pp_" . $mod . "_" . $mode] ?>pp</td>
+                <?php /* Score */ elseif ($type == "score") : ?>
                 <td><?php echo $user["rscore_" . $mod . "_" . $mode] ?></td>
                 <?php endif; ?>
+
                 <td><?php printf("%.2f", $user["acc_" . $mod . "_" . $mode]) ?>%</td>
                 <td><?php echo $user["plays_" . $mod . "_" . $mode] ?></td>
               </tr>
