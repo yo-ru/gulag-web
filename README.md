@@ -7,7 +7,7 @@ Disclaimer: While the project itself is actually in a usable state.. it's still 
 
 ### Features
 
-- Nearly full completion of registration, login! More soon~!
+- Nearly full completion of registration, login, and leaderboards! More soon~!
 - Undergoing active development!
 - Clean and concise code, easy to make small modifications and add to the codebase.
 
