@@ -17,13 +17,17 @@ Let me try and explain this.
 PHP multivariables are fucking terrible.
 We're setting $mod and $_SESSION to the "$_POST"ed value.
 Then since on submit the $_POST value is NULLed we default
-to the cached value.
+to the cached value and if the cached value is NULLed we
+default to the following combination:
+Mod: Vanilla,
+Mode: Standard,
+Type: Performance.
 
 This is the peak of cursed PHP.
 */
-$mod = $_SESSION["lastMod"] = $_POST["mod"] ?? $_SESSION["lastMod"]; // Options: vn, rx, ap.
-$mode = $_SESSION["lastMode"] = $_POST["mode"] ?? $_SESSION["lastMode"]; // Options: std, taiko, catch, mania.
-$type = $_SESSION["lastType"] = $_POST["type"] ?? $_SESSION["lastType"]; // Options: performance, score.
+$mod = $_SESSION["lastMod"] = $_POST["mod"] ?? $_SESSION["lastMod"] ?? "vn"; // Options: vn, rx, ap.
+$mode = $_SESSION["lastMode"] = $_POST["mode"] ?? $_SESSION["lastMode"] ?? "std"; // Options: std, taiko, catch, mania.
+$type = $_SESSION["lastType"] = $_POST["type"] ?? $_SESSION["lastType"] ?? "performance"; // Options: performance, score.
 
 // Special case for autopilot.
 if ($mod == "ap") {
