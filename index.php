@@ -9,7 +9,12 @@ include "assets/objects/privileges.php";
 include "assets/objects/account.php";
 $account->sessionLogin();
 
-// Message
+/*
+Message
+Try and get session defined message
+(usually set on login), otherwise default
+to empty message array then NULL out session message.
+*/
 $msg = $_SESSION["msg"] ?? array(
   "type" => "", 
   "msg" => ""
@@ -46,8 +51,8 @@ unset($_SESSION["msg"]);
       <div class="alert alert-<?php echo $msg["type"] ?> mt-3 mb-0" role="alert">
         <?php echo $msg["msg"] ?>
       </div>
+      <?php endif; ?>
       <div class="row">
-        <?php endif; ?>
         <div class="col rounded mt-3 mb-3 pl-5 pr-5 bg-dark text-white">
           <div class="row">
             <div class="gulag-avatar"></div>
