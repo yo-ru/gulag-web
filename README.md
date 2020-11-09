@@ -35,7 +35,7 @@ Discord server at the top of the README, we now have a bit of a community!
 
 ```sh
 # Install MySQL, NGINX, and PHP 7.2.
-sudo apt install mysql-server nginx php7.2-fpm
+sudo apt install mysql-server nginx php7.2-fpm php7.2-mysqli
 
 # Clone gulag-web from GitHub.
 git clone https://github.com/yo-ru/gulag-web.git
