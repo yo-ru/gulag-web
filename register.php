@@ -14,12 +14,19 @@ if ($account->isAuthenticated()) {
     header("Location: /");
 }
 
-// Try form register.
+/*
+Message
+Try and get session defined message
+(usually set on login), otherwise default
+to empty message array then NULL out session message.
+*/
 $msg = $_SESSION["msg"] ?? array(
   "type" => "", 
   "msg" => ""
 );
 unset($_SESSION["msg"]);
+
+// Try form register.
 if (isset($_POST["register"]) && !empty($_POST["username"]) && !empty($_POST["email"]) && !empty($_POST["password"])) {
     try {
         $account->createAccount($_POST["username"], $_POST["email"], $_POST["password"]);

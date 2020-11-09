@@ -14,12 +14,19 @@ if ($account->isAuthenticated()) {
     header("Location: /");
 }
 
-// Try form login.
+/*
+Message
+Try and get session defined message
+(usually set on login), otherwise default
+to empty message array then NULL out session message.
+*/
 $msg = $_SESSION["msg"] ?? array(
   "type" => "", 
   "msg" => ""
 );
 unset($_SESSION["msg"]);
+
+// Try form login.
 if (isset($_POST["login"]) && !empty($_POST["username"]) && !empty($_POST["password"])) {
     try {
         $account->login($_POST["username"], $_POST["password"]);
