@@ -33,7 +33,7 @@ if (isset($_POST["logout"])) {
       </li>
 
       <?php if ($account->isAuthenticated() && ($account->getPrivileges() & Privileges::Staff)) : ?>
-      <li class="nav-item <?php if ($_SERVER["PHP_SELF"]=="/admin/dashboard.php") { ?>active<?php } ?>">
+      <li class="nav-item <?php if (strpos($_SERVER["PHP_SELF"], "/admin/") !== false) { ?>active<?php } ?>">
         <a class="nav-link" href="/admin/dashboard.php">Admin Panel</a>
       </li>
       <?php endif; ?>
