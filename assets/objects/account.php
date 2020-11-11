@@ -112,7 +112,7 @@ class Account {
         }
         
         // Hash password.
-        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $hash = str_replace("$2y$", "$2b$", password_hash(md5($password), PASSWORD_DEFAULT));
 
         // Make username safe.
         $username_safe = strtolower(str_replace(" ", "_ ", $username));
@@ -144,7 +144,7 @@ class Account {
         if ($query->num_rows > 0) {
             // Authentication OK.
             $row = $query->fetch_assoc();
-            if (password_verify($password, $row["pw_hash"])) {
+            if (password_verify(md5($password), $row["pw_hash"])) {
                 $this->id = $row["id"];
                 $this->username = $row["name"];
                 $this->username_safe = $row["name_safe"];
