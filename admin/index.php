@@ -5,6 +5,9 @@ set_include_path(dirname(__DIR__));
 // Config
 $config = include("config.php");
 
+// Database
+include "assets/database/database.php";
+
 // Privileges
 include "assets/objects/privileges.php";
 
@@ -45,7 +48,7 @@ unset($_SESSION["msg"]);
 <html>
   <head>
     <!-- Title -->
-    <title><?php echo $config->instanceName ?> - Admin - Dashboard</title>
+    <title><?= $config->instanceName ?> - Admin - Dashboard</title>
 
     <!-- JQuery and Popper -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -66,38 +69,64 @@ unset($_SESSION["msg"]);
     <?php include "assets/content/header.php" ?>
 
     <!-- Content -->
-    <div class="container">
+    <div class="container-fluid">
       <?php if (array_filter($msg)) : ?>
-      <div class="alert alert-<?php echo $msg["type"] ?> mt-3 mb-0" role="alert">
-        <?php echo $msg["msg"] ?>
+      <div class="alert alert-<?= $msg["type"] ?> mt-3 mb-0" role="alert">
+        <?= $msg["msg"] ?>
       </div>
       <?php endif; ?>
       <div class="row">
-        <div class="col rounded mt-3 mb-3 pl-5 pr-5 bg-dark text-white">
-          <div class="row">
-            <div class="gulag-avatar"></div>
-            <div class="col pl-0 pr-0 text-center justify-content-center align-self-center">
-              <h1 class="font-weight-bold">
-                <?php echo $config->instanceName ?>
-              </h1>
-              <p>
-                Welcome to 
-                <span class="font-weight-bold">
-                  <?php echo $config->instanceName, "." ?>
-                </span>
-                We are a osu! private server mainly based around the relax mod - 
-                featuring score submission, leaderboards & rankings, custom pp, 
-                and much more for both relax and vanilla osu!
-              </p>
-              <?php if ($account->isAuthenticated()) : ?>
-              <a class="btn btn-info btn-lg" href="/u/<?php echo $account->getID() ?>">View Profile</a>
-              <a class="btn btn-light btn-lg" href="/leaderboards.php">View Leaderboards</a>
-              <?php else : ?>
-              <a class="btn btn-info btn-lg" href="/docs/connect.php">How to Connect</a>
-              <a class="btn btn-light btn-lg" href="/register.php">Register</a>
-              <?php endif; ?>
-
+        <!-- Sidebar -->
+        <?php include "assets/content/sidebar.php" ?>
+        <div class="col mt-1 mb-1 pt-3 pb-5 pl-5 pr-5 bg-dark text-white">
+          <h3>Dashboard</h3>
+          <p>This is the <b>Dashboard</b>! The home of <b><?= $config->instanceName ?></b>'s Admin Panel!</p>
+          <hr/>
+          <div class="admin-stats text-center">
+            <div class="btn btn-success">
+                <div>
+                    <h3><?= json_decode(file_get_contents("http://localhost/api/get_online"))->online ?></h3>
+                </div>
+                <div>
+                    Online Users
+                </div>
             </div>
+            <div class="btn btn-primary">
+                <div>
+                    <h3><?= $db->query("SELECT COUNT(id)-1 total FROM users;")->fetch_assoc()["total"] ?? 0 ?></h3>
+                </div>
+                <div>
+                    Registered Users
+                </div>
+            </div>
+            <div class="btn btn-secondary">
+                <div>
+                    <h3><?= $db->query("SELECT SUM(scores_rx.pp + scores_ap.pp + scores_vn.pp) total FROM scores_rx, scores_ap, scores_vn;")->fetch_assoc()["total"] ?? 0 ?></h3>
+                </div>
+                <div>
+                    Total PP
+                </div>
+            </div>
+            <div class="btn btn-info">
+                <div>
+                    <h3><?= $db->query("SELECT SUM(scores_rx.score + scores_ap.score + scores_vn.score) total FROM scores_rx, scores_ap, scores_vn;")->fetch_assoc()["total"] ?? 0 ?></h3>
+                </div>
+                <div>
+                    Total Scores
+                </div>
+            </div>
+            <div class="btn btn-warning">
+                <div>
+                    <h3><?= $db->query("SELECT SUM(plays_vn_std + plays_vn_taiko + plays_vn_catch + plays_vn_mania + plays_rx_std + plays_rx_taiko + plays_rx_catch + plays_ap_std) total FROM stats;")->fetch_assoc()["total"] ?? 0 ?></h3>
+                </div>
+                <div>
+                    Total Plays
+                </div>
+            </div>
+          </div>
+          <hr />
+          <div>
+            TODO
           </div>
         </div>
       </div>
