@@ -1,6 +1,12 @@
 <?php session_start();
+// PHP inclusions are jank.
+set_include_path(dirname(__DIR__));
+
 // Config
 $config = include("config.php");
+
+// Database
+include "assets/database/database.php";
 
 // Privileges
 include "assets/objects/privileges.php";
@@ -9,6 +15,23 @@ include "assets/objects/privileges.php";
 include "assets/objects/account.php";
 $account->sessionLogin();
 
+// We're not authenticated; Redirect to login.
+if (!$account->isAuthenticated()) {
+    $_SESSION["msg"] = array(
+        "type" => "danger",
+        "msg" => "Woah! You must be logged in to access that page!"
+    );
+    return header("Location: /login.php");
+
+// We're authenticated, but we don't have enough privileges to access this page; Redirect home.
+} else if ($account->isAuthenticated() && !($account->getPrivileges() & Privileges::ManageUsers)) {
+    $_SESSION["msg"] = array(
+        "type" => "danger",
+        "msg" => "Woah <b>" . $account->getUsername() . "</b>! Your clearance isn't high enough to access that page!"
+    );
+    return header("Location: /");
+}
+
 /*
 Message
 Try and get session defined message
@@ -16,8 +39,8 @@ Try and get session defined message
 to empty message array then NULL out session message.
 */
 $msg = $_SESSION["msg"] ?? array(
-  "type" => "", 
-  "msg" => ""
+    "type" => "", 
+    "msg" => ""
 );
 unset($_SESSION["msg"]);
 ?>
@@ -25,7 +48,7 @@ unset($_SESSION["msg"]);
 <html>
   <head>
     <!-- Title -->
-    <title><?= $config->instanceName ?> - Home</title>
+    <title><?= $config->instanceName ?> - Admin - Users</title>
 
     <!-- JQuery and Popper -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -39,45 +62,28 @@ unset($_SESSION["msg"]);
     <script src="https://kit.fontawesome.com/e5971878b8.js" crossorigin="anonymous"></script>
 
     <!-- Custom Style -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
   </head>
   <body>
     <!-- Header -->
     <?php include "assets/content/header.php" ?>
 
     <!-- Content -->
-    <div class="container">
+    <div class="container-fluid">
       <?php if (array_filter($msg)) : ?>
       <div class="alert alert-<?= $msg["type"] ?> mt-3 mb-0" role="alert">
         <?= $msg["msg"] ?>
       </div>
       <?php endif; ?>
       <div class="row">
-        <div class="col rounded mt-3 mb-3 pl-5 pr-5 bg-dark text-white">
-          <div class="row">
-            <div class="gulag-avatar"></div>
-            <div class="col pl-0 pr-0 text-center justify-content-center align-self-center">
-              <h1 class="font-weight-bold">
-                <?= $config->instanceName ?>
-              </h1>
-              <p>
-                Welcome to 
-                <span class="font-weight-bold">
-                  <?= $config->instanceName, "." ?>
-                </span>
-                We are a osu! private server mainly based around the relax mod - 
-                featuring score submission, leaderboards & rankings, custom pp, 
-                and much more for both relax and vanilla osu!
-              </p>
-              <?php if ($account->isAuthenticated()) : ?>
-              <a class="btn btn-info btn-lg" href="/u/<?= $account->getID() ?>">View Profile</a>
-              <a class="btn btn-light btn-lg" href="/leaderboards.php">View Leaderboards</a>
-              <?php else : ?>
-              <a class="btn btn-info btn-lg" href="/docs/connect.php">How to Connect</a>
-              <a class="btn btn-light btn-lg" href="/register.php">Register</a>
-              <?php endif; ?>
-
-            </div>
+        <!-- Sidebar -->
+        <?php include "assets/content/sidebar.php" ?>
+        <div class="col mt-1 mb-1 pt-3 pb-5 pl-5 pr-5 bg-dark text-white">
+          <h3>Users</h3>
+          <p>This is the <b>Users</b> page! Here you can manage every aspect of a user on <b><?= $config->instanceName?></b>! Some restrictions apply based on your amount of clearance!</p>
+          <hr/>
+          <div>
+              TODO
           </div>
         </div>
       </div>

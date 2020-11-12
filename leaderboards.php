@@ -75,7 +75,7 @@ $users = $db->query($query);
 <html>
   <head>
     <!-- Title -->
-    <title><?php echo $config->instanceName ?> - Leaderboards</title>
+    <title><?= $config->instanceName ?> - Leaderboards</title>
 
     <!-- JQuery and Popper -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -98,7 +98,7 @@ $users = $db->query($query);
     <!-- Content -->
     <div class="container">
       <div class="row">
-        <div class="col rounded mt-3 mb-3 pt-5 pb-5 pl-5 pr-5 bg-dark text-white">
+        <div class="col rounded mt-3 mb-3 p-5 bg-dark text-white">
           <h1 class="text-center text-weight-bold">
             Leaderboards  
           </h1>
@@ -140,17 +140,17 @@ $users = $db->query($query);
             <tbody>
               <?php foreach($users as $key=>$user) : ?>
               <tr>
-                <th scope="row">#<?php echo $key+1 ?></th>
-                <td><?php echo $user["name"]?></td>
+                <th scope="row">#<?= $key+1 ?></th>
+                <td><?= $user["name"]?></td>
 
                 <?php /* Performance */ if ($type == "performance") : ?>
-                <td><?php echo $user["pp_" . $mod . "_" . $mode] ?>pp</td>
+                <td><?= $user["pp_" . $mod . "_" . $mode] ?>pp</td>
                 <?php /* Score */ elseif ($type == "score") : ?>
-                <td><?php echo $user["rscore_" . $mod . "_" . $mode] ?></td>
+                <td><?= $user["rscore_" . $mod . "_" . $mode] ?></td>
                 <?php endif; ?>
 
                 <td><?php printf("%.2f", $user["acc_" . $mod . "_" . $mode]) ?>%</td>
-                <td><?php echo $user["plays_" . $mod . "_" . $mode] ?></td>
+                <td><?= $user["plays_" . $mod . "_" . $mode] ?></td>
               </tr>
               <?php endforeach; ?>
             </tbody>

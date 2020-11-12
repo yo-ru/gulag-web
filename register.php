@@ -44,7 +44,7 @@ if (isset($_POST["register"]) && !empty($_POST["username"]) && !empty($_POST["em
 <html>
   <head>
     <!-- Title -->
-    <title><?php echo $config->instanceName ?> - Register</title>
+    <title><?= $config->instanceName ?> - Register</title>
 
     <!-- JQuery and Popper -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -59,6 +59,17 @@ if (isset($_POST["register"]) && !empty($_POST["username"]) && !empty($_POST["em
 
     <!-- Custom Style -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js?render=<?= $config->reCAPTCHA ?>"></script>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute("<?= $config->reCAPTCHA ?>", { action: "contact" }).then(function (token) {
+                var recaptchaResponse = document.getElementById("recaptchaResponse");
+                recaptchaResponse.value = token;
+            });
+        });
+    </script>
   </head>
   <body>
     <!-- Header -->
@@ -72,8 +83,8 @@ if (isset($_POST["register"]) && !empty($_POST["username"]) && !empty($_POST["em
             Register
           </h1>
           <?php if (array_filter($msg)) : ?>
-          <div class="alert alert-<?php echo $msg["type"] ?>" role="alert">
-            <?php echo $msg["msg"] ?>
+          <div class="alert alert-<?= $msg["type"] ?>" role="alert">
+            <?= $msg["msg"] ?>
           </div>
           <?php endif; ?>
           <form action="" method="post">
@@ -91,6 +102,7 @@ if (isset($_POST["register"]) && !empty($_POST["username"]) && !empty($_POST["em
               <input name="password" type="password" class="form-control" id="passwordInput" placeholder="Password">
             </div>
             <button name="register" type="submit" class="btn btn-secondary">Register</button>
+            <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
           </form>
         </div>
       </div>

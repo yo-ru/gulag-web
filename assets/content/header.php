@@ -5,7 +5,7 @@ if (isset($_POST["logout"])) {
 }
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="/"><?php echo $config->instanceName ?></a>
+  <a class="navbar-brand" href="/"><?= $config->instanceName ?></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -23,10 +23,10 @@ if (isset($_POST["logout"])) {
           Information
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item <?php if ($_SERVER["PHP_SELF"]=="/documentation.php") { ?>active<?php } ?>" href="/documentation.php">
+          <a class="dropdown-item <?php if ($_SERVER["PHP_SELF"]=="/docs") { ?>active<?php } ?>" href="/docs">
             Documentation
           </a>
-          <a class="dropdown-item <?php if ($_SERVER["PHP_SELF"]=="/rules.php") { ?>active<?php } ?>" href="/rules.php">
+          <a class="dropdown-item <?php if ($_SERVER["PHP_SELF"]=="/docs/rules.php") { ?>active<?php } ?>" href="/docs/rules.php">
             Rules
           </a>
         </div>
@@ -34,7 +34,7 @@ if (isset($_POST["logout"])) {
 
       <?php if ($account->isAuthenticated() && ($account->getPrivileges() & Privileges::Staff)) : ?>
       <li class="nav-item <?php if (strpos($_SERVER["PHP_SELF"], "/admin/") !== false) { ?>active<?php } ?>">
-        <a class="nav-link" href="/admin/dashboard.php">Admin Panel</a>
+        <a class="nav-link" href="/admin">Admin Panel</a>
       </li>
       <?php endif; ?>
     </ul>
