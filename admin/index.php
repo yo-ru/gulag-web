@@ -83,14 +83,16 @@ unset($_SESSION["msg"]);
           <p>This is the <b>Dashboard</b>! The home of <b><?= $config->instanceName ?></b>'s Admin Panel!</p>
           <hr/>
           <div class="admin-stats text-center">
-            <div class="btn btn-success">
+            <!-- TODO: Get endpoint properly 4head
+            div class="btn btn-success">
                 <div>
-                    <h3><?= json_decode(file_get_contents("http://localhost/api/get_online"))->online ?></h3>
+                    <h3><?= json_decode(file_get_contents("http://localhost/api/get_online"))->online ?? 0 ?></h3>
                 </div>
                 <div>
                     Online Users
                 </div>
             </div>
+            -->
             <div class="btn btn-primary">
                 <div>
                     <h3><?= $db->query("SELECT COUNT(id)-1 total FROM users;")->fetch_assoc()["total"] ?? 0 ?></h3>
