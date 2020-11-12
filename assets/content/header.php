@@ -19,7 +19,7 @@ if (isset($_POST["logout"])) {
         <a class="nav-link" href="/leaderboards.php">Leaderboards</a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Information
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -32,9 +32,8 @@ if (isset($_POST["logout"])) {
         </div>
       </li>
 
-      <?php 
-      if ($account->isAuthenticated() && ($account->getPrivileges() & Privileges::Staff)) : ?>
-      <li class="nav-item <?php if ($_SERVER["PHP_SELF"]=="/admin/dashboard.php") { ?>active<?php } ?>">
+      <?php if ($account->isAuthenticated() && ($account->getPrivileges() & Privileges::Staff)) : ?>
+      <li class="nav-item <?php if (strpos($_SERVER["PHP_SELF"], "/admin/") !== false) { ?>active<?php } ?>">
         <a class="nav-link" href="/admin/dashboard.php">Admin Panel</a>
       </li>
       <?php endif; ?>
@@ -45,10 +44,21 @@ if (isset($_POST["logout"])) {
           <a class="search_icon"><i class="fa fa-search"></i></a>
       </div>
       <?php if ($account->isAuthenticated()) : ?>
-      <li class="nav-item active">
-        <a class="nav-link" href="/u/<?php echo $account->getID() ?>">
-            <?php echo $account->getUsername() ?>
+      <li class="nav-item dropleft">
+        <a class="nav-link active" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <?= $account->getUsername() ?>
         </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item <?php if ($_SERVER["PHP_SELF"]=="/user?id=" . $account->getID()) { ?>active<?php } ?>" href="/user?id=<?= $account->getID() ?>">
+            Profile
+          </a>
+          <a class="dropdown-item <?php if ($_SERVER["PHP_SELF"]=="/friends.php") { ?>active<?php } ?>" href="/friends.php">
+            Friends
+          </a>
+          <a class="dropdown-item <?php if ($_SERVER["PHP_SELF"]=="/settings.php") { ?>active<?php } ?>" href="/settings.php">
+            Settings
+          </a>
+        </div>
       </li>
       <li class="nav-item">
         <form class="m-0" action="" method="post">

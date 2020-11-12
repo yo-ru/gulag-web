@@ -11,7 +11,11 @@ $account->sessionLogin();
 
 // We're already authenticated; Redirect home.
 if ($account->isAuthenticated()) {
-    header("Location: /");
+    $_SESSION["msg"] = array(
+        "type" => "danger",
+        "msg" => "Woah <b>" . $account->getUsername() . "</b>! You're already logged in!"
+    );
+    return header("Location: /");
 }
 
 /*
@@ -21,8 +25,8 @@ Try and get session defined message
 to empty message array then NULL out session message.
 */
 $msg = $_SESSION["msg"] ?? array(
-  "type" => "", 
-  "msg" => ""
+    "type" => "", 
+    "msg" => ""
 );
 unset($_SESSION["msg"]);
 
