@@ -90,3 +90,8 @@ footer > .navbar-nav .nav-link {
     color: rgba(255, 255, 255, 0.5) !important;
     text-decoration:none;
 }
+
+/* Move reCAPTCHA v3 Badge */
+.grecaptcha-badge {
+    bottom: 80px !important;
+}

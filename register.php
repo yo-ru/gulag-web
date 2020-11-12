@@ -59,6 +59,17 @@ if (isset($_POST["register"]) && !empty($_POST["username"]) && !empty($_POST["em
 
     <!-- Custom Style -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js?render=<?= $config->reCAPTCHA ?>"></script>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute("<?= $config->reCAPTCHA ?>", { action: "contact" }).then(function (token) {
+                var recaptchaResponse = document.getElementById("recaptchaResponse");
+                recaptchaResponse.value = token;
+            });
+        });
+    </script>
   </head>
   <body>
     <!-- Header -->
@@ -91,6 +102,7 @@ if (isset($_POST["register"]) && !empty($_POST["username"]) && !empty($_POST["em
               <input name="password" type="password" class="form-control" id="passwordInput" placeholder="Password">
             </div>
             <button name="register" type="submit" class="btn btn-secondary">Register</button>
+            <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
           </form>
         </div>
       </div>

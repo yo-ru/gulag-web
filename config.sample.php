@@ -6,6 +6,9 @@ return (object) array(
   "username" => "cmyui",
   "password" => "changeme",
 
+  // reCAPTCHA
+  "reCAPTCHA" => "changeme",
+
   // Name of Gulag Instance
   "instanceName" => "gulag-web",
 

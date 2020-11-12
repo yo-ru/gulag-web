@@ -59,6 +59,17 @@ if (isset($_POST["login"]) && !empty($_POST["username"]) && !empty($_POST["passw
 
     <!-- Custom Style -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js?render=<?= $config->reCAPTCHA ?>"></script>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute("<?= $config->reCAPTCHA ?>", { action: "contact" }).then(function (token) {
+                var recaptchaResponse = document.getElementById("recaptchaResponse");
+                recaptchaResponse.value = token;
+            });
+        });
+    </script>
   </head>
   <body>
     <!-- Header -->
@@ -87,6 +98,7 @@ if (isset($_POST["login"]) && !empty($_POST["username"]) && !empty($_POST["passw
               <input name="password" type="password" class="form-control" id="passwordInput" placeholder="Password">
             </div>
             <button name="login" type="submit" class="btn btn-secondary">Login</button>
+            <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
           </form>
         </div>
       </div>
