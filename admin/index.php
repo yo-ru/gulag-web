@@ -95,7 +95,7 @@ unset($_SESSION["msg"]);
             -->
             <div class="btn btn-primary">
                 <div>
-                    <h3><?= $db->query("SELECT COUNT(id)-1 total FROM users;")->fetch_assoc()["total"] ?? 0 ?></h3>
+                    <h3><?= $db->query("SELECT COUNT(*)-1 total FROM users;")->fetch_assoc()["total"] ?? 0 ?></h3>
                 </div>
                 <div>
                     Registered Users
@@ -103,7 +103,7 @@ unset($_SESSION["msg"]);
             </div>
             <div class="btn btn-secondary">
                 <div>
-                    <h3><?= $db->query("SELECT SUM(scores_rx.pp + scores_ap.pp + scores_vn.pp) total FROM scores_rx, scores_ap, scores_vn;")->fetch_assoc()["total"] ?? 0 ?></h3>
+                    <h3><?= $db->query("SELECT CEILING(SUM(pp)) total FROM (SELECT pp FROM scores_vn UNION ALL SELECT pp FROM scores_rx UNION ALL SELECT pp FROM scores_ap) t GROUP BY pp;")->fetch_assoc()["total"] ?? 0 ?></h3>
                 </div>
                 <div>
                     Total PP
@@ -111,7 +111,7 @@ unset($_SESSION["msg"]);
             </div>
             <div class="btn btn-info">
                 <div>
-                    <h3><?= $db->query("SELECT SUM(scores_rx.score + scores_ap.score + scores_vn.score) total FROM scores_rx, scores_ap, scores_vn;")->fetch_assoc()["total"] ?? 0 ?></h3>
+                    <h3><?= $db->query("SELECT SUM(id) total FROM (SELECT id FROM scores_vn UNION ALL SELECT id FROM scores_rx UNION ALL SELECT id FROM scores_ap) t GROUP BY id;")->fetch_assoc()["total"] ?? 0 ?></h3>
                 </div>
                 <div>
                     Total Scores
