@@ -25,7 +25,7 @@ unset($_SESSION["msg"]);
 <html>
   <head>
     <!-- Title -->
-    <title><?php echo $config->instanceName ?> - Home</title>
+    <title><?= $config->instanceName ?> - Home</title>
 
     <!-- JQuery and Popper -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -48,8 +48,8 @@ unset($_SESSION["msg"]);
     <!-- Content -->
     <div class="container">
       <?php if (array_filter($msg)) : ?>
-      <div class="alert alert-<?php echo $msg["type"] ?> mt-3 mb-0" role="alert">
-        <?php echo $msg["msg"] ?>
+      <div class="alert alert-<?= $msg["type"] ?> mt-3 mb-0" role="alert">
+        <?= $msg["msg"] ?>
       </div>
       <?php endif; ?>
       <div class="row">
@@ -58,19 +58,19 @@ unset($_SESSION["msg"]);
             <div class="gulag-avatar"></div>
             <div class="col pl-0 pr-0 text-center justify-content-center align-self-center">
               <h1 class="font-weight-bold">
-                <?php echo $config->instanceName ?>
+                <?= $config->instanceName ?>
               </h1>
               <p>
                 Welcome to 
                 <span class="font-weight-bold">
-                  <?php echo $config->instanceName, "." ?>
+                  <?= $config->instanceName, "." ?>
                 </span>
                 We are a osu! private server mainly based around the relax mod - 
                 featuring score submission, leaderboards & rankings, custom pp, 
                 and much more for both relax and vanilla osu!
               </p>
               <?php if ($account->isAuthenticated()) : ?>
-              <a class="btn btn-info btn-lg" href="/u/<?php echo $account->getID() ?>">View Profile</a>
+              <a class="btn btn-info btn-lg" href="/u/<?= $account->getID() ?>">View Profile</a>
               <a class="btn btn-light btn-lg" href="/leaderboards.php">View Leaderboards</a>
               <?php else : ?>
               <a class="btn btn-info btn-lg" href="/docs/connect.php">How to Connect</a>
