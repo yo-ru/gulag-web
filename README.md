@@ -2,9 +2,6 @@
 
 # The frontend service for the modern osu! private server, gulag!
 
-Disclaimer: While the project itself is actually in a usable state.. it's still missing
-            some features..
-
 ### Features
 
 - Undergoing full modern python rewrite! More soon~!
