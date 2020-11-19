@@ -2,5 +2,27 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
-
+<div class="row">
+  <div class="col rounded mt-3 mb-3 pl-5 pr-5 bg-dark text-white">
+    <div class="row">
+      <div class="gulag-avatar"></div>
+      <div class="col pl-0 pr-0 text-center justify-content-center align-self-center">
+        <h1 class="font-weight-bold">
+          {{ appName() }}
+        </h1>
+        <p>
+          Welcome to 
+          <span class="font-weight-bold">
+            {{ appName() }}.
+          </span>
+          We are a osu! private server mainly based around the relax mod - 
+          featuring score submission, leaderboards & rankings, custom pp, 
+          and much more for both relax and vanilla osu!
+        </p>
+        <a class="btn btn-info btn-lg" href="/docs/connect.php">How to Connect</a>
+        <a class="btn btn-light btn-lg" href="/register.php">Register</a>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
