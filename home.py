@@ -1,5 +1,7 @@
 from quart import Blueprint, render_template
 
+from objects import glob
+
 blueprint = Blueprint('home', __name__)
 
 @blueprint.route('/home')
