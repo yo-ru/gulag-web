@@ -20,7 +20,7 @@
 - Python 3.9
 - MySQL
 - NGINX
-- Some know-how with Linux (tested on Ubuntu 18.04), PHP, and general-programming
+- Some know-how with Linux (tested on Ubuntu 18.04), modern Python, and general-programming
   knowledge.
 
 ## Setup
