@@ -3,18 +3,18 @@ from quart import Quart
 
 from objects import glob
 
-""" Application """
+""" application """
 app = Quart(__name__)
 
-""" Globals """
-# Database
+""" globals """
+# database
 @app.before_serving
 async def mysql_conn() -> None:
     glob.db = AsyncSQLPool()
     await glob.db.connect(glob.config.mysql)
     log("Connected to MySQL!", Ansi.LGREEN)
 
-# Version
+# version
 @app.before_serving
 @app.template_global("appVersion")
 def app_version() -> str:
