@@ -44,6 +44,9 @@ sudo apt install mysql-server nginx
 git clone https://github.com/yo-ru/gulag-web.git
 cd gulag-web
 
+# Install requirements from pip.
+python3.9 -m pip install -r requirements.txt
+
 # Import gulag-web's MySQL structure to the gulag database.
 sudo mysql -u root gulag < db.sql
 
