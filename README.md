@@ -55,4 +55,7 @@ sudo nano nginx.conf
 # Configure gulag-web.
 cp config.sample.py config.py
 nano config.py
+
+# Run gulag-web.
+python3.9 main.py
 ```
