@@ -1,5 +1,5 @@
 
-/* Layout */
+/* layout */
 body {
     display: flex;
     flex-direction: column;
@@ -39,12 +39,12 @@ a.foot-link {
     margin: 8px;
 }
 
-/* Navbar Stuff */
+/* navbar stuff */
 .navbar-logo {
     font-size: 22px;
 }
 
-/* Gulag Mascot/Avatar */
+/* gulag mascot/avatar */
 .gulag-avatar {
     background-image: url("/static/images/gulag-avatar.png");
     background-repeat: no-repeat;

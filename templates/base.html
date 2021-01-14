@@ -1,19 +1,19 @@
 <html>
   <head>
-    <!-- Title -->
+    <!-- title -->
     <title>{{ appName() }} - {% block title %}{% endblock %}</title>
 
-    <!-- Bulma -->
+    <!-- bulma -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HakuraSukinoe/bulma-hsl/bulma.css"/>
 
-    <!-- Font Awesome -->
+    <!-- font awesome -->
     <script src="https://kit.fontawesome.com/e5971878b8.js" crossorigin="anonymous"></script>
 
-    <!-- Custom Style -->
+    <!-- custom style -->
     <link rel="stylesheet" href="/static/css/style.css">
   </head>
   <body>
-    <!-- Header -->
+    <!-- header -->
     <nav class="navbar has-shadow is-primary">
       <div class="navbar-brand">
         <a class="navbar-item navbar-logo">
@@ -68,16 +68,16 @@
       </div>
     </nav>     
 
-    <!-- Content -->
+    <!-- content -->
     <div class="container">
       {% block content %}
       {% endblock %}
     </div>
 
-    <!-- Footer -->
+    <!-- footer -->
     <footer class="footer">
       <div class="content">
-        <span>gulag-web <strong>v{{ appVersion() }}</strong>   </span>
+        <span>{{ appName() }} <strong>v{{ appVersion() }}</strong></span>
         <a class="foot-link" href="https://github.com/yo-ru/gulag-web"><i class="fa fa-github"></i> GitHub</a>
         <a class="foot-link" href="https://discord.gg/Y5uPvcNpD9"><i class="fab fa-discord"></i> Discord</a>
       </div>
