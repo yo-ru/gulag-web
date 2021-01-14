@@ -35,6 +35,10 @@ html {
     margin: 0 !important; 
 }
 
+a.foot-link {
+    margin: 8px;
+}
+
 /* Navbar Stuff */
 .navbar-logo {
     font-size: 22px;
