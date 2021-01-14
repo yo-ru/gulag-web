@@ -20,11 +20,13 @@ async def mysql_conn() -> None:
 
 _version = repr(version)
 @app.before_serving
+@app.template_global()
 def appVersion() -> str:
     return _version
 
 _app_name = glob.config.app_name
 @app.before_serving
+@app.template_global()
 def appName() -> str:
     return _app_name
 
