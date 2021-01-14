@@ -3,13 +3,8 @@
     <!-- Title -->
     <title>{{ appName() }} - {% block title %}{% endblock %}</title>
 
-    <!-- JQuery and Popper -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Bulma -->
+    <link rel="stylesheet" href="/static/css/framework.css" />
 
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/e5971878b8.js" crossorigin="anonymous"></script>
@@ -19,51 +14,59 @@
   </head>
   <body>
     <!-- Header -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="/home">{{ appName() }}</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/home">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/leaderboards">Leaderboards</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <nav class="navbar has-shadow is-primary">
+      <div class="navbar-brand">
+        <a class="navbar-item navbar-logo">
+          {{ appName() }}
+        </a>
+      </div>
+    
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item">
+            Home
+          </a>
+    
+          <a class="navbar-item">
+            Leaderboards
+          </a>
+    
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
               Information
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/docs">
+            <div class="navbar-dropdown">
+              <a class="navbar-item">
                 Documentation
               </a>
-              <a class="dropdown-item" href="/docs/rules">
+              <a class="navbar-item">
                 Rules
               </a>
+              <a class="navbar-item">
+                Discord
+              </a>
+              <hr class="navbar-divider">
+              <a class="navbar-item">
+                Report an issue
+              </a>
             </div>
-          </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-          <div class="searchbar mr-sm-2">
-            <input class="search_input" type="text" name="search" placeholder="Search for a player...">
-            <a class="search_icon"><i class="fa fa-search"></i></a>
           </div>
-          <li class="nav-item">
-            <a class="nav-link" href="/login">
-              Login
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/register">
-              Register
-            </a>
-          </li>
-        </ul>
+        </div>
+    
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons">
+              <a class="button is-primary">
+                <strong>Sign up</strong>
+              </a>
+              <a class="button is-light">
+                Log in
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-    </nav>      
+    </nav>     
 
     <!-- Content -->
     <div class="container">
@@ -72,18 +75,12 @@
     </div>
 
     <!-- Footer -->
-    <footer class="navbar navbar-inverse bg-dark navbar-dark">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <span class="nav-link active">&copy; gulag-web v{{ appVersion() }}</span>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://github.com/yo-ru/gulag-web"><i class="fa fa-github"></i> GitHub</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://discord.gg/Y5uPvcNpD9"><i class="fab fa-discord"></i> Discord</a>
-        </li>
-      </ul>
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          <strong>gulag-web</strong> by <a>Yo-ru</a>
+        </p>
+      </div>
     </footer>
   </body>
 </html>

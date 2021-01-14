@@ -1,33 +1,43 @@
-/* Dark Background */
-html, body {
-    background-color: #212529;
+
+/* Layout */
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    height: -webkit-fill-available;
 }
 
-
-/* Footer */
 html {
     position: relative;
     min-height: 100%;
 }
 
-body {
-    margin-bottom: 60px;
+.footer {
+    padding: 20px;
 }
 
-footer {
-    position: absolute !important;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
+.main-block {
+    margin-top: 16px;
+    width: 1152px;
+    background: hsl(var(--main), 10%, 15%);
 }
 
-footer > .navbar-nav {
-    flex-direction: row;
+.is-vcentered {
+    align-self: center;
 }
 
-footer > .navbar-nav .nav-link {
-    padding-right: .5rem;
-    padding-left: .5rem;
+.is-padless {
+    padding: 0 !important;
+}
+
+.is-reset {
+    padding: 0 !important;
+    margin: 0 !important; 
+}
+
+/* Navbar Stuff */
+.navbar-logo {
+    font-size: 22px;
 }
 
 /* Gulag Mascot/Avatar */
@@ -36,89 +46,8 @@ footer > .navbar-nav .nav-link {
     background-repeat: no-repeat;
     width: 512px;
     height: 363px;
+    left: 50px;
     margin: 0;
     padding: 0;
-}
-
-/* Clean Table Style */
-.table-dark td, .table-dark th, .table-dark thead th {
-    border-color: transparent;
-}
-
-/* Navigation Button Link */
-.link-button {
-    background: none;
-    border: none;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.link-button:focus {
-    outline: none;
-}
-
-/* Searchbar */
-.searchbar {
-    margin-bottom: auto;
-    margin-top: auto;
-    height: 40px;
-    border-radius: 30px;
-    padding: 10px;
-}
-
-.searchbar:hover {
-    background-color: white;
-    transition: background-color 0.4s ease-in-out;
-}
-
-.search_input {
-    border: 0;
-    outline: 0;
-    width: 0;
-    color: transparent;
-    caret-color: transparent;
-    background: none;
-    line-height: 2px;
-    transition: width 0.4s linear;
-}
-
-.searchbar:hover > .search_input {
-    padding: 0 10px;
-    width: 350px;
-    caret-color: rgba(0, 0, 0, 0.5);
-    color: rgba(0, 0, 0, 0.5);
-    transition: width 0.4s linear;
-    
-}
-
-.searchbar:hover > .search_icon {
-    color: rgba(0, 0, 0, 0.5) !important;
-    text-decoration: none;
-    transition: color 0.4s ease-in-out;
-}
-
-.search_icon {
-    height: 20px;
-    width: 20px;
-    float: right;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    color: rgba(255, 255, 255, 0.5) !important;
-    text-decoration: none;
-}
-
-/* Move reCAPTCHA v3 Badge */
-.grecaptcha-badge {
-    bottom: 80px !important;
-}
-
-/* Admin Panel */
-.sidebar {
-    height: 100vmin;
-}
-
-.admin-stats > .btn {
-    width: 14vw;
+    position: relative;
 }

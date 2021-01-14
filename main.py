@@ -42,4 +42,4 @@ app.register_blueprint(api, url_prefix='/api')
 
 """ Start Application """
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
