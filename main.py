@@ -1,4 +1,4 @@
-from cmyui import (AsyncSQLPoolWrapper, Version, Ansi, log)
+from cmyui import (AsyncSQLPool, Version, Ansi, log)
 from quart import Quart
 
 from objects import glob
@@ -10,7 +10,7 @@ app = Quart(__name__)
 # Database
 @app.before_serving
 async def mysql_conn() -> None:
-    glob.db = AsyncSQLPoolWrapper()
+    glob.db = AsyncSQLPool()
     await glob.db.connect(glob.config.mysql)
     log("Connected to MySQL!", Ansi.LGREEN)
 
@@ -20,26 +20,26 @@ async def mysql_conn() -> None:
 def app_version() -> str:
     return Version(0, 1, 0)
 
-# App Name
+# app name
 @app.before_serving
 @app.template_global("appName")
 def app_name() -> str:
     return glob.config.app_name
 
-""" Blueprints """
-# Frontend
+""" blueprints """
+# frontend
 from blueprints.frontend import frontend
 app.register_blueprint(frontend)
 
-# Backend
-from blueprints.backend import backend
-app.register_blueprint(backend, url_prefix='/admin')
+# backend
+from blueprints.admin import admin
+app.register_blueprint(admin, url_prefix="/admin")
 
-# API
+# api
 from blueprints.api import api
-app.register_blueprint(api, url_prefix='/api')
+app.register_blueprint(api, url_prefix="/api")
 
 
-""" Start Application """
+""" start application """
 if __name__ == "__main__":
     app.run(debug=True)
