@@ -4,7 +4,7 @@
     <title>{{ appName() }} - {% block title %}{% endblock %}</title>
 
     <!-- bulma -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HakuraSukinoe/bulma-hsl/bulma.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HakuraSukinoe/bulma-hsl/bulma.min-v4.css"/>
 
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/e5971878b8.js" crossorigin="anonymous"></script>
@@ -23,11 +23,11 @@
     
       <div class="navbar-menu">
         <div class="navbar-start">
-          <a class="navbar-item">
+          <a class="navbar-item" href="/home">
             Home
           </a>
     
-          <a class="navbar-item">
+          <a class="navbar-item" href="/leaderboard">
             Leaderboards
           </a>
     
@@ -36,13 +36,13 @@
               Information
             </a>
             <div class="navbar-dropdown">
-              <a class="navbar-item">
+              <a class="navbar-item" href="/doc">
                 Documentation
               </a>
-              <a class="navbar-item">
+              <a class="navbar-item" href="/rules">
                 Rules
               </a>
-              <a class="navbar-item">
+              <a class="navbar-item" href="/discord">
                 Discord
               </a>
               <hr class="navbar-divider">
@@ -56,10 +56,10 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <a class="button is-primary">
+              <a class="button is-primary" href="/register">
                 <strong>Sign up</strong>
               </a>
-              <a class="button is-light">
+              <a class="button is-light"  href="/login">
                 Log in
               </a>
             </div>

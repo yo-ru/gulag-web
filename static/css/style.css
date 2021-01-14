@@ -35,6 +35,10 @@ html {
     margin: 0 !important; 
 }
 
+.is-login {
+    width: 500px;
+}
+
 a.foot-link {
     margin: 8px;
 }
@@ -42,6 +46,11 @@ a.foot-link {
 /* navbar stuff */
 .navbar-logo {
     font-size: 22px;
+    font-weight: 500;
+}
+
+.navbar.is-spaced {
+    padding: 0rem 2rem;
 }
 
 /* gulag mascot/avatar */

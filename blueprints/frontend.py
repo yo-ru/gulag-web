@@ -9,3 +9,7 @@ frontend = Blueprint("frontend", __name__)
 @frontend.route("/")
 async def home():
     return await render_template("home.html")
+
+@frontend.route("/login")
+async def login():
+    return await render_template("login.html")
