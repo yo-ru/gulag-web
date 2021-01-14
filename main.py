@@ -27,13 +27,17 @@ def app_name() -> str:
     return glob.config.app_name
 
 """ Blueprints """
-# Home
-from home import blueprint
-app.register_blueprint(blueprint)
+# Frontend
+from blueprints.frontend import frontend
+app.register_blueprint(frontend)
 
-# Leaderboards
-from leaderboards import blueprint
-app.register_blueprint(blueprint)
+# Backend
+from blueprints.backend import backend
+app.register_blueprint(backend, url_prefix='/admin')
+
+# API
+from blueprints.api import api
+app.register_blueprint(api, url_prefix='/api')
 
 
 """ Start Application """
