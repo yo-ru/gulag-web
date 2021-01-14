@@ -11,3 +11,7 @@ __all__ = ('db', 'version')
 
 db: 'AsyncSQLPool'
 version: 'Version'
+
+cache = {
+    'bcrypt': {}
+}
