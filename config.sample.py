@@ -1,10 +1,10 @@
-# app name
-app_name = "gulag-web"
+# -*- coding: utf-8 -*-
 
-# database
+app_name = 'gulag-web'
+
 mysql = {
-    "db": "gulag",
-    "host": "localhost",
-    "password": "changeme",
-    "user": "cmyui"
+    'db': 'gulag',
+    'host': 'localhost',
+    'password': 'changeme',
+    'user': 'cmyui'
 }
