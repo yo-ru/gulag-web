@@ -1,7 +1,7 @@
-# App Name
+# app name
 app_name = "gulag-web"
 
-# Database
+# database
 mysql = {
     "db": "gulag",
     "host": "localhost",
