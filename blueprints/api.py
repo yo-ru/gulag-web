@@ -1,21 +1,20 @@
 import orjson
-
 from quart import Blueprint, render_template, request
-
 from objects import glob
 
-api = Blueprint('api', __name__)
+api = Blueprint("api", __name__)
 
-@api.route('/get_leaderboard')
+# api "/get_leaderboard"
+@api.route("/get_leaderboard")
 async def get_leaderboard():
-    # Grabbing some args from frontend
+    # grabbing some args from frontend
     mode = request.args.get("m", type=str)
     mods = request.args.get("v", type=str)
     country = request.args.get("c", type=str)
     sort = request.args.get("s", type=str)
 
     if not mode and not mods and not sort:
-        return (b'Must provide either mode and mods and sort by!')
+        return (b"Must provide either mode or mods and sort by!")
 
     """ ROW_NUMBER() OVER () ?
     that's counting for pagination : )
@@ -41,4 +40,4 @@ async def get_leaderboard():
             f"ORDER BY stats.{sort}_{mods}_{mode} DESC"
         )
 
-    return orjson.dumps(res) if res else b'{}'
+    return orjson.dumps(res) if res else b"{}"
