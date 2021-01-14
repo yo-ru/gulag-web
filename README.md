@@ -61,4 +61,7 @@ nano config.py
 
 # Run gulag-web.
 python3.9 main.py
+
+# Have fun!
+# - gulag Team
 ```
