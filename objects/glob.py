@@ -8,3 +8,7 @@ __all__ = ("db", "version")
 
 db: "AsyncSQLPoolWrapper"
 version: "Version"
+
+cache = {
+    "bcrypt": {}
+}
