@@ -19,9 +19,9 @@ async def home():
     return await render_template('home.html')
 
 """ leaderboard """
-@frontend.route('/leaderboard')
-async def leaderboard():
-    return await render_template('leaderboard.html')
+@frontend.route('/leaderboard/<mode>/<sort>/<mods>')
+async def leaderboard(mode, sort, mods):
+    return await render_template('leaderboard.html', mode=mode, sort=sort, mods=mods)
 
 """ login """
 @frontend.route('/login') # GET

@@ -114,6 +114,7 @@ button:focus{
 }
 .big-number {
     width: 39px;
+    min-width: 39px;
     height: 39px;
     background: hsl(var(--main),30%,50%);
     border-radius: 6px;
