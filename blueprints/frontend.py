@@ -18,6 +18,11 @@ frontend = Blueprint('frontend', __name__)
 async def home():
     return await render_template('home.html')
 
+""" leaderboard """
+@frontend.route('/leaderboard')
+async def leaderboard():
+    return await render_template('leaderboard.html')
+
 """ login """
 @frontend.route('/login') # GET
 async def login():
@@ -70,11 +75,10 @@ async def login_post():
     if glob.config.debug: log(f'Login successful! {username} is now logged in.', Ansi.LGREEN) # debug
     return b'login successful.'
 
-
-@frontend.route("/register") # GET
+""" register """
+@frontend.route('/register') # GET
 async def register():
-    return await render_template("register.html")
-
+    return await render_template('register.html')
 @frontend.route('/register', methods=['POST']) # POST
 async def register_post():
     # get form data (username, password)
@@ -118,10 +122,10 @@ async def register_post():
     log(f'<{username} ({user_id})> has registered in gulag-web!', Ansi.LGREEN)
 
     return await render_template(f"verify.html", msg=msg)
-
-@frontend.route('/verify') # GET
+@frontend.route('/verify')
 async def verify():
     return await render_template('verify.html')
 
+""" asserts """
 async def flash(msg,template):
     return await render_template(f"{template}.html", flash=msg)
