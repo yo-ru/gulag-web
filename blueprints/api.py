@@ -2,6 +2,7 @@
 
 import orjson
 from quart import Blueprint, request
+
 from objects import glob
 
 __all__ = ()

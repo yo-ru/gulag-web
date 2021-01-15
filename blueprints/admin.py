@@ -7,7 +7,8 @@ __all__ = ()
 admin = Blueprint('admin', __name__)
 
 """ admin home """
+@admin.route('/dashboard')
 @admin.route('/home')
 @admin.route('/')
 async def home():
-    return b'admin not finished.'
+    return b'admin home/dashboard: not finished yet.'
