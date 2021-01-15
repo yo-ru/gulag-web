@@ -73,7 +73,8 @@ async def register_in_game():
     return b'not finished yet.'
 
 # online
-async def register_online(): # GET
+@frontend.route('/register/online') # GET
+async def register_online():
     return b'not finished yet.'
 @frontend.route('/register/online', methods=['POST']) # POST
 async def register_online_post():
