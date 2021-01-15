@@ -2,7 +2,8 @@
 
 import bcrypt
 import hashlib
-from quart import Blueprint, render_template, request
+import re
+from quart import Blueprint, render_template, request, flash
 from cmyui import log, Ansi
 
 from objects import glob
@@ -26,7 +27,7 @@ async def login_post():
     # get form data (username, password)
     form = await request.form
     username = form.get('username')
-    pw_md5 = hashlib.md5(form.get('username').encode()).hexdigest().encode()
+    pw_md5 = hashlib.md5(form.get('password').encode()).hexdigest().encode()
 
     # check if account exists
     user_info = await glob.db.fetch(
@@ -60,28 +61,67 @@ async def login_post():
             
         # login success. cache password for next login
         bcrypt_cache[pw_bcrypt] = pw_md5
+    
+    # is this user verify?
+    if user_info["priv"] == 1:
+        return await flash('go verify','verify')
 
     # login successful
     if glob.config.debug: log(f'Login successful! {username} is now logged in.', Ansi.LGREEN) # debug
     return b'login successful.'
 
 
-""" register """
-# landing page
-@frontend.route('/register') # GET
+@frontend.route("/register") # GET
 async def register():
-    return await render_template('register.html')
+    return await render_template("register.html")
 
-# in-game
-@frontend.route('/register/in-game') # GET
-async def register_in_game():
-    return b'not finished yet.'
+@frontend.route('/register', methods=['POST']) # POST
+async def register_post():
+    # get form data (username, password)
+    form = await request.form
+    username = form.get('username')
+    email = form.get('email')
 
-# online
-@frontend.route('/register/online') # GET
-async def register_online():
-    return b'not finished yet.'
-@frontend.route('/register/online', methods=['POST']) # POST
-async def register_online_post():
-    return b'not finished yet.'
-    
+    pw_md5 = hashlib.md5(form.get('password').encode()).hexdigest().encode()
+    pw_bcrypt = bcrypt.hashpw(pw_md5, bcrypt.gensalt())
+    glob.cache['bcrypt'][pw_bcrypt] = pw_md5 # cache result for login
+
+    # check if username exists
+    user_info = await glob.db.fetch(
+        'SELECT * FROM users WHERE safe_name = %s',
+        [username.replace(' ', '_').lower()]
+    )
+
+    if user_info:
+        return await flash('username exist.','register')
+    elif not re.match(r'[A-Za-z0-9]+', username): 
+        return await flash('Username must contain only characters and numbers !','register')
+    elif not username or not pw_md5 or not email:
+        return await flash('Please fill out the form !','register')
+
+    # add to `users` table.
+    user_id = await glob.db.execute(
+        'INSERT INTO users '
+        '(name, safe_name, email, pw_bcrypt, creation_time, latest_activity) '
+        'VALUES (%s, %s, %s, %s, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())',
+        [username, [username.replace(' ', '_').lower()], email, pw_bcrypt]
+    )
+
+    # add to `stats` table.
+    await glob.db.execute(
+        'INSERT INTO stats '
+        '(id) VALUES (%s)',
+        [user_id]
+    )
+
+    msg = "wow you're registred in gulag server !!!"
+    log(f'<{username} ({user_id})> has registered in gulag-web!', Ansi.LGREEN)
+
+    return await render_template(f"verify.html", msg=msg)
+
+@frontend.route('/verify') # GET
+async def verify():
+    return await render_template('verify.html')
+
+async def flash(msg,template):
+    return await render_template(f"{template}.html", flash=msg)

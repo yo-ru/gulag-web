@@ -1,0 +1,27 @@
+/* gulag mascot/avatar */
+.gulag-avatar {
+    background-image: url("/static/images/gulag-avatar.png");
+    background-repeat: no-repeat;
+    width: 512px;
+    height: 363px;
+    left: 50px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+@media screen and (max-width: 1023px) {
+    .gulag-avatar {
+        display:none
+    }
+    .main-block {
+        width: initial;
+        height: 285px;
+    }
+    #mascot {
+        display: none;
+    }
+    .columns {
+        height: 285px;
+    }
+}

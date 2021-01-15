@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/css/pages/verify.css">
+<style>html {--main: 420;}</style>
+<div class="main-block is-marginless is-paddingless is-auth mt-5">
+    <div class="columns is-reset is-weeb">
+        <div class="column title-block">
+            <div class="titlewithsub">
+                <h1 class="title is-left">Registration</h1>
+                <h2 class="subtitle">Next step : Verification</h2>
+            </div>
+        </div>
+        <div class="column icon-block">
+            <i class="fas fa-user-circle is-headericon"></i>
+        </div>
+    </div>
+    <div class="columns is-reset is-lcentered is-block">
+        <div class="box is-padding">
+            <div class="bordertitle">
+                <div class="titlewithsub">
+                    <h1 class="title is-left">How to Verify your account</h1>
+                    <h2 class="subtitle">but then how to verify? that’s so easy!</h2>
+                </div>
+            </div>
+            <div class="howto-content">
+                <div class="columns is-paddingless is-marginless">
+                    <div class="column" id="howto">
+                        <img class="thumbnail" src="https://www.freevector.com/uploads/vector/preview/30348/Minimal_Dynamic_Background.jpg" />
+                        <div class="howto-info is-flex">
+                            <div class="big-number is-flex is-lcentered is-vcentered">
+                                <div class="howto-number">1</div>
+                            </div>
+                            <div class="howto-withsub">
+                                <h1 class="title is-left">Download switcher</h1>
+                                <h2 class="subtitle">click here to download page and 
+                                    click the button and run it!</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column" id="howto">
+                        <img class="thumbnail" src="https://www.freevector.com/uploads/vector/preview/30348/Minimal_Dynamic_Background.jpg" />
+                        <div class="howto-info is-flex">
+                            <div class="big-number is-flex is-lcentered is-vcentered">
+                                <div class="howto-number">2</div>
+                            </div>
+                            <div class="howto-withsub">
+                                <h1 class="title is-left">Switch to Gulag</h1>
+                                <h2 class="subtitle">click “install certificate” first and
+                                    click “switch to gulag" and boom!!!</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column" id="howto">
+                        <img class="thumbnail" src="https://www.freevector.com/uploads/vector/preview/30348/Minimal_Dynamic_Background.jpg" />
+                        <div class="howto-info is-flex">
+                            <div class="big-number is-flex is-lcentered is-vcentered">
+                                <div class="howto-number">3</div>
+                            </div>
+                            <div class="howto-withsub">
+                                <h1 class="title is-left">Login your account</h1>
+                                <h2 class="subtitle">yeah just login your account
+                                    this server doesn’t have email</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bordertitle">
+                <div class="titlewithsub">
+                    <h1 class="title is-left">oh i got error i need help?</h1>
+                    <h2 class="subtitle">now we have some discord community to help you : )</h2>
+                </div>
+            </div>
+            <div class="box is-flex is-mpadding is-marginless">
+                <a class="is-flex" id="discord"><img
+                        src="https://cdn.iconscout.com/icon/free/png-256/discord-2752210-2285027.png"
+                        class="discord-logo">
+                    <div class="clickhere-title is-flex is-vcentered">
+                        <h1 class="title">Click here to join our community!</h1>
+                    </div>
+                </a>
+            </div>
+            <div class="box is-block is-paddingless is-marginless is-waiting">
+                <div class="columns is-flex is-paddingless is-marginless">
+                    <div class="column is-flex is-vcentered">
+                        <div>
+                            <h1 class="title is-left">Waiting for verification</h1>
+                            <h2 class="subtitle">dont close or you can close it whatever you want</h2>
+                        </div>
+                    </div>
+                    <div class="column icon-block">
+                        <div class="loading-anim">
+                            <i class="fas fa-circle-notch is-headericon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

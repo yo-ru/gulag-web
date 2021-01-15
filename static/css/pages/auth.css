@@ -15,6 +15,12 @@
     align-items:center;
     place-content:center
 }
+.icon-block{
+    height:125px;
+    display:flex;
+    align-items:center;
+    place-content:center
+}
 .selection-block{
     height:175px;
     display:flex;
@@ -52,4 +58,31 @@ input:focus{
 }
 button:focus{
     outline:0
+}
+.is-auth {
+    width: 700px;
+}
+
+@media only screen and (max-width: 770px) {
+    .is-auth {
+        width: 500px;
+    } 
+    .icon-block{
+        height:125px;
+        display:none;
+        align-items:center;
+        place-content:center
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .is-auth {
+        width: initial;
+    } 
+    .icon-block{
+        height:125px;
+        display:none;
+        align-items:center;
+        place-content:center
+    }
 }
