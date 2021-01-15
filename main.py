@@ -30,7 +30,7 @@ _app_name = glob.config.app_name
 def appName() -> str:
     return _app_name
 
-# Import external blueprints & add to app
+# import external blueprints & add to app
 from blueprints.frontend import frontend
 from blueprints.admin import admin
 from blueprints.api import api
