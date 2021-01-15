@@ -1,11 +1,12 @@
-from quart import Blueprint, render_template
+# -*- coding: utf-8 -*-
 
-from objects import glob
+from quart import Blueprint
 
-admin = Blueprint("admin", __name__)
+__all__ = ()
 
-# admin home
-@admin.route("/home")
-@admin.route("/")
+admin = Blueprint('admin', __name__)
+
+@admin.route('/home')
+@admin.route('/')
 async def home():
-    return "admin"
+    return b'admin'

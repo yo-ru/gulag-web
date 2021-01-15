@@ -1,43 +1,57 @@
+# -*- coding: utf-8 -*-
+
 import orjson
-from quart import Blueprint, render_template, request
+from quart import Blueprint, request
+
 from objects import glob
 
-api = Blueprint("api", __name__)
+__all__ = ()
 
-# api "/get_leaderboard"
-@api.route("/get_leaderboard")
+api = Blueprint('api', __name__)
+
+valid_modes = frozenset({'std', 'taiko', 'catch', 'mania'})
+valid_mods = frozenset({'vn', 'rx', 'ap'})
+valid_sorts = frozenset({'tscore', 'rscore', 'pp', 'plays',
+                        'playtime', 'acc', 'maxcombo'})
+@api.route('/get_leaderboard')
 async def get_leaderboard():
-    # grabbing some args from frontend
-    mode = request.args.get("m", type=str)
-    mods = request.args.get("v", type=str)
-    country = request.args.get("c", type=str)
-    sort = request.args.get("s", type=str)
+    mode = request.args.get('mode', default='std', type=str)
+    mods = request.args.get('mods', default='vn', type=str)
+    sort_by = request.args.get('sort', default='pp', type=str)
+    country = request.args.get('country', default=None, type=str)
+    page = request.args.get('page', default=0, type=int)
 
-    if not mode and not mods and not sort:
-        return (b"Must provide either mode or mods and sort by!")
+    if mode not in valid_modes:
+        return b'Invalid mode! (std, taiko, catch, mania)'
 
-    """ ROW_NUMBER() OVER () ?
-    that's counting for pagination : )
-    like i++ or data = data + 1
-    """
+    if mods not in valid_mods:
+        return b'Invalid mods! (vn, rx, ap)'
 
-    if country:
-        res = await glob.db.fetchall(
-            f"SELECT ROW_NUMBER() OVER () AS id, users.id AS userid, users.name AS username, users.country, tscore_{mods}_{mode} AS tscore, "
-            f"rscore_{mods}_{mode} AS rscore, pp_{mods}_{mode} AS pp, plays_{mods}_{mode} AS plays, playtime_{mods}_{mode} AS playtime, "
-            f"acc_{mods}_{mode} AS acc, maxcombo_{mods}_{mode} AS maxcombo FROM stats "
-            f"JOIN users ON stats.id = users.id "
-            f"WHERE pp_{mods}_{mode} > 1 AND users.country = '{country}' "
-            f"ORDER BY stats.{sort}_{mods}_{mode} DESC"
-        )
-    else:
-        res = await glob.db.fetchall(
-            f"SELECT ROW_NUMBER() OVER () AS id, users.id AS userid, users.name AS username, users.country, tscore_{mods}_{mode} AS tscore, "
-            f"rscore_{mods}_{mode} AS rscore, pp_{mods}_{mode} AS pp, plays_{mods}_{mode} AS plays, playtime_{mods}_{mode} AS playtime, "
-            f"acc_{mods}_{mode} AS acc, maxcombo_{mods}_{mode} AS maxcombo FROM stats "
-            f"JOIN users ON stats.id = users.id "
-            f"WHERE pp_{mods}_{mode} > 1"
-            f"ORDER BY stats.{sort}_{mods}_{mode} DESC"
-        )
+    if country is not None and len(country) != 2:
+        return b'Invalid country!'
 
-    return orjson.dumps(res) if res else b"{}"
+    if sort_by not in valid_sorts:
+        return b'Invalid sort param!'
+
+    q = ['SELECT u.id user_id, u.name username, '
+         'u.country, tscore_{0}_{1} tscore, '
+         'rscore_{0}_{1} rscore, pp_{0}_{1} pp, '
+         'plays_{0}_{1} plays, playtime_{0}_{1} playtime, '
+         'acc_{0}_{1} acc, maxcombo_{0}_{1} maxcombo FROM stats '
+         'JOIN users u ON stats.id = u.id '
+         'WHERE pp_{0}_{1} > 0'.format(mods, mode)]
+
+    args = []
+
+    if country is not None:
+        q.append('AND u.country = %s')
+        args.append(country)
+
+    # TODO: maybe cache total num of scores in the db to get a
+    # rough estimate on what is a ridiculous page for a request?
+    q.append(f'ORDER BY {sort_by}_{mods}_{mode} DESC '
+             'LIMIT 50 OFFSET %s')
+    args.append(page * 50)
+
+    res = await glob.db.fetchall(' '.join(q), args)
+    return orjson.dumps(res) if res else b'{}'
