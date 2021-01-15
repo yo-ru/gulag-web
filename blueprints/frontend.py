@@ -67,9 +67,10 @@ async def login_post():
         # login success. cache password for next login
         bcrypt_cache[pw_bcrypt] = pw_md5
     
-    # is this user verify?
+    # user not verified render verify page
     if user_info["priv"] == 1:
-        return await flash('go verify','verify')
+        if glob.config.debug: log(f'Login failed. {username} is not verified!', Ansi.LRED) # debug
+        return await render_template('verify.html')
 
     # login successful
     if glob.config.debug: log(f'Login successful! {username} is now logged in.', Ansi.LGREEN) # debug
@@ -103,7 +104,7 @@ async def register_post():
     elif not username or not pw_md5 or not email:
         return await flash('Please fill out the form!', 'register')
 
-    # add to `users` table.
+    # add to users table
     user_id = await glob.db.execute(
         'INSERT INTO users '
         '(name, safe_name, email, pw_bcrypt, creation_time, latest_activity) '
@@ -111,13 +112,14 @@ async def register_post():
         [username, [username.replace(' ', '_').lower()], email, pw_bcrypt]
     )
 
-    # add to `stats` table.
+    # add to stats table
     await glob.db.execute(
         'INSERT INTO stats '
         '(id) VALUES (%s)',
         [user_id]
     )
 
-    if glob.config.debug: log(f'<{username} ({user_id})> has registered!', Ansi.LGREEN) # debug
+    if glob.config.debug: log(f'Registration successful! {username} is now registered. Awaiting verification...', Ansi.LGREEN) # debug
 
-    return await render_template(f"verify.html")
+    # user has successfully registered.
+    return await render_template('verify.html')
