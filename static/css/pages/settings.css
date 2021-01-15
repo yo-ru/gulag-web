@@ -1,0 +1,55 @@
+.main-block{
+    background-color:hsl(var(--main),10%,15%);
+    color:#fff;
+    padding: 20px;
+}
+.collumdis{
+    flex-direction:column;
+    padding:21px 22px;
+    position:relative;
+    border-radius:8px
+}
+.title-block{
+    height:125px;
+    display:flex;
+    align-items:center;
+    place-content:center
+}
+.selection-block{
+    height:175px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background-size:cover;
+    margin:5;
+    border-radius:7px;
+    transition: 0.2s ease;
+    background:hsl(var(--main),10%,25%)
+}
+.selection-block:hover{
+    box-shadow:1px 1px 13px -5px #000;
+    transform: translateY(-5px);
+}
+.title:not(:last-child){
+    margin-bottom:1.5rem
+}
+.title{
+    text-align:center
+}
+.subtitle{
+    color:#e6a5b5;
+    font-weight:400;
+    line-height:1.25
+}
+a.single-menu{
+    color:inherit
+}
+a.single-menu:hover{
+    color:inherit
+}
+input:focus{
+    outline:0
+}
+button:focus{
+    outline:0
+}

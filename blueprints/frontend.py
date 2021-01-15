@@ -13,3 +13,7 @@ async def home():
 @frontend.route("/login")
 async def login():
     return await render_template("login.html")
+    
+@frontend.route("/register")
+async def register():
+    return await render_template("register.html")
