@@ -1,3 +1,4 @@
+import os
 from cmyui import (AsyncSQLPool, Version, Ansi, log)
 from quart import Quart
 
