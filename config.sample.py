@@ -8,3 +8,5 @@ mysql = {
     'password': 'changeme',
     'user': 'cmyui'
 }
+
+debug = False

@@ -1,3 +1,4 @@
+import os
 from cmyui import (AsyncSQLPool, Version, Ansi, log)
 from quart import Quart
 
@@ -39,6 +40,6 @@ from blueprints.api import api
 app.register_blueprint(api, url_prefix="/api")
 
 
-""" start application """
-if __name__ == "__main__":
-    app.run(debug=True)
+if __name__ == '__main__':
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
+    app.run(debug=glob.config.debug) # blocking call
