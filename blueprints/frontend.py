@@ -81,12 +81,12 @@ async def register():
     return await render_template('register.html')
 @frontend.route('/register', methods=['POST']) # POST
 async def register_post():
-    # get form data (username, password)
+    # get form data (username, email, password)
     form = await request.form
     username = form.get('username')
     email = form.get('email')
-
     pw_md5 = hashlib.md5(form.get('password').encode()).hexdigest().encode()
+
     pw_bcrypt = bcrypt.hashpw(pw_md5, bcrypt.gensalt())
     glob.cache['bcrypt'][pw_bcrypt] = pw_md5 # cache result for login
 
@@ -97,11 +97,11 @@ async def register_post():
     )
 
     if user_info:
-        return await flash('username exist.','register')
+        return await flash('Username is already in use!', 'register')
     elif not re.match(r'[A-Za-z0-9]+', username): 
-        return await flash('Username must contain only characters and numbers !','register')
+        return await flash('Username must contain only characters and numbers!', 'register')
     elif not username or not pw_md5 or not email:
-        return await flash('Please fill out the form !','register')
+        return await flash('Please fill out the form!', 'register')
 
     # add to `users` table.
     user_id = await glob.db.execute(
@@ -118,14 +118,6 @@ async def register_post():
         [user_id]
     )
 
-    msg = "wow you're registred in gulag server !!!"
-    log(f'<{username} ({user_id})> has registered in gulag-web!', Ansi.LGREEN)
+    if glob.config.debug: log(f'<{username} ({user_id})> has registered!', Ansi.LGREEN) # debug
 
-    return await render_template(f"verify.html", msg=msg)
-@frontend.route('/verify')
-async def verify():
-    return await render_template('verify.html')
-
-""" asserts """
-async def flash(msg,template):
-    return await render_template(f"{template}.html", flash=msg)
+    return await render_template(f"verify.html")
