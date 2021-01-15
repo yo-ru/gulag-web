@@ -4,6 +4,7 @@ import bcrypt
 import hashlib
 from quart import Blueprint, render_template, request
 from cmyui import log, Ansi
+from objects import glob
 
 __all__ = ()
 
