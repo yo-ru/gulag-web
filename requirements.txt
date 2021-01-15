@@ -1,3 +1,7 @@
 cmyui
 quart
 bcrypt
+aiomysql
+mysql-connector
+asyncpg
+orjson
