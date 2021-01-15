@@ -3,6 +3,9 @@
     <!-- title -->
     <title>{{ appName() }} - {% block title %}{% endblock %}</title>
 
+    <!-- jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js" integrity="sha512-/DXTXr6nQodMUiq+IUJYCt2PPOUjrHJ9wFrqpJ3XkgPNOZVfMok7cRw6CSxyCQxXn6ozlESsSh1/sMCTF1rL/g==" crossorigin="anonymous"></script>
+
     <!-- bulma -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HakuraSukinoe/bulma-hsl/bulma.min-v4.css"/>
 
@@ -19,9 +22,15 @@
         <a class="navbar-item navbar-logo">
           {{ appName() }}
         </a>
+
+        <a role="button" class="navbar-burger" id="navbar-burger" onclick="togglenavbar()">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
       </div>
     
-      <div class="navbar-menu">
+      <div id="navbar" class="navbar-menu">
         <div class="navbar-start">
           <a class="navbar-item" href="/home">
             Home
@@ -82,5 +91,12 @@
         <a class="foot-link" href="https://discord.gg/Y5uPvcNpD9"><i class="fab fa-discord"></i> Discord</a>
       </div>
     </footer>
+
+    <script>
+      function togglenavbar() {
+        document.getElementById('navbar').classList.toggle("is-active");
+        document.getElementById('navbar-burger').classList.toggle("is-active");
+      }
+    </script>
   </body>
 </html>

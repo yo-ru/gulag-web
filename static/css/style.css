@@ -18,12 +18,16 @@ html {
 
 .main-block {
     margin-top: 16px;
-    width: 1152px;
+    width: inherit;
     background: hsl(var(--main), 10%, 15%);
 }
 
 .is-vcentered {
     align-self: center;
+}
+
+.is-lcentered {
+    justify-content: center;
 }
 
 .is-padless {
@@ -35,8 +39,26 @@ html {
     margin: 0 !important; 
 }
 
-.is-login {
-    width: 500px;
+.is-padding {
+    padding: 1.25rem;
+}
+
+.is-locked {
+    width: 1152px;
+}
+
+.is-weeb {
+    background: hsl(var(--main),30%,50%);
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.is-maxheight {
+    height: 100%;
+}
+
+.is-headericon {
+    font-size: 74px;
 }
 
 a.foot-link {
@@ -51,16 +73,4 @@ a.foot-link {
 
 .navbar.is-spaced {
     padding: 0rem 2rem;
-}
-
-/* gulag mascot/avatar */
-.gulag-avatar {
-    background-image: url("/static/images/gulag-avatar.png");
-    background-repeat: no-repeat;
-    width: 512px;
-    height: 363px;
-    left: 50px;
-    margin: 0;
-    padding: 0;
-    position: relative;
 }

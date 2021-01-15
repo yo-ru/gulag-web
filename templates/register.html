@@ -2,27 +2,57 @@
 {% block title %} Register {% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="/static/css/pages/settings.css">
+<link rel="stylesheet" href="/static/css/pages/auth.css">
 
-<div class="main-block">
-    <div class="columns is-4">
-      <div class="column title-block">
-        <h1 class="title">Select your method</h1>
-      </div>
+<div class="main-block is-marginless is-paddingless is-auth mt-5">
+  <div class="columns is-reset is-weeb">
+    <div class="column title-block">
+      <h1 class="title" id="regtitle">Registration</h1>
     </div>
-    <div class="columns is-4">
-      <a class="column selection-block">
-        <div class="titlecon">
-          <h1 class="title">Ingame Registration</h1>
-          <h2 class="subtitle">just register your account ingame with gulag server!</h2>
-        </div>
-      </a>
-      <a class="column selection-block">
-        <div class="titlecon">
-          <h1 class="title">Website Registration</h1>
-          <h2 class="subtitle">just register your account in this place : )</h2>
-        </div>
-      </a>
+    <div class="column icon-block">
+      <i class="fas fa-user-circle is-headericon"></i>
     </div>
   </div>
+  <div class="columns is-reset is-lcentered is-block">
+    <div class='box'>
+      <div class='login-bg'></div>
+      <form action='' method='post' class='form-content'>
+        <div class='field'>
+          <label for='' class='label'>Username</label>
+          <div class='control has-icons-left'>
+            <input type='username' name='username' placeholder='e.g. Aika' class='input' required>
+            <span class='icon is-small is-left'>
+              <i class='fa fa-envelope'></i>
+            </span>
+          </div>
+        </div>
+        <div class='field'>
+          <label for='' class='label'>Email</label>
+          <div class='control has-icons-left'>
+            <input type='email' name='email' placeholder='e.g. aika@gulag.com' class='input' required>
+            <span class='icon is-small is-left'>
+              <i class='fa fa-lock'></i>
+            </span>
+          </div>
+        </div>
+        <div class='field'>
+          <label for='' class='label'>Password</label>
+          <div class='control has-icons-left'>
+            <input type='password' name='password' placeholder='*************' class='input' required>
+            <span class='icon is-small is-left'>
+              <i class='fa fa-lock'></i>
+            </span>
+          </div>
+        </div>
+        <div class='field'>
+          <button type='submit' class='button is-primary'>
+            Register
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="/static/js/pages/register.js"></script>
 {% endblock %}

@@ -13,6 +13,7 @@ valid_modes = frozenset({'std', 'taiko', 'catch', 'mania'})
 valid_mods = frozenset({'vn', 'rx', 'ap'})
 valid_sorts = frozenset({'tscore', 'rscore', 'pp', 'plays',
                         'playtime', 'acc', 'maxcombo'})
+                        
 @api.route('/get_leaderboard')
 async def get_leaderboard():
     mode = request.args.get('mode', default='std', type=str)
