@@ -2,19 +2,20 @@
 
 import orjson
 from quart import Blueprint, request
-
 from objects import glob
 
 __all__ = ()
 
 api = Blueprint('api', __name__)
 
+
+""" /get_leaderboard """
 valid_modes = frozenset({'std', 'taiko', 'catch', 'mania'})
 valid_mods = frozenset({'vn', 'rx', 'ap'})
 valid_sorts = frozenset({'tscore', 'rscore', 'pp', 'plays',
                         'playtime', 'acc', 'maxcombo'})
                         
-@api.route('/get_leaderboard')
+@api.route('/get_leaderboard') # GET
 async def get_leaderboard():
     mode = request.args.get('mode', default='std', type=str)
     mods = request.args.get('mods', default='vn', type=str)
@@ -23,16 +24,16 @@ async def get_leaderboard():
     page = request.args.get('page', default=0, type=int)
 
     if mode not in valid_modes:
-        return b'Invalid mode! (std, taiko, catch, mania)'
+        return b'invalid mode! (std, taiko, catch, mania)'
 
     if mods not in valid_mods:
-        return b'Invalid mods! (vn, rx, ap)'
+        return b'invalid mods! (vn, rx, ap)'
 
     if country is not None and len(country) != 2:
-        return b'Invalid country!'
+        return b'invalid country!'
 
     if sort_by not in valid_sorts:
-        return b'Invalid sort param!'
+        return b'invalid sort param!'
 
     q = ['SELECT u.id user_id, u.name username, '
          'u.country, tscore_{0}_{1} tscore, '

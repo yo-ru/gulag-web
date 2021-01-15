@@ -26,8 +26,7 @@ def app_version() -> str:
 def app_name() -> str:
     return glob.config.app_name
 
-""" blueprints """
-# frontend
+# import external blueprints & add to app
 from blueprints.frontend import frontend
 app.register_blueprint(frontend)
 
