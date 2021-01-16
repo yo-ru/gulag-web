@@ -60,7 +60,38 @@ button:focus{
     outline:0
 }
 .is-auth {
-    width: 700px;
+    width: 485px;
+}
+.dialog {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.box {
+    padding: 2.25rem 1.75rem;
+}
+
+input.input {
+    height: 46px;
+}
+.control.has-icons-left .icon, .control.has-icons-right .icon {
+    height: 46px;
+}
+
+/* Change autocomplete styles in WebKit */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid rgba(0, 128, 0, 0);
+  -webkit-text-fill-color: rgb(255, 255, 255);
+  -webkit-box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0) inset;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 @media only screen and (max-width: 770px) {

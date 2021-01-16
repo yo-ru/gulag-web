@@ -14,6 +14,7 @@ html {
 
 .footer {
     padding: 20px;
+    margin-top: 12px;
 }
 
 .main-block {
@@ -83,7 +84,7 @@ a.foot-link {
 
 @-webkit-keyframes slideup {
     0% {
-        -webkit-transform: translateY(20px);
+        -webkit-transform: translateY(10px);
         opacity: 0;
     }
     100% {
@@ -186,3 +187,13 @@ a.foot-link {
 .navbar-brand, .navbar-tabs {
     min-height: 0rem;
 }
+
+.paper-snackbar {
+    transition-property: opacity, bottom, left, right, width, margin, border-radius;
+    transition-duration: 0.35s;
+    transition-timing-function: ease;
+    background-color: #bf4040;
+    color: white;
+    padding: 18px 24px;
+    opacity: 1;
+  }

@@ -44,6 +44,10 @@
             </span>
           </div>
         </div>
+        <div class="mt-5"></div>
+        <div class="dialog">
+          have an account? <a href="/login">Click here to login it!!</a>
+      </div>
         <div class="field">
           <button type="submit" class="button is-primary">
             Register
@@ -53,6 +57,12 @@
     </div>
   </div>
 </div>
+
+{% if flash %}
+<div class="paper-snackbar" style="opacity: 1;">
+  {{ flash }}
+</div>
+{% endif %}
 
 <script src="/static/js/pages/register.js"></script>
 {% endblock %}
