@@ -236,6 +236,12 @@ table td, table th {
     transition: .2s opacity
 }
 
+.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: .2;
+}
+
 @media only screen and (max-width: 960px) {
     #leaderboard {
         width:780px
