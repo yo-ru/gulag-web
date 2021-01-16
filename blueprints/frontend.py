@@ -49,7 +49,7 @@ async def login_post():
     # hash saved in the database is invalid.
     if not user_info or user_info['id'] == 1:
         if glob.config.debug: log(f'Login failed. {username} does not exist.', Ansi.LRED) # debug
-        return b'login failed. account does not exist.'
+        return await flash('Account does not exist.', 'login')
 
     bcrypt_cache = glob.cache['bcrypt']
     pw_bcrypt = user_info['pw_bcrypt'].encode()
@@ -61,11 +61,11 @@ async def login_post():
     if pw_bcrypt in bcrypt_cache:
         if pw_md5 != bcrypt_cache[pw_bcrypt]: # ~0.1ms
             if glob.config.debug: log(f'Login failed. Password for {username} is incorrect.', Ansi.LRED) # debug
-            return b'login failed. password is incorrect.'
+            return await flash('Password is incorrect.', 'login')
     else: # ~200ms
         if not bcrypt.checkpw(pw_md5, pw_bcrypt):
             if glob.config.debug: log(f'Login failed. Password for {username} is incorrect.', Ansi.LRED) # debug
-            return b'login failed. password is incorrect.'
+            return await flash('Password is incorrect.', 'login')
             
         # login success. cache password for next login
         bcrypt_cache[pw_bcrypt] = pw_md5
@@ -100,12 +100,18 @@ async def register_post():
         [username.replace(' ', '_').lower()]
     )
 
+    # check if email exists
+    user_email = await glob.db.fetch(
+        'SELECT email FROM users WHERE safe_name = %s',
+        email
+    )
+
     if user_info:
         return await flash('Username is already in use!', 'register')
     elif not re.match(r'[A-Za-z0-9]+', username): 
         return await flash('Username must contain only characters and numbers!', 'register')
-    elif not username or not pw_md5 or not email:
-        return await flash('Please fill out the form!', 'register')
+    elif user_email:
+        return await flash('Email is already in use!', 'register')
 
     # add to users table
     user_id = await glob.db.execute(
@@ -126,6 +132,10 @@ async def register_post():
 
     # user has successfully registered.
     return await render_template('verify.html')
+
+""" asserts (for if got error) """
+def flash(msg, template):
+    return render_template(f"{template}.html", flash=msg)
 
 """ rules """
 @frontend.route('/rules') # GET

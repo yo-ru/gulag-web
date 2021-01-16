@@ -11,6 +11,7 @@ __all__ = ()
 
 app = Quart(__name__)
 version = Version(0, 1, 0)
+app.secret_key = os.urandom(24)
 
 @app.before_serving
 async def mysql_conn() -> None:
