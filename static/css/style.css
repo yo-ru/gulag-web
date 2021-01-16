@@ -12,6 +12,10 @@ html {
     min-height: 100%;
 }
 
+.container {
+    margin-top: 76px;
+}
+
 .footer {
     padding: 20px;
 }
@@ -66,6 +70,11 @@ a.foot-link {
 }
 
 /* navbar stuff */
+.navbar {
+    position: fixed !important;
+    width: 100%;
+}
+
 .navbar-logo {
     font-size: 22px;
     font-weight: 500;
@@ -73,4 +82,13 @@ a.foot-link {
 
 .navbar.is-spaced {
     padding: 0rem 2rem;
+}
+
+.minimized { /* fixed header */
+    transition: 200ms background-color;
+    width: 100%;
+    top: 0;
+
+    backdrop-filter: blur(4px);
+    background-color: hsla(var(--main),50%,50%, 0.7) !important;
 }

@@ -52,7 +52,7 @@ sudo mysql -u root gulag < db.sql
 
 # Add and configure gulag-web's NGINX 
 # config to your nginx/sites-enabled.
-sudo ln -r -s nginx.conf /etc/nginx/sites-enabled/gulag-web.conf
+sudo ln -r -s ext/nginx.conf /etc/nginx/sites-enabled/gulag-web.conf
 sudo nano nginx.conf
 
 # Configure gulag-web.

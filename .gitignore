@@ -138,5 +138,6 @@ dmypy.json
 cython_debug/
 
 # Project specific
+nginx.conf
 config.py
 .vscode/
