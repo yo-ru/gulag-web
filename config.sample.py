@@ -5,8 +5,8 @@ app_name = 'gulag-web'
 mysql = {
     'db': 'gulag',
     'host': 'localhost',
-    'password': 'changeme',
     'user': 'cmyui'
+    'password': 'changeme',
 }
 
 debug = False
