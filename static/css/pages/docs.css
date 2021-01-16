@@ -1,0 +1,44 @@
+.main-block {
+    height: auto;
+    width: auto;
+    max-width: 1152px;
+
+    background-color:hsl(var(--main),10%,15%);
+    color:#fff;
+}
+
+.title-block {
+    height: auto;
+    width: auto;
+
+    padding: 30px 10px 10px 10px;
+    background-color: hsl(var(--main),50%,50%);
+}
+
+.doc-title {
+    font-size: 1.7em;
+    font-weight: 500;
+}
+
+.doc-block {
+    padding: 10px;
+}
+
+.doc-subtitle {
+    font-size: 1.5em;
+    font-weight: 500;
+}
+
+ol {
+    padding: 0px 0px 10px 20px;
+}
+
+ol li:before {
+    counter-increment: section !important;
+    font-weight: 700;
+    content: counters(section, ".") ". ";
+}
+
+li {
+    list-style-type: none;
+}

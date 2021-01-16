@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/css/pages/docs.css">
+<div class="main-block">
+	<!-- TODO: automate this via docs/rules.md (add a MD parser for stuff like this) -->
+	<div class="title-block">
+		<span>Documentation</span>
+		<h2 class="doc-title">
+			Server and Site Rules
+		</h2>
+	</div>
+	<div class="doc-block">
+		<h3 class="doc-subtitle">Server Rules</h3>
+		<ol>
+			<li>Cheating alongside and any other form of hacking are strictly prohibited.</li>
+			<li>Editing the client is forbidden.</li>
+			<li>Sharing or boosting an account is not allowed, and will be met with a ban.</li>
+			<li>Please do not exploit any vulnerabilities or the server itself. If any are found, please be responsible and
+				report it to a developer.</li>
+			<li>Stealing the username of a popular public figure is forbidden.</li>
+		</ol>
+
+		<h3 class="doc-subtitle">Chat Rules</h3>
+		<ol>
+			<li>Offensive speech is forbidden.</li>
+			<li>Swearing is allowed if it's not offensive towards a particular person./li>
+			<li>Spreading cheats and NFSW is forbidden.</li>
+			<li>Don't spam unicode, lines and symbols.</li>
+			<li>You can't advertise external services</li>
+		</ol>
+	</div>
+</div>
+{% endblock %}

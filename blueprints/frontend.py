@@ -124,6 +124,10 @@ async def register_post():
     # user has successfully registered.
     return await render_template('verify.html')
 
+""" rules """
+@frontend.route('/rules') # GET
+async def rules():
+    return await render_template('rules.html')
 
 """ discord redirect """
 @frontend.route('/discord') # GET
