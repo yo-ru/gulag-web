@@ -7,7 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js" integrity="sha512-/DXTXr6nQodMUiq+IUJYCt2PPOUjrHJ9wFrqpJ3XkgPNOZVfMok7cRw6CSxyCQxXn6ozlESsSh1/sMCTF1rL/g==" crossorigin="anonymous"></script>
 
     <!-- bulma -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HakuraSukinoe/bulma-hsl/bulma.min-v4.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HakuraSukinoe/bulma-hsl/bulma.min-v6.css"/>
 
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/e5971878b8.js" crossorigin="anonymous"></script>
@@ -17,60 +17,61 @@
   </head>
   <body>
     <!-- header -->
-    <nav id="navbar" class="navbar has-shadow is-primary">
-      <div class="navbar-brand">
-        <a class="navbar-item navbar-logo" href="/home">
-          {{ appName() }}
-        </a>
-
-        <a role="button" class="navbar-burger" id="navbar-burger" onclick="togglenavbar()">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-    
-      <div id="navbar" class="navbar-menu">
-        <div class="navbar-start">
-          <a class="navbar-item" href="/home">
-            Home
+    <nav id="navbar" class="navbar is-primary">
+        <div class="navbar-brand">
+          <a class="navbar-item navbar-logo" href="/home">
+            {{ appName() }}
           </a>
-    
-          <a class="navbar-item" href="/leaderboard">
-            Leaderboards
+  
+          <a role="button" class="navbar-burger" id="navbar-burger" onclick="togglenavbar()">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
           </a>
-    
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">
-              Information
+        </div>
+      
+        <div id="navbar" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item" href="/home">
+              Home
             </a>
-            <div class="navbar-dropdown">
-              <a class="navbar-item" href="/docs">
-                Documentation
+      
+            <a class="navbar-item" href="/leaderboard">
+              Leaderboards
+            </a>
+      
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link">
+                Information
               </a>
-              <a class="navbar-item" href="/rules">
-                Rules
-              </a>
-              <a class="navbar-item" href="/discord">
-                Discord
-              </a>
-              <hr class="navbar-divider">
-              <a class="navbar-item">
-                Report an issue
-              </a>
+              <div class="navbar-dropdown">
+                <a class="navbar-item" href="/docs">
+                  Documentation
+                </a>
+                <a class="navbar-item" href="/rules">
+                  Rules
+                </a>
+                <a class="navbar-item" href="/discord">
+                  Discord
+                </a>
+                <hr class="navbar-divider">
+                <a class="navbar-item">
+                  Report an issue
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-    
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="buttons">
-              <a class="button is-primary" href="/register">
-                <strong>Sign up</strong>
-              </a>
-              <a class="button is-light"  href="/login">
-                Log in
-              </a>
+      
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button is-primary" href="/register">
+                  <strong>Sign up</strong>
+                </a>
+                <a class="button is-light"  href="/login">
+                  Log in
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -78,7 +79,7 @@
     </nav>     
 
     <!-- content -->
-    <div class="container">
+    <div class="container my-con">
       {% block content %}
       {% endblock %}
     </div>
@@ -94,12 +95,5 @@
 
     <!-- main js script -->
     <script src="/static/js/main.js" crossorigin="anonymous"></script>
-
-    <script>
-      function togglenavbar() {
-        document.getElementById('navbar').classList.toggle("is-active");
-        document.getElementById('navbar-burger').classList.toggle("is-active");
-      }
-    </script>
   </body>
 </html>

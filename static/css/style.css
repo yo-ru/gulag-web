@@ -1,5 +1,5 @@
-
 /* layout */
+
 body {
     display: flex;
     flex-direction: column;
@@ -10,10 +10,6 @@ body {
 html {
     position: relative;
     min-height: 100%;
-}
-
-.container {
-    margin-top: 76px;
 }
 
 .footer {
@@ -44,7 +40,7 @@ html {
 
 .is-reset {
     padding: 0 !important;
-    margin: 0 !important; 
+    margin: 0 !important;
 }
 
 .is-padding {
@@ -56,7 +52,7 @@ html {
 }
 
 .is-weeb {
-    background: hsl(var(--main),30%,50%);
+    background: hsl(var(--main), 30%, 50%);
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
 }
@@ -69,14 +65,44 @@ html {
     font-size: 74px;
 }
 
+.is-active .navbar-menu {
+    display: block;
+}
+
+.my-con {
+    margin-top: 76px;
+}
+
 a.foot-link {
     margin: 8px;
 }
 
+.container {
+    -webkit-animation: slideup 0.2s ease;
+}
+
+@-webkit-keyframes slideup {
+    0% {
+        -webkit-transform: translateY(20px);
+        opacity: 0;
+    }
+    100% {
+        -webkit-transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.button:hover {
+    transform: translateY(-4px);
+}
+
 /* navbar stuff */
+
 .navbar {
     position: fixed !important;
     width: 100%;
+    transition: 0.2s ease;
+    min-height: 0rem;
 }
 
 .navbar-logo {
@@ -88,11 +114,75 @@ a.foot-link {
     padding: 0rem 2rem;
 }
 
-.minimized { /* fixed header */
-    transition: 200ms background-color;
+.minimized {
     width: 100%;
     top: 0;
-
     backdrop-filter: blur(4px);
-    background-color: hsla(var(--main),50%,50%, 0.7) !important;
+    background-color: hsla(var(--main), 50%, 50%, 0.7) !important;
+}
+
+.minimized.navbar {
+    height: 49px;
+    padding: 0px 40px;
+}
+
+.minimized .navbar-logo {
+    font-size: 15px !important;
+}
+
+.minimized .navbar-item {
+    font-size: 12px;
+}
+
+.minimized .navbar-item .button {
+    padding-bottom: calc(.25em - 1px);
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+    padding-top: calc(.25em - 1px);
+    font-size: 12px;
+}
+
+.navbar-item {
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.12);
+    font-weight: 430;
+    position: relative;
+    transition: 0.3s ease;
+}
+
+.navbar-start:hover .navbar-item {
+    opacity: 0.6;
+    font-weight: 500;
+}
+
+.navbar-item:hover, .navbar-item.navbar-dropdown:hover .navbar-item {
+    opacity: 1 !important;
+}
+
+.navbar.is-primary .navbar-end .navbar-link.is-active, .navbar.is-primary .navbar-end .navbar-link:focus, .navbar.is-primary .navbar-end .navbar-link:hover, .navbar.is-primary .navbar-end>a.navbar-item.is-active, .navbar.is-primary .navbar-end>a.navbar-item:focus, .navbar.is-primary .navbar-end>a.navbar-item:hover, .navbar.is-primary .navbar-item.has-dropdown.is-active .navbar-link, .navbar.is-primary .navbar-item.has-dropdown:focus .navbar-link, .navbar.is-primary .navbar-item.has-dropdown:hover .navbar-link, .navbar.is-primary .navbar-start .navbar-link.is-active, .navbar.is-primary .navbar-start .navbar-link:focus, .navbar.is-primary .navbar-start .navbar-link:hover, .navbar.is-primary .navbar-start>a.navbar-item.is-active, .navbar.is-primary .navbar-start>a.navbar-item:focus, .navbar.is-primary .navbar-start>a.navbar-item:hover {
+    background-color: transparent;
+    color: #fff;
+}
+
+.navbar.is-primary .navbar-brand>a.navbar-item:hover {
+    background-color: transparent;
+    color: #fff;
+}
+
+.navbar-logo {
+    transition: 0.2s ease;
+    font-size: 1.2rem;
+}
+
+.navbar-logo:hover {
+    transform: scale(1.05);
+}
+
+.navbar-dropdown .navbar-item {
+    padding: 6px !important;
+    color: white;
+    opacity: 1;
+}
+
+.navbar-brand, .navbar-tabs {
+    min-height: 0rem;
 }
