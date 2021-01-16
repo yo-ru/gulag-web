@@ -28,7 +28,7 @@
                 :class="'mode-select '+(mode == 'mania' ? '--selected ' : '') +(mods == 'ap' ? 'disabled':'') +(mods == 'rx' ? 'disabled':'')"
                 @click="LoadLeaderboard(sort, 'mania', mods)"> osu!mania </a>
         </div>
-        <div class="banner-text">{{ gettext('Leaderboard') }}</div>
+        <div class="banner-text">Leaderboard</div>
         <div class="selector">
             <div class="selectleft">
                 <a :href="'/leaderboard/'+mode+'/pp'" @click="LoadLeaderboard('pp', mode, mods, '')"
