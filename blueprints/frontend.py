@@ -132,4 +132,4 @@ async def rules():
 """ discord redirect """
 @frontend.route('/discord') # GET
 async def discord():
-    return redirect("https://discord.com/invite/Y5uPvcNpD9")
+    return redirect(glob.config.discord_server)
