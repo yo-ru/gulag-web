@@ -34,6 +34,10 @@ html {
     justify-content: center;
 }
 
+.is-lefttext {
+    text-align: left !important;
+}
+
 .is-padless {
     padding: 0 !important;
 }

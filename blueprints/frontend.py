@@ -19,6 +19,9 @@ async def home():
     return await render_template('home.html')
 
 """ leaderboard """
+@frontend.route('/leaderboard')
+async def leaderboard_nodata():
+    return await render_template('leaderboard.html', mode='std', sort='pp', mods='vn')
 @frontend.route('/leaderboard/<mode>/<sort>/<mods>')
 async def leaderboard(mode, sort, mods):
     return await render_template('leaderboard.html', mode=mode, sort=sort, mods=mods)
