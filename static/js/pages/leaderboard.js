@@ -1,1 +1,65 @@
-new Vue({el:"#leaderboard",delimiters:["<-","->"],data:()=>({boards:{},mode:"std",mods:"vn",sort:"pp",load:!1,no_player:!1}),created(){this.mode=mode,this.mods=mods,this.sort=sort,this.LoadLeaderboard(sort,mode,mods)},methods:{LoadLeaderboard(e,o,d){var t=this;window.event&&window.event.preventDefault(),t.load=!0,t.mode=o,t.mods=d,t.sort=e,window.history.replaceState("",document.title,"/leaderboard/"+t.mode+"/"+t.sort+"/"+t.mods),t.$axios.get("http://127.0.0.1:5000/api/get_leaderboard",{params:{mode:o,sort:e,mods:d}}).then(function(e){t.boards=e.data,t.load=!1})},scoreFormat(e){var o=this.addCommas;return e>1e6?e>1e9?o((e/1e9).toFixed(2))+" billion":o((e/1e6).toFixed(2))+" million":o(e)},addCommas(e){for(var o=(e+="").split("."),d=o[0],t=o.length>1?"."+o[1]:"",a=/(\d+)(\d{3})/;a.test(d);)d=d.replace(a,"$1,$2");return d+t}},computed:{}});
+new Vue({
+    el: "#leaderboard",
+    delimiters: ["<-", "->"],
+    data() {
+        return {
+            boards : {},
+            mode : 'std',
+            mods : 'vn',
+            sort : 'pp',
+            load : false,
+            no_player : false, // soon
+        }
+    },
+    created() { 
+        var vm = this;
+        vm.mode = mode
+        vm.mods = mods
+        vm.sort = sort
+        vm.LoadLeaderboard(sort, mode, mods);
+    },
+    methods: {
+        LoadLeaderboard(sort, mode, mods) {
+            var vm = this;
+            if (window.event){
+                window.event.preventDefault();
+            }
+            vm.load = true;
+            vm.mode = mode;
+            vm.mods = mods;
+            vm.sort = sort;
+            window.history.replaceState('', document.title, "/leaderboard/" + vm.mode + "/" + vm.sort + "/" + vm.mods);
+            vm.$axios.get("http://127.0.0.1:5000/api/get_leaderboard", { params: { 
+                mode: mode, 
+                sort: sort, 
+                mods: mods,
+            }})
+            .then(function(response){
+                vm.boards = response.data;
+                vm.load = false;
+            });
+        }, 
+        scoreFormat(score){ 
+            var addCommas = this.addCommas;
+            if (score > 1000 * 1000){
+                if(score > 1000 * 1000 * 1000)
+                    return addCommas((score / 1000000000).toFixed(2))+" billion";
+                return addCommas((score / 1000000).toFixed(2))+" million";
+            }
+            return addCommas(score);
+        },    
+        addCommas(nStr) {
+            nStr += '';
+            var x = nStr.split('.');
+            var x1 = x[0];
+            var x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            return x1 + x2;
+        },   
+    },
+    computed: {
+    }
+});
