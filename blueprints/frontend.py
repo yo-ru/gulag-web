@@ -3,7 +3,7 @@
 import bcrypt
 import hashlib
 import re
-from quart import Blueprint, render_template, redirect, request, flash
+from quart import Blueprint, render_template, redirect, request
 from cmyui import log, Ansi
 
 from objects import glob
