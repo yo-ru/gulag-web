@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-from quart import Quart
+from quart import Quart, render_template
 from cmyui import AsyncSQLPool, Version, Ansi, log
 
 from objects import glob
@@ -38,6 +38,12 @@ from blueprints.api import api
 app.register_blueprint(frontend)
 app.register_blueprint(admin, url_prefix='/admin')
 app.register_blueprint(api, url_prefix='/api')
+
+""" error 404 """
+@app.errorhandler(404)
+async def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return await render_template('404.html'), 404
 
 if __name__ == '__main__':
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
