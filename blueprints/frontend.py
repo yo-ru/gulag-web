@@ -3,7 +3,7 @@
 import bcrypt
 import hashlib
 import re
-from quart import Blueprint, render_template, request, flash
+from quart import Blueprint, render_template, redirect, request, flash
 from cmyui import log, Ansi
 
 from objects import glob
@@ -123,3 +123,9 @@ async def register_post():
 
     # user has successfully registered.
     return await render_template('verify.html')
+
+
+""" discord redirect """
+@frontend.route('/discord') # GET
+async def discord():
+    return redirect("https://discord.com/invite/Y5uPvcNpD9")
