@@ -50,6 +50,9 @@ sudo apt install mysql-server nginx
 git clone https://github.com/yo-ru/gulag-web.git
 cd gulag-web
 
+# Initialize and update the submodules
+git submodule init && git submodule update
+
 # Install requirements from pip.
 python3.9 -m pip install -r requirements.txt
 
@@ -64,6 +67,9 @@ sudo nano nginx.conf
 # Configure gulag-web.
 cp config.sample.py config.py
 nano config.py
+
+# Compile some translation.
+pybabel compile -d translations
 
 # Run gulag-web.
 python3.9 main.py
