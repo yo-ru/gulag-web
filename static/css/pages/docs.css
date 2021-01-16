@@ -11,7 +11,7 @@
     height: auto;
     width: auto;
 
-    padding: 30px 10px 10px 10px;
+    padding: 30px 22px 10px 22px;
     background-color: hsl(var(--main),50%,50%);
 }
 
@@ -21,7 +21,7 @@
 }
 
 .doc-block {
-    padding: 10px;
+    padding: 22px;
 }
 
 .doc-subtitle {
