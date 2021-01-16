@@ -19,10 +19,10 @@ async def home():
     return await render_template('home.html')
 
 """ leaderboard """
-@frontend.route('/leaderboard')
+@frontend.route('/leaderboard') # GET
 async def leaderboard_nodata():
     return await render_template('leaderboard.html', mode='std', sort='pp', mods='vn')
-@frontend.route('/leaderboard/<mode>/<sort>/<mods>')
+@frontend.route('/leaderboard/<mode>/<sort>/<mods>') # GET
 async def leaderboard(mode, sort, mods):
     return await render_template('leaderboard.html', mode=mode, sort=sort, mods=mods)
 
@@ -88,6 +88,7 @@ async def register_post():
     # get form data (username, email, password)
     form = await request.form
     username = form.get('username')
+    safe_name = username.replace(' ', '_').lower()
     email = form.get('email')
     pw_md5 = hashlib.md5(form.get('password').encode()).hexdigest().encode()
 
@@ -97,13 +98,17 @@ async def register_post():
     # check if username exists
     user_info = await glob.db.fetch(
         'SELECT * FROM users WHERE safe_name = %s',
-        [username.replace(' ', '_').lower()]
+        [safe_name]
     )
 
-    if user_info:
+    if user_info['safe_name'] == safe_name:
         return await flash('Username is already in use!', 'register')
     elif not re.match(r'[A-Za-z0-9]+', username): 
         return await flash('Username must contain only characters and numbers!', 'register')
+    elif user_info['email'] == email:
+        return await flash('Email is already in use!', 'register')
+    elif not re.match(r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$', email):
+        return await flash('Please input a valid email address!', 'register')
     elif not username or not pw_md5 or not email:
         return await flash('Please fill out the form!', 'register')
 

@@ -10,6 +10,7 @@ from objects import glob
 __all__ = ()
 
 app = Quart(__name__)
+app.secret_key = glob.config.secret_key
 version = Version(0, 1, 0)
 
 @app.before_serving
