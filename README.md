@@ -23,6 +23,12 @@
 - Some know-how with Linux (tested on Ubuntu 18.04), modern Python, and general-programming
   knowledge.
 
+## Localization
+
+Now gulag-web open localization other language!!
+you can read more about localization and helping [here](https://github.com/Varkaria/gulag-translatition)!!
+translate it for helping this project can have more language!!
+
 ## Setup
 
 Setup is relatively simple, the commands should basically be copy-pastable.

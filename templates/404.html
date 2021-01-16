@@ -2,9 +2,23 @@
 {% block title %}Oh no{% endblock %}
 
 {% block content %}
-  <div class="box">
-    <h1 class="title">Oh no : (</h1>
-    <h2 class="subtitle">I think now that's page it isn't implemented or you redirect wrong place</h2>
-    <a href="/home">go somewhere nice</a>
-  </div>
+<link rel="stylesheet" href="/static/css/pages/404.css">
+<style>html {--main: 355;}</style>
+<div class="main-block">
+	<div class="title-block">
+		<span>{{ gettext('oh no thats 404') }}</span>
+		<h2 class="error-title">
+			{{ gettext('Page not found') }}
+		</h2>
+	</div>
+	<div class="error-block">
+		<h3 class="error-subtitle">{{ gettext('How to fix that?') }}</h3>
+		<ol>
+      <li>{{ gettext('- Checking some url link thats correct?') }}</li>
+      <li>{{ gettext('- Checking some anouncement is that maintenance') }}</li>
+      <li>{{ gettext("- If you check it doesn't have these problem.") }}
+        {{ gettext("This page it isn't implemented you can suggest in github") }}</li>
+		</ol>
+	</div>
+</div>
 {% endblock %}

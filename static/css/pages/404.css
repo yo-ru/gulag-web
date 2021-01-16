@@ -16,28 +16,22 @@
     border-top-right-radius: 16px;
 }
 
-.doc-title {
+.error-title {
     font-size: 1.7em;
     font-weight: 500;
 }
 
-.doc-block {
+.error-block {
     padding: 22px;
 }
 
-.doc-subtitle {
+.error-subtitle {
     font-size: 1.5em;
     font-weight: 500;
 }
 
 ol {
     padding: 0px 0px 10px 20px;
-}
-
-ol li:before {
-    counter-increment: section !important;
-    font-weight: 700;
-    content: counters(section, ".") ". ";
 }
 
 li {

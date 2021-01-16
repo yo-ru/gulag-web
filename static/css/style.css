@@ -197,3 +197,7 @@ a.foot-link {
     padding: 18px 24px;
     opacity: 1;
   }
+
+.navbar-dropdown {
+    width: 152px;
+}

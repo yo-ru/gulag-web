@@ -1,8 +1,10 @@
 #!/usr/bin/python3.9
 # -*- coding: utf-8 -*-
 
+import quart.flask_patch
 import os
-from quart import Quart, render_template
+from flask_babel import Babel, lazy_gettext as gettext
+from quart import Quart, render_template, request
 from cmyui import AsyncSQLPool, Version, Ansi, log
 
 from objects import glob
@@ -12,6 +14,12 @@ __all__ = ()
 app = Quart(__name__)
 app.secret_key = glob.config.secret_key
 version = Version(0, 1, 0)
+babel = Babel()
+
+# Check the Accept-Language header and make a smart choice
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(glob.config.LANGUAGES.keys())
 
 @app.before_serving
 async def mysql_conn() -> None:
@@ -47,4 +55,5 @@ async def page_not_found(e):
 
 if __name__ == '__main__':
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
+    babel.init_app(app)
     app.run(debug=glob.config.debug) # blocking call

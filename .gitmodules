@@ -1,0 +1,3 @@
+[submodule "translation"]
+	path = translation
+	url = https://github.com/Varkaria/gulag-translatition

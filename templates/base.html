@@ -33,30 +33,30 @@
         <div id="navbar" class="navbar-menu">
           <div class="navbar-start">
             <a class="navbar-item" href="/home">
-              Home
+              {{ gettext('Home') }}
             </a>
       
             <a class="navbar-item" href="/leaderboard">
-              Leaderboards
+              {{ gettext('Leaderboards') }}
             </a>
       
             <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link">
-                Information
+                {{ gettext('Information') }}
               </a>
               <div class="navbar-dropdown">
                 <a class="navbar-item" href="/docs">
-                  Documentation
+                  {{ gettext('Documentation') }}
                 </a>
                 <a class="navbar-item" href="/rules">
-                  Rules
+                  {{ gettext('Rules') }}
                 </a>
                 <a class="navbar-item" href="/discord">
-                  Discord
+                  {{ gettext('Discord') }}
                 </a>
                 <hr class="navbar-divider">
                 <a class="navbar-item">
-                  Report an issue
+                  {{ gettext('Report an issue') }}
                 </a>
               </div>
             </div>
@@ -66,10 +66,10 @@
             <div class="navbar-item">
               <div class="buttons">
                 <a class="button is-primary" href="/register">
-                  <strong>Sign up</strong>
+                  <strong>{{ gettext('Sign up') }}</strong>
                 </a>
                 <a class="button is-light"  href="/login">
-                  Log in
+                  {{ gettext('Log in') }}
                 </a>
               </div>
             </div>

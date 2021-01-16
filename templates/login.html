@@ -18,7 +18,7 @@
      <div class="content">
     <form action="" method="post" class="form-content">
       <div class="field">
-        <label for="" class="label">Username</label>
+        <label for="" class="label">{{ gettext('Username') }}</label>
         <div class="control has-icons-left">
           <input type="username" name="username" placeholder="Username" class="input" required>
           <span class="icon is-small is-left">
@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="field">
-        <label for="" class="label">Password</label>
+        <label for="" class="label">{{ gettext('Password') }}</label>
         <div class="control has-icons-left">
           <input type="password" name="password" placeholder="Password" class="input" required>
           <span class="icon is-small is-left">
@@ -37,18 +37,18 @@
       </div>
       <div class="mt-5"></div>
       <div class="dialog">
-        Don't have an account?
+          {{ gettext('not have an account?') }}
         <a href="/register">
-            Click here to register it!!
+          {{ gettext('Click here to register it!!') }}
         </a>
     </div>
       <div class="field is-vcentered">
         <div class="buttons">
           <button type="submit" class="button is-primary">
-            Login
+            {{ gettext('Login') }}
           </button>
           <button class="button is-info">
-            Forgot?
+            {{ gettext('Forgot your acc?') }}
           </button>
         </div>
       </div>

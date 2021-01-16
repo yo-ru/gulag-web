@@ -1,6 +1,6 @@
 new Vue({
     el: "#leaderboard",
-    delimiters: ["<-", "->"],
+    delimiters: ["<%", "%>"],
     data() {
         return {
             boards : {},

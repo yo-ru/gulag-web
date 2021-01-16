@@ -28,7 +28,7 @@
                 :class="'mode-select '+(mode == 'mania' ? '--selected ' : '') +(mods == 'ap' ? 'disabled':'') +(mods == 'rx' ? 'disabled':'')"
                 @click="LoadLeaderboard(sort, 'mania', mods)"> osu!mania </a>
         </div>
-        <div class="banner-text">leaderboard</div>
+        <div class="banner-text">{{ gettext('Leaderboard') }}</div>
         <div class="selector">
             <div class="selectleft">
                 <a :href="'/leaderboard/'+mode+'/pp'" @click="LoadLeaderboard('pp', mode, mods, '')"
@@ -59,7 +59,7 @@
                         <th class="t-heading"> </th>
                         <th class="t-heading t-heading--main"></th>
                         <th class="t-heading table--selected">
-                            <- sort.toUpperCase() ->
+                            <% sort.toUpperCase() %>
                         </th>
                         <th class="t-heading"> Accuracy </th>
                         <th class="t-heading"> Playcount </th>
@@ -68,24 +68,24 @@
                 </thead>
                 <tbody>
                     <tr v-for="(user, index) in boards" class="leaderboard-column">
-                        <td class="t-column column-player-rank">#<- index + 1 ->
+                        <td class="t-column column-player-rank">#<% index + 1 %>
                         </td>
                         <td class="t-column column-player-name is-lefttext">
-                            <- user.username ->
+                            <% user.username %>
                         </td>
                         <td class="t-column">
-                            <- (sort=='pp' ? user.pp+'pp' : "" ) ->
-                            <- (sort=='acc' ? user.acc.toFixed(2)+'%' : "" ) ->
-                            <- (sort=='rscore' ? scoreFormat(user.rscore) : "" ) ->
+                            <% (sort=='pp' ? user.pp+'pp' : "" ) %>
+                            <% (sort=='acc' ? user.acc.toFixed(2)+'%' : "" ) %>
+                            <% (sort=='rscore' ? scoreFormat(user.rscore) : "" ) %>
                         </td>
                         <td class="t-column t-column--dimmed">
-                            <- user.acc ->%
+                            <% user.acc %>%
                         </td>
                         <td class="t-column t-column--dimmed">
-                            <- addCommas(user.plays) ->
+                            <% addCommas(user.plays) %>
                         </td>
                         <td class="t-column t-column--dimmed">
-                            <- addCommas(user.maxcombo) ->
+                            <% addCommas(user.maxcombo) %>
                         </td>
                     </tr>
                 </tbody>

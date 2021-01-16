@@ -3,13 +3,12 @@
 
 {% block content %}
 <link rel="stylesheet" href="/static/css/pages/verify.css">
-<style>html {--main: 420;}</style>
 <div class="main-block is-marginless is-paddingless is-auth mt-5">
     <div class="columns is-reset is-weeb">
         <div class="column title-block">
             <div class="titlewithsub">
-                <h1 class="title is-left">How to verify your account</h1>
-                <h2 class="subtitle">What do you mean? This must be easy right?</h2>
+                <h1 class="title is-left">{{ gettext('How to verify your account') }}</h1>
+                <h2 class="subtitle">{{ gettext('What do you mean? This must be easy right?') }}</h2>
             </div>
         </div>
         <div class="column icon-block">
@@ -20,8 +19,8 @@
         <div class="box is-padding">
             <div class="bordertitle">
                 <div class="titlewithsub">
-                    <h1 class="title is-left">Verification</h1>
-                    <h2 class="subtitle">Follow these three simple steps to get started playing {{ appName() }}!</h2>
+                    <h1 class="title is-left">{{ gettext('Verification') }}</h1>
+                    <h2 class="subtitle">{{ gettext('Follow these three simple steps to get started playing ') }} {{ appName() }}!</h2>
                 </div>
             </div>
             <div class="howto-content">
@@ -33,8 +32,8 @@
                                 <div class="howto-number">1</div>
                             </div>
                             <div class="howto-withsub">
-                                <h1 class="title is-left">Download the switcher</h1>
-                                <h2 class="subtitle">click here to download our switcher!</h2>
+                                <h1 class="title is-left">{{ gettext('Download the switcher') }}</h1>
+                                <h2 class="subtitle">{{ gettext('click here to download our switcher!') }}</h2>
                             </div>
                         </div>
                     </div>
@@ -45,8 +44,8 @@
                                 <div class="howto-number">2</div>
                             </div>
                             <div class="howto-withsub">
-                                <h1 class="title is-left">Switch to {{ appName() }}</h1>
-                                <h2 class="subtitle"><strong>1.</strong> Click “Install Certificate” <strong>2.</strong> Click “Switch to {{ appName() }}" <strong>3.</strong> Open osu!</h2>
+                                <h1 class="title is-left">{{ gettext('Switch to') }} {{ appName() }}') }}</h1>
+                                <h2 class="subtitle"><strong>1.</strong> {{ gettext('Click “Install Certificate”') }} <strong>2.</strong> {{ gettext('Click “Switch to ') }} {{ appName() }}" <strong>3.</strong> {{ gettext('Open osu!') }}</h2>
                             </div>
                         </div>
                     </div>
@@ -57,8 +56,8 @@
                                 <div class="howto-number">3</div>
                             </div>
                             <div class="howto-withsub">
-                                <h1 class="title is-left">Login to your account</h1>
-                                <h2 class="subtitle">Login to your {{ appName() }} account and that's it! Welcome to the {{ appName() }} community!</h2>
+                                <h1 class="title is-left">{{ gettext('Login to your account') }}</h1>
+                                <h2 class="subtitle">{{ gettext('Login to your') }} {{ appName() }} {{ ("account and that's it! Welcome to the") }} {{ appName() }} {{ ('community!') }}</h2>
                             </div>
                         </div>
                     </div>
@@ -66,8 +65,8 @@
             </div>
             <div class="bordertitle">
                 <div class="titlewithsub">
-                    <h1 class="title is-left">Oh crap! I'm stuck please help me!</h1>
-                    <h2 class="subtitle">Need help? We got you. Come join our discord community and one of our members can help you out!</h2>
+                    <h1 class="title is-left">{{ gettext("Oh crap! I'm stuck please help me!") }}</h1>
+                    <h2 class="subtitle">{{ gettext('Need help? We got you. Come join our discord community and one of our members can help you out!') }}</h2>
                 </div>
             </div>
             <div class="box is-flex is-mpadding is-marginless">
@@ -75,7 +74,7 @@
                         src="https://cdn.iconscout.com/icon/free/png-256/discord-2752210-2285027.png"
                         class="discord-logo">
                     <div class="clickhere-title is-flex is-vcentered">
-                        <h1 class="title">Click here to join our discord!</h1>
+                        <h1 class="title">{{ gettext('Click here to join our discord!') }}</h1>
                     </div>
                 </a>
             </div>
@@ -83,8 +82,8 @@
                 <div class="columns is-flex is-paddingless is-marginless">
                     <div class="column is-flex is-vcentered">
                         <div>
-                            <h1 class="title is-left">Waiting for verification!</h1>
-                            <h2 class="subtitle">Follow the simple instructions above and once you're done reload this page!</h2>
+                            <h1 class="title is-left">{{ gettext('Waiting for verification!') }}</h1>
+                            <h2 class="subtitle">{{ gettext("Follow the simple instructions above and once you're done reload this page!") }}</h2>
                         </div>
                     </div>
                     <div class="column icon-block">
