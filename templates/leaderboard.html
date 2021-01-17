@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} Register {% endblock %}
+{% block title %} Leaderboard {% endblock %}
 
 {% block content %}
 <script src="/static/js/asserts/vue.js"></script>
@@ -75,8 +75,8 @@
                         </td>
                         <td class="t-column">
                             <% (sort=='pp' ? user.pp+'pp' : "" ) %>
-                            <% (sort=='acc' ? user.acc.toFixed(2)+'%' : "" ) %>
-                            <% (sort=='rscore' ? scoreFormat(user.rscore) : "" ) %>
+                                <% (sort=='acc' ? user.acc.toFixed(2)+'%' : "" ) %>
+                                    <% (sort=='rscore' ? scoreFormat(user.rscore) : "" ) %>
                         </td>
                         <td class="t-column t-column--dimmed">
                             <% user.acc %>%

@@ -196,8 +196,101 @@ a.foot-link {
     color: white;
     padding: 18px 24px;
     opacity: 1;
-  }
+}
 
 .navbar-dropdown {
     width: 152px;
+}
+
+.noti-banner {
+    display: flex;
+    padding: 8px;
+    font-size: 12px;
+    color: #fff;
+    background-color: hsl(var(--main), 10%, 15%);
+    z-index: 1;
+    flex-direction: column;
+    text-align: center;
+    position: relative;
+    width: 960px;
+}
+
+@media (min-width:900px) {
+    .noti-banner {
+        flex-direction: row;
+        border-radius: 16px;
+        text-align: left;
+        margin-bottom: 12px;
+    }
+}
+
+.noti-banner--col {
+    margin: 5px
+}
+
+.noti-banner--col--icon {
+    height: 30px;
+    flex: none;
+    background-position: 50%;
+    background-repeat: no-repeat
+}
+
+@media (min-width:900px) {
+    .noti-banner--col--icon {
+        height: auto;
+        width: 30px
+    }
+}
+
+.noti-banner--alert .noti-banner--col--icon, .noti-banner--warning .noti-banner--col--icon {
+    background-image: url(https://osu.ppy.sh/assets/images/exclamation-icon.0db8a908.svg)
+}
+
+.noti-banner--col--label {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding-bottom: 13px
+}
+
+@media (min-width:900px) {
+    .noti-banner--col--label {
+        padding-right: 18px;
+        padding-bottom: 0
+    }
+}
+
+.noti-banner--col--label:after {
+    position: absolute;
+    content: "";
+    height: 3px;
+    background-color: hsl(var(--main),50%,50%);
+    border-radius: 10px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+@media (min-width:900px) {
+    .noti-banner--col--label:after {
+        width: 3px;
+        height: auto;
+        top: 0;
+        left: auto
+    }
+}
+
+.noti-banner--type {
+    font-weight: 700;
+    text-transform: capitalize
+}
+
+.noti-banner--text a {
+    color: #fc2
+}
+
+.noti-banner--text a:active, .noti-banner--text a:focus, .noti-banner--text a:hover {
+    color: #fd5
 }
