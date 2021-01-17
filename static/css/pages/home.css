@@ -10,6 +10,10 @@
     position: relative;
 }
 
+.main-block {
+    width: 1024px;
+}
+
 @media screen and (max-width: 1023px) {
     .gulag-avatar {
         display:none
