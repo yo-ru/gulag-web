@@ -23,6 +23,8 @@ html {
     background: hsl(var(--main), 10%, 15%);
 }
 
+/* stuffs */
+
 .is-vcentered {
     align-self: center;
 }
@@ -97,7 +99,7 @@ a.foot-link {
     transform: translateY(-4px);
 }
 
-/* navbar stuff */
+/* navbar */
 
 .navbar {
     position: fixed !important;
@@ -123,7 +125,7 @@ a.foot-link {
 }
 
 .minimized.navbar {
-    height: 49px;
+    height: 48px;
     padding: 0px 40px;
 }
 
@@ -188,6 +190,12 @@ a.foot-link {
     min-height: 0rem;
 }
 
+.navbar-dropdown {
+    width: 152px;
+}
+
+/* auth notification */
+
 .paper-snackbar {
     transition-property: opacity, bottom, left, right, width, margin, border-radius;
     transition-duration: 0.35s;
@@ -198,9 +206,7 @@ a.foot-link {
     opacity: 1;
 }
 
-.navbar-dropdown {
-    width: 152px;
-}
+/* notification */
 
 .noti-banner {
     display: flex;
@@ -212,7 +218,6 @@ a.foot-link {
     flex-direction: column;
     text-align: center;
     position: relative;
-    width: 960px;
 }
 
 @media (min-width:900px) {
