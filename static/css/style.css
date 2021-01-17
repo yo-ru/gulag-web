@@ -54,8 +54,8 @@ html {
 
 .is-weeb {
     background: hsl(var(--main), 30%, 50%);
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
+    border-top-right-radius: 16px;
+    border-top-left-radius: 16px;
 }
 
 .is-maxheight {
