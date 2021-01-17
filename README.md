@@ -68,9 +68,6 @@ sudo nano nginx.conf
 cp config.sample.py config.py
 nano config.py
 
-# Compile some translation.
-pybabel compile -d translations
-
 # Run gulag-web.
 python3.9 main.py
 

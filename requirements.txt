@@ -5,4 +5,3 @@ aiomysql
 mysql-connector
 asyncpg
 orjson
-flask-babel

@@ -1,23 +1,21 @@
 {% extends "base.html" %}
-{% block title %}Oh no{% endblock %}
-
+{% block title %}404{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="/static/css/pages/404.css">
 <style>html {--main: 355;}</style>
 <div class="main-block">
 	<div class="title-block">
-		<span>oh no thats 404</span>
+		<span>404</span>
 		<h2 class="error-title">
 			Page not found
 		</h2>
 	</div>
 	<div class="error-block">
-		<h3 class="error-subtitle">How to fix that?</h3>
+		<h3 class="error-subtitle">What happened!?!</h3>
 		<ol>
-      <li>- Checking some url link thats correct?</li>
-      <li>- Checking some anouncement is that maintenance</li>
-      <li>{{ gettext("- If you check it doesn't have these problem.") }}
-        {{ gettext("This page it isn't implemented you can suggest in github") }}</li>
+      		<li>- Check that the URL you entered is correct.</li>
+      		<li>- Make sure that the place you are visiting isn't in maintenance!</li>
+      		<li></li>
 		</ol>
 	</div>
 </div>
