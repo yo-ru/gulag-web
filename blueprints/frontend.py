@@ -144,7 +144,12 @@ async def register_post():
 
 """ logout """
 @frontend.route('/logout') # GET
-async def logout_post():
+async def logout():
+    if not 'authenticated' in session:
+        return await flash('You can\'t logout if you aren\'t logged in!', 'login')
+
+    if glob.config.debug: log(f'Logout successful! {session["user_data"]["name"]} is now logged out.', Ansi.LGREEN) # debug
+
     # clear session data
     session.pop('authenticated', None)
     session.pop('user_data', None)
