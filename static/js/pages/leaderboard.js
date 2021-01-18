@@ -17,9 +17,6 @@ new Vue({
         vm.mods = mods
         vm.sort = sort
         vm.LoadLeaderboard(sort, mode, mods)
-        if (window.location.hostname != "127.0.0.1") {
-            $("#leaderboard").prepend("<div class='noti-banner noti-banner--warning'><div class='noti-banner--col noti-banner--col--icon'></div><div class='noti-banner--col noti-banner--col--label'><div class='noti-bannertype'>Warning</div><div class='noti-bannertext'>You are using "+window.location.hostname+"</div></div><div class='noti-banner--col'>Now <b>It doesn't have cors for API</b>. That's why <b>users in leaderboard doesn't appear</b> because it's have cors error and <b>it's will work with <a href='http://127.0.0.1:5000"+window.location.pathname+"'>127.0.0.1</a> only</b>. I will implemented later</div></div>")
-        }
     },
     methods: {
         LoadLeaderboard(sort, mode, mods) {
@@ -32,7 +29,7 @@ new Vue({
             vm.mods = mods;
             vm.sort = sort;
             window.history.replaceState('', document.title, "/leaderboard/" + vm.mode + "/" + vm.sort + "/" + vm.mods);
-            vm.$axios.get("http://127.0.0.1:5000/api/get_leaderboard", { params: { 
+            vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_leaderboard", { params: { 
                 mode: mode, 
                 sort: sort, 
                 mods: mods,
