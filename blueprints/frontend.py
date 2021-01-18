@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-
+import re
+import time
 import bcrypt
 import hashlib
-import re
-from quart import Blueprint, render_template, redirect, request
+from quart import Blueprint, render_template, redirect, request, session, url_for
 from cmyui import log, Ansi
 
 from objects import glob
@@ -58,6 +58,7 @@ async def login_post():
     # check credentials (password) against db
     # intentionally slow, will cache to speed up
     # TODO: sessions and redirect
+    login_time = time.time_ns()
     if pw_bcrypt in bcrypt_cache:
         if pw_md5 != bcrypt_cache[pw_bcrypt]: # ~0.1ms
             if glob.config.debug: log(f'Login failed. Password for {username} is incorrect.', Ansi.LRED) # debug
@@ -67,17 +68,26 @@ async def login_post():
             if glob.config.debug: log(f'Login failed. Password for {username} is incorrect.', Ansi.LRED) # debug
             return await flash('Password is incorrect.', 'login')
             
-        # login success. cache password for next login
+        # login successful; cache password for next login
         bcrypt_cache[pw_bcrypt] = pw_md5
+    if glob.config.debug: log(f'Login took {(time.time_ns() - login_time) / 1000000.00}ms!', Ansi.LYELLOW) # debug
     
     # user not verified render verify page
     if user_info["priv"] == 1:
         if glob.config.debug: log(f'Login failed. {username} is not verified!', Ansi.LRED) # debug
         return await render_template('verify.html')
 
-    # login successful
+    # login successful; store session data
     if glob.config.debug: log(f'Login successful! {username} is now logged in.', Ansi.LGREEN) # debug
-    return b'login successful.'
+    session['authenticated'] = True
+    session['user_data'] = {
+        'id': user_info['id'],
+        'name': user_info['name'],
+        'priv': user_info['priv'],
+        'silence_end': user_info['silence_end']
+    }
+    return redirect('/home')
+    
 
 """ register """
 @frontend.route('/register') # GET
@@ -129,12 +139,18 @@ async def register_post():
 
     if glob.config.debug: log(f'Registration successful! {username} is now registered. Awaiting verification...', Ansi.LGREEN) # debug
 
-    # user has successfully registered.
+    # user has successfully registered
     return await render_template('verify.html')
 
-""" asserts (for if got error) """
-def flash(msg, template):
-    return render_template(f"{template}.html", flash=msg)
+""" logout """
+@frontend.route('/logout') # GET
+async def logout_post():
+    # clear session data
+    session.pop('authenticated', None)
+    session.pop('user_data', None)
+
+    # redirect to login
+    return await flash('Successfully logged out!', 'login')
 
 """ rules """
 @frontend.route('/rules') # GET
@@ -145,3 +161,7 @@ async def rules():
 @frontend.route('/discord') # GET
 async def discord():
     return redirect(glob.config.discord_server)
+
+""" methods """
+async def flash(msg, template):
+    return await render_template(f"{template}.html", flash=msg)

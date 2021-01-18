@@ -15,6 +15,7 @@
         <p class="subtitle">We are a osu! private server mainly based around the relax mod -
           featuring score submission, leaderboards & rankings, custom pp,
           and much more for both relax and vanilla osu!</p>
+        {% if not session.authenticated %}
         <div class="buttons is-centered">
           <a class="button is-primary">
             <strong>Sign up</strong>
@@ -23,6 +24,7 @@
             Log in
           </a>
         </div>
+        {% endif %}
       </div>
     </div>
   </div>
