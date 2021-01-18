@@ -23,12 +23,6 @@
 - Some know-how with Linux (tested on Ubuntu 18.04), modern Python, and general-programming
   knowledge.
 
-## Localization
-
-Now gulag-web open localization other language!!
-you can read more about localization and helping [here](https://github.com/Varkaria/gulag-translatition)!!
-translate it for helping this project can have more language!!
-
 ## Setup
 
 Setup is relatively simple, the commands should basically be copy-pastable.
@@ -56,20 +50,18 @@ git submodule init && git submodule update
 # Install requirements from pip.
 python3.9 -m pip install -r requirements.txt
 
-# Import gulag-web's MySQL structure to the gulag database.
-sudo mysql -u root gulag < db.sql
-
 # Add and configure gulag-web's NGINX 
 # config to your nginx/sites-enabled.
 sudo ln -r -s ext/nginx.conf /etc/nginx/sites-enabled/gulag-web.conf
 sudo nano nginx.conf
 
 # Configure gulag-web.
-cp config.sample.py config.py
+cp ext/config.sample.py config.py
 nano config.py
 
 # Run gulag-web.
-python3.9 main.py
+python3.9 main.py # will run in debug mode for development only! (Port 5000)
+hypercorn main.py # Please run gulag-web with hypercorn when in production! It will improve performance drastically by disabling all of the debug features a developer would need! (Port 8000)
 
 # Have fun!
 # - gulag Team
