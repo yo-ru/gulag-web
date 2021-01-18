@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+
+import asyncio
 import re
 import time
 import bcrypt
 import hashlib
-from quart import Blueprint, render_template, redirect, request, session, url_for
+from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
 
 from objects import glob
@@ -32,10 +34,10 @@ async def login():
     return await render_template('login.html')
 @frontend.route('/login', methods=['POST']) # POST
 async def login_post():
-    # get form data (username, password)
+    login_time = time.time_ns() if glob.config.debug else 0
+
     form = await request.form
     username = form.get('username')
-    pw_md5 = hashlib.md5(form.get('password').encode()).hexdigest().encode()
 
     # check if account exists
     user_info = await glob.db.fetch(
@@ -45,40 +47,45 @@ async def login_post():
     )
 
     # the second part of this if statement exists because if we try to login with Aika
-    # and compare our password input against the database it will fail because the 
+    # and compare our password input against the database it will fail because the
     # hash saved in the database is invalid.
     if not user_info or user_info['id'] == 1:
-        if glob.config.debug: log(f'Login failed. {username} does not exist.', Ansi.LRED) # debug
+        if glob.config.debug:
+            log(f"{username}'s login failed - account doesn't exist.", Ansi.LYELLOW)
         return await flash('Account does not exist.', 'login')
 
     bcrypt_cache = glob.cache['bcrypt']
+
     pw_bcrypt = user_info['pw_bcrypt'].encode()
-    user_info['pw_bcrypt'] = pw_bcrypt
+    pw_md5 = hashlib.md5(form.get('password').encode()).hexdigest().encode()
 
     # check credentials (password) against db
     # intentionally slow, will cache to speed up
     # TODO: sessions and redirect
-    login_time = time.time_ns()
     if pw_bcrypt in bcrypt_cache:
         if pw_md5 != bcrypt_cache[pw_bcrypt]: # ~0.1ms
-            if glob.config.debug: log(f'Login failed. Password for {username} is incorrect.', Ansi.LRED) # debug
+            if glob.config.debug:
+                log(f"{username}'s login failed - pw incorrect.", Ansi.LYELLOW)
             return await flash('Password is incorrect.', 'login')
     else: # ~200ms
         if not bcrypt.checkpw(pw_md5, pw_bcrypt):
-            if glob.config.debug: log(f'Login failed. Password for {username} is incorrect.', Ansi.LRED) # debug
+            if glob.config.debug:
+                log(f"{username}'s login failed - pw incorrect.", Ansi.LYELLOW)
             return await flash('Password is incorrect.', 'login')
-            
+
         # login successful; cache password for next login
         bcrypt_cache[pw_bcrypt] = pw_md5
-    if glob.config.debug: log(f'Login took {(time.time_ns() - login_time) / 1000000.00}ms!', Ansi.LYELLOW) # debug
-    
+
     # user not verified render verify page
     if user_info["priv"] == 1:
-        if glob.config.debug: log(f'Login failed. {username} is not verified!', Ansi.LRED) # debug
+        if glob.config.debug:
+            log(f"{username}'s login failed - not verified.", Ansi.LYELLOW)
         return await render_template('verify.html')
 
     # login successful; store session data
-    if glob.config.debug: log(f'Login successful! {username} is now logged in.', Ansi.LGREEN) # debug
+    if glob.config.debug:
+        log(f"{username}'s login succeeded.", Ansi.LGREEN)
+
     session['authenticated'] = True
     session['user_data'] = {
         'id': user_info['id'],
@@ -86,10 +93,16 @@ async def login_post():
         'priv': user_info['priv'],
         'silence_end': user_info['silence_end']
     }
-    return redirect('/home')
-    
 
-""" register """
+    if glob.config.debug:
+        login_time = (time.time_ns() - login_time) / 1e6
+        log(f'Login took {login_time:.2f}ms!', Ansi.LYELLOW)
+
+    return redirect('/home')
+
+""" registration """
+_username_rgx = re.compile(r'^[\w \[\]-]{2,15}$')
+_email_rgx = re.compile(r'^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$')
 @frontend.route('/register') # GET
 async def register():
     return await render_template('register.html')
@@ -98,46 +111,73 @@ async def register_post():
     # get form data (username, email, password)
     form = await request.form
     username = form.get('username')
-    safe_name = username.replace(' ', '_').lower()
     email = form.get('email')
-    pw_md5 = hashlib.md5(form.get('password').encode()).hexdigest().encode()
+    pw_txt = form.get('password')
 
-    pw_bcrypt = bcrypt.hashpw(pw_md5, bcrypt.gensalt())
-    glob.cache['bcrypt'][pw_bcrypt] = pw_md5 # cache result for login
-
+    # Usernames must:
+    # - be within 2-15 characters in length
+    # - not contain both ' ' and '_', one is fine
+    # - not be in the config's `disallowed_names` list
+    # - not already be taken by another player
     # check if username exists
-    user_info = await glob.db.fetch(
-        'SELECT * FROM users WHERE safe_name = %s',
-        [safe_name]
-    )
+    if not _username_rgx.match(username):
+        return await flash('Invalid username syntax.', 'register')
 
-    if user_info['safe_name'] == safe_name:
-        return await flash('Username is already in use!', 'register')
-    elif not re.match(r'[A-Za-z0-9]+', username): 
-        return await flash('Username must contain only characters and numbers!', 'register')
-    elif user_info['email'] == email:
-        return await flash('Email is already in use!', 'register')
-    elif not re.match(r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$', email):
-        return await flash('Please input a valid email address!', 'register')
-    elif not username or not pw_md5 or not email:
-        return await flash('Please fill out the form!', 'register')
+    if '_' in username and ' ' in username:
+        return await flash('May contain "_" or " ", but not both.', 'register')
 
-    # add to users table
-    user_id = await glob.db.execute(
-        'INSERT INTO users '
-        '(name, safe_name, email, pw_bcrypt, creation_time, latest_activity) '
-        'VALUES (%s, %s, %s, %s, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())',
-        [username, [username.replace(' ', '_').lower()], email, pw_bcrypt]
-    )
+    # TODO: disallowed usernames
+    NotImplemented
 
-    # add to stats table
-    await glob.db.execute(
-        'INSERT INTO stats '
-        '(id) VALUES (%s)',
-        [user_id]
-    )
+    if await glob.db.fetch('SELECT 1 FROM users WHERE name = %s', username):
+        return await flash('Username already taken by another user.', 'register')
 
-    if glob.config.debug: log(f'Registration successful! {username} is now registered. Awaiting verification...', Ansi.LGREEN) # debug
+    # Emails must:
+    # - match the regex `^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$`
+    # - not already be taken by another player
+    if not _email_rgx.match(email):
+        return await flash('Invalid email syntax.', 'register')
+
+    if await glob.db.fetch('SELECT 1 FROM users WHERE email = %s', email):
+        return await flash('Email already taken by another user.', 'register')
+
+    # Passwords must:
+    # - be within 8-32 characters in length
+    # - have more than 3 unique characters
+    # - not be in the config's `disallowed_passwords` list
+    if not 8 < len(pw_txt) <= 32:
+        return await flash('Password must be 8-32 characters in length', 'register')
+
+    if len(set(pw_txt)) <= 3:
+        return await flash('Password must have more than 3 unique characters.', 'register')
+
+    # TODO: disallowed passwords
+    NotImplemented
+
+    async with asyncio.Lock():
+        pw_md5 = hashlib.md5(pw_txt.encode()).hexdigest().encode()
+        pw_bcrypt = bcrypt.hashpw(pw_md5, bcrypt.gensalt())
+        glob.cache['bcrypt'][pw_bcrypt] = pw_md5 # cache result for login
+
+        safe_name = username.lower().replace(' ', '_')
+
+        # add to `users` table.
+        user_id = await glob.db.execute(
+            'INSERT INTO users '
+            '(name, safe_name, email, pw_bcrypt, creation_time, latest_activity) '
+            'VALUES (%s, %s, %s, %s, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())',
+            [username, safe_name, email, pw_bcrypt]
+        )
+
+        # add to `stats` table.
+        await glob.db.execute(
+            'INSERT INTO stats '
+            '(id) VALUES (%s)',
+            [user_id]
+        )
+
+    if glob.config.debug:
+        log(f'{username} has registered - awaiting verification.', Ansi.LGREEN)
 
     # user has successfully registered
     return await render_template('verify.html')
@@ -146,9 +186,10 @@ async def register_post():
 @frontend.route('/logout') # GET
 async def logout():
     if not 'authenticated' in session:
-        return await flash('You can\'t logout if you aren\'t logged in!', 'login')
+        return await flash("You can't logout if you aren't logged in!", 'login')
 
-    if glob.config.debug: log(f'Logout successful! {session["user_data"]["name"]} is now logged out.', Ansi.LGREEN) # debug
+    if glob.config.debug:
+        log(f'Logout successful! {session["user_data"]["name"]} is now logged out.', Ansi.LGREEN)
 
     # clear session data
     session.pop('authenticated', None)

@@ -1,7 +1,7 @@
 #!/usr/bin/python3.9
 # -*- coding: utf-8 -*-
 
-import quart.flask_patch
+import quart.flask_patch # https://pgjones.gitlab.io/quart/how_to_guides/flask_extensions.html
 import os
 from quart import Quart, render_template, request
 from cmyui import AsyncSQLPool, Version, Ansi, log
@@ -11,8 +11,9 @@ from objects import glob
 __all__ = ()
 
 app = Quart(__name__)
-app.secret_key = glob.config.secret_key
 version = Version(0, 1, 0)
+
+app.secret_key = glob.config.secret_key
 
 @app.before_serving
 async def mysql_conn() -> None:
