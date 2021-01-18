@@ -3,6 +3,9 @@
 # app name
 app_name = 'gulag-web'
 
+# secret key
+secret_key = "changeme"
+
 # mysql credentials
 mysql = {
     'db': 'gulag',
@@ -11,7 +14,7 @@ mysql = {
     'password': 'changeme',
 }
 
-# enable debug
+# enable debug (disable when in production to improve performance)
 debug = False
 
 # social links (used throughout gulag-web)
