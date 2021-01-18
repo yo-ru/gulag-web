@@ -31,7 +31,7 @@ If you have any difficulties setting up gulag-web, feel free to join the
 Discord server at the top of the README, we now have a bit of a community!
 
 ```sh
-# Install python 3.9 and latest version of pip.
+# Install Python 3.9 and latest version of PIP.
 sudo add-apt-repository ppa:deadsnakes/ppa
 sudo apt install python3.9 python3.9-dev python3.9-distutils
 wget https://bootstrap.pypa.io/get-pip.py
