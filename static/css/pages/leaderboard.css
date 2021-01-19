@@ -1,13 +1,13 @@
 a, a:hover {
-    text-decoration: none!important
+    text-decoration: none !important;
 }
 
 *, ::after, ::before {
-    box-sizing: border-box
+    box-sizing: border-box;
 }
 
 #leaderboard {
-    width: 1024px
+    width: 1024px;
 }
 
 .main-block {
@@ -21,7 +21,7 @@ a, a:hover {
     height: 222px;
     border-radius: 0;
     border-top-right-radius: 8px;
-    border-top-left-radius: 8px
+    border-top-left-radius: 8px;
 }
 
 .leaderboard-column {
@@ -29,13 +29,13 @@ a, a:hover {
     color: #222;
     height: 38px;
     font-size: 12px;
-    background-color: hsl(var(--main), 15%, 25%)
+    background-color: hsl(var(--main), 15%, 25%);
 }
 
 .leaderboard-main-bg {
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
-    padding: 24px 24px
+    padding: 24px 24px;
 }
 
 .leaderboard-table {
@@ -44,21 +44,21 @@ a, a:hover {
     text-align: center;
     border-spacing: 0 3px;
     border-collapse: separate;
-    padding-bottom: 24px
+    padding-bottom: 24px;
 }
 
 .t-column {
-    padding: 6px 0
+    padding: 6px 0;
 }
 
 .column-player-rank {
     padding: 0 10px;
     text-align: center;
-    background-color: hsl(var(--main), 15%, 27%)!important;
+    background-color: hsl(var(--main), 15%, 27%) !important;
     min-width: 44px;
     font-weight: 600;
     font-size: 13px;
-    color: #fff
+    color: #fff;
 }
 
 .column-player-name {
@@ -69,7 +69,7 @@ a, a:hover {
 }
 
 .column-player-name a {
-    color: #fff!important
+    color: #fff !important;
 }
 
 .t-heading {
@@ -78,34 +78,34 @@ a, a:hover {
     opacity: .7;
     padding: 5px 12px;
     text-align: center;
-    font-size: 12px
+    font-size: 12px;
 }
 
 .t-heading--main {
-    width: 100%
+    width: 100%;
 }
 
 .t-column:first-child {
     border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px
+    border-bottom-left-radius: 6px;
 }
 
 .t-column:last-child {
     border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px
+    border-bottom-right-radius: 6px;
 }
 
 tr.leaderboard-column td {
     font-weight: 600;
     border-bottom: hsl(var(--main), 20%, 30%);
     transition: .1s background-color;
-    color: #fff!important;
-    text-align: center
+    color: #fff !important;
+    text-align: center;
 }
 
 .t-column--dimmed {
     color: #555;
-    font-weight: 400!important
+    font-weight: 400 !important;
 }
 
 table td, table th {
@@ -113,7 +113,7 @@ table td, table th {
 }
 
 .leaderboard-column:hover td:not(:first-child) {
-    background-color: hsl(var(--main), 20%, 30%)
+    background-color: hsl(var(--main), 20%, 30%);
 }
 
 .main-banner {
@@ -125,18 +125,18 @@ table td, table th {
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
     justify-content: space-between;
-    position: relative
+    position: relative;
 }
 
 .main-banner>* {
-    z-index: 2
+    z-index: 2;
 }
 
 .banner-text {
     font-size: 46px;
     color: #fff;
     text-shadow: -1px 2px 2px rgba(0, 0, 0, .33);
-    margin-top: 24px
+    margin-top: 24px;
 }
 
 .main-banner::before {
@@ -148,7 +148,7 @@ table td, table th {
     left: 0;
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
-    z-index: 1
+    z-index: 1;
 }
 
 .main-selector {
@@ -161,7 +161,7 @@ table td, table th {
     color: #fff;
     font-size: 14px;
     justify-content: center;
-    position: relative
+    position: relative;
 }
 
 .mode-select {
@@ -174,13 +174,13 @@ table td, table th {
     font-size: 15px;
     margin-left: 12px;
     opacity: .7;
-    transition: .2s opacity, 150ms border-bottom-width, .2s color
+    transition: .2s opacity, 150ms border-bottom-width, .2s color;
 }
 
 .mode-select:hover {
     border-bottom-width: 3px;
     opacity: 1;
-    color: #fff
+    color: #fff;
 }
 
 .selector {
@@ -189,13 +189,13 @@ table td, table th {
     position: relative;
     height: 27px;
     z-index: 2;
-    width: 100%
+    width: 100%;
 }
 
 .selectright {
     margin-left: auto;
     display: flex;
-    flex-direction: row
+    flex-direction: row;
 }
 
 .selectleft {
@@ -205,7 +205,7 @@ table td, table th {
 }
 
 .simple-banner-swtich {
-    color: #fff!important;
+    color: #fff !important;
     text-shadow: -1px 2px 2px rgba(0, 0, 0, .33);
     border-bottom: solid 2px hsl(var(--main), 100%, 70%);
     padding: 0 12px;
@@ -213,26 +213,26 @@ table td, table th {
     opacity: .5;
     cursor: pointer;
     transition: .3s opacity, .3s border-bottom-width, .3s margin-top;
-    font-size: 14px
+    font-size: 14px;
 }
 
 .simple-banner-swtich:hover {
-    opacity: 1
+    opacity: 1;
 }
 
 .mode-select.--selected, .simple-banner-swtich.switch--active {
     border-bottom-width: 6px;
     opacity: 1;
-    font-weight: 600
+    font-weight: 600;
 }
 
 .main-selector {
     border-top-right-radius: 8px;
-    border-top-left-radius: 8px
+    border-top-left-radius: 8px;
 }
 
 .leaderboard-table>tbody {
-    transition: .2s opacity
+    transition: .2s opacity;
 }
 
 .disabled {
@@ -243,13 +243,13 @@ table td, table th {
 
 @media only screen and (max-width: 1000px) {
     #leaderboard {
-        width: 780px
+        width: 780px;
     }
 }
 
 @media only screen and (max-width: 780px) {
     #leaderboard {
-        width: 620px
+        width: 620px;
     }
 }
 
@@ -257,9 +257,11 @@ table td, table th {
     #leaderboard {
         max-width: 445px;
     }
+
     .simple-banner-swtich {
         font-size: 10px;
     }
+
     .banner-text {
         font-size: 36px;
     }
