@@ -23,6 +23,11 @@ async def home():
     else:
         return await render_template('welcome.html')
 
+""" settings """
+@frontend.route('/settings') # GET
+async def settings():
+    return await render_template('settings.html')
+
 """ leaderboard """
 @frontend.route('/leaderboard') # GET
 async def leaderboard_nodata():
@@ -54,7 +59,7 @@ async def login_post():
     # hash saved in the database is invalid.
     if not user_info or user_info['id'] == 1:
         if glob.config.debug:
-            log(f"{username}'s login failed - account doesn't exist.", Ansi.LYELLOW)
+            log(f'{username}\'s login failed - account doesn\'t exist.', Ansi.LYELLOW)
         return await flash('Account does not exist.', 'login')
 
     bcrypt_cache = glob.cache['bcrypt']
@@ -67,26 +72,26 @@ async def login_post():
     if pw_bcrypt in bcrypt_cache:
         if pw_md5 != bcrypt_cache[pw_bcrypt]: # ~0.1ms
             if glob.config.debug:
-                log(f"{username}'s login failed - pw incorrect.", Ansi.LYELLOW)
+                log(f'{username}\'s login failed - pw incorrect.', Ansi.LYELLOW)
             return await flash('Password is incorrect.', 'login')
     else: # ~200ms
         if not bcrypt.checkpw(pw_md5, pw_bcrypt):
             if glob.config.debug:
-                log(f"{username}'s login failed - pw incorrect.", Ansi.LYELLOW)
+                log(f'{username}\'s login failed - pw incorrect.', Ansi.LYELLOW)
             return await flash('Password is incorrect.', 'login')
 
         # login successful; cache password for next login
         bcrypt_cache[pw_bcrypt] = pw_md5
 
     # user not verified render verify page
-    if user_info["priv"] == 1:
+    if user_info['priv'] == 1:
         if glob.config.debug:
-            log(f"{username}'s login failed - not verified.", Ansi.LYELLOW)
+            log(f'{username}\'s login failed - not verified.', Ansi.LYELLOW)
         return await render_template('verify.html')
 
     # login successful; store session data
     if glob.config.debug:
-        log(f"{username}'s login succeeded.", Ansi.LGREEN)
+        log(f'{username}\'s login succeeded.', Ansi.LGREEN)
 
     session['authenticated'] = True
     session['user_data'] = {
@@ -188,7 +193,7 @@ async def register_post():
 @frontend.route('/logout') # GET
 async def logout():
     if not 'authenticated' in session:
-        return await flash("You can't logout if you aren't logged in!", 'login')
+        return await flash('You can\'t logout if you aren\'t logged in!', 'login')
 
     if glob.config.debug:
         log(f'Logout successful! {session["user_data"]["name"]} is now logged out.', Ansi.LGREEN)
@@ -212,4 +217,4 @@ async def discord():
 
 """ methods """
 async def flash(msg, template):
-    return await render_template(f"{template}.html", flash=msg)
+    return await render_template(f'{template}.html', flash=msg)

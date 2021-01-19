@@ -4,7 +4,7 @@
 app_name = 'gulag-web'
 
 # secret key
-secret_key = "changeme"
+secret_key = 'changeme'
 
 # mysql credentials
 mysql = {
@@ -18,4 +18,4 @@ mysql = {
 debug = False
 
 # social links (used throughout gulag-web)
-discord_server = "https://discord.com/invite/Y5uPvcNpD9"
+discord_server = 'https://discord.com/invite/Y5uPvcNpD9'
