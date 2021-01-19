@@ -18,7 +18,6 @@ html {
 }
 
 .main-block {
-    margin-top: 16px;
     width: inherit;
     background: hsl(var(--main), 10%, 15%);
 }
@@ -73,7 +72,7 @@ html {
 }
 
 .my-con {
-    margin-top: 76px;
+    margin-top: 92px;
 }
 
 a.foot-link {
@@ -81,6 +80,7 @@ a.foot-link {
 }
 
 .container {
+    max-width: inherit;
     -webkit-animation: slideup 0.2s ease;
 }
 
