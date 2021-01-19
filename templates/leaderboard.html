@@ -16,17 +16,22 @@
 <div id="leaderboard">
     <div class="leaderboard-banner main-banner">
         <div class="main-selector">
-            <a :href="'/leaderboard/osu/'+sort+'/'+mods" :class="'mode-select '+(mode == 'std' ? '--selected ' : '')"
-                @click="LoadLeaderboard(sort, 'std', mods)"> osu!</a>
-            <a :href="'/leaderboard/taiko/'+sort+'/'+mods"
-                :class="'mode-select '+(mode == 'taiko' ? '--selected ' : '') +(mods == 'ap' ? 'disabled':'')"
-                @click="LoadLeaderboard(sort, 'taiko', mods)"> osu!taiko</a>
-            <a :href="'/leaderboard/catch/'+sort+'/'+mods"
-                :class="'mode-select '+(mode == 'catch' ? '--selected ' : '') +(mods == 'ap' ? 'disabled':'')"
-                @click="LoadLeaderboard(sort, 'catch', mods)"> osu!catch</a>
-            <a :href="'/leaderboard/mania/'+sort+'/'+mods"
-                :class="'mode-select '+(mode == 'mania' ? '--selected ' : '') +(mods == 'ap' ? 'disabled':'') +(mods == 'rx' ? 'disabled':'')"
-                @click="LoadLeaderboard(sort, 'mania', mods)"> osu!mania </a>
+            <a :href="'/leaderboard/osu/'+sort+'/'+mods" :class="'mode-select '+(mode == 'std' ? '--selected ' : '')" 
+            @click="LoadLeaderboard(sort, 'std', mods)">
+                <i class="mode-icon mode-osu"></i><span class="modetext"> osu!</span>
+            </a>
+            <a :href="'/leaderboard/taiko/'+sort+'/'+mods" :class="'mode-select '+(mode == 'taiko' ? '--selected ' : '') +(mods == 'ap' ? 'disabled':'')" 
+            @click="LoadLeaderboard(sort, 'taiko', mods)">
+                <i class="mode-icon mode-taiko"></i><span class="modetext"> osu!taiko</span>
+            </a>
+            <a :href="'/leaderboard/catch/'+sort+'/'+mods" :class="'mode-select '+(mode == 'catch' ? '--selected ' : '') +(mods == 'ap' ? 'disabled':'')" 
+            @click="LoadLeaderboard(sort, 'catch', mods)">
+                <i class="mode-icon mode-catch"></i><span class="modetext"> osu!catch</span>
+            </a>
+            <a :href="'/leaderboard/mania/'+sort+'/'+mods" :class="'mode-select '+(mode == 'mania' ? '--selected ' : '') +(mods == 'ap' ? 'disabled':'') +(mods == 'rx' ? 'disabled':'')" 
+            @click="LoadLeaderboard(sort, 'mania', mods)">
+                <i class="mode-icon mode-mania"></i><span class="modetext"> osu!mania</span>
+            </a>
         </div>
         <div class="banner-text">Leaderboard</div>
         <div class="selector">
@@ -58,8 +63,9 @@
                     <tr>
                         <th class="t-heading"> </th>
                         <th class="t-heading t-heading--main"></th>
-                        <th class="t-heading table--selected">
-                            <% sort.toUpperCase() %>
+                        <th v-if="sort == 'pp' || sort == 'rscore'" class="t-heading table--selected">
+                            <% (sort=='pp' ? "PP" : "" ) %>
+                            <% (sort=='rscore' ? "Ranked Score" : "" ) %>
                         </th>
                         <th class="t-heading"> Accuracy </th>
                         <th class="t-heading"> Playcount </th>
@@ -73,10 +79,9 @@
                         <td class="t-column column-player-name is-lefttext">
                             <% user.username %>
                         </td>
-                        <td class="t-column">
+                        <td v-if="sort == 'pp' || sort == 'rscore'" class="t-column">
                             <% (sort=='pp' ? user.pp+'pp' : "" ) %>
-                                <% (sort=='acc' ? user.acc.toFixed(2)+'%' : "" ) %>
-                                    <% (sort=='rscore' ? scoreFormat(user.rscore) : "" ) %>
+                            <% (sort=='rscore' ? scoreFormat(user.rscore) : "" ) %>
                         </td>
                         <td class="t-column t-column--dimmed">
                             <% user.acc %>%
