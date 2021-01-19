@@ -39,7 +39,10 @@ async def leaderboard(mode, sort, mods):
 """ login """
 @frontend.route('/login') # GET
 async def login():
-    return await render_template('login.html')
+    if 'authenticated' in session:
+        return redirect('/home')
+    else:
+        return await render_template('login.html')
 @frontend.route('/login', methods=['POST']) # POST
 async def login_post():
     login_time = time.time_ns() if glob.config.debug else 0
@@ -60,7 +63,7 @@ async def login_post():
     if not user_info or user_info['id'] == 1:
         if glob.config.debug:
             log(f'{username}\'s login failed - account doesn\'t exist.', Ansi.LYELLOW)
-        return await flash('Account does not exist.', 'login')
+        return await flash('error', 'Account does not exist.', 'login')
 
     bcrypt_cache = glob.cache['bcrypt']
 
@@ -73,12 +76,12 @@ async def login_post():
         if pw_md5 != bcrypt_cache[pw_bcrypt]: # ~0.1ms
             if glob.config.debug:
                 log(f'{username}\'s login failed - pw incorrect.', Ansi.LYELLOW)
-            return await flash('Password is incorrect.', 'login')
+            return await flash('error', 'Password is incorrect.', 'login')
     else: # ~200ms
         if not bcrypt.checkpw(pw_md5, pw_bcrypt):
             if glob.config.debug:
                 log(f'{username}\'s login failed - pw incorrect.', Ansi.LYELLOW)
-            return await flash('Password is incorrect.', 'login')
+            return await flash('error', 'Password is incorrect.', 'login')
 
         # login successful; cache password for next login
         bcrypt_cache[pw_bcrypt] = pw_md5
@@ -112,7 +115,10 @@ _username_rgx = re.compile(r'^[\w \[\]-]{2,15}$')
 _email_rgx = re.compile(r'^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$')
 @frontend.route('/register') # GET
 async def register():
-    return await render_template('register.html')
+    if 'authenticated' in session:
+        return redirect('/home')
+    else:
+        return await render_template('register.html')
 @frontend.route('/register', methods=['POST']) # POST
 async def register_post():
     # get form data (username, email, password)
@@ -128,35 +134,35 @@ async def register_post():
     # - not already be taken by another player
     # check if username exists
     if not _username_rgx.match(username):
-        return await flash('Invalid username syntax.', 'register')
+        return await flash('error', 'Invalid username syntax.', 'register')
 
     if '_' in username and ' ' in username:
-        return await flash('Username may contain "_" or " ", but not both.', 'register')
+        return await flash('error', 'Username may contain "_" or " ", but not both.', 'register')
 
     # TODO: disallowed usernames
     NotImplemented
 
     if await glob.db.fetch('SELECT 1 FROM users WHERE name = %s', username):
-        return await flash('Username already taken by another user.', 'register')
+        return await flash('error', 'Username already taken by another user.', 'register')
 
     # Emails must:
     # - match the regex `^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$`
     # - not already be taken by another player
     if not _email_rgx.match(email):
-        return await flash('Invalid email syntax.', 'register')
+        return await flash('error', 'Invalid email syntax.', 'register')
 
     if await glob.db.fetch('SELECT 1 FROM users WHERE email = %s', email):
-        return await flash('Email already taken by another user.', 'register')
+        return await flash('error', 'Email already taken by another user.', 'register')
 
     # Passwords must:
     # - be within 8-32 characters in length
     # - have more than 3 unique characters
     # - not be in the config's `disallowed_passwords` list
     if not 8 < len(pw_txt) <= 32:
-        return await flash('Password must be 8-32 characters in length', 'register')
+        return await flash('error', 'Password must be 8-32 characters in length', 'register')
 
     if len(set(pw_txt)) <= 3:
-        return await flash('Password must have more than 3 unique characters.', 'register')
+        return await flash('error', 'Password must have more than 3 unique characters.', 'register')
 
     # TODO: disallowed passwords
     NotImplemented
@@ -193,7 +199,7 @@ async def register_post():
 @frontend.route('/logout') # GET
 async def logout():
     if not 'authenticated' in session:
-        return await flash('You can\'t logout if you aren\'t logged in!', 'login')
+        return await flash('error', 'You can\'t logout if you aren\'t logged in!', 'login')
 
     if glob.config.debug:
         log(f'Logout successful! {session["user_data"]["name"]} is now logged out.', Ansi.LGREEN)
@@ -203,7 +209,7 @@ async def logout():
     session.pop('user_data', None)
 
     # redirect to login
-    return await flash('Successfully logged out!', 'login')
+    return await flash('success', 'Successfully logged out!', 'login')
 
 """ rules """
 @frontend.route('/rules') # GET
@@ -216,5 +222,5 @@ async def discord():
     return redirect(glob.config.discord_server)
 
 """ methods """
-async def flash(msg, template):
-    return await render_template(f'{template}.html', flash=msg)
+async def flash(status, msg, template):
+    return await render_template(f'{template}.html', flash=msg, status=status)

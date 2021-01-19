@@ -200,10 +200,17 @@ a.foot-link {
     transition-property: opacity, bottom, left, right, width, margin, border-radius;
     transition-duration: 0.35s;
     transition-timing-function: ease;
-    background-color: #bf4040;
     color: white;
     padding: 18px 24px;
     opacity: 1;
+}
+
+.paper-snackbar.is-success {
+    background-color: #5ebf40;
+}
+
+.paper-snackbar.is-error {
+    background-color: #bf4040;
 }
 
 /* notification */
