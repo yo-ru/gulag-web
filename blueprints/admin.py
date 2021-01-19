@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from quart import Blueprint
+from quart import Blueprint, render_template
+from cmyui import log, Ansi
+
+from objects import glob
 
 __all__ = ()
 
@@ -11,4 +14,4 @@ admin = Blueprint('admin', __name__)
 @admin.route('/home')
 @admin.route('/')
 async def home():
-    return b'admin home/dashboard: not finished yet.'
+    return await render_template('admin/home.html')

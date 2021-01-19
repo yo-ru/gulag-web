@@ -20,6 +20,11 @@ frontend = Blueprint('frontend', __name__)
 async def home():
     return await render_template('home.html')
 
+""" settings """
+@frontend.route('/settings') # GET
+async def settings():
+    return await render_template('settings.html')
+
 """ leaderboard """
 @frontend.route('/leaderboard') # GET
 async def leaderboard_nodata():
