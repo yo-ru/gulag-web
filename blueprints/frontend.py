@@ -39,10 +39,11 @@ async def leaderboard(mode, sort, mods):
 """ login """
 @frontend.route('/login') # GET
 async def login():
+    # if authenticated; redirect home
     if 'authenticated' in session:
         return redirect('/home')
-    else:
-        return await render_template('login.html')
+
+    return await render_template('login.html')
 @frontend.route('/login', methods=['POST']) # POST
 async def login_post():
     login_time = time.time_ns() if glob.config.debug else 0
@@ -115,10 +116,11 @@ _username_rgx = re.compile(r'^[\w \[\]-]{2,15}$')
 _email_rgx = re.compile(r'^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$')
 @frontend.route('/register') # GET
 async def register():
+    # if authenticated; redirect home
     if 'authenticated' in session:
         return redirect('/home')
-    else:
-        return await render_template('register.html')
+    
+    return await render_template('register.html')
 @frontend.route('/register', methods=['POST']) # POST
 async def register_post():
     # get form data (username, email, password)
