@@ -61,7 +61,6 @@ async def login_post():
 
     # check credentials (password) against db
     # intentionally slow, will cache to speed up
-    # TODO: sessions and redirect
     if pw_bcrypt in bcrypt_cache:
         if pw_md5 != bcrypt_cache[pw_bcrypt]: # ~0.1ms
             if glob.config.debug:
@@ -124,7 +123,7 @@ async def register_post():
         return await flash('Invalid username syntax.', 'register')
 
     if '_' in username and ' ' in username:
-        return await flash('May contain "_" or " ", but not both.', 'register')
+        return await flash('Username may contain "_" or " ", but not both.', 'register')
 
     # TODO: disallowed usernames
     NotImplemented
