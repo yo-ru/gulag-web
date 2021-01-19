@@ -53,7 +53,7 @@ python3.9 -m pip install -r requirements.txt
 # Add and configure gulag-web's NGINX 
 # config to your nginx/sites-enabled.
 sudo ln -r -s ext/nginx.conf /etc/nginx/sites-enabled/gulag-web.conf
-sudo nano nginx.conf
+sudo nano ext/nginx.conf
 
 # Configure gulag-web.
 cp ext/config.sample.py config.py
