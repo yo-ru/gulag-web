@@ -3,8 +3,8 @@
     width: auto;
     max-width: 1152px;
 
-    background-color:hsl(var(--main),10%,15%);
-    color:#fff;
+    background-color: hsl(var(--main),10%,15%);
+    color: #fff;
 }
 
 .title-block {

@@ -16,15 +16,18 @@
 
 @media screen and (max-width: 1023px) {
     .gulag-avatar {
-        display:none
+        display: none;
     }
+    
     .main-block {
         width: initial;
         height: 285px;
     }
+
     #mascot {
         display: none;
     }
+
     .columns {
         height: 285px;
     }
