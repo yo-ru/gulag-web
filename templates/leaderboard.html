@@ -40,8 +40,10 @@
                     :class="'simple-banner-swtich'+(sort == 'pp' ? ' switch--active' :'')">PP</a>
                 <a :href="'/leaderboard/'+mode+'/rscore'" @click="LoadLeaderboard('rscore', mode, mods, '')"
                     :class="'simple-banner-swtich'+(sort == 'rscore' ? ' switch--active' :'')">Score</a>
-                <a :href="'/leaderboard/'+mode+'/acc'" @click="LoadLeaderboard('acc', mode, mods, '')"
+                <!-- Disable for now? Still deciding on whether or not we should actually allow accuracy sort? Seems pointless imo.
+                    <a :href="'/leaderboard/'+mode+'/acc'" @click="LoadLeaderboard('acc', mode, mods, '')"
                     :class="'simple-banner-swtich'+(sort == 'acc' ? ' switch--active' :'')">Accuracy</a>
+                -->
             </div>
             <div class="selectright">
                 <a :href="'/leaderboard/'+mode+'/'+sort+'/vn'"
@@ -65,7 +67,7 @@
                         <th class="t-heading t-heading--main"></th>
                         <th v-if="sort == 'pp' || sort == 'rscore'" class="t-heading table--selected">
                             <% (sort=='pp' ? "PP" : "" ) %>
-                            <% (sort=='rscore' ? "Ranked Score" : "" ) %>
+                            <% (sort=='rscore' ? "Score" : "" ) %>
                         </th>
                         <th class="t-heading"> Accuracy </th>
                         <th class="t-heading"> Playcount </th>
