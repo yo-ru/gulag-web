@@ -9,6 +9,8 @@ from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
 
 from objects import glob
+from objects.privileges import Privileges
+from objects.utils import flash
 
 __all__ = ()
 
@@ -107,7 +109,8 @@ async def login_post():
         'id': user_info['id'],
         'name': user_info['name'],
         'priv': user_info['priv'],
-        'silence_end': user_info['silence_end']
+        'silence_end': user_info['silence_end'],
+        'is_staff': user_info['priv'] & Privileges.Staff
     }
 
     if glob.config.debug:
@@ -219,7 +222,7 @@ async def logout():
     session.pop('authenticated', None)
     session.pop('user_data', None)
 
-    # redirect to login
+    # render login
     return await flash('success', 'Successfully logged out!', 'login')
 
 """ rules """
@@ -231,7 +234,3 @@ async def rules():
 @frontend.route('/discord') # GET
 async def discord():
     return redirect(glob.config.discord_server)
-
-""" methods """
-async def flash(status, msg, template):
-    return await render_template(f'{template}.html', flash=msg, status=status)

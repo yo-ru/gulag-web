@@ -4,6 +4,23 @@
 {% block content %}
 <link rel="stylesheet" href="/static/css/pages/home.css">
 
+{% if flash %}
+<div class='noti-banner noti-banner--warning'>
+  <div class='noti-banner--col noti-banner--col--icon'></div>
+  <div class='noti-banner--col noti-banner--col--label'>
+    <div class='noti-bannertype'>
+      Warning
+    </div>
+    <div class='noti-bannertext'>
+      Uh oh! Be careful!
+    </div>
+  </div>
+  <div class='noti-banner--text'>
+    {{ flash }}
+  </div>
+</div>
+{% endif %}
+
 <div class="main-block">
   <div id="grid" class="columns is-reset is-flex">
     <div class="column is-padless" id="mascot">
