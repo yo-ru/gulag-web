@@ -1,31 +1,31 @@
-.main-block{
-    background-color: hsl(var(--main),10%,15%);
+.main-block {
+    background-color: hsl(var(--main), 10%, 15%);
     color: #fff;
     padding: 20px;
 }
 
-.collumdis{
+.collumdis {
     flex-direction: column;
     padding: 21px 22px;
     position: relative;
     border-radius: 8px;
 }
 
-.title-block{
+.title-block {
     height: 125px;
     display: flex;
     align-items: center;
     place-content: center;
 }
 
-.icon-block{
+.icon-block {
     height: 125px;
     display: flex;
     align-items: center;
     place-content: center;
 }
 
-.selection-block{
+.selection-block {
     height: 175px;
     display: flex;
     align-items: center;
@@ -34,23 +34,23 @@
     margin: 5;
     border-radius: 7px;
     transition: 0.2s ease;
-    background: hsl(var(--main),10%,25%);
+    background: hsl(var(--main), 10%, 25%);
 }
 
-.selection-block:hover{
+.selection-block:hover {
     box-shadow: 1px 1px 13px -5px #000;
     transform: translateY(-5px);
 }
 
-.title:not(:last-child){
+.title:not(:last-child) {
     margin-bottom: 1.5rem;
 }
 
-.title{
+.title {
     text-align: center;
 }
 
-.subtitle{
+.subtitle {
     color: #e6a5b5;
     font-weight: 400;
     line-height: 1.25;
@@ -64,19 +64,19 @@
     transition: 0.2s ease;
 }
 
-a.single-menu{
+a.single-menu {
     color: inherit;
 }
 
-a.single-menu:hover{
+a.single-menu:hover {
     color: inherit;
 }
 
-input:focus{
+input:focus {
     outline: 0;
 }
 
-button:focus{
+button:focus {
     outline: 0;
 }
 
@@ -107,15 +107,15 @@ button:focus{
 }
 
 .bordertitle {
-    border-left: 6px solid hsl(var(--main),30%,50%);
+    border-left: 6px solid hsl(var(--main), 30%, 50%);
 }
 
-.bordertitle .title{
+.bordertitle .title {
     font-size: 24;
     font-weight: 600;
 }
 
-.bordertitle .subtitle{
+.bordertitle .subtitle {
     font-size: 13;
     font-weight: 400;
 }
@@ -141,7 +141,7 @@ button:focus{
     width: 39px;
     min-width: 39px;
     height: 39px;
-    background: hsl(var(--main),30%,50%);
+    background: hsl(var(--main), 30%, 50%);
     border-radius: 6px;
 }
 
@@ -165,7 +165,7 @@ button:focus{
     font-weight: 100;
 }
 
-#howto:hover{
+#howto:hover {
     transform: translateY(-10px);
 }
 
@@ -191,16 +191,16 @@ button:focus{
 }
 
 .is-waiting {
-    background: hsl(var(--main),15%,12%);
+    background: hsl(var(--main), 15%, 12%);
     border-radius: 0px;
-    padding: 20px !important;
+    padding: 6px 20px !important;
 }
 
 .loading-anim {
-  animation-name: spin;
-  animation-duration: 2000ms;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease; 
+    animation-name: spin;
+    animation-duration: 2000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease;
 }
 
 @keyframes spin {
@@ -216,8 +216,7 @@ button:focus{
     .is-auth {
         width: 500px;
     }
-
-    .icon-block{
+    .icon-block {
         height: 125px;
         display: none;
         align-items: center;
@@ -228,9 +227,8 @@ button:focus{
 @media only screen and (max-width: 500px) {
     .is-auth {
         width: initial;
-    } 
-
-    .icon-block{
+    }
+    .icon-block {
         height: 125px;
         display: none;
         align-items: center;
