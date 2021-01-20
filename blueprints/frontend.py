@@ -18,10 +18,7 @@ frontend = Blueprint('frontend', __name__)
 @frontend.route('/home') # GET
 @frontend.route('/')
 async def home():
-    if 'authenticated' in session:
-        return await render_template('home.html')
-    else:
-        return await render_template('welcome.html')
+    return await render_template('home.html')
 
 """ settings """
 @frontend.route('/settings') # GET
