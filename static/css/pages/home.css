@@ -1,10 +1,13 @@
 /* gulag mascot/avatar */
 .gulag-avatar {
-    background-image: url("/static/images/gulag-avatar.png");
+    background-image: url("/static/images/shinobu.png");
     background-repeat: no-repeat;
-    width: 512px;
-    height: 363px;
-    left: 50px;
+    /*     available avatar widths & heights      */
+    /* gulag.png:   width: 512px; height: 363px;  */
+    /* pippi.png:   width: 372px; height: 577px;  */
+    width: 372px;
+    height: 577px;
+    left: 50px; 
     margin: 0;
     padding: 0;
     position: relative;
