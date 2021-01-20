@@ -23,6 +23,10 @@ async def home():
 """ settings """
 @frontend.route('/settings') # GET
 async def settings():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access user settings!', 'login')
+
     return await render_template('settings.html')
 
 """ leaderboard """
@@ -43,6 +47,10 @@ async def login():
     return await render_template('login.html')
 @frontend.route('/login', methods=['POST']) # POST
 async def login_post():
+    # if authenticated; deny post; return
+    if 'authenticated' in session:
+        return
+
     login_time = time.time_ns() if glob.config.debug else 0
 
     form = await request.form
@@ -120,6 +128,10 @@ async def register():
     return await render_template('register.html')
 @frontend.route('/register', methods=['POST']) # POST
 async def register_post():
+    # if authenticated; deny post; return
+    if 'authenticated' in session:
+        return
+
     # get form data (username, email, password)
     form = await request.form
     username = form.get('username')
