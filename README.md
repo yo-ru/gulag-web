@@ -3,21 +3,25 @@
 # The frontend service for the modern osu! private server, [gulag](https://github.com/cmyui/gulag)!
 
 ### Features
-
-- Undergoing full modern python rewrite! More soon~!
-- Undergoing active development!
-- Clean and concise code, easy to make small modifications and add to the codebase.
+- Fully implemented session authentication system allowing users to have a more interpersonal experience.
+- A leaderboard supporting all mods and modes available within the gulag stack.
+- Built on [Quart](https://github.com/pgjones/quart) and [cmyui's multipurpose library](https://github.com/cmyui/cmyui_pkg) allowing for a fully
+  asynchronous environment.
+- More soon! (Stay up to date with our [projects](https://github.com/Yo-ru/gulag-web/projects) to know what features are being worked on!)
 
 ### Project focuses and goals
+1. Written fully in modern Python.
 
-1. A focus on the developer. With this project I aim to keep code as simple and concise as
+2. Active development! (Commits usually pushed daily!)
+
+2. A focus on the developer. With this project I aim to keep code as simple and concise as
    possible, while still maintaining high performance.
 
-2. Developing features for the frontend should be an enjoyable and thought-provoking
-   experience of finding new ideas; when the codebase makes that difficult, programming loses the aspect of fun and everything becomes and activity that requires effort. I'm trying my best to never let this code get to that state.
+3. Developing features for the frontend should be an enjoyable and thought-provoking experience of finding new ideas; when the codebase makes that
+   difficult, programming loses the aspect of fun and everything becomes and activity that requires effort. I'm trying my best to never let this code get to that state.
 
 ## Requirements
-- Python 3.9
+- Python >=3.9
 - MySQL
 - NGINX
 - Some know-how with Linux (tested on Ubuntu 18.04), modern Python, and general-programming
@@ -31,7 +35,7 @@ If you have any difficulties setting up gulag-web, feel free to join the
 Discord server at the top of the README, we now have a bit of a community!
 
 ```sh
-# Install Python 3.9 and latest version of PIP.
+# Install Python >=3.9 and latest version of PIP.
 sudo add-apt-repository ppa:deadsnakes/ppa
 sudo apt install python3.9 python3.9-dev python3.9-distutils
 wget https://bootstrap.pypa.io/get-pip.py
@@ -60,8 +64,10 @@ cp ext/config.sample.py config.py
 nano config.py
 
 # Run gulag-web.
-python3.9 main.py # will run in debug mode for development only! (Port 5000)
-hypercorn main.py # Please run gulag-web with hypercorn when in production! It will improve performance drastically by disabling all of the debug features a developer would need! (Port 8000)
+python3.9 main.py # Run directly access debug features for development! (Port 5000)
+hypercorn main.py # Please run gulag-web with hypercorn when in production! 
+                  # It will improve performance drastically by disabling all
+                  # of the debug features a developer would need! (Port 8000)
 
 # Have fun!
 # - gulag Team
