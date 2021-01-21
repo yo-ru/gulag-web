@@ -60,6 +60,7 @@
     </div>
     <div class="main-block">
         <div class="leaderboard-main-bg table-responsive">
+            {% if boards %}
             <table :class="'leaderboard-table table-responsive ' +(load ? 'load ' : '')">
                 <thead>
                     <tr>
@@ -97,6 +98,11 @@
                     </tr>
                 </tbody>
             </table>
+            {% else %}
+            <div class="is-centertext">
+                there are no scores to display!
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -37,6 +37,14 @@ html {
     text-align: left !important;
 }
 
+.is-righttext {
+    text-align: right !important;
+}
+
+.is-centertext {
+    text-align: center !important;
+}
+
 .is-padless {
     padding: 0 !important;
 }
