@@ -29,6 +29,9 @@ async def settings():
     if not 'authenticated' in session:
         return await flash('error', 'You must be logged in to access user settings!', 'login')
 
+    # TODO: user settings page
+    NotImplemented
+
     return await render_template('settings.html')
 
 """ leaderboard """
@@ -42,16 +45,16 @@ async def leaderboard(mode, sort, mods):
 """ login """
 @frontend.route('/login') # GET
 async def login():
-    # if authenticated; redirect home
+    # if authenticated; render home
     if 'authenticated' in session:
-        return redirect('/home')
+        return await flash('error', f'Hey! You\'re already logged in {session["user_data"]["name"]}!', 'home')
 
     return await render_template('login.html')
 @frontend.route('/login', methods=['POST']) # POST
 async def login_post():
     # if authenticated; deny post; return
     if 'authenticated' in session:
-        return
+        return await flash('error', f'Hey! You\'re already logged in {session["user_data"]["name"]}!', 'home')
 
     login_time = time.time_ns() if glob.config.debug else 0
 
@@ -117,7 +120,8 @@ async def login_post():
         login_time = (time.time_ns() - login_time) / 1e6
         log(f'Login took {login_time:.2f}ms!', Ansi.LYELLOW)
 
-    return redirect('/home')
+    # authentication successful; redirect home
+    return await flash('success', f'Hey! Welcome back {username}!', 'home')
 
 """ registration """
 _username_rgx = re.compile(r'^[\w \[\]-]{2,15}$')
@@ -126,14 +130,14 @@ _email_rgx = re.compile(r'^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$')
 async def register():
     # if authenticated; redirect home
     if 'authenticated' in session:
-        return redirect('/home')
+        return await flash('error', f'Hey You\'re already registered and logged in {session["user_data"]["name"]}!', 'home')
     
     return await render_template('register.html')
 @frontend.route('/register', methods=['POST']) # POST
 async def register_post():
     # if authenticated; deny post; return
     if 'authenticated' in session:
-        return
+        return await flash('error', f'Hey You\'re already registered and logged in {session["user_data"]["name"]}!', 'home')
 
     # get form data (username, email, password)
     form = await request.form
