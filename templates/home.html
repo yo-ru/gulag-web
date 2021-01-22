@@ -9,10 +9,18 @@
   <div class='noti-banner--col noti-banner--col--icon'></div>
   <div class='noti-banner--col noti-banner--col--label'>
     <div class='noti-bannertype'>
+      {% if status=='error' %}
       Warning
+      {% elif status=='success' %}
+      Notice
+      {% endif %}
     </div>
     <div class='noti-bannertext'>
+      {% if status=='error' %}
       Uh oh! Be careful!
+      {% elif status=='success' %}
+      Hey! Listen!
+      {% endif %}
     </div>
   </div>
   <div class='noti-banner--text'>

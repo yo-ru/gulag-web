@@ -23,6 +23,9 @@ async def home():
     
     # if authenticated but not staff; render home
     elif not session['user_data']['priv'] & Privileges.Staff:
-        return await flash('error', 'You don\'t have enough clearance to access the admin panel!', 'home')
+        return await flash('error', f'Hey! You don\'t have enough clearance to access the admin panel {session["user_data"]["name"]}!', 'home')
+
+    # TODO: admin panel
+    NotImplemented
 
     return await render_template('admin/home.html')
