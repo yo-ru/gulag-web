@@ -2,20 +2,22 @@
 
 import orjson
 from quart import Blueprint, request
+from cmyui import log, Ansi
 
 from objects import glob
+from objects.utils import get_safe_name
 
 __all__ = ()
 
 api = Blueprint('api', __name__)
 
-
-""" /get_leaderboard """
+""" valid modes, mods, sorts """
 valid_modes = frozenset({'std', 'taiko', 'catch', 'mania'})
 valid_mods = frozenset({'vn', 'rx', 'ap'})
 valid_sorts = frozenset({'tscore', 'rscore', 'pp', 'plays',
                         'playtime', 'acc', 'maxcombo'})
-                        
+
+""" /get_leaderboard """
 @api.route('/get_leaderboard') # GET
 async def get_leaderboard():
     mode = request.args.get('mode', default='std', type=str)
@@ -56,5 +58,77 @@ async def get_leaderboard():
              'LIMIT 50 OFFSET %s')
     args.append(page * 50)
 
+    if glob.config.debug:
+        log(' '.join(q), Ansi.LGREEN)
+    res = await glob.db.fetchall(' '.join(q), args)
+    return orjson.dumps(res) if res else b'{}'
+
+""" /get_user """
+@api.route('/get_user') # GET
+async def get_user():
+    # get request args
+    id = request.args.get('id', type=int)
+    name = request.args.get('name', type=str)
+
+    # check if required parameters are met
+    if not name and not id:
+        return b'missing parameters! (id or name)'
+
+    # fetch user info and stats
+         # user info
+    q = ['SELECT u.id user_id, u.name username, u.safe_name username_safe, u.country, u.priv privileges, '
+         'u.silence_end, u.donor_end, u.creation_time, u.latest_activity, u.clan_id, u.clan_rank, '
+          
+         # total score
+         'tscore_vn_std, tscore_vn_taiko, tscore_vn_catch, tscore_vn_mania, '
+         'tscore_rx_std, tscore_rx_taiko, tscore_rx_catch, '
+         'tscore_ap_std, '
+
+         # ranked score
+         'rscore_vn_std, rscore_vn_taiko, rscore_vn_catch, rscore_vn_mania, '
+         'rscore_rx_std, rscore_rx_taiko, rscore_rx_catch, '
+         'rscore_ap_std, '
+
+         # pp
+         'pp_vn_std, pp_vn_taiko, pp_vn_catch, pp_vn_mania, '
+         'pp_rx_std, pp_rx_taiko, pp_rx_catch, '
+         'pp_ap_std, '
+         
+         # plays
+         'plays_vn_std, plays_vn_taiko, plays_vn_catch, plays_vn_mania, '
+         'plays_rx_std, plays_rx_taiko, plays_rx_catch, '
+         'plays_ap_std, '
+         
+         # playtime
+         'playtime_vn_std, playtime_vn_taiko, playtime_vn_catch, playtime_vn_mania, '
+         'playtime_rx_std, playtime_rx_taiko, playtime_rx_catch, '
+         'playtime_ap_std, '
+         
+         # accuracy
+         'acc_vn_std, acc_vn_taiko, acc_vn_catch, acc_vn_mania, '
+         'acc_rx_std, acc_rx_taiko, acc_rx_catch, '
+         'acc_ap_std, '
+         
+         # maximum combo
+         'maxcombo_vn_std, maxcombo_vn_taiko, maxcombo_vn_catch, maxcombo_vn_mania, '
+         'maxcombo_rx_std, maxcombo_rx_taiko, maxcombo_rx_catch, '
+         'maxcombo_ap_std '
+         
+         # join users
+         'FROM stats JOIN users u ON stats.id = u.id']
+    
+    # argumnts
+    args = []
+
+    # append request arguments (id or name)
+    if id:
+        q.append('WHERE u.id = %s')
+        args.append(id)
+    elif name:
+        q.append('WHERE u.safe_name = %s')
+        args.append(get_safe_name(name))
+
+    if glob.config.debug:
+        log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetchall(' '.join(q), args)
     return orjson.dumps(res) if res else b'{}'
