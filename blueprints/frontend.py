@@ -10,7 +10,7 @@ from cmyui import log, Ansi
 
 from objects import glob
 from objects.privileges import Privileges
-from objects.utils import flash
+from objects.utils import flash, get_safe_name
 
 __all__ = ()
 
@@ -62,7 +62,7 @@ async def login_post():
     user_info = await glob.db.fetch(
         'SELECT id, name, priv, pw_bcrypt, silence_end '
         'FROM users WHERE safe_name = %s',
-        [username.replace(' ', '_').lower()]
+        [get_safe_name(username)]
     )
 
     # the second part of this if statement exists because if we try to login with Aika
@@ -186,7 +186,7 @@ async def register_post():
         pw_bcrypt = bcrypt.hashpw(pw_md5, bcrypt.gensalt())
         glob.cache['bcrypt'][pw_bcrypt] = pw_md5 # cache result for login
 
-        safe_name = username.lower().replace(' ', '_')
+        safe_name = get_safe_name(username)
 
         # add to `users` table.
         user_id = await glob.db.execute(
