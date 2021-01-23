@@ -34,6 +34,15 @@ async def settings():
 
     return await render_template('settings.html')
 
+@frontend.route('/u/<userid>') # GET
+async def profile_nomodeandmods(userid:int):
+    user = await glob.db.fetch(f"SELECT name, id, priv, country FROM users WHERE id = {userid}")
+    return await render_template('profile.html', user=user, mode='std', mods='vn')
+@frontend.route('/u/<mode>/<mods>/<userid>') # GET
+async def profile(userid:int,mode:str,mods:str):
+    user = await glob.db.fetch(f"SELECT name, id, priv, country FROM users WHERE id = {userid}")
+    return await render_template('profile.html', user=user, mode=mode, mods=mods)
+
 """ leaderboard """
 @frontend.route('/leaderboard') # GET
 async def leaderboard_nodata():

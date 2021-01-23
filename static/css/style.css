@@ -22,7 +22,6 @@ html {
     background: hsl(var(--main), 10%, 15%);
 }
 
-
 /* stuffs */
 
 .is-vcentered {
@@ -108,7 +107,6 @@ a.foot-link {
     transform: translateY(-4px);
 }
 
-
 /* navbar */
 
 .navbar {
@@ -167,26 +165,11 @@ a.foot-link {
     font-weight: 500;
 }
 
-.navbar-item:hover,
-.navbar-item.navbar-dropdown:hover .navbar-item {
+.navbar-item:hover, .navbar-item.navbar-dropdown:hover .navbar-item {
     opacity: 1 !important;
 }
 
-.navbar.is-primary .navbar-end .navbar-link.is-active,
-.navbar.is-primary .navbar-end .navbar-link:focus,
-.navbar.is-primary .navbar-end .navbar-link:hover,
-.navbar.is-primary .navbar-end>a.navbar-item.is-active,
-.navbar.is-primary .navbar-end>a.navbar-item:focus,
-.navbar.is-primary .navbar-end>a.navbar-item:hover,
-.navbar.is-primary .navbar-item.has-dropdown.is-active .navbar-link,
-.navbar.is-primary .navbar-item.has-dropdown:focus .navbar-link,
-.navbar.is-primary .navbar-item.has-dropdown:hover .navbar-link,
-.navbar.is-primary .navbar-start .navbar-link.is-active,
-.navbar.is-primary .navbar-start .navbar-link:focus,
-.navbar.is-primary .navbar-start .navbar-link:hover,
-.navbar.is-primary .navbar-start>a.navbar-item.is-active,
-.navbar.is-primary .navbar-start>a.navbar-item:focus,
-.navbar.is-primary .navbar-start>a.navbar-item:hover {
+.navbar.is-primary .navbar-end .navbar-link.is-active, .navbar.is-primary .navbar-end .navbar-link:focus, .navbar.is-primary .navbar-end .navbar-link:hover, .navbar.is-primary .navbar-end>a.navbar-item.is-active, .navbar.is-primary .navbar-end>a.navbar-item:focus, .navbar.is-primary .navbar-end>a.navbar-item:hover, .navbar.is-primary .navbar-item.has-dropdown.is-active .navbar-link, .navbar.is-primary .navbar-item.has-dropdown:focus .navbar-link, .navbar.is-primary .navbar-item.has-dropdown:hover .navbar-link, .navbar.is-primary .navbar-start .navbar-link.is-active, .navbar.is-primary .navbar-start .navbar-link:focus, .navbar.is-primary .navbar-start .navbar-link:hover, .navbar.is-primary .navbar-start>a.navbar-item.is-active, .navbar.is-primary .navbar-start>a.navbar-item:focus, .navbar.is-primary .navbar-start>a.navbar-item:hover {
     background-color: transparent;
     color: #fff;
 }
@@ -211,15 +194,13 @@ a.foot-link {
     opacity: 1;
 }
 
-.navbar-brand,
-.navbar-tabs {
+.navbar-brand, .navbar-tabs {
     min-height: 0rem;
 }
 
 .navbar-dropdown {
     width: 152px;
 }
-
 
 /* auth notification */
 
@@ -239,7 +220,6 @@ a.foot-link {
 .paper-snackbar.is-error {
     background-color: #bf4040;
 }
-
 
 /* notification */
 
@@ -288,8 +268,7 @@ a.foot-link {
     }
 }
 
-.noti-banner--alert .noti-banner--col--icon,
-.noti-banner--warning .noti-banner--col--icon {
+.noti-banner--alert .noti-banner--col--icon, .noti-banner--warning .noti-banner--col--icon {
     background-image: url(https://osu.ppy.sh/assets/images/exclamation-icon.0db8a908.svg)
 }
 
@@ -338,8 +317,34 @@ a.foot-link {
     color: #fc2
 }
 
-.noti-banner--text a:active,
-.noti-banner--text a:focus,
-.noti-banner--text a:hover {
+.noti-banner--text a:active, .noti-banner--text a:focus, .noti-banner--text a:hover {
     color: #fd5
+}
+
+.rank-SH, .rank-XH {
+    color: rgb(205, 231, 231);
+}
+
+.rank-S, .rank-X {
+    color: #fc2;
+}
+
+.rank-A {
+    color: rgb(43, 255, 53);
+}
+
+.rank-B {
+    color: rgb(61, 151, 255);
+}
+
+.rank-C {
+    color: rgb(255, 86, 218);
+}
+
+.rank-D {
+    color: rgb(255, 98, 98);
+}
+
+.rank-F {
+    color: rgb(255, 89, 89);
 }

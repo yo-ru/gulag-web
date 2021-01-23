@@ -175,7 +175,8 @@ async def get_scores():
     args = []
 
     q.append(f'WHERE scores_{mods}.userid = %s ' 
-            f'AND scores_{mods}.mode = {mode}')
+            f'AND scores_{mods}.mode = {mode} '
+            f'AND maps.status = 2')
     q.append(f'ORDER BY scores_{mods}.{sort} DESC '
             'LIMIT 5')
     args.append(id)
@@ -212,7 +213,7 @@ async def get_most_beatmaps():
         return b'wrong mode type! (std, taiko, catch, mania)'
 
     # fetch scores
-    q = [f'SELECT scores_{mods}.mode, scores_{mods}.map_md5, maps.artist, maps.title, maps.set_id, COUNT(*) AS `count` '
+    q = [f'SELECT scores_{mods}.mode, scores_{mods}.map_md5, maps.artist, maps.title, maps.set_id, maps.creator, COUNT(*) AS `count` '
         f'FROM scores_{mods} JOIN maps ON scores_{mods}.map_md5 = maps.md5']
     
     # argumnts
