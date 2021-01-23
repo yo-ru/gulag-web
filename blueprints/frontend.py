@@ -55,15 +55,10 @@ async def profile(user):
             return b'invalid mode! (std, taiko, catch, mania)'
     else:
         mode = 'std'
-        
-    if type(user) is str:
-        user = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE safe_name = "{get_safe_name(user)}"')
-    elif type(user) is int:
-        user = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {user}')
-    else:
-        return b'invalid user type! (userid, username)'
+
+    userdata = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {user}')
     
-    return await render_template('profile.html', user=user, mode=mode, mods=mods)
+    return await render_template('profile.html', user=userdata, mode=mode, mods=mods)
 
 """ leaderboard """
 @frontend.route('/leaderboard') # GET

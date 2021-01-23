@@ -242,6 +242,9 @@
                             </div>
                         </div>
                     </div>
+                    <div v-if="full[0] == false" class="extra-block">
+                        <a class="show-button" @click="AddLimit('bestscore')">Show more</a>
+                    </div>
                 </div>
                 <div class="log-block">
                     <div class="header">
@@ -295,6 +298,9 @@
                             </div>
                         </div>
                     </div>
+                    <div v-if="full[1] == false" class="extra-block">
+                        <a class="show-button" @click="AddLimit('recentscore')">Show more</a>
+                    </div>
                 </div>
                 <div class="log-block">
                     <div class="header">
@@ -318,6 +324,9 @@
                                 </div>
                             </div>
                         </a>
+                    </div>
+                    <div v-if="full[2] == false" class="extra-block">
+                        <a class="show-button" @click="AddLimit('mostplay')">Show more</a>
                     </div>
                 </div>
             </div>

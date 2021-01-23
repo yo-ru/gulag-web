@@ -526,6 +526,20 @@ span.beatmap-mapper {
     display: flex
 }
 
+.extra-block {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.show-button {
+    padding: 3px 34px;
+    background: #413030;
+    color: white;
+    border-radius: 30px;
+    margin: 8px 8px;
+}
+
 @media screen and (max-width: 1152px) {
     .two-sides {
         display: contents !important;

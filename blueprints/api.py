@@ -141,6 +141,7 @@ async def get_scores():
     mode = request.args.get('mode', type=str)
     mods = request.args.get('mods', type=str)
     sort = request.args.get('sort', type=str)
+    limit = request.args.get('limit', type=int)
 
     # check if required parameters are met
     if not id:
@@ -167,6 +168,9 @@ async def get_scores():
     else:
         return b'wrong mode type! (std, taiko, catch, mania)'
 
+    if not limit:
+        limit = 5
+
     # fetch scores
     q = [f'SELECT scores_{mods}.*, maps.* '
         f'FROM scores_{mods} JOIN maps ON scores_{mods}.map_md5 = maps.md5']
@@ -178,7 +182,7 @@ async def get_scores():
             f'AND scores_{mods}.mode = {mode} '
             f'AND maps.status = 2')
     q.append(f'ORDER BY scores_{mods}.{sort} DESC '
-            'LIMIT 5')
+            f'LIMIT {limit}')
     args.append(id)
 
     if glob.config.debug:
@@ -193,6 +197,7 @@ async def get_most_beatmaps():
     id = request.args.get('id', type=int)
     mode = request.args.get('mode', type=str)
     mods = request.args.get('mods', type=str)
+    limit = request.args.get('limit', type=int)
 
     # check if required parameters are met
     if not id:
@@ -212,6 +217,9 @@ async def get_most_beatmaps():
     else:
         return b'wrong mode type! (std, taiko, catch, mania)'
 
+    if not limit:
+        limit = 5
+
     # fetch scores
     q = [f'SELECT scores_{mods}.mode, scores_{mods}.map_md5, maps.artist, maps.title, maps.set_id, maps.creator, COUNT(*) AS `count` '
         f'FROM scores_{mods} JOIN maps ON scores_{mods}.map_md5 = maps.md5']
@@ -221,7 +229,7 @@ async def get_most_beatmaps():
 
     q.append(f'WHERE userid = %s AND scores_{mods}.mode = {mode} GROUP BY map_md5')
     q.append(f'ORDER BY COUNT DESC '
-            'LIMIT 5')
+            f'LIMIT {limit}')
     args.append(id)
 
     if glob.config.debug:
