@@ -132,3 +132,98 @@ async def get_user():
         log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetchall(' '.join(q), args)
     return orjson.dumps(res) if res else b'{}'
+
+""" /get_scores """
+@api.route('/get_scores') # GET
+async def get_scores():
+    # get request args
+    id = request.args.get('id', type=int)
+    mode = request.args.get('mode', type=str)
+    mods = request.args.get('mods', type=str)
+    sort = request.args.get('sort', type=str)
+
+    # check if required parameters are met
+    if not id:
+        return b'missing parameters! (id)'
+    
+    if sort == 'recent':
+        sort = 'id'
+    elif sort == 'best':
+        sort = 'pp'
+    else:
+        return b'invalid sort! (recent or best)'
+    
+    if mods not in valid_mods:
+        return b'invalid mods! (vn, rx, ap)'
+    
+    if mode == 'std':
+        mode = 0
+    elif mode == 'taiko':
+        mode = 1
+    elif mode == 'catch':
+        mode = 2
+    elif mode == 'mania':
+        mode = 3
+    else:
+        return b'wrong mode type! (std, taiko, catch, mania)'
+
+    # fetch scores
+    q = [f'SELECT scores_{mods}.*, maps.* '
+        f'FROM scores_{mods} JOIN maps ON scores_{mods}.map_md5 = maps.md5']
+    
+    # argumnts
+    args = []
+
+    q.append(f'WHERE scores_{mods}.userid = %s ' 
+            f'AND scores_{mods}.mode = {mode}')
+    q.append(f'ORDER BY scores_{mods}.{sort} DESC '
+            'LIMIT 5')
+    args.append(id)
+
+    if glob.config.debug:
+        log(' '.join(q), Ansi.LGREEN)
+    res = await glob.db.fetchall(' '.join(q), args)
+    return orjson.dumps(res) if res else b'{}'
+
+""" /get_most_beatmaps """
+@api.route('/get_most_beatmaps') # GET
+async def get_most_beatmaps():
+    # get request args
+    id = request.args.get('id', type=int)
+    mode = request.args.get('mode', type=str)
+    mods = request.args.get('mods', type=str)
+
+    # check if required parameters are met
+    if not id:
+        return b'missing parameters! (id)'
+    
+    if mods not in valid_mods:
+        return b'invalid mods! (vn, rx, ap)'
+    
+    if mode == 'std':
+        mode = 0
+    elif mode == 'taiko':
+        mode = 1
+    elif mode == 'catch':
+        mode = 2
+    elif mode == 'mania':
+        mode = 3
+    else:
+        return b'wrong mode type! (std, taiko, catch, mania)'
+
+    # fetch scores
+    q = [f'SELECT scores_{mods}.mode, scores_{mods}.map_md5, maps.artist, maps.title, maps.set_id, COUNT(*) AS `count` '
+        f'FROM scores_{mods} JOIN maps ON scores_{mods}.map_md5 = maps.md5']
+    
+    # argumnts
+    args = []
+
+    q.append(f'WHERE userid = %s AND scores_{mods}.mode = {mode} GROUP BY map_md5')
+    q.append(f'ORDER BY COUNT DESC '
+            'LIMIT 5')
+    args.append(id)
+
+    if glob.config.debug:
+        log(' '.join(q), Ansi.LGREEN)
+    res = await glob.db.fetchall(' '.join(q), args)
+    return orjson.dumps(res) if res else b'{}'
