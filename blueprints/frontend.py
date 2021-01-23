@@ -16,6 +16,12 @@ __all__ = ()
 
 frontend = Blueprint('frontend', __name__)
 
+""" valid modes, mods, sorts """
+valid_modes = frozenset({'std', 'taiko', 'catch', 'mania'})
+valid_mods = frozenset({'vn', 'rx', 'ap'})
+valid_sorts = frozenset({'tscore', 'rscore', 'pp', 'plays',
+                        'playtime', 'acc', 'maxcombo'})
+
 """ home """
 @frontend.route('/home') # GET
 @frontend.route('/')
@@ -34,13 +40,29 @@ async def settings():
 
     return await render_template('settings.html')
 
-@frontend.route('/u/<userid>') # GET
-async def profile_nomodeandmods(userid:int):
-    user = await glob.db.fetch(f"SELECT name, id, priv, country FROM users WHERE id = {userid}")
-    return await render_template('profile.html', user=user, mode='std', mods='vn')
-@frontend.route('/u/<mode>/<mods>/<userid>') # GET
-async def profile(userid:int,mode:str,mods:str):
-    user = await glob.db.fetch(f"SELECT name, id, priv, country FROM users WHERE id = {userid}")
+@frontend.route('/u/<user>') # GET
+async def profile(user):
+    mode = request.args.get('mode', type=str)
+    mods = request.args.get('mods', type=str)
+    
+    if mods:
+        if mods not in valid_mods:
+            return b'invalid mods! (vn, rx, ap)'
+    else:
+        mods = 'vn'
+    if mode:
+        if mode not in valid_modes:
+            return b'invalid mode! (std, taiko, catch, mania)'
+    else:
+        mode = 'std'
+        
+    if type(user) is str:
+        user = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE safe_name = "{get_safe_name(user)}"')
+    elif type(user) is int:
+        user = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {user}')
+    else:
+        return b'invalid user type! (userid, username)'
+    
     return await render_template('profile.html', user=user, mode=mode, mods=mods)
 
 """ leaderboard """

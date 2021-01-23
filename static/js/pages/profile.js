@@ -14,11 +14,11 @@ new Vue({
     },
     created() { 
         var vm = this;
-        window.history.replaceState('', document.title, "/u/" + vm.mode + "/" + vm.mods + "/" + vm.userid);
         vm.LoadProfileData(vm.userid)
         vm.LoadMostBeatmaps(vm.userid, vm.mode, vm.mods)
         vm.LoadScores(vm.userid, vm.mode, vm.mods, 'best')
         vm.LoadScores(vm.userid, vm.mode, vm.mods, 'recent')
+        window.history.replaceState('', document.title, "/u/" + vm.userid);
     },
     methods: {
         LoadProfileData(userid) {
@@ -63,7 +63,6 @@ new Vue({
             vm.LoadMostBeatmaps(vm.userid, vm.mode, vm.mods)
             vm.LoadScores(vm.userid, vm.mode, vm.mods, 'best')
             vm.LoadScores(vm.userid, vm.mode, vm.mods, 'recent')
-            window.history.replaceState('', document.title, "/u/" + vm.mode + "/" + vm.mods + "/" + vm.userid);
         },
         addCommas(nStr) {
             nStr += '';
