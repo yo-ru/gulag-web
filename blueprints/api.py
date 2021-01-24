@@ -39,12 +39,12 @@ async def get_leaderboard():
         return b'invalid sort param!'
 
     q = ['SELECT u.id user_id, u.name username, '
-         'u.country, tscore_{0}_{1} tscore, '
-         'rscore_{0}_{1} rscore, pp_{0}_{1} pp, '
-         'plays_{0}_{1} plays, playtime_{0}_{1} playtime, '
-         'acc_{0}_{1} acc, maxcombo_{0}_{1} maxcombo FROM stats '
-         'JOIN users u ON stats.id = u.id '
-         'WHERE pp_{0}_{1} > 0'.format(mods, mode)]
+        'u.country, tscore_{0}_{1} tscore, '
+        'rscore_{0}_{1} rscore, pp_{0}_{1} pp, '
+        'plays_{0}_{1} plays, playtime_{0}_{1} playtime, '
+        'acc_{0}_{1} acc, maxcombo_{0}_{1} maxcombo FROM stats '
+        'JOIN users u ON stats.id = u.id '
+        'WHERE pp_{0}_{1} > 0'.format(mods, mode)]
 
     args = []
 
@@ -55,7 +55,7 @@ async def get_leaderboard():
     # TODO: maybe cache total num of scores in the db to get a
     # rough estimate on what is a ridiculous page for a request?
     q.append(f'ORDER BY {sort_by}_{mods}_{mode} DESC '
-             'LIMIT 50 OFFSET %s')
+            'LIMIT 50 OFFSET %s')
     args.append(page * 50)
 
     if glob.config.debug:
@@ -75,47 +75,47 @@ async def get_user():
         return b'missing parameters! (id or name)'
 
     # fetch user info and stats
-         # user info
+    # user info
     q = ['SELECT u.id user_id, u.name username, u.safe_name username_safe, u.country, u.priv privileges, '
-         'u.silence_end, u.donor_end, u.creation_time, u.latest_activity, u.clan_id, u.clan_rank, '
-          
-         # total score
-         'tscore_vn_std, tscore_vn_taiko, tscore_vn_catch, tscore_vn_mania, '
-         'tscore_rx_std, tscore_rx_taiko, tscore_rx_catch, '
-         'tscore_ap_std, '
+        'u.silence_end, u.donor_end, u.creation_time, u.latest_activity, u.clan_id, u.clan_rank, '
+        
+        # total score
+        'tscore_vn_std, tscore_vn_taiko, tscore_vn_catch, tscore_vn_mania, '
+        'tscore_rx_std, tscore_rx_taiko, tscore_rx_catch, '
+        'tscore_ap_std, '
 
-         # ranked score
-         'rscore_vn_std, rscore_vn_taiko, rscore_vn_catch, rscore_vn_mania, '
-         'rscore_rx_std, rscore_rx_taiko, rscore_rx_catch, '
-         'rscore_ap_std, '
-
-         # pp
-         'pp_vn_std, pp_vn_taiko, pp_vn_catch, pp_vn_mania, '
-         'pp_rx_std, pp_rx_taiko, pp_rx_catch, '
-         'pp_ap_std, '
-         
-         # plays
-         'plays_vn_std, plays_vn_taiko, plays_vn_catch, plays_vn_mania, '
-         'plays_rx_std, plays_rx_taiko, plays_rx_catch, '
-         'plays_ap_std, '
-         
-         # playtime
-         'playtime_vn_std, playtime_vn_taiko, playtime_vn_catch, playtime_vn_mania, '
-         'playtime_rx_std, playtime_rx_taiko, playtime_rx_catch, '
-         'playtime_ap_std, '
-         
-         # accuracy
-         'acc_vn_std, acc_vn_taiko, acc_vn_catch, acc_vn_mania, '
-         'acc_rx_std, acc_rx_taiko, acc_rx_catch, '
-         'acc_ap_std, '
-         
-         # maximum combo
-         'maxcombo_vn_std, maxcombo_vn_taiko, maxcombo_vn_catch, maxcombo_vn_mania, '
-         'maxcombo_rx_std, maxcombo_rx_taiko, maxcombo_rx_catch, '
-         'maxcombo_ap_std '
-         
-         # join users
-         'FROM stats JOIN users u ON stats.id = u.id']
+        # ranked score
+        'rscore_vn_std, rscore_vn_taiko, rscore_vn_catch, rscore_vn_mania, '
+        'rscore_rx_std, rscore_rx_taiko, rscore_rx_catch, '
+        'rscore_ap_std, '
+        
+        # pp
+        'pp_vn_std, pp_vn_taiko, pp_vn_catch, pp_vn_mania, '
+        'pp_rx_std, pp_rx_taiko, pp_rx_catch, '
+        'pp_ap_std, '
+        
+        # plays
+        'plays_vn_std, plays_vn_taiko, plays_vn_catch, plays_vn_mania, '
+        'plays_rx_std, plays_rx_taiko, plays_rx_catch, '
+        'plays_ap_std, '
+        
+        # playtime
+        'playtime_vn_std, playtime_vn_taiko, playtime_vn_catch, playtime_vn_mania, '
+        'playtime_rx_std, playtime_rx_taiko, playtime_rx_catch, '
+        'playtime_ap_std, '
+        
+        # accuracy
+        'acc_vn_std, acc_vn_taiko, acc_vn_catch, acc_vn_mania, '
+        'acc_rx_std, acc_rx_taiko, acc_rx_catch, '
+        'acc_ap_std, '
+        
+        # maximum combo
+        'maxcombo_vn_std, maxcombo_vn_taiko, maxcombo_vn_catch, maxcombo_vn_mania, '
+        'maxcombo_rx_std, maxcombo_rx_taiko, maxcombo_rx_catch, '
+        'maxcombo_ap_std '
+        
+        # join users
+        'FROM stats JOIN users u ON stats.id = u.id']
     
     # argumnts
     args = []
@@ -236,3 +236,59 @@ async def get_most_beatmaps():
         log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetchall(' '.join(q), args)
     return orjson.dumps(res) if res else b'{}'
+
+""" /get_grade (it's not working well)
+Help this Handler please : (
+yes it's working but with vanilla mods only
+when i change it to relax it's return to '{}'
+~ Varkaria
+"""
+# @api.route('/get_grade') # GET
+# async def get_grade():
+#     # get request args
+#     id = request.args.get('id', type=int)
+#     mode = request.args.get('mode', type=str)
+#     mods = request.args.get('mods', type=str)
+# 
+#     # check if required parameters are met
+#     if not id:
+#         return b'missing parameters! (id)'
+#     
+#     if mods not in valid_mods:
+#         return b'invalid mods! (vn, rx, ap)'
+#     
+#     if mode == 'std':
+#         mode = 0
+#     elif mode == 'taiko':
+#         mode = 1
+#     elif mode == 'catch':
+#         mode = 2
+#     elif mode == 'mania':
+#         mode = 3
+#     else:
+#         return b'wrong mode type! (std, taiko, catch, mania)'
+#     
+#     grades = ['xh','ss','sh','s','a','b','c','d']
+# 
+#     # fetch grades
+#     q = [f'SELECT userid,']
+#     
+#     #! Dont change that double quotes. it's required
+#     for grade in grades:
+#         if grade == 'd':
+#             q.append(f"(SELECT COUNT(*) FROM scores_{mods} WHERE grade='{grade}' and mode = {mode}) as {grade}")
+#             break
+#         q.append(f"(SELECT COUNT(*) FROM scores_{mods} WHERE grade='{grade}' and mode = {mode}) as {grade},")
+#     
+#     # argumnts
+#     args = []
+# 
+#     q.append(f'FROM scores_{mods}')
+#     q.append(f'WHERE userid = %s AND mode = 3')
+#     args.append(id)
+# 
+#     if glob.config.debug:
+#         log(' '.join(q), Ansi.LGREEN)
+#     res = await glob.db.fetch(' '.join(q), args)
+#     print(res)
+#     return orjson.dumps(res) if res else b'{}'
