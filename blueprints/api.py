@@ -5,7 +5,7 @@ from quart import Blueprint, request
 from cmyui import log, Ansi
 
 from objects import glob
-from objects.utils import get_safe_name
+from objects.utils import convert_mode_int, get_safe_name
 
 __all__ = ()
 
@@ -181,6 +181,8 @@ async def get_scores():
     q.append(f'WHERE scores_{mods}.userid = %s ' 
             f'AND scores_{mods}.mode = {mode} '
             f'AND maps.status = 2')
+    if sort == 'pp':
+        q.append(f'AND scores_{mods}.status = 2')
     q.append(f'ORDER BY scores_{mods}.{sort} DESC '
             f'LIMIT {limit}')
     args.append(id)
@@ -237,58 +239,45 @@ async def get_most_beatmaps():
     res = await glob.db.fetchall(' '.join(q), args)
     return orjson.dumps(res) if res else b'{}'
 
-""" /get_grade (it's not working well)
-Help this Handler please : (
-yes it's working but with vanilla mods only
-when i change it to relax it's return to '{}'
-~ Varkaria
-"""
-# @api.route('/get_grade') # GET
-# async def get_grade():
-#     # get request args
-#     id = request.args.get('id', type=int)
-#     mode = request.args.get('mode', type=str)
-#     mods = request.args.get('mods', type=str)
-# 
-#     # check if required parameters are met
-#     if not id:
-#         return b'missing parameters! (id)'
-#     
-#     if mods not in valid_mods:
-#         return b'invalid mods! (vn, rx, ap)'
-#     
-#     if mode == 'std':
-#         mode = 0
-#     elif mode == 'taiko':
-#         mode = 1
-#     elif mode == 'catch':
-#         mode = 2
-#     elif mode == 'mania':
-#         mode = 3
-#     else:
-#         return b'wrong mode type! (std, taiko, catch, mania)'
-#     
-#     grades = ['xh','ss','sh','s','a','b','c','d']
-# 
-#     # fetch grades
-#     q = [f'SELECT userid,']
-#     
-#     #! Dont change that double quotes. it's required
-#     for grade in grades:
-#         if grade == 'd':
-#             q.append(f"(SELECT COUNT(*) FROM scores_{mods} WHERE grade='{grade}' and mode = {mode}) as {grade}")
-#             break
-#         q.append(f"(SELECT COUNT(*) FROM scores_{mods} WHERE grade='{grade}' and mode = {mode}) as {grade},")
-#     
-#     # argumnts
-#     args = []
-# 
-#     q.append(f'FROM scores_{mods}')
-#     q.append(f'WHERE userid = %s AND mode = 3')
-#     args.append(id)
-# 
-#     if glob.config.debug:
-#         log(' '.join(q), Ansi.LGREEN)
-#     res = await glob.db.fetch(' '.join(q), args)
-#     print(res)
-#     return orjson.dumps(res) if res else b'{}'
+@api.route('/get_grade') # GET
+async def get_grade():
+    # get request args
+    id = request.args.get('id', type=int)
+    mode = request.args.get('mode', type=str)
+    mods = request.args.get('mods', type=str)
+
+    # check if required parameters are met
+    if not id:
+        return b'missing parameters! (id)'
+    
+    if mods not in valid_mods:
+        return b'invalid mods! (vn, rx, ap)'
+    
+    if mode in valid_modes:
+        mode = convert_mode_int(mode)
+    else:
+        return b'wrong mode type! (std, taiko, catch, mania)'
+    
+    grades = ['xh','ss','sh','s','a']
+
+    # fetch grades
+    q = [f'SELECT userid,']
+    
+    for grade in grades:
+        if grade == 'a':
+            q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" and mode = {mode}) as {grade}')
+            break
+        q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" and mode = {mode}) as {grade},')
+    
+    # argumnts
+    args = []
+    
+    q.append(f'FROM scores_{mods}')
+    q.append(f'WHERE userid = %s AND mode = {mode}')
+    args.append(id)
+
+    if glob.config.debug:
+        log(' '.join(q), Ansi.LGREEN)
+    res = await glob.db.fetch(' '.join(q), args)
+    print(res)
+    return orjson.dumps(res) if res else b'{}'

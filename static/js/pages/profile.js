@@ -3,72 +3,109 @@ new Vue({
     delimiters: ["<%", "%>"],
     data() {
         return {
-            userdata : {},
-            mostdata : {},
-            recentdata : {},
-            bestdata : {},
-            mode : mode,
-            mods : mods,
+            userdata: {},
+            mostdata: {},
+            recentdata: {},
+            bestdata: {},
+            gradedata: {},
+            mode: mode,
+            mods: mods,
             userid: userid,
-            limit : [5,5,5],
-            full: [false,false,false]
+            limit: [5, 5, 5],
+            full: [false, false, false]
         }
     },
-    created() { 
+    created() {
         var vm = this;
         vm.LoadProfileData(vm.userid)
         vm.LoadMostBeatmaps(vm.userid, vm.mode, vm.mods)
         vm.LoadScores(vm.userid, vm.mode, vm.mods, 'best')
         vm.LoadScores(vm.userid, vm.mode, vm.mods, 'recent')
+        vm.LoadGrades(vm.userid, vm.mode, vm.mods)
         window.history.replaceState('', document.title, "/u/" + vm.userid);
     },
     methods: {
         LoadProfileData(userid) {
             var vm = this;
-            vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_user", { params: { 
-                id: userid, 
-            }})
-            .then(function(response){
-                vm.userdata = response.data;
-            });
+            vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_user", {
+                params: {
+                    id: userid,
+                }
+            })
+                .then(function (response) {
+                    vm.userdata = response.data;
+                });
         },
         LoadMostBeatmaps(userid, mode, mods) {
             var vm = this;
-            vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_most_beatmaps", { params: { 
-                id: userid, 
-                mode: mode,
-                mods: mods,
-                limit: vm.limit[2]
-            }})
-            .then(function(response){
-                vm.mostdata = response.data;
-                if(vm.mostdata.length != vm.limit[2]) {
-                    vm.full[2] = true
+            vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_most_beatmaps", {
+                params: {
+                    id: userid,
+                    mode: mode,
+                    mods: mods,
+                    limit: vm.limit[2]
                 }
-            });
+            })
+                .then(function (response) {
+                    vm.mostdata = response.data;
+                    if (vm.mostdata.length != vm.limit[2]) {
+                        vm.full[2] = true
+                    }
+                });
         },
         LoadScores(userid, mode, mods, sort) {
             var vm = this;
-            if (sort == 'best') {
-                limitdata = 0
-            } else if (sort == 'recent') {
-                limitdata = 1
+            switch (sort) {
+                case 'best':
+                    console.log('best will coming')
+                    limitdata = 0
+                    break;
+                case 'recent':
+                    console.log('recent will coming')
+                    limitdata = 1
+                    break;
+                default:
             }
-            vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_scores", { params: { 
-                id: userid, 
-                mode: mode,
-                mods: mods,
-                sort: sort,
-                limit: vm.limit[limitdata]
-            }})
-            .then(function(response){
-                vm[`${sort}data`] = response.data;
-                if(vm[`${sort}data`].length != vm.limit[limitdata]) {
-                    vm.full[limitdata] = true
+            vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_scores", {
+                params: {
+                    id: userid,
+                    mode: mode,
+                    mods: mods,
+                    sort: sort,
+                    limit: vm.limit[limitdata]
                 }
-            });
+            })
+                .then(function (response) {
+                    vm[`${sort}data`] = response.data;
+                    if (vm[`${sort}data`].length != vm.limit[limitdata]) {
+                        if (sort == 'best') {
+                            vm.full[0] = true
+                        } else if (sort == 'recent') {
+                            vm.full[1] = true
+                        }
+                    } else {
+                        if (sort == 'best') {
+                            vm.full[0] = false
+                        } else if (sort == 'recent') {
+                            vm.full[1] = false
+                        }
+                    }
+                });
         },
-        ChangeModeMods(mode,mods) {
+        LoadGrades(userid, mode, mods) {
+            var vm = this;
+            vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_grade", {
+                params: {
+                    id: userid,
+                    mode: mode,
+                    mods: mods,
+                }
+            })
+                .then(function (response) {
+                    vm.gradedata = response.data;
+                });
+        },
+        ChangeModeMods(mode, mods) {
             var vm = this;
             if (window.event) {
                 window.event.preventDefault();
@@ -78,6 +115,7 @@ new Vue({
             vm.LoadMostBeatmaps(vm.userid, vm.mode, vm.mods)
             vm.LoadScores(vm.userid, vm.mode, vm.mods, 'best')
             vm.LoadScores(vm.userid, vm.mode, vm.mods, 'recent')
+            vm.LoadGrades(vm.userid, vm.mode, vm.mods)
         },
         AddLimit(which) {
             var vm = this;
