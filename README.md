@@ -1,4 +1,4 @@
-![Gulag](https://i.imgur.com/n3ipK3y.png)
+![Gulag](https://i.imgur.com/G3UJCSI.png)
 
 ### Features
 - Fully implemented session authentication system allowing users to have a more interpersonal experience.
