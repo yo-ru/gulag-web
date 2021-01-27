@@ -1,6 +1,4 @@
-[![Discord](https://discordapp.com/api/guilds/748687781605408908/widget.png?style=shield)](https://discord.gg/ShEQgUx)
-
-# The frontend service for the modern osu! private server, [gulag](https://github.com/cmyui/gulag)!
+![Gulag](https://i.imgur.com/n3ipK3y.png)
 
 ### Features
 - Fully implemented session authentication system allowing users to have a more interpersonal experience.
@@ -8,6 +6,7 @@
 - Built on [Quart](https://github.com/pgjones/quart) and [cmyui's multipurpose library](https://github.com/cmyui/cmyui_pkg) allowing for a fully
   asynchronous environment.
 - More soon! (Stay up to date with our [projects](https://github.com/Yo-ru/gulag-web/projects) to know what features are being worked on!)
+  [![Discord](https://discordapp.com/api/guilds/748687781605408908/widget.png?style=shield)](https://discord.gg/ShEQgUx)
 
 ### Project focuses and goals
 1. Written fully in modern Python.
