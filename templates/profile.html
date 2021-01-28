@@ -70,7 +70,7 @@
     <div class="second-block">
         <div class="columns is-marginless two-sides">
             <div class="column is-one-third">
-                <!--<div class="header">
+                <div class="header">
                     <div class="title">
                         <i class="fas fa-user-friends"></i> Rank
                     </div>
@@ -81,18 +81,18 @@
                             <tr>
                                 <td>Global rank</td>
                                 <td class="right-aligned">#
-                                    <span id="global-rank">not impliment</span>
+                                    <span id="global-rank"><% userdata[0][`rank_${mods}_${mode}`] %></span>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Country rank</td>
                                 <td class="right-aligned">#
-                                    <span id="country-rank">not impliment</span>
+                                    <span id="country-rank"><% userdata[0][`crank_${mods}_${mode}`] %></span>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                </div>-->
+                </div>
                 <div class="header">
                     <div class="title">
                         <i class="fas fa-chart-pie"></i> Statistics

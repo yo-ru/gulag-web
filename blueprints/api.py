@@ -112,7 +112,18 @@ async def get_user():
         # maximum combo
         'maxcombo_vn_std, maxcombo_vn_taiko, maxcombo_vn_catch, maxcombo_vn_mania, '
         'maxcombo_rx_std, maxcombo_rx_taiko, maxcombo_rx_catch, '
-        'maxcombo_ap_std '
+        'maxcombo_ap_std, '
+
+        # ranks
+        'rank_vn_std, rank_vn_taiko, rank_vn_catch, rank_vn_mania, '
+        'rank_rx_std, rank_rx_taiko, rank_rx_catch, '
+        'rank_ap_std, '
+
+        # country ranks
+        'crank_vn_std, crank_vn_taiko, crank_vn_catch, crank_vn_mania, '
+        'crank_rx_std, crank_rx_taiko, crank_rx_catch, '
+        'crank_ap_std '
+
         
         # join users
         'FROM stats JOIN users u ON stats.id = u.id']

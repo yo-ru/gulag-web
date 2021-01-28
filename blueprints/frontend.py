@@ -170,6 +170,7 @@ async def register_post():
     username = form.get('username')
     email = form.get('email')
     pw_txt = form.get('password')
+    key = form.get('key')
 
     # Usernames must:
     # - be within 2-15 characters in length
@@ -197,6 +198,19 @@ async def register_post():
 
     if await glob.db.fetch('SELECT 1 FROM users WHERE email = %s', email):
         return await flash('error', 'Email already taken by another user.', 'register')
+
+    if key == "H4LOAL5VTHD9I6P20HCE":
+        return await flash('error', 'Nice try...', 'register')
+
+    if await glob.db.fetch('SELECT 1 FROM beta_keys WHERE beta_key = %s', key):
+        key_valid = True
+    else:
+        return await flash('error', 'Invalid beta key.', 'register')
+
+    if key_valid:
+        used_key = await glob.db.fetch('SELECT used AS c FROM beta_keys WHERE beta_key = %s', key)
+        if int(used_key['c']):
+            return await flash('error', 'This beta key has already been used.', 'register')
 
     # Passwords must:
     # - be within 8-32 characters in length
@@ -237,6 +251,8 @@ async def register_post():
         log(f'{username} has registered - awaiting verification.', Ansi.LGREEN)
 
     # user has successfully registered
+    await glob.db.execute('UPDATE beta_keys SET used = 1 WHERE beta_key = %s', key)
+    await glob.db.execute('UPDATE beta_keys SET user = %s WHERE beta_key = %s', [username, key])
     return await render_template('verify.html')
 
 """ logout """
