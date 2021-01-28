@@ -83,7 +83,7 @@
                             <td class="t-column column-player-rank">#<% index + 1 %>
                             </td>
                             <td class="t-column column-player-name is-lefttext">
-                                <% user.username %>
+                                <a :href="'/u/'+user.user_id"><% user.username %></a>
                             </td>
                             <td v-if="sort == 'pp' || sort == 'rscore'" class="t-column">
                                 <% (sort=='pp' ? user.pp+'pp' : "" ) %>
