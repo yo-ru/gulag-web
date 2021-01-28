@@ -75,18 +75,18 @@
             <div class="navbar-item">
               <div class="buttons">
                 {% if session.authenticated %}
-                <a class="button is-light"  href="/user/{{ session.user_data['id'] }}">
+                <a class="button is-light"  href="/u/{{ session.user_data['id'] }}">
                   {{ session.user_data['name'] }}
                 </a>
                 <a class="button is-primary" href="/logout">
                   <strong>Logout</strong>
                 </a>
                 {% else %}
-                <a class="button is-primary" href="/register">
-                  <strong>Sign up</strong>
-                </a>
                 <a class="button is-light"  href="/login">
                   Log in
+                </a>
+                <a class="button is-primary" href="/register">
+                  <strong>Sign up</strong>
                 </a>
                 {% endif %}
               </div>
