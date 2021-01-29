@@ -80,7 +80,7 @@
                   {{ session.user_data['name'] }}
                 </a>
                 <div class="navbar-dropdown">
-                  <a class="navbar-item" href="/profile">Profile</a>
+                  <a class="navbar-item" href="/u/{{ session.user_data['id'] }}">Profile</a>
                   <a class="navbar-item" href="/settings">Settings</a>
                   <a class="navbar-item" href="/clans">Clans</a>
                   <hr class="navbar-divider"></hr>
