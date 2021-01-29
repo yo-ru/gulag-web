@@ -1,13 +1,12 @@
-[![Discord](https://discordapp.com/api/guilds/748687781605408908/widget.png?style=shield)](https://discord.gg/ShEQgUx)
+[![Discord](https://discordapp.com/api/guilds/804029976276893716/widget.png?style=shield)](https://discord.gg/ShEQgUx)
 
-# The frontend service for the modern osu! private server, [gulag](https://github.com/cmyui/gulag)!
+# The frontend service for the modern osu! private server, [Iteki](https://iteki.pw)!
 
 ### Features
 - Fully implemented session authentication system allowing users to have a more interpersonal experience.
 - A leaderboard supporting all mods and modes available within the gulag stack.
 - Built on [Quart](https://github.com/pgjones/quart) and [cmyui's multipurpose library](https://github.com/cmyui/cmyui_pkg) allowing for a fully
   asynchronous environment.
-- More soon! (Stay up to date with our [projects](https://github.com/Yo-ru/gulag-web/projects) to know what features are being worked on!)
 
 ### Project focuses and goals
 1. Written fully in modern Python.
@@ -45,7 +44,7 @@ python3.9 get-pip.py && rm get-pip.py
 sudo apt install mysql-server nginx
 
 # Clone gulag-web from GitHub.
-git clone https://github.com/yo-ru/gulag-web.git
+git clone https://github.com/itekiosu/gulag-web.git
 cd gulag-web
 
 # Initialize and update the submodules
@@ -70,5 +69,4 @@ hypercorn main.py # Please run gulag-web with hypercorn when in production!
                   # of the debug features a developer would need! (Port 8000)
 
 # Have fun!
-# - gulag Team
 ```
