@@ -21,3 +21,15 @@ def convert_mode_int(mode: str) -> str:
         return 3
     else:
         return b'wrong mode type! (std, taiko, catch, mania)'
+    
+def convert_mode_str(mode: int) -> int:
+    if mode == 0:
+        return 'std'
+    elif mode == 0:
+        return 'taiko'
+    elif mode == 0:
+        return 'catch'
+    elif mode == 0:
+        return 'mania'
+    else:
+        return b'wrong mode type! (0, 1, 2, 3)'

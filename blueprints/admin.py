@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import timeago, datetime
+
 from quart import Blueprint, render_template, session, redirect
 from cmyui import log, Ansi
 
@@ -24,8 +26,14 @@ async def home():
     # if authenticated but not staff; render home
     elif not session['user_data']['priv'] & Privileges.Staff:
         return await flash('error', f'Hey! You don\'t have enough clearance to access the admin panel {session["user_data"]["name"]}!', 'home')
+    
+    # Fetch data from database
+    dash_data = await glob.db.fetch('SELECT COUNT(id) AS count, '
+    '(SELECT `name` FROM users ORDER BY id DESC LIMIT 1) as lastest_user FROM users')
+    recent_users = await glob.db.fetchall('SELECT * FROM users ORDER BY id DESC LIMIT 5')
+    recent_scores = await glob.db.fetchall('SELECT scores_vn.*, maps.artist, maps.title, maps.set_id, '
+    'maps.creator, maps.version FROM scores_vn JOIN maps ON scores_vn.map_md5 = maps.md5 '
+    'ORDER BY scores_vn.id DESC LIMIT 5')
 
-    # TODO: admin panel
-    NotImplemented
-
-    return await render_template('admin/home.html')
+    return await render_template('admin/home.html', dashdata=dash_data, recentusers=recent_users, recentscores=recent_scores, 
+                                datetime=datetime, timeago=timeago)

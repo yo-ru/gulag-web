@@ -1,0 +1,149 @@
+<html>
+
+<head>
+  <!-- title -->
+  <title>{{ appName() }} - {% block title %}{% endblock %}</title>
+
+  <!-- jquery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"
+    integrity="sha512-/DXTXr6nQodMUiq+IUJYCt2PPOUjrHJ9wFrqpJ3XkgPNOZVfMok7cRw6CSxyCQxXn6ozlESsSh1/sMCTF1rL/g=="
+    crossorigin="anonymous"></script>
+
+  <!-- bulma -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HakuraSukinoe/bulma-hsl/bulma.min-v6.css" />
+
+  <!-- font awesome -->
+  <script src="https://kit.fontawesome.com/e5971878b8.js" crossorigin="anonymous"></script>
+
+  <!-- custom style -->
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/pages/admin/style.css">
+</head>
+
+<body>
+  <!-- header -->
+  <nav id="navbar" class="navbar is-primary">
+    <div class="navbar-brand">
+      <a class="navbar-item navbar-logo" href="/home">
+        {{ appName() }}
+      </a>
+
+      <a role="button" class="navbar-burger" id="navbar-burger" onclick="togglenavbar()">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbar" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="/home">
+          Home
+        </a>
+
+        <a class="navbar-item" href="/leaderboard">
+          Leaderboards
+        </a>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            Information
+          </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="/docs">
+              Documentation
+            </a>
+            <a class="navbar-item" href="/rules">
+              Rules
+            </a>
+            <a class="navbar-item" href="/discord">
+              Discord
+            </a>
+            <hr class="navbar-divider">
+            <a class="navbar-item">
+              Report an issue
+            </a>
+          </div>
+        </div>
+
+        {% if session.authenticated and session.user_data['is_staff'] %}
+        <a class="navbar-item" href="/admin">
+          Admin
+        </a>
+        {% endif %}
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            {% if session.authenticated %}
+            <a class="button is-light" href="/user/{{ session.user_data['id'] }}">
+              {{ session.user_data['name'] }}
+            </a>
+            <a class="button is-primary" href="/logout">
+              <strong>Logout</strong>
+            </a>
+            {% else %}
+            <a class="button is-primary" href="/register">
+              <strong>Sign up</strong>
+            </a>
+            <a class="button is-light" href="/login">
+              Log in
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </nav>
+
+  <!-- content -->
+  <div class="content admin-con">
+    <div class="columns is-marginless is-paddingless">
+      <div class="colmun">
+        <div class="sidebar">
+          <div id="style-3" class="sidebar-wrapper">
+            <div class="logo"><a class="simple-text logo-normal">{{ appName() }} Admin Panel</a></div>
+            <ul class="nav">
+              <li class="nav-item"><a class="nav-link"><span class="icon"><i class="fa fa-home"></i></span> <span
+                    class="name">Dashboard</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="column content">
+        <div class="main-content">
+          <div class="columns is-marginless">
+            <div class="column is-paddingless is-avatar">
+              <img
+                src="https://images-ext-1.discordapp.net/external/TPUUeHF9WWbAmo1qN_UZIEPN9z3LKJY5O4avA4IzHyk/%3Fsize%3D256/https/cdn.discordapp.com/avatars/391573480493154316/2fd3cfe134db3b335ed37562c0badda5.png"
+                class="header-avatar">
+            </div>
+            <div class="column is-paddingless is-vcentered">
+              <h2 class="section-title">Dashboard</h2>
+              <p class="section-lead">Welcome to {{ appName() }} admin panel!</p>
+            </div>
+          </div>
+          <section class="section">
+            {% block content %}{% endblock %}
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- footer -->
+  <footer class="footer">
+    <div class="content">
+      <span>{{ appName() }} <strong>v{{ appVersion() }}</strong></span>
+      <a class="foot-link" href="https://github.com/yo-ru/gulag-web"><i class="fa fa-github"></i> GitHub</a>
+      <a class="foot-link" href="/discord"><i class="fab fa-discord"></i> Discord</a>
+    </div>
+  </footer>
+
+  <!-- main js script -->
+  <script src="/static/js/main.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

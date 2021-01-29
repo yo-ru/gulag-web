@@ -281,3 +281,8 @@ async def get_grade():
     res = await glob.db.fetch(' '.join(q), args)
     print(res)
     return orjson.dumps(res) if res else b'{}'
+
+# For Development in localhost
+@api.route('/get_online')
+async def api_get_online():
+    return '{"online": 2}'.encode()
