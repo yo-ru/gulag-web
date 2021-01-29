@@ -22,30 +22,30 @@
           <a class="navbar-item navbar-logo" href="/home">
             {{ appName() }}
           </a>
-  
+
           <a role="button" class="navbar-burger" id="navbar-burger" onclick="togglenavbar()">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
           </a>
         </div>
-      
+
         <div id="navbar" class="navbar-menu">
           <div class="navbar-start">
             <a class="navbar-item" href="/home">
               Home
             </a>
-      
+
             <a class="navbar-item" href="/leaderboard">
               Leaderboards
             </a>
-      
+
             <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link">
                 Information
               </a>
               <div class="navbar-dropdown">
-                <a class="navbar-item" href="https://switcher.iteki.pw/download">
+                <a class="navbar-item" href="http://switcher.iteki.pw/download">
                   Switcher
                 </a>
                 <a class="navbar-item" href="/docs">
@@ -70,14 +70,23 @@
             </a>
             {% endif %}
           </div>
-      
+
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
+                <div class="ug-dropdown navbar-item has-dropdown is-hoverable">
                 {% if session.authenticated %}
                 <a class="button is-light"  href="/u/{{ session.user_data['id'] }}">
                   {{ session.user_data['name'] }}
                 </a>
+                <div class="navbar-dropdown">
+                  <a class="navbar-item" href="/profile">Profile</a>
+                  <a class="navbar-item" href="/settings">Settings</a>
+                  <a class="navbar-item" href="/clans">Clans</a>
+                  <hr class="navbar-divider"></hr>
+                  <a class="navbar-item" href="/profile">Youre logged in as {{ session.user_data['name'] }}</a>
+                </div>
+              </div>
                 <a class="button is-primary" href="/logout">
                   <strong>Logout</strong>
                 </a>
@@ -94,7 +103,7 @@
           </div>
         </div>
       </div>
-    </nav>     
+    </nav>
 
     <!-- content -->
     <div class="container my-con">
