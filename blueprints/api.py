@@ -3,6 +3,7 @@
 import orjson
 from quart import Blueprint, request
 from cmyui import log, Ansi
+from enum import IntEnum
 
 from objects import glob
 from objects.utils import convert_mode_int, get_safe_name

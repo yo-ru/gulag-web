@@ -44,7 +44,7 @@ async def settings():
 async def profile(user):
     mode = request.args.get('mode', type=str)
     mods = request.args.get('mods', type=str)
-    
+
     if mods:
         if mods not in valid_mods:
             return b'invalid mods! (vn, rx, ap)'
@@ -57,7 +57,7 @@ async def profile(user):
         mode = 'std'
 
     userdata = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {user}')
-    
+
     return await render_template('profile.html', user=userdata, mode=mode, mods=mods)
 
 """ leaderboard """
@@ -157,7 +157,7 @@ async def register():
     # if authenticated; redirect home
     if 'authenticated' in session:
         return await flash('error', f'Hey You\'re already registered and logged in {session["user_data"]["name"]}!', 'home')
-    
+
     return await render_template('register.html')
 @frontend.route('/register', methods=['POST']) # POST
 async def register_post():
