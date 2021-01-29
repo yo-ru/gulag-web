@@ -78,7 +78,7 @@ async def get_user():
     # user info
     q = ['SELECT u.id user_id, u.name username, u.safe_name username_safe, u.country, u.priv privileges, '
         'u.silence_end, u.donor_end, u.creation_time, u.latest_activity, u.clan_id, u.clan_rank, '
-        
+
         # total score
         'tscore_vn_std, tscore_vn_taiko, tscore_vn_catch, tscore_vn_mania, '
         'tscore_rx_std, tscore_rx_taiko, tscore_rx_catch, '
@@ -88,27 +88,27 @@ async def get_user():
         'rscore_vn_std, rscore_vn_taiko, rscore_vn_catch, rscore_vn_mania, '
         'rscore_rx_std, rscore_rx_taiko, rscore_rx_catch, '
         'rscore_ap_std, '
-        
+
         # pp
         'pp_vn_std, pp_vn_taiko, pp_vn_catch, pp_vn_mania, '
         'pp_rx_std, pp_rx_taiko, pp_rx_catch, '
         'pp_ap_std, '
-        
+
         # plays
         'plays_vn_std, plays_vn_taiko, plays_vn_catch, plays_vn_mania, '
         'plays_rx_std, plays_rx_taiko, plays_rx_catch, '
         'plays_ap_std, '
-        
+
         # playtime
         'playtime_vn_std, playtime_vn_taiko, playtime_vn_catch, playtime_vn_mania, '
         'playtime_rx_std, playtime_rx_taiko, playtime_rx_catch, '
         'playtime_ap_std, '
-        
+
         # accuracy
         'acc_vn_std, acc_vn_taiko, acc_vn_catch, acc_vn_mania, '
         'acc_rx_std, acc_rx_taiko, acc_rx_catch, '
         'acc_ap_std, '
-        
+
         # maximum combo
         'maxcombo_vn_std, maxcombo_vn_taiko, maxcombo_vn_catch, maxcombo_vn_mania, '
         'maxcombo_rx_std, maxcombo_rx_taiko, maxcombo_rx_catch, '
@@ -124,10 +124,10 @@ async def get_user():
         'crank_rx_std, crank_rx_taiko, crank_rx_catch, '
         'crank_ap_std '
 
-        
+
         # join users
         'FROM stats JOIN users u ON stats.id = u.id']
-    
+
     # argumnts
     args = []
 
@@ -157,17 +157,17 @@ async def get_scores():
     # check if required parameters are met
     if not id:
         return b'missing parameters! (id)'
-    
+
     if sort == 'recent':
         sort = 'id'
     elif sort == 'best':
         sort = 'pp'
     else:
         return b'invalid sort! (recent or best)'
-    
+
     if mods not in valid_mods:
         return b'invalid mods! (vn, rx, ap)'
-    
+
     if mode == 'std':
         mode = 0
     elif mode == 'taiko':
@@ -185,11 +185,11 @@ async def get_scores():
     # fetch scores
     q = [f'SELECT scores_{mods}.*, maps.* '
         f'FROM scores_{mods} JOIN maps ON scores_{mods}.map_md5 = maps.md5']
-    
+
     # argumnts
     args = []
 
-    q.append(f'WHERE scores_{mods}.userid = %s ' 
+    q.append(f'WHERE scores_{mods}.userid = %s '
             f'AND scores_{mods}.mode = {mode} '
             f'AND maps.status = 2')
     if sort == 'pp':
@@ -215,10 +215,10 @@ async def get_most_beatmaps():
     # check if required parameters are met
     if not id:
         return b'missing parameters! (id)'
-    
+
     if mods not in valid_mods:
         return b'invalid mods! (vn, rx, ap)'
-    
+
     if mode == 'std':
         mode = 0
     elif mode == 'taiko':
@@ -236,7 +236,7 @@ async def get_most_beatmaps():
     # fetch scores
     q = [f'SELECT scores_{mods}.mode, scores_{mods}.map_md5, maps.artist, maps.title, maps.set_id, maps.creator, COUNT(*) AS `count` '
         f'FROM scores_{mods} JOIN maps ON scores_{mods}.map_md5 = maps.md5']
-    
+
     # argumnts
     args = []
 
@@ -260,29 +260,29 @@ async def get_grade():
     # check if required parameters are met
     if not id:
         return b'missing parameters! (id)'
-    
+
     if mods not in valid_mods:
         return b'invalid mods! (vn, rx, ap)'
-    
+
     if mode in valid_modes:
         mode = convert_mode_int(mode)
     else:
         return b'wrong mode type! (std, taiko, catch, mania)'
-    
+
     grades = ['xh','ss','sh','s','a']
 
     # fetch grades
     q = [f'SELECT userid,']
-    
+
     for grade in grades:
         if grade == 'a':
             q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" and mode = {mode}) as {grade}')
             break
         q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" and mode = {mode}) as {grade},')
-    
+
     # argumnts
     args = []
-    
+
     q.append(f'FROM scores_{mods}')
     q.append(f'WHERE userid = %s AND mode = {mode}')
     args.append(id)
@@ -292,3 +292,9 @@ async def get_grade():
     res = await glob.db.fetch(' '.join(q), args)
     print(res)
     return orjson.dumps(res) if res else b'{}'
+
+@api.route('/get_online')
+async def api_get_online():
+    res = await glob.db.fetch('SELECT online FROM server_stats')
+    online = {"online": res['online']}
+    return orjson.dumps(online)
