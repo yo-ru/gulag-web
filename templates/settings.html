@@ -18,8 +18,17 @@
 			<a class="ug-a simple-banner-swtich">Clan settings</a>
 		</div>
 	</div>
-	<div class="leaderboard-main-bg table-responsive ug-settings rechts-teilung leaderboard-main-bg">
-		<h1>This is a sample!</h1>
+	<div class="main-block">
+		<div class="leaderboard-main-bg table-responsive ug-settings rechts-teilung leaderboard-main-bg">
+			<h1>Here you can change your Alias and E-Mail address!</h1>
+			<span class="descriptor-field">Username</span>
+			<br>
+			<input type="text" value="{{ session.user_data['name'] }}">
+			<span class="descriptor-field">E-Mail</span>
+			<input type="text" value="Enter new E-Mail address">
+			<p class="descriptor-field">Your current E-Mail address is <span class="descriptor-field hidden-email-text">PLACEHOLDER EMAIL</span>
+
+		</div>
 	</div>
 </div>
 {% endblock %}
