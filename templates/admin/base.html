@@ -77,7 +77,7 @@
         <div class="navbar-item">
           <div class="buttons">
             {% if session.authenticated %}
-            <a class="button is-light" href="/user/{{ session.user_data['id'] }}">
+            <a class="button is-light" href="/u/{{ session.user_data['id'] }}">
               {{ session.user_data['name'] }}
             </a>
             <a class="button is-primary" href="/logout">
@@ -137,7 +137,7 @@
   <footer class="footer">
     <div class="content">
       <span>{{ appName() }} <strong>v{{ appVersion() }}</strong></span>
-      <a class="foot-link" href="https://github.com/yo-ru/gulag-web"><i class="fa fa-github"></i> GitHub</a>
+      <a class="foot-link" href="https://github.com/itekiosu/gulag-web"><i class="fa fa-github"></i> GitHub</a>
       <a class="foot-link" href="/discord"><i class="fab fa-discord"></i> Discord</a>
     </div>
   </footer>

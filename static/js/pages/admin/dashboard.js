@@ -13,9 +13,9 @@ new Vue({
     methods: {
         GetOnlineUsers() {
             var vm = this;
-            vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_online")
+            vm.$axios.get("https://" + window.location.hostname + ":" + window.location.port + "/api/get_online")
                 .then(function (response) {
-                    vm.online_users = response.data.online;
+                    vm.online_users = response.data.online - 1;
                 });
         },
         addCommas(nStr) {

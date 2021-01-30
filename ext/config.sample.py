@@ -18,4 +18,10 @@ mysql = {
 debug = False
 
 # social links (used throughout gulag-web)
-discord_server = 'https://discord.com/invite/Y5uPvcNpD9'
+discord_server = 'https://discord.gg/tRkHttxGV4'
+
+domain = 'iteki.pw'
+
+webhooks = {
+    'audit-log': ''
+}

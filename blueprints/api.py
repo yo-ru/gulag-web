@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import orjson
+import re
 from quart import Blueprint, request
 from cmyui import log, Ansi
 from enum import IntEnum
@@ -43,7 +44,7 @@ async def get_leaderboard():
         'u.country, tscore_{0}_{1} tscore, '
         'rscore_{0}_{1} rscore, pp_{0}_{1} pp, '
         'plays_{0}_{1} plays, playtime_{0}_{1} playtime, '
-        'acc_{0}_{1} acc, maxcombo_{0}_{1} maxcombo FROM stats '
+        'ROUND(acc_{0}_{1}, 2) acc, maxcombo_{0}_{1} maxcombo FROM stats '
         'JOIN users u ON stats.id = u.id '
         'WHERE pp_{0}_{1} > 0'.format(mods, mode)]
 
@@ -106,9 +107,9 @@ async def get_user():
         'playtime_ap_std, '
 
         # accuracy
-        'acc_vn_std, acc_vn_taiko, acc_vn_catch, acc_vn_mania, '
-        'acc_rx_std, acc_rx_taiko, acc_rx_catch, '
-        'acc_ap_std, '
+        'ROUND(acc_vn_std, 2) AS acc_vn_std, ROUND(acc_vn_taiko, 2) AS acc_vn_taiko, ROUND(acc_vn_catch, 2) AS acc_vn_catch, ROUND(acc_vn_mania, 2) AS acc_vn_mania, '
+        'ROUND(acc_rx_std, 2) AS acc_rx_std, ROUND(acc_rx_taiko, 2) AS acc_rx_taiko, ROUND(acc_rx_catch, 2) AS acc_rx_catch, '
+        'ROUND(acc_ap_std, 2) AS acc_ap_std, '
 
         # maximum combo
         'maxcombo_vn_std, maxcombo_vn_taiko, maxcombo_vn_catch, maxcombo_vn_mania, '
@@ -139,6 +140,7 @@ async def get_user():
     elif name:
         q.append('WHERE u.safe_name = %s')
         args.append(get_safe_name(name))
+
 
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)

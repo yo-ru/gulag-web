@@ -7,6 +7,7 @@ import bcrypt
 import hashlib
 from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
+from cmyui.discord import Webhook, Embed
 
 from objects import glob
 from objects.privileges import Privileges
@@ -252,7 +253,16 @@ async def register_post():
 
     # user has successfully registered
     await glob.db.execute('UPDATE beta_keys SET used = 1 WHERE beta_key = %s', key)
-    await glob.db.execute('UPDATE beta_keys SET user = %s WHERE beta_key = %s', [username, key])
+    await glob.db.execute('UPDATE beta_keys SET user = %s WHERE beta_key = %s', [username, key]
+    webhook_url = glob.config.webhooks['audit-log']
+    webhook = Webhook(url=webhook_url)
+    embed = Embed(title = f'')
+    embed.set_author(url = f"https://{glob.config.domain}/u/{user_id}", name = username, icon_url = f"https://a.{glob.config.domain}/{user_id}")
+    thumb_url = f'https://a.{glob.config.domain}/1'
+    embed.set_thumbnail(url=thumb_url)
+    embed.add_field(name = 'New user', value = f'{username} has registered.', inline = True)
+    webhook.add_embed(embed)
+    await webhook.post(glob.http)
     return await render_template('verify.html')
 
 """ logout """
