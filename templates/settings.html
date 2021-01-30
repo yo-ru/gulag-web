@@ -5,7 +5,9 @@
 <link rel="stylesheet" href="static/css/pages/settings.css">
 <div id="settingsboard">
 	<div class="leaderboard-banner ug-settings links-teilung main-banner">
-		<div class="main-selector"></div>
+		<div class="main-selector">
+			<span class="simple-banner-desc">You're logged in as {{ session.user_data['name'] }}!</span>
+		</div>
 		<div class="banner-text">Settings</div>
 		<div class="selector">
 			<a class="ug-a simple-banner-swtich switch--active">Profile</a>
