@@ -40,8 +40,10 @@
 
 .profile-avatar {
     width: 185px;
+    height: 185px;
     margin-top: -5.5rem;
-    border-radius: 16px
+    border-radius: 16px;
+    object-fit: cover;
 }
 
 .profile-stats-rank {
