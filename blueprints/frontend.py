@@ -253,7 +253,7 @@ async def register_post():
 
     # user has successfully registered
     await glob.db.execute('UPDATE beta_keys SET used = 1 WHERE beta_key = %s', key)
-    await glob.db.execute('UPDATE beta_keys SET user = %s WHERE beta_key = %s', [username, key]
+    await glob.db.execute('UPDATE beta_keys SET user = %s WHERE beta_key = %s', [username, key])
     webhook_url = glob.config.webhooks['audit-log']
     webhook = Webhook(url=webhook_url)
     embed = Embed(title = f'')
