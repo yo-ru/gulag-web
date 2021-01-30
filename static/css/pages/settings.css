@@ -142,6 +142,21 @@ table th {
     z-index: 2;
 }
 
+.descriptor-field{
+  color: white;
+  display: flex;
+  font-size: 15px;
+}
+
+.hidden-email-text{
+  filter: blur(2rem);
+  transition: 0.17s ease-in-out;
+}
+.hidden-email-text:hover{
+  filter: blur(0);
+  transition: 0.17s ease-in-out;
+}
+
 .banner-text {
     margin-bottom: 2%;
     font-size: 46px;
