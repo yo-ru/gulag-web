@@ -25,7 +25,7 @@ a:hover {
 }
 
 .leaderboard-banner {
-    background-color: hsl(var(--main), 30%, 50%);
+    background-image: url('../../images/165801.jpg');
     height: 194px;
     border-radius: 0;
     border-top-right-radius: 8px;
