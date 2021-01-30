@@ -138,18 +138,30 @@ table th {
     padding: 0px 36px;
 }
 
+.descriptor-textfield{
+  background: #413030;
+  color: gray;
+  border-radius: 10px;
+  padding: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  width: 20%;
+  border: 1px solid transparent;
+}
+
+
 .main-banner>* {
     z-index: 2;
 }
 
 .descriptor-field{
   color: white;
-  display: flex;
+  display: inline-block;
   font-size: 15px;
 }
 
 .hidden-email-text{
-  filter: blur(2rem);
+  filter: blur(10px);
   transition: 0.17s ease-in-out;
 }
 .hidden-email-text:hover{
