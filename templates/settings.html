@@ -25,12 +25,17 @@
 			<br>
 			<input class="descriptor-textfield --readonly" type="text" readonly value="{{ session.user_data['name'] }}">
 			<br>
+			<span class="descriptor-field aka">Alias</span> <span class="descriptor-field hidden-text">This will show as "a.k.a" on your profile, under your username. This does not change your username.</span>
+			<input class="descriptor-textfield" placeholder="a.k.a">
+			<br>
 			<span class="descriptor-field">E-Mail</span>
 			<br>
 			<input class="descriptor-textfield" type="text" placeholder="Enter new E-Mail address">
 			<br>
 			<p class="descriptor-field">Your current E-Mail address is:<br> <span class="descriptor-field hidden-email-text">PLACEHOLDER EMAIL</span></p>
-
+			<br>
+			<input type="submit" class="descriptor-submit" value="Save">
+			<br>
 		</div>
 	</div>
 </div>
