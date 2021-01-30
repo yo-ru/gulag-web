@@ -140,7 +140,7 @@ table th {
 
 .descriptor-textfield{
   background: #413030;
-  color: gray;
+  color: white;
   border-radius: 10px;
   padding: 10px;
   padding-top: 5px;
@@ -148,7 +148,10 @@ table th {
   width: 20%;
   border: 1px solid transparent;
 }
-
+.--readonly{
+  color: gray;
+  background: #322525;
+}
 
 .main-banner>* {
     z-index: 2;
@@ -158,6 +161,7 @@ table th {
   color: white;
   display: inline-block;
   font-size: 15px;
+  padding-top: 2px;
 }
 
 .hidden-email-text{
