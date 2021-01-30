@@ -134,7 +134,7 @@ button:focus {
 .howto-info {
     width: 240px;
     height: 44px;
-    margin-top: 6px;
+    margin-top: 12px;
 }
 
 .big-number {
@@ -163,10 +163,6 @@ button:focus {
 .howto-withsub .subtitle {
     font-size: 10px;
     font-weight: 100;
-}
-
-#howto:hover {
-    transform: translateY(-10px);
 }
 
 #discord:hover {
