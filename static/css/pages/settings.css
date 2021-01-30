@@ -173,6 +173,33 @@ table th {
   padding-top: 2px;
 }
 
+.descriptor-field.hidden-text{
+  display: none;
+  transition: 0.17s ease-in-out;
+}
+
+.descriptor-field.aka:hover .hidden-text{
+  display: inline-block;
+  margin-left: 10px;
+  transition: 0.17s ease-in-out;
+}
+
+.descriptor-submit{
+  padding: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background: transparent;
+  border-radius: 10px;
+  border: 1px solid hsl(var(--main), 30%, 50%);
+  transition: 0.17s ease-in-out;
+  color: white;
+}
+.descriptor-submit:hover{
+  background: hsl(var(--main), 30%, 50%);
+  transition: 0.17s ease-in-out;
+}
+
+
 .hidden-email-text{
   filter: blur(10px);
   transition: 0.17s ease-in-out;
