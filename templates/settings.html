@@ -23,10 +23,13 @@
 			<h1>Here you can change your Alias and E-Mail address!</h1>
 			<span class="descriptor-field">Username</span>
 			<br>
-			<input type="text" value="{{ session.user_data['name'] }}">
+			<input class="descriptor-textfield" type="text" readonly value="{{ session.user_data['name'] }}">
+			<br>
 			<span class="descriptor-field">E-Mail</span>
-			<input type="text" value="Enter new E-Mail address">
-			<p class="descriptor-field">Your current E-Mail address is <span class="descriptor-field hidden-email-text">PLACEHOLDER EMAIL</span>
+			<br>
+			<input class="descriptor-textfield" type="text" value="Enter new E-Mail address">
+			<br>
+			<p class="descriptor-field">Your current E-Mail address is:<br> <span class="descriptor-field hidden-email-text">PLACEHOLDER EMAIL</span></p>
 
 		</div>
 	</div>
