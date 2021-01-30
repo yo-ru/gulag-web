@@ -33,6 +33,12 @@ _app_name = glob.config.app_name
 def appName() -> str:
     return _app_name
 
+_domain = glob.config.domain
+@app.before_serving
+@app.template_global()
+def domain() -> str:
+    return _domain
+
 # Import external blueprints & add to app
 from blueprints.frontend import frontend
 from blueprints.admin import admin

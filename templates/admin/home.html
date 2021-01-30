@@ -54,7 +54,7 @@
             <div class="blockdata">
                 {% for user in recentusers %}
                 <a class="user-block{% if user.priv == 1 %} unverified{% endif %}">
-                    <img src="https://a.varkaria.cyou/{{ user.id }}" class="avatar-picture">
+                    <img src="https://a.{{ domain() }}/{{ user.id }}" class="avatar-picture">
                     <div class="user-stats"><span class="user-title">
                         <img src="https://s.kurikku.pw/flags/{{ user.country|upper }}.png" class="profile-flag"> {{ user.name }}
                         </span><span class="user-artist">
