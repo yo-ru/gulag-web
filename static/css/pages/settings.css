@@ -157,6 +157,19 @@ table th {
     z-index: 2;
 }
 
+.wip-warning{
+  width: 100%;
+  background: red;
+}
+
+.wip-text{
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  font-size: 15px;
+  color: white;
+}
+
+
 .descriptor-field{
   color: white;
   display: inline-block;
@@ -193,6 +206,7 @@ table th {
   border: 1px solid hsl(var(--main), 30%, 50%);
   transition: 0.17s ease-in-out;
   color: white;
+  margin-top: 15px;
 }
 .descriptor-submit:hover{
   background: hsl(var(--main), 30%, 50%);
