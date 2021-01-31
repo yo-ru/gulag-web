@@ -75,6 +75,47 @@ async def leaderboard(mode, sort, mods):
 async def create_clan():
     return await render_template('clans/create.html')
 
+@frontend.route("/clans/create", methods=['POST'])
+async def cc_post():
+    if not 'authenticated' in session:
+        return await flash('error', f'Hey! You need to login to create a clan.', 'login')
+    
+    # check if they in clan already
+    e = await glob.db.fetch("SELECT clan_id FROM users WHERE id = %s", session["user_data"]["id"])
+    if int(e['clan_id']) != 0:
+        return await flash('error', 'Hey! You are already in a clan. Please leave your current clan to create your own!', 'home')
+
+    form = await request.form
+    name = form.get('c_name')
+    tag = form.get('c_tag')
+    desc = form.get('description')
+
+    clan_rgx = re.compile(r'^[\w \[\]-]{2,15}$')
+    tag_rgx = re.compile(r'^[\w \[\]-]{1,6}$')
+    if not clan_rgx.match(name):
+        return await flash('error', 'Invalid clan name syntax.', 'clans/create')
+    
+    if '_' in name and ' ' in name:
+        return await flash('error', 'Clan names may contain "_" or " ", but not both.', 'clans/create')
+    
+    if await glob.db.fetch('SELECT 1 FROM clans WHERE name = %s', name):
+        return await flash('error', 'Clan name already taken by another clan.', 'clans/create')
+
+    if not tag_rgx.match(tag):
+        return await flash('error', 'Invalid clantag syntax.', 'clans/create')
+    
+    if '_' in tag and ' ' in tag:
+        return await flash('error', 'Clan tags may contain "_" or " ", but not both.', 'clans/create')
+    
+    if await glob.db.fetch('SELECT 1 FROM clans WHERE tag = %s', tag):
+        return await flash('error', 'Clan tags already taken by another clan.', 'clans/create')
+    
+    await glob.db.execute("INSERT INTO clans (name, tag, owner, created_at, description) VALUES (%s, %s, %s, UNIX_TIMESTAMP(), %s)", [name, tag, session["user_data"]["id"], desc])
+    a = await glob.db.fetch("SELECT id FROM clans WHERE name = %s", name)
+    clanid = a['id']
+    await glob.db.execute("UPDATE users SET clan_id = %s WHERE id = %s", [clanid, session["user_data"]["id"]])
+    return await flash('success', 'Clan created!', 'home')
+
 """ login """
 @frontend.route('/login') # GET
 async def login():
