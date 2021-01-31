@@ -34,6 +34,8 @@ async def home():
     recent_scores = await glob.db.fetchall('SELECT scores_vn.*, maps.artist, maps.title, maps.set_id, '
     'maps.creator, maps.version FROM scores_vn JOIN maps ON scores_vn.map_md5 = maps.md5 '
     'ORDER BY scores_vn.id DESC LIMIT 5')
+    e = await glob.db.fetch('SELECT COUNT(id) AS b FROM users WHERE priv = 2')
+    bu = int(e['b'])
 
     return await render_template('admin/home.html', dashdata=dash_data, recentusers=recent_users, recentscores=recent_scores,
-                                datetime=datetime, timeago=timeago)
+                                datetime=datetime, timeago=timeago, bannedusers=bu)

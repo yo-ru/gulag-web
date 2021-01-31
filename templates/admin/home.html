@@ -35,7 +35,7 @@
             <div class="card red">
                 <div class="title">banned users</div>
                 <i class="fa fa-calendar"></i>
-                <div class="value">Not Implemented</div>
+                <div class="value">{{ bannedusers }}</div>
             </div>
         </div>
     </div>
@@ -112,9 +112,9 @@
                             <div class="score-details_right-block">
                                 <div class="score-details_pp-block">
                                     <div class="map-pp">
-                                        {{ maps.pp }}<span class="map-pp-unit">pp</span></div>
+                                        {{ '%0.0f' % maps.pp|int }}<span class="map-pp-unit">pp</span></div>
                                     <div class="map-acc">accuracy:&nbsp;<b>
-                                        {{ maps.acc }}%
+                                        {{ '%0.2f' % maps.acc|float }}%
                                         </b></div>
                                 </div>
                                 <div class="score-details_grade-block">
