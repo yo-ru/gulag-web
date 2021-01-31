@@ -114,6 +114,7 @@ async def cc_post():
     a = await glob.db.fetch("SELECT id FROM clans WHERE name = %s", name)
     clanid = a['id']
     await glob.db.execute("UPDATE users SET clan_id = %s WHERE id = %s", [clanid, session["user_data"]["id"]])
+    await glob.db.execute("UPDATE users SET clan_rank = 3 WHERE id = %s", session["user_data"]["id"])
     return await flash('success', 'Clan created!', 'home')
 
 """ login """
