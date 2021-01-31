@@ -5,6 +5,7 @@ import re
 import time
 import bcrypt
 import hashlib
+import aiohttp
 from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
 from cmyui.discord import Webhook, Embed
@@ -262,7 +263,8 @@ async def register_post():
     embed.set_thumbnail(url=thumb_url)
     embed.add_field(name = 'New user', value = f'{username} has registered.', inline = True)
     webhook.add_embed(embed)
-    await webhook.post(glob.http)
+    http = aiohttp.ClientSession(json_serialize=orjson.dumps)
+    await webhook.post(http)
     return await render_template('verify.html')
 
 """ logout """

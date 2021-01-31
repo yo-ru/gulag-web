@@ -46,7 +46,7 @@ async def get_leaderboard():
         'plays_{0}_{1} plays, playtime_{0}_{1} playtime, '
         'ROUND(acc_{0}_{1}, 2) acc, maxcombo_{0}_{1} maxcombo FROM stats '
         'JOIN users u ON stats.id = u.id '
-        'WHERE pp_{0}_{1} > 0'.format(mods, mode)]
+        'WHERE pp_{0}_{1} > 0 AND u.priv > 2'.format(mods, mode)]
 
     args = []
 

@@ -292,7 +292,6 @@ html {
     display: flex;
     font-weight: 500;
     align-items: center;
-    white-space: nowrap
 }
 
 .map-title-block {
