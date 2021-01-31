@@ -71,6 +71,10 @@ async def leaderboard_nodata():
 async def leaderboard(mode, sort, mods):
     return await render_template('leaderboard.html', mode=mode, sort=sort, mods=mods)
 
+@frontend.route("/clans/create")
+async def create_clan():
+    return await render_template('clans/create.html')
+
 """ login """
 @frontend.route('/login') # GET
 async def login():
