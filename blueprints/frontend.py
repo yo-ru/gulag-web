@@ -6,6 +6,7 @@ import time
 import bcrypt
 import hashlib
 import aiohttp
+import orjson
 from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
 from cmyui.discord import Webhook, Embed
