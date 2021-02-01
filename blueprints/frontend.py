@@ -79,8 +79,15 @@ async def profile(user):
         return redirect(f"https://iteki.pw/u/{uid}?mode={mode}&mods={mods}")
 
     userdata = await glob.db.fetch(f"SELECT name, id, priv, country FROM users WHERE id = {user}")
+    in_clan = await glob.db.fetch(f"SELECT clan_id FROM users WHERE id = {user}")
+    isclan = in_clan['clan_id']
+    if isclan != 0:
+        clandata = await glob.db.fetch(f"SELECT tag FROM clans WHERE id = {isclan}")
+        clantag = f"[{clandata['tag']}]"
+    else:
+        clantag = ""
 
-    return await render_template('profile.html', user=userdata, mode=mode, mods=mods)
+    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag)
 
 """ leaderboard """
 @frontend.route('/leaderboard') # GET
