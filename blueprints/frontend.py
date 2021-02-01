@@ -71,7 +71,14 @@ async def profile(user):
     else:
         mode = 'std'
 
-    userdata = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {user}')
+    try:
+        user = int(user)
+    except:
+        e = await glob.db.fetch(f'SELECT id FROM users WHERE safe_name = "{user.lower()}"')
+        uid = e['id']
+        return redirect(f"https://iteki.pw/u/{uid}?mode={mode}&mods={mods}")
+
+    userdata = await glob.db.fetch(f"SELECT name, id, priv, country FROM users WHERE id = {user}")
 
     return await render_template('profile.html', user=userdata, mode=mode, mods=mods)
 
