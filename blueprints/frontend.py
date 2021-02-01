@@ -188,7 +188,9 @@ async def login_post():
         'name': user_info['name'],
         'priv': user_info['priv'],
         'silence_end': user_info['silence_end'],
-        'is_staff': user_info['priv'] & Privileges.Staff
+        'is_staff': user_info['priv'] & Privileges.Staff,
+        'is_donator': user_info['priv'] & Privileges.Donator
+
     }
 
     if glob.config.debug:
