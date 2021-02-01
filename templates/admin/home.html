@@ -13,7 +13,7 @@
                 <div class="title">total users</div>
                 <i class="fa fa-users"></i>
                 <div class="value">{{ dashdata['count'] }}</div>
-                <div class="stat">uwu that's nice</div>
+                <div class="stat">that's a lot of people!</div>
             </div>
         </div>
         <div class="column is-paddingless p-3">
@@ -23,7 +23,7 @@
                 <div class="value">
                     <% online_users %>
                 </div>
-                <div class="stat">it's look a lot?</div>
+                <div class="stat">rising in popularity are we?</div>
             </div>
         </div>
         <div class="column is-paddingless p-3">
@@ -31,7 +31,7 @@
                 <div class="title">lastest users</div>
                 <i class="fa fa-book"></i>
                 <div class="value">{{ dashdata['lastest_user'] }}</div>
-                <div class="stat">oh welcome!!</div>
+                <div class="stat">latest and greatest! welcome!</div>
             </div>
         </div>
         <div class="column is-paddingless p-3">
@@ -39,7 +39,7 @@
                 <div class="title">total banned</div>
                 <i class="fa fa-calendar"></i>
                 <div class="value">NotImplemented</div>
-                <div class="stat">oh no that's bad people right?</div>
+                <div class="stat">naughty naughty :(</div>
             </div>
         </div>
     </div>
@@ -53,7 +53,7 @@
             </div>
             <div class="blockdata">
                 {% for user in recentusers %}
-                <a class="user-block{% if user.priv == 1 %} unverified{% endif %}">
+                <a href="/u/{{ user.id }}" class="user-block{% if user.priv == 1 %} unverified{% endif %}">
                     <img src="https://a.{{ domain() }}/{{ user.id }}" class="avatar-picture">
                     <div class="user-stats"><span class="user-title">
                         <img src="https://s.kurikku.pw/flags/{{ user.country|upper }}.png" class="profile-flag"> {{ user.name }}
