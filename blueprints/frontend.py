@@ -43,7 +43,7 @@ async def settings():
 
     return await render_template('settings.html')
 
-frontend.route('/key') # GET
+@frontend.route('/key') # GET
 async def keygen():
     if not 'authenticated' in session:
         return await flash('error', 'You must be logged in to access the key gen!', 'login')
