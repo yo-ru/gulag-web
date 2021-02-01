@@ -43,6 +43,18 @@ async def settings():
 
     return await render_template('settings.html')
 
+frontend.route('/key') # GET
+async def keygen():
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access the key gen!', 'login')
+
+    if not session["user_data"]["is_donator"]:
+        return await flash('error', 'You must be a donator to do this!', 'home')
+
+    NotImplemented
+
+    return await render_template('key.html')
+
 @frontend.route('/u/<user>') # GET
 async def profile(user):
     mode = request.args.get('mode', type=str)
