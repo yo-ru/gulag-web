@@ -52,6 +52,31 @@
             Log in
           </a>
         </div>
+        <div class="columns is-marginless is-paddingless">
+            <div class="column is-paddingless p-3">
+                <div class="card blue">
+                    <div class="title">total users</div>
+                    <i class="fa fa-users"></i>
+                    <div class="value">{{ dashdata['count'] }}</div>
+                </div>
+            </div>
+            <div class="column is-paddingless p-3">
+                <div class="card green">
+                    <div class="title">total online</div>
+                    <i class="fa fa-circle"></i>
+                    <div class="value">
+                        <% online_users %>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-paddingless p-3">
+                <div class="card orange">
+                    <div class="title">latest user</div>
+                    <i class="fa fa-book"></i>
+                    <div class="value">{{ dashdata['lastest_user'] }}</div>
+                </div>
+            </div>
+        </div>
         {% endif %}
       </div>
     </div>
