@@ -63,16 +63,10 @@
                 </a>
               </div>
             </div>
-            <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link">
-                Clans
-              </a>
-              <div class="navbar-dropdown">
-                <a class="navbar-item" href="/clans/create">
-                Create a Clan
-              </a>
-              </div>
-            </div>
+
+            {% if session.authenticated and session.user_data['is_donator'] %}
+            <a class="navbar-item" href="/key.html">Generate Key</a>
+            {% endif %}
 
             {% if session.authenticated and session.user_data['is_staff'] %}
             <a class="navbar-item" href="/admin">
