@@ -82,6 +82,13 @@ async def leaderboard_nodata():
 @frontend.route('/leaderboard/<mode>/<sort>/<mods>') # GET
 async def leaderboard(mode, sort, mods):
     return await render_template('leaderboard.html', mode=mode, sort=sort, mods=mods)
+  
+@frontend.route('/leaderboard/clans') # GET
+async def c_leaderboard_nodata():
+    return await render_template('clans/c-leaderboard.html', mode='std', sort='pp', mods='vn')
+@frontend.route('/leaderboard/clans/<mode>/<sort>/<mods>') # GET
+async def c_leaderboard(mode, sort, mods):
+    return await render_template('clans/c-leaderboard.html', mode=mode, sort=sort, mods=mods)
 
 @frontend.route("/clans/create")
 async def create_clan():
