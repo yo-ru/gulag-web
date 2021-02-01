@@ -43,10 +43,6 @@
                     :class="'simple-banner-swtich'+(sort == 'pp' ? ' switch--active' :'')">PP</a>
                 <a :href="'/leaderboard/'+mode+'/rscore'" @click="LoadLeaderboard('rscore', mode, mods, '')"
                     :class="'simple-banner-swtich'+(sort == 'rscore' ? ' switch--active' :'')">Score</a>
-                <!-- Disable for now? Still deciding on whether or not we should actually allow accuracy sort? Seems pointless imo.
-                    <a :href="'/leaderboard/'+mode+'/acc'" @click="LoadLeaderboard('acc', mode, mods, '')"
-                    :class="'simple-banner-swtich'+(sort == 'acc' ? ' switch--active' :'')">Accuracy</a>
-                -->
             </div>
             <div class="selectright">
                 <a :href="'/leaderboard/'+mode+'/'+sort+'/vn'"
@@ -58,6 +54,9 @@
                 <a :href="'/leaderboard/'+mode+'/'+sort+'/ap'"
                     :class="'simple-banner-swtich '+(mods == 'ap' ? 'switch--active' : '')+(mode == 'mania' ? 'disabled':'')+(mode == 'catch' ? 'disabled':'')+(mode == 'taiko' ? 'disabled':'')"
                     @click="LoadLeaderboard(sort, mode, 'ap')">Autopilot</a>
+                <a :href="'/leaderboard/clans'"
+                    :class="'simple-banner-swtich '+(mods == 'clans' ? 'switch--active' : '')"
+                    @click="LoadLeaderboard(sort, mode, 'clans')">Clans</a>
             </div>
         </div>
     </div>
