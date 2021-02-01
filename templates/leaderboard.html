@@ -54,9 +54,7 @@
                 <a :href="'/leaderboard/'+mode+'/'+sort+'/ap'"
                     :class="'simple-banner-swtich '+(mods == 'ap' ? 'switch--active' : '')+(mode == 'mania' ? 'disabled':'')+(mode == 'catch' ? 'disabled':'')+(mode == 'taiko' ? 'disabled':'')"
                     @click="LoadLeaderboard(sort, mode, 'ap')">Autopilot</a>
-                <a :href="'/leaderboard/clans'"
-                    :class="'simple-banner-swtich '+(mods == 'clans' ? 'switch--active' : '')"
-                    @click="LoadLeaderboard(sort, mode, 'clans')">Clans</a>
+                <a href="/leaderboard/clans">Clans</a>
             </div>
         </div>
     </div>
