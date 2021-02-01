@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %} Leaderboard {% endblock %}
+
+{% block content %}
+<script src="/static/js/asserts/vue.js"></script>
+<script src="/static/js/asserts/vue-axios.js"></script>
+
+<script>
+    var mode = "{{ mode }}";
+    var mods = "{{ mods }}";
+    var sort = "{{ sort }}";
+</script>
+
+<link rel="stylesheet" href="/static/css/pages/leaderboard.css">
+
+<div id="leaderboard">
+    <div class="leaderboard-banner main-banner">
+        <div class="main-selector">
+            <a :href="'/leaderboard/osu/'+sort+'/'+mods" :class="'mode-select '+(mode == 'std' ? '--selected ' : '')"
+                @click="LoadLeaderboard(sort, 'std', mods)">
+                <i class="mode-icon mode-osu"></i><span class="modetext"> osu!</span>
+            </a>
+            <a :href="'/leaderboard/taiko/'+sort+'/'+mods"
+                :class="'mode-select '+(mode == 'taiko' ? '--selected ' : '') +(mods == 'ap' ? 'disabled':'')"
+                @click="LoadLeaderboard(sort, 'taiko', mods)">
+                <i class="mode-icon mode-taiko"></i><span class="modetext"> osu!taiko</span>
+            </a>
+            <a :href="'/leaderboard/catch/'+sort+'/'+mods"
+                :class="'mode-select '+(mode == 'catch' ? '--selected ' : '') +(mods == 'ap' ? 'disabled':'')"
+                @click="LoadLeaderboard(sort, 'catch', mods)">
+                <i class="mode-icon mode-catch"></i><span class="modetext"> osu!catch</span>
+            </a>
+            <a :href="'/leaderboard/mania/'+sort+'/'+mods"
+                :class="'mode-select '+(mode == 'mania' ? '--selected ' : '') +(mods == 'ap' ? 'disabled':'') +(mods == 'rx' ? 'disabled':'')"
+                @click="LoadLeaderboard(sort, 'mania', mods)">
+                <i class="mode-icon mode-mania"></i><span class="modetext"> osu!mania</span>
+            </a>
+        </div>
+        <div class="banner-text">Leaderboard</div>
+        <div class="selector">
+            <div class="selectleft">
+                <a :href="'/leaderboard/'+mode+'/pp'" @click="LoadLeaderboard('pp', mode, mods, '')"
+                    :class="'simple-banner-swtich'+(sort == 'pp' ? ' switch--active' :'')">PP</a>
+                <a :href="'/leaderboard/'+mode+'/rscore'" @click="LoadLeaderboard('rscore', mode, mods, '')"
+                    :class="'simple-banner-swtich'+(sort == 'rscore' ? ' switch--active' :'')">Score</a>
+            </div>
+        </div>
+    </div>
+    <div class="main-block">
+        <div class="leaderboard-main-bg table-responsive">
+            <div v-if="boards.length !== undefined">
+                <table :class="'leaderboard-table table-responsive ' +(load ? 'load ' : '')">
+                    <thead>
+                        <tr>
+                            <th class="t-heading"> </th>
+                            <th class="t-heading t-heading--main"></th>
+                            <th v-if="sort == 'pp' || sort == 'rscore'" class="t-heading table--selected">
+                                <% (sort=='pp' ? "PP" : "" ) %>
+                                    <% (sort=='rscore' ? "Score" : "" ) %>
+                            </th>
+                            <th class="t-heading"> Accuracy </th>
+                            <th class="t-heading"> Playcount </th>
+                            <th class="t-heading"> Max Combo </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(user, index) in boards" class="leaderboard-column">
+                            <td class="t-column column-player-rank">#<% index + 1 %>
+                            </td>
+                            <td class="t-column column-player-name is-lefttext">
+                                <a :href="'/u/'+user.user_id"><% user.username %></a>
+                            </td>
+                            <td v-if="sort == 'pp' || sort == 'rscore'" class="t-column">
+                                <% (sort=='pp' ? user.pp+'pp' : "" ) %>
+                                    <% (sort=='rscore' ? scoreFormat(user.rscore) : "" ) %>
+                            </td>
+                            <td class="t-column t-column--dimmed">
+                                <% user.acc %>%
+                            </td>
+                            <td class="t-column t-column--dimmed">
+                                <% addCommas(user.plays) %>
+                            </td>
+                            <td class="t-column t-column--dimmed">
+                                <% addCommas(user.maxcombo) %>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div v-else>
+                <div class="is-centertext">
+                    there are no scores to display!
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/pages/leaderboard.js"></script>
+{% endblock %}
