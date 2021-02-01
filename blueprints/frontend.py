@@ -324,8 +324,7 @@ async def register_post():
     embed.set_thumbnail(url=thumb_url)
     embed.add_field(name = 'New user', value = f'{username} has registered.', inline = True)
     webhook.add_embed(embed)
-    http = aiohttp.ClientSession(json_serialize=orjson.dumps)
-    await webhook.post(http)
+    await webhook.post()
     return await render_template('verify.html')
 
 """ logout """
