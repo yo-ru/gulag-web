@@ -48,7 +48,7 @@ async def keygen():
     if not 'authenticated' in session:
         return await flash('error', 'You must be logged in to access the key gen!', 'login')
 
-    if not session["user_data"]["is_donator"]:
+    if not session["user_data"]["is_donator"] and not session["user_data"]["is_staff"]:
         return await flash('error', 'You must be a donator to do this!', 'home')
 
     NotImplemented
