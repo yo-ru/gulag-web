@@ -11,7 +11,7 @@ from objects import glob
 __all__ = ()
 
 app = Quart(__name__)
-version = Version(0, 1, 4)
+version = Version(0, 1, 5)
 
 app.secret_key = glob.config.secret_key
 

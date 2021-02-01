@@ -186,7 +186,7 @@ async def get_scores():
         limit = 5
 
     # fetch scores
-    q = [f'SELECT scores_{mods}.*, maps.* '
+    q = [f'SELECT scores_{mods}.id AS scoreid, scores_{mods}.*, maps.* '
         f'FROM scores_{mods} JOIN maps ON scores_{mods}.map_md5 = maps.md5']
 
     # argumnts

@@ -80,10 +80,13 @@ async def profile(user):
 
     userdata = await glob.db.fetch(f"SELECT name, id, priv, country FROM users WHERE id = {user}")
     in_clan = await glob.db.fetch(f"SELECT clan_id FROM users WHERE id = {user}")
-    isclan = in_clan['clan_id']
-    if isclan != 0:
+    if in_clan['clan_id'] is not None:
+        isclan = in_clan['clan_id']
         clandata = await glob.db.fetch(f"SELECT tag FROM clans WHERE id = {isclan}")
-        clantag = f"[{clandata['tag']}]"
+        if clandata is not None:
+            clantag = f"[{clandata['tag']}]"
+        else:
+            clantag = ""
     else:
         clantag = ""
 
