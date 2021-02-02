@@ -64,7 +64,7 @@
               </div>
             </div>
 
-            {% if session.authenticated and session.user_data['is_donator'] or session.user_data['is_staff'] %}
+            {% if session.authenticated and session.user_data['is_donator'] or session.user_data['is_staff'] and session.authenticated %}
             <a class="navbar-item" href="/key">
 			Generate Key
 			</a>
