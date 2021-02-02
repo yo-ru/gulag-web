@@ -1,3 +1,6 @@
 .descriptor-textfield, .descriptor-submit{
   display: inline-flex;
 }
+.descriptor-textfield{
+	margin: auto, 0;
+}
