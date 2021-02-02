@@ -225,7 +225,8 @@ async def login_post():
         'priv': user_info['priv'],
         'silence_end': user_info['silence_end'],
         'is_staff': user_info['priv'] & Privileges.Staff,
-        'is_donator': user_info['priv'] & Privileges.Donator
+        'is_donator': user_info['priv'] & Privileges.Donator,
+        'key': user_info['priv'] & Privileges.Donator or user_info['priv'] & Privileges.Staff
 
     }
 
