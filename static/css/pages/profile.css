@@ -8,15 +8,15 @@
 }
 
 .second-block {
-    background: #2a2222
+    background: hsl(var(--main), 12%, 15%);
 }
 
 .stats-block {
     width: 100%;
-    background: #413030;
+    background: hsl(var(--main), 25%, 25%);
     border-radius: 16px;
     padding: 9.5px;
-    margin-bottom: 9.5px!important
+    margin-bottom: 9.5px!important;
 }
 
 .profile-flex {
@@ -35,7 +35,7 @@
     align-items: flex-end;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
-    background: #a65973;
+    background: hsl(var(--main),40%,50%);
 }
 
 .profile-avatar {
@@ -95,11 +95,11 @@
 }
 
 .mode-selects {
-    background: #413030
+    background: hsl(var(--main), 25%, 22%);
 }
 
 .badge-selects {
-    background: #322828
+    background: hsl(var(--main), 16%, 20%);
 }
 
 .select-left {
@@ -241,9 +241,9 @@ html {
 
 .header {
     padding: 10px 10px;
-    background: #a65973;
+    background: hsl(var(--main),40%,50%);
     border-radius: 16px;
-    margin-bottom: 7px
+    margin-bottom: 7px;
 }
 
 .header .title {
@@ -265,9 +265,9 @@ html {
     justify-content: space-between;
     border-radius: 10px;
     overflow: hidden;
-    background: #413030;
+    background: hsl(var(--main), 25%, 25%);
     transition: .2s ease;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .map-single:hover {
@@ -338,8 +338,8 @@ html {
 
 .map-pp {
     font-weight: 700;
-    color: #cc5288;
-    font-size: 20px
+    color: hsl(var(--main), 30%, 55%);
+    font-size: 20px;
 }
 
 .map-acc {
@@ -437,6 +437,7 @@ html {
     display: grid;
     grid-gap: 10px;
     grid-template-columns: repeat(auto-fill,minmax(290px,350px));
+    margin: 8px 0;
 }
 
 .beatmap-block {
@@ -456,8 +457,8 @@ html {
 }
 
 .beatmap-block {
-    background-color: #413030;
-    color: #fff
+    background-color: hsl(var(--main), 25%, 25%);
+    color: #fff;
 }
 
 .beatmap-block:hover {
@@ -490,13 +491,13 @@ html {
 }
 
 .beatmap-footer .target-button {
-    background-color: #5d4343;
+    background-color: hsl(var(--main), 25%, 30%);
     border-radius: 6px;
     padding: 4.5px 7px;
     font-size: 12px;
     margin-left: 10px;
     transition: .2s background-color;
-    color: #ff679b
+    color: hsl(var(--main), 65%, 75%);
 }
 
 .beatmap-preview {
@@ -536,10 +537,10 @@ span.beatmap-mapper {
 
 .show-button {
     padding: 3px 34px;
-    background: #413030;
+    background: hsl(var(--main), 25%, 25%);
     color: white;
     border-radius: 30px;
-    margin: 8px 8px;
+    margin: 0px 8px 8px 8px;
 }
 
 @media screen and (max-width: 1152px) {
