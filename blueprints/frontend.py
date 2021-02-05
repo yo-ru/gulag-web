@@ -99,7 +99,7 @@ async def leaderboard_nodata():
 @frontend.route('/leaderboard/<mode>/<sort>/<mods>') # GET
 async def leaderboard(mode, sort, mods):
     return await render_template('leaderboard.html', mode=mode, sort=sort, mods=mods)
-  
+
 @frontend.route('/leaderboard/clans') # GET
 async def c_leaderboard_nodata():
     return await render_template('clans/c-leaderboard.html', mode='std', sort='pp', mods='vn')
@@ -111,11 +111,15 @@ async def c_leaderboard(mode, sort, mods):
 async def create_clan():
     return await render_template('clans/create.html')
 
+@frontend.route("/clans/info")
+async def clan_info():
+    return await render_template('clans/claninfo.html')
+
 @frontend.route("/clans/create", methods=['POST'])
 async def cc_post():
     if not 'authenticated' in session:
         return await flash('error', f'Hey! You need to login to create a clan.', 'login')
-    
+
     # check if they in clan already
     e = await glob.db.fetch("SELECT clan_id FROM users WHERE id = %s", session["user_data"]["id"])
     if int(e['clan_id']) != 0:
@@ -130,22 +134,22 @@ async def cc_post():
     tag_rgx = re.compile(r'^[\w \[\]-]{1,6}$')
     if not clan_rgx.match(name):
         return await flash('error', 'Invalid clan name syntax.', 'clans/create')
-    
+
     if '_' in name and ' ' in name:
         return await flash('error', 'Clan names may contain "_" or " ", but not both.', 'clans/create')
-    
+
     if await glob.db.fetch('SELECT 1 FROM clans WHERE name = %s', name):
         return await flash('error', 'Clan name already taken by another clan.', 'clans/create')
 
     if not tag_rgx.match(tag):
         return await flash('error', 'Invalid clantag syntax.', 'clans/create')
-    
+
     if '_' in tag and ' ' in tag:
         return await flash('error', 'Clan tags may contain "_" or " ", but not both.', 'clans/create')
-    
+
     if await glob.db.fetch('SELECT 1 FROM clans WHERE tag = %s', tag):
         return await flash('error', 'Clan tags already taken by another clan.', 'clans/create')
-    
+
     await glob.db.execute("INSERT INTO clans (name, tag, owner, created_at, description) VALUES (%s, %s, %s, UNIX_TIMESTAMP(), %s)", [name, tag, session["user_data"]["id"], desc])
     a = await glob.db.fetch("SELECT id FROM clans WHERE name = %s", name)
     clanid = a['id']

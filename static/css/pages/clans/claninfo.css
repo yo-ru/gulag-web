@@ -21,3 +21,6 @@
 
   width: 100%;
 }
+.member-cell.owner{
+  background: hsl(var(--main), 70%, 30%);
+}
