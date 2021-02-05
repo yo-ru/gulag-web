@@ -7,8 +7,10 @@
   width: 50%;
 }
 .clan-info-board{
-  position: relative;
-  top: 25%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .member-cell{
   background: hsl(var(--main), 10%, 20%);
