@@ -26,3 +26,10 @@
 .member-cell.owner{
   background: hsl(var(--main), 70%, 30%);
 }
+.title{
+  font-size: 18px;
+  font-weight: 500;
+  background: hsl(var(--main), 50%, 30%);
+  border: 16px;
+  padding: 10px 10px;
+}
