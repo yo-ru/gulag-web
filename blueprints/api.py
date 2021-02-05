@@ -5,6 +5,9 @@ import re
 from quart import Blueprint, request
 from cmyui import log, Ansi
 from enum import IntEnum
+from datetime import datetime
+import timeago
+import time
 
 from objects import glob
 from objects.utils import convert_mode_int, get_safe_name
@@ -204,6 +207,8 @@ async def get_scores():
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetchall(' '.join(q), args)
+    for e in res:
+        e['play_time'] = timeago.format(datetime.fromtimestamp(e['play_time']), datetime.now())
     return orjson.dumps(res) if res else b'{}'
 
 """ /get_most_beatmaps """
