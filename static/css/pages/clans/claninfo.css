@@ -8,7 +8,6 @@
 }
 .clan-info-board{
   margin-top: 10px;
-  position: absolute;
 }
 .member-cell{
   background: hsl(var(--main), 10%, 20%);
