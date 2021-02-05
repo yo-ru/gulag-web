@@ -1,0 +1,55 @@
+<!-- {% extends "base.html" %}
+{% block title %} Create a clan {% endblock %}
+
+{% block content %} -->
+<head>
+<!-- <link rel="stylesheet" href="/static/css/pages/clans/claninfo.css"> -->
+<!-- <link rel="stylesheet" href="/static/css/pages/settings.css"> -->
+<link rel="stylesheet" href="settings.css">
+<link rel="stylesheet" href="claninfo.css">
+
+</head>
+
+<div id="settingsboard">
+  <div class="leaderboard-banner ug-settings links-teilung main-banner">
+    <div class="main-selector">
+      <span class="simple-banner-desc">You're logged in as {{ session.user_data['name'] }}</span>
+    </div>
+    <div class="banner-text">
+      Clan Information
+    </div>
+  </div>
+
+  <div class="main-block">
+    <div class="leaderboard-main-bg table-responsive ug-claninfo rechts-teilung leaderboard-main-bg">
+      <div class="left-side-box">
+        <div class="clan-info-board">
+          <span class="clan-info-cell">Name: PLACEHOLDER</span><br>
+          <span class="clan-info-cell">Tag: PLACEHOLDER</span><br>
+          <span class="clan-info-cell">Score (Ranked): PLACEHOLDER</span><br>
+          <span class="clan-info-cell">Score (Unranked): PLACEHOLDER</span><br>
+          <span class="clan-info-cell">PP: PLACEHOLDER</span><br>
+          <span class="clan-info-cell">Accuracy: PLACEHOLDER</span><br>
+          <span class="clan-info-cell">Members: PLACEHOLDER</span><br>
+          <span class="clan-info-cell">Playcount: PLACEHOLDER</span><br>
+          <span class="clan-info-cell">Rank: PLACEHOLDER</span><br>
+        </div>
+      </div>
+      <div class="right-side-box">
+        <h1>Members:</h1>
+        <div class="member-board">
+          <div class="member-cell owner">
+            <img class="image" src="/static/images/pippi.png/" width="128" height="128"><br>
+            <span class="text">PLACEHOLDER</span>
+          </div>
+          <div class="member-cell">
+            <img class="image" src="/static/images/pippi.png/" width="128" height="128"><br>
+            <span class="text">PLACEHOLDER</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
