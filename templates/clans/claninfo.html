@@ -1,12 +1,10 @@
-<!-- {% extends "base.html" %}
+{% extends "base.html" %}
 {% block title %} Create a clan {% endblock %}
 
-{% block content %} -->
-<head>
+{% block content %}
 <link rel="stylesheet" href="/static/css/pages/clans/claninfo.css">
 <link rel="stylesheet" href="/static/css/pages/settings.css">
-
-</head>
+<link rel="stylesheet" href="/static/css/style.css">
 
 <div id="settingsboard">
   <div class="leaderboard-banner ug-settings links-teilung main-banner">
@@ -22,15 +20,88 @@
     <div class="leaderboard-main-bg table-responsive ug-claninfo rechts-teilung leaderboard-main-bg">
       <div class="left-side-box">
         <div class="clan-info-board">
-          <span class="clan-info-cell">Name: PLACEHOLDER</span><br>
-          <span class="clan-info-cell">Tag: PLACEHOLDER</span><br>
-          <span class="clan-info-cell">Score (Ranked): PLACEHOLDER</span><br>
-          <span class="clan-info-cell">Score (Unranked): PLACEHOLDER</span><br>
-          <span class="clan-info-cell">PP: PLACEHOLDER</span><br>
-          <span class="clan-info-cell">Accuracy: PLACEHOLDER</span><br>
-          <span class="clan-info-cell">Members: PLACEHOLDER</span><br>
-          <span class="clan-info-cell">Playcount: PLACEHOLDER</span><br>
-          <span class="clan-info-cell">Rank: PLACEHOLDER</span><br>
+          <div class="header">
+            <div>
+              <svg class="svg-inline--fa fa-chart-pie fa-w-17" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chart-pie" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 544 512" data-fa-i2svg=""><path fill="currentColor" d="M527.79 288H290.5l158.03 158.03c6.04 6.04 15.98 6.53 22.19.68 38.7-36.46 65.32-85.61 73.13-140.86 1.34-9.46-6.51-17.85-16.06-17.85zm-15.83-64.8C503.72 103.74 408.26 8.28 288.8.04 279.68-.59 272 7.1 272 16.24V240h223.77c9.14 0 16.82-7.68 16.19-16.8zM224 288V50.71c0-9.55-8.39-17.4-17.84-16.06C86.99 51.49-4.1 155.6.14 280.37 4.5 408.51 114.83 513.59 243.03 511.98c50.4-.63 96.97-16.87 135.26-44.03 7.9-5.6 8.42-17.23 1.57-24.08L224 288z"></path></svg>
+              Statistics
+            </div>
+          </div>
+          <div class="stats-block">
+                   <table class="is-striped">
+                       <tbody>
+                           <tr>
+                               <td><b>PP</b></td>
+                               <td class="right-aligned">
+                                   <% addCommas(userdata[0][`pp_${mods}_${mode}`]) %>
+                               </td>
+                           </tr>
+                           <tr>
+                               <td><b>Ranked score</b></td>
+                               <td class="right-aligned">
+                                   <% addCommas(userdata[0][`rscore_${mods}_${mode}`]) %>
+                               </td>
+                           </tr>
+                           <tr>
+                               <td><b>Total score</b></td>
+                               <td class="right-aligned">
+                                   <% addCommas(userdata[0][`tscore_${mods}_${mode}`]) %>
+                               </td>
+                           </tr>
+                           <tr>
+                               <td><b>Max combo</b></td>
+                               <td class="right-aligned">
+                                   <% addCommas(userdata[0][`maxcombo_${mods}_${mode}`]) %>
+                               </td>
+                           </tr>
+                           <tr>
+                               <td><b>Playcount</b></td>
+                               <td class="right-aligned">
+                                   <% addCommas(userdata[0][`plays_${mods}_${mode}`]) %>
+                               </td>
+                           </tr>
+                           <tr>
+                               <td><b>Playtime</b></td>
+                               <td class="right-aligned">
+                                   <% addCommas(userdata[0][`playtime_${mods}_${mode}`]) %>
+                               </td>
+                           </tr>
+                           <tr>
+                               <td><b>Accuracy</b></td>
+                               <td class="right-aligned">
+                                   <% userdata[0][`acc_${mods}_${mode}`] %>%
+                               </td>
+                           </tr>
+                       </tbody>
+                   </table>
+                   <div class="grade-block">
+                       <article class="media">
+                           <!--<figure class="media-left">
+                               <canvas id="myChart" width="100" height="100"></canvas>
+                           </figure>-->
+                           <div class="media-content">
+                               <div class="grade-line">
+                                   <div class="rank-single">
+                                       <div class="map-rank rank-S">SS</div>
+                                       <div class="rank-amount"> <% gradedata.ss %> </div>
+                                   </div>
+                                   <div class="rank-single">
+                                       <div class="map-rank rank-XH">SS</div>
+                                       <div class="rank-amount"> <% gradedata.xh %> </div>
+                                   </div>
+                               </div>
+                               <div class="grade-line">
+                                   <div class="rank-single">
+                                       <div class="map-rank rank-S">S</div>
+                                       <div class="rank-amount"> <% gradedata.s %> </div>
+                                   </div>
+                                   <div class="rank-single">
+                                       <div class="map-rank rank-SH">S</div>
+                                       <div class="rank-amount"> <% gradedata.sh %> </div>
+                                   </div>
+                                   <div class="rank-single">
+                                       <div class="map-rank rank-A">A</div>
+                                       <div class="rank-amount"> <% gradedata.a %> </div>
+                                   </div>
         </div>
       </div>
       <div class="right-side-box">
