@@ -76,6 +76,12 @@
           </div>
         </div>
 
+		{% if session.authenticated and session.user_data['key']%}
+            <a class="navbar-item" href="/key">
+			Generate Key
+			</a>
+         {% endif %}
+
         {% if session.authenticated and session.user_data['is_staff'] %}
         <a class="navbar-item" href="/admin">
           Admin
