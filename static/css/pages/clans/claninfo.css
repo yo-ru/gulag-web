@@ -50,6 +50,3 @@ tr {
 tbody, table{
   width: 90%;
 }
-.vl{
-  border-right: 1px solid hsl(var(--main), 10%, 20%);
-  height: 90%;
