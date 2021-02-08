@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %} User not found {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/css/pages/404.css">
+<style>html {--main: 355;}</style>
+<div class="main-block">
+	<div class="title-block">
+		<span>404</span>
+		<h2 class="error-title">
+			User not found
+		</h2>
+	</div>
+	<div class="error-block">
+		<ol>
+      		<li>- Check that the user you are searching for exists.</li>
+      		<li>- Check that you have the user's latest username (if searching by username)</li>
+      		<li></li>
+		</ol>
+	</div>
+</div>
+{% endblock %}

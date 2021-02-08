@@ -94,24 +94,39 @@ async def profile(user):
     else:
         mode = 'std'
 
+
     try:
         user = int(user)
     except:
-        e = await glob.db.fetch(f'SELECT id FROM users WHERE safe_name = "{user.lower()}"')
-        uid = e['id']
-        return redirect(f"https://iteki.pw/u/{uid}?mode={mode}&mods={mods}")
+        try:
+            e = await glob.db.fetch(f'SELECT id FROM users WHERE safe_name = "{user.lower()}"')
+            uid = e['id']
+            return redirect(f"https://iteki.pw/u/{uid}?mode={mode}&mods={mods}")
+        except:
+            return await render_template('nouser.html')
 
-    userdata = await glob.db.fetch(f"SELECT name, id, priv, country FROM users WHERE id = {user}")
-    in_clan = await glob.db.fetch(f"SELECT clan_id FROM users WHERE id = {user}")
-    if in_clan['clan_id'] is not None:
-        isclan = in_clan['clan_id']
-        clandata = await glob.db.fetch(f"SELECT tag FROM clans WHERE id = {isclan}")
-        if clandata is not None:
-            clantag = f"[{clandata['tag']}]"
+    try:
+        userdata = await glob.db.fetch(f"SELECT name, id, priv, country FROM users WHERE id = {user}")
+        in_clan = await glob.db.fetch(f"SELECT clan_id FROM users WHERE id = {user}")
+        if in_clan['clan_id'] is not None:
+            isclan = in_clan['clan_id']
+            clandata = await glob.db.fetch(f"SELECT tag FROM clans WHERE id = {isclan}")
+            if clandata is not None:
+                clantag = f"[{clandata['tag']}]"
+            else:
+                clantag = ""
         else:
             clantag = ""
-    else:
-        clantag = ""
+        if int(userdata['priv']) == 2:
+            if 'authenticated' in session:
+                if session["user_data"]["id"] != userdata['id']:
+                    return await render_template('resuser.html')
+                else:
+                    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag)
+            else:
+                return await render_template('resuser.html')
+    except:
+        return await render_template('nouser.html')
 
     return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag)
 

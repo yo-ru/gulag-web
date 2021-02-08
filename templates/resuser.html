@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %} User banned {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/css/pages/404.css">
+<style>html {--main: 355;}</style>
+<div class="main-block">
+	<div class="title-block">
+		<span>404</span>
+		<h2 class="error-title">
+			User not available
+		</h2>
+	</div>
+	<div class="error-block">
+		<ol>
+      		<li>- This user is banned so their profile is unavailable.</li>
+            <li>- If you are the user in question, please login to view your profile.</li>
+      		<li></li>
+		</ol>
+	</div>
+</div>
+{% endblock %}
