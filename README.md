@@ -1,12 +1,13 @@
 ![Gulag](https://i.imgur.com/G3UJCSI.png)
 
+[![Discord](https://discordapp.com/api/guilds/748687781605408908/widget.png?style=shield)](https://discord.gg/ShEQgUx)
+
 ### Features
 - Fully implemented session authentication system allowing users to have a more interpersonal experience.
 - A leaderboard supporting all mods and modes available within the gulag stack.
 - Built on [Quart](https://github.com/pgjones/quart) and [cmyui's multipurpose library](https://github.com/cmyui/cmyui_pkg) allowing for a fully
   asynchronous environment.
 - More soon! (Stay up to date with our [projects](https://github.com/Yo-ru/gulag-web/projects) to know what features are being worked on!)
-  [![Discord](https://discordapp.com/api/guilds/748687781605408908/widget.png?style=shield)](https://discord.gg/ShEQgUx)
 
 ### Project focuses and goals
 1. Written fully in modern Python.
@@ -71,3 +72,6 @@ hypercorn main.py # Please run gulag-web with hypercorn when in production!
 # Have fun!
 # - gulag Team
 ```
+
+### Woah! You made it to the end of the README file!
+Well know that you know everything, why not check out the original code gulag-web was based off of in [this](https://github.com/yo-ru/old-gulag-web) dusty old archived repository
