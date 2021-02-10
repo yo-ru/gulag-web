@@ -1,4 +1,4 @@
-![Gulag](https://i.imgur.com/G3UJCSI.png)
+![gulag-web](https://i.imgur.com/G3UJCSI.png)
 
 [![Discord](https://discordapp.com/api/guilds/748687781605408908/widget.png?style=shield)](https://discord.gg/ShEQgUx)
 
@@ -73,5 +73,26 @@ hypercorn main.py # Please run gulag-web with hypercorn when in production!
 # - gulag Team
 ```
 
-#### Woah! You made it to the end of the README file!
+## Screenshots
+Want a sneakpeek at what you'll get with gulag-web?
+
+### Home
+![Home](https://i.imgur.com/ODZkN5K.png)
+### Leaderboards
+![Leaderboards](https://i.imgur.com/Dwcgpbz.png)
+### Profiles
+![Profiles](https://i.imgur.com/m1peUvN.png)
+### Admin Panel
+![Admin](https://i.imgur.com/bOULK9c.png)
+### Authentication
+#### Login
+![Login](https://i.imgur.com/pKaeyQK.png)
+#### Register
+![Register](https://i.imgur.com/SBvjIWr.png)
+#### Verification
+![Verification](https://i.imgur.com/NXEWQFG.png)
+
+There will be so much more to come! Keep your eyes peeled~!
+
+## Woah! You made it to the end of the README file!
 Well know that you know everything, why not check out the original code gulag-web was based off of in [this](https://github.com/yo-ru/old-gulag-web) dusty old archived repository.
