@@ -5,9 +5,9 @@
 <link rel="stylesheet" href="/static/css/pages/home.css">
 
 {% if flash %}
-<div class='noti-banner noti-banner--warning'>
-  <div class='noti-banner--col noti-banner--col--icon'></div>
-  <div class='noti-banner--col noti-banner--col--label'>
+<div class='noti-banner noti-banner-warning'>
+  <div class='noti-col noti-col-icon'></div>
+  <div class='noti-col noti-col-label'>
     <div class='noti-bannertype'>
       {% if status=='error' %}
       Warning
@@ -23,7 +23,7 @@
       {% endif %}
     </div>
   </div>
-  <div class='noti-banner--text'>
+  <div class='noti-banner-text'>
     {{ flash }}
   </div>
 </div>

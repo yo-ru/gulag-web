@@ -244,17 +244,17 @@ a.foot-link {
     }
 }
 
-.noti-banner--col {
+.noti-col {
     margin: 5px
 }
 
-.noti-banner--text {
+.noti-banner-text {
     height: 50px;
     line-height: 50px;
     text-align: center;
 }
 
-.noti-banner--col--icon {
+.noti-col-icon {
     height: 30px;
     flex: none;
     background-position: 50%;
@@ -262,17 +262,17 @@ a.foot-link {
 }
 
 @media (min-width:900px) {
-    .noti-banner--col--icon {
+    .noti-col-icon {
         height: auto;
         width: 30px
     }
 }
 
-.noti-banner--alert .noti-banner--col--icon, .noti-banner--warning .noti-banner--col--icon {
+.noti-banner-alert .noti-col-icon, .noti-banner-warning .noti-col-icon {
     background-image: url(https://osu.ppy.sh/assets/images/exclamation-icon.0db8a908.svg)
 }
 
-.noti-banner--col--label {
+.noti-col-label {
     flex: none;
     display: flex;
     flex-direction: column;
@@ -282,13 +282,13 @@ a.foot-link {
 }
 
 @media (min-width:900px) {
-    .noti-banner--col--label {
+    .noti-col-label {
         padding-right: 18px;
         padding-bottom: 0
     }
 }
 
-.noti-banner--col--label:after {
+.noti-col-label:after {
     position: absolute;
     content: "";
     height: 3px;
@@ -300,7 +300,7 @@ a.foot-link {
 }
 
 @media (min-width:900px) {
-    .noti-banner--col--label:after {
+    .noti-col-label:after {
         width: 3px;
         height: auto;
         top: 0;
@@ -308,16 +308,16 @@ a.foot-link {
     }
 }
 
-.noti-banner--type {
+.noti-banner-type {
     font-weight: 700;
     text-transform: capitalize
 }
 
-.noti-banner--text a {
+.noti-banner-text a {
     color: #fc2
 }
 
-.noti-banner--text a:active, .noti-banner--text a:focus, .noti-banner--text a:hover {
+.noti-banner-text a:active, .noti-banner-text a:focus, .noti-banner-text a:hover {
     color: #fd5
 }
 
