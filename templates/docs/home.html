@@ -1,1 +1,42 @@
-i'll fill this in later
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="static/css/pages/settings.css">
+<!-- start -->
+<div id="docsboard">
+    <div class="ug-docs links-teilung main-banner">
+        <div class="main-selector">
+            <span class="simple-banner-desc">You're logged in as {{ session.user_data['name'] }}!</span>
+        </div>
+        <div class="banner-text">Documentation</div>
+        <div class="main-block">
+            <div class="leaderboard-main-bg">
+                <span class="main-header-doc">Choose your section</span>
+                <div class="doc-listing">
+                    <a class="listing-line">Bot Commands</a>
+                    <a class="listing-line">Connection</a>
+                    <a class="listing-line">Frequently Asked Questions</a>
+                    <a class="listing-line">Manual Installation</a>
+                    <a class="listing-line">Terms of Service</a>
+                </div>
+                <div class="section-one">
+                   <h1>Bot Commands</h1>
+                   <table>
+                       <tbody>
+                            <tr>
+                                <th>Command</th>
+                                <th>Description</th>
+                           </tr>
+                           <tr>
+                               <td class="command">!help</td>
+                               <td class="desc">Shows information of all undocumented</td>
+                           </tr>
+                       </tbody>
+                   </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
