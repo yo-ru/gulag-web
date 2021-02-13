@@ -202,6 +202,10 @@ a.foot-link {
     width: 152px;
 }
 
+.input, .select select, .textarea {
+    background-color: hsl(var(--main),12%,18%);
+}
+
 /* auth notification */
 
 .paper-snackbar {
