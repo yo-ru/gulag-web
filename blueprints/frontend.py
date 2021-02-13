@@ -421,6 +421,6 @@ async def discord():
     return redirect(glob.config.discord_server)
 
 """ docs """
-@frontend.rout('/docs')
+@frontend.route('/docs')
 async def docs():
     return await render_template('docs/home.html')
