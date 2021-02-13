@@ -1,4 +1,5 @@
 #profile {
+    transition: 0.2s ease;
     width: 1100px;
 }
 
@@ -36,6 +37,8 @@
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     background: hsl(var(--main),40%,50%);
+    position: relative;
+    overflow: hidden;
 }
 
 .profile-avatar {
@@ -44,6 +47,7 @@
     margin-top: -5.5rem;
     border-radius: 16px;
     object-fit: cover;
+    transition: 0.2s ease;
 }
 
 .profile-stats-rank {
@@ -55,7 +59,8 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 10px 250px;
-    width: 100%
+    width: 100%;
+    transition: 0.2s ease;
 }
 
 .bar-selection {
@@ -63,7 +68,8 @@
     height: 60px;
     padding: 10px 68px 10px 250px;
     display: flex;
-    align-items: center
+    align-items: center;
+    transition: 0.2s ease;
 }
 
 .profile-avatar-area {
@@ -91,7 +97,9 @@
 }
 
 .simple-banner-swtich.disabled {
-    opacity: 0.3;
+    opacity: 0.4;
+    pointer-events: none;
+    text-decoration: none;
 }
 
 .mode-selects {
@@ -543,6 +551,15 @@ span.beatmap-mapper {
     margin: 0px 8px 8px 8px;
 }
 
+.anime-girl {
+    position: absolute;
+    transition: 0.2s ease;
+    right: 50px;
+    width: 500px;
+    top: -150px;
+    right: -30px;
+}
+
 @media screen and (max-width: 1152px) {
     .two-sides {
         display: contents !important;
@@ -555,10 +572,14 @@ span.beatmap-mapper {
         display: none;
     }
     .profile-bg {
-        border-radius: 0;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    }
+    .simple-banner-swtich {
+        font-size: 14px;
     }
     #profile {
-        width: inherit;
+        width: 900px;
     }
 }
 
@@ -566,23 +587,40 @@ span.beatmap-mapper {
     .container {
         max-width: 760px;
     }
-    .simple-banner-swtich {
-        font-size: 10px;
-    }
     .bar-selection {
-        padding: 10px 13px 10px 250px;
+        padding: 10px 13px 10px 45px;
+    }
+    .anime-girl {
+        opacity: 0;
+    }
+    #profile {
+        width: inherit;
+    }
+    .profile-avatar {
+        width: 140px;
+        height: 140px;
+        margin-top: -10rem;
+        border-radius: 15px;
+        object-fit: cover;
+    }
+    .info-block {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 200px;
+        width: 100%;
     }
 }
 
 @media screen and (max-width: 770px) {
+    .profile-bg {
+        border-radius: 0;
+    }
     .container {
         max-width: -webkit-fill-available
     }
     .simple-banner-swtich {
-        font-size: 10px;
-    }
-    .bar-selection {
-        padding: 10px 13px 10px 250px;
+        font-size: 12px;
     }
     .subtitle {
         width: 200px;
