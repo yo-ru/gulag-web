@@ -352,3 +352,7 @@ a.foot-link {
 .rank-F {
     color: rgb(255, 89, 89);
 }
+
+.load {
+    opacity: 0.7;
+}

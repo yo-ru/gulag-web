@@ -12,7 +12,8 @@ new Vue({
             mods: mods,
             userid: userid,
             limit: [5, 5, 5],
-            full: [false, false, false]
+            full: [false, false, false],
+            loaddata: [false,false,false]
         }
     },
     created() {
@@ -38,6 +39,7 @@ new Vue({
         },
         LoadMostBeatmaps(userid, mode, mods) {
             var vm = this;
+            vm.loaddata[2] = true
             vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_most_beatmaps", {
                 params: {
                     id: userid,
@@ -48,6 +50,7 @@ new Vue({
             })
                 .then(function (response) {
                     vm.mostdata = response.data;
+                    vm.loaddata[2] = false
                     if (vm.mostdata.length != vm.limit[2]) {
                         vm.full[2] = true
                     }
@@ -57,12 +60,12 @@ new Vue({
             var vm = this;
             switch (sort) {
                 case 'best':
-                    console.log('best will coming')
                     limitdata = 0
+                    vm.loaddata[0] = true
                     break;
                 case 'recent':
-                    console.log('recent will coming')
                     limitdata = 1
+                    vm.loaddata[1] = true
                     break;
                 default:
             }
@@ -77,6 +80,11 @@ new Vue({
             })
                 .then(function (response) {
                     vm[`${sort}data`] = response.data;
+                    if (sort == 'best') {
+                        vm.loaddata[0] = false
+                    } else if (sort == 'recent') {
+                        vm.loaddata[1] = false
+                    }
                     if (vm[`${sort}data`].length != vm.limit[limitdata]) {
                         if (sort == 'best') {
                             vm.full[0] = true

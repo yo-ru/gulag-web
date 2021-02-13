@@ -194,7 +194,7 @@
                             <i class="fas fa-trophy"></i> Best Scores
                         </div>
                     </div>
-                    <div class="scores">
+                    <div :class="'scores' +(loaddata[0] ? ' load' : '')">
                         <div v-for="(map, index) in bestdata" class="map-single">
                             <div class="map-content1">
                                 <div class="map-image">
@@ -250,7 +250,7 @@
                             <i class="fas fa-clock"></i> Recent Scores
                         </div>
                     </div>
-                    <div class="scores">
+                    <div :class="'scores' +(loaddata[1] ? ' load' : '')">
                         <div v-for="(map, index) in recentdata" class="map-single">
                             <div class="map-content1">
                                 <div class="map-image">
@@ -306,7 +306,7 @@
                             <i class="fas fa-address-book"></i> Most Played Beatmaps
                         </div>
                     </div>
-                    <div class="beatmaps">
+                    <div :class="'beatmaps' +(loaddata[2] ? ' load' : '')">
                         <a v-for="(map, index) in mostdata" class="beatmap-block">
                             <div class="beatmap-preview"
                                 v-bind:style='{ background: `url(https://assets.ppy.sh/beatmaps/${map.set_id}/covers/card.jpg)` }'>
