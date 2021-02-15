@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import orjson
-from quart import Blueprint, request
+from quart import Blueprint, request, jsonify
 from cmyui import log, Ansi
 
 from objects import glob
@@ -61,7 +60,7 @@ async def get_leaderboard():
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetchall(' '.join(q), args)
-    return orjson.dumps(res) if res else b'{}'
+    return jsonify(res) if res else b'{}'
 
 """ /get_user """
 @api.route('/get_user') # GET
@@ -131,7 +130,7 @@ async def get_user():
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetchall(' '.join(q), args)
-    return orjson.dumps(res) if res else b'{}'
+    return jsonify(res) if res else b'{}'
 
 """ /get_scores """
 @api.route('/get_scores') # GET
@@ -169,10 +168,12 @@ async def get_scores():
         return b'wrong mode type! (std, taiko, catch, mania)'
 
     if not limit:
-        limit = 5
+        limit = 50
 
     # fetch scores
     q = [f'SELECT scores_{mods}.*, maps.* '
+        f'FROM scores_{mods} JOIN maps ON scores_{mods}.map_md5 = maps.md5']
+    q2 = [f'SELECT COUNT(scores_{mods}.id) AS result '
         f'FROM scores_{mods} JOIN maps ON scores_{mods}.map_md5 = maps.md5']
     
     # argumnts
@@ -181,16 +182,21 @@ async def get_scores():
     q.append(f'WHERE scores_{mods}.userid = %s ' 
             f'AND scores_{mods}.mode = {mode} '
             f'AND maps.status = 2')
+    q2.append(f'WHERE scores_{mods}.userid = %s ' 
+            f'AND scores_{mods}.mode = {mode}')
     if sort == 'pp':
         q.append(f'AND scores_{mods}.status = 2')
+        q2.append(f'AND scores_{mods}.status = 2')
     q.append(f'ORDER BY scores_{mods}.{sort} DESC '
             f'LIMIT {limit}')
     args.append(id)
 
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)
+        log(' '.join(q2), Ansi.LGREEN)
     res = await glob.db.fetchall(' '.join(q), args)
-    return orjson.dumps(res) if res else b'{}'
+    limit = await glob.db.fetch(' '.join(q2), args)
+    return jsonify(scores=res, limit=limit['result']) if res else jsonify(scores=[], limit=limit['result'])
 
 """ /get_most_beatmaps """
 @api.route('/get_most_beatmaps') # GET
@@ -220,7 +226,7 @@ async def get_most_beatmaps():
         return b'wrong mode type! (std, taiko, catch, mania)'
 
     if not limit:
-        limit = 5
+        limit = 50
 
     # fetch scores
     q = [f'SELECT scores_{mods}.mode, scores_{mods}.map_md5, maps.artist, maps.title, maps.set_id, maps.creator, COUNT(*) AS `count` '
@@ -237,7 +243,7 @@ async def get_most_beatmaps():
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetchall(' '.join(q), args)
-    return orjson.dumps(res) if res else b'{}'
+    return jsonify(maps=res) if res else jsonify(maps=[])
 
 @api.route('/get_grade') # GET
 async def get_grade():
@@ -258,7 +264,7 @@ async def get_grade():
     else:
         return b'wrong mode type! (std, taiko, catch, mania)'
     
-    grades = ['xh','ss','sh','s','a']
+    grades = ['xh','x','sh','s','a']
 
     # fetch grades
     q = [f'SELECT userid,']
@@ -279,10 +285,31 @@ async def get_grade():
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetch(' '.join(q), args)
-    print(res)
-    return orjson.dumps(res) if res else b'{}'
+    return jsonify(res) if res else b'{}'
 
-# For Development in localhost
-@api.route('/get_online')
-async def api_get_online():
-    return '{"online": 2}'.encode()
+@api.route('/get_replay')
+async def replay():
+    id = request.args.get('id', type=int)
+    mods = request.args.get('mods', type=str)
+
+    # check if required parameters are met
+    if not id:
+        return b'missing parameters! (id)'
+    
+    if mods not in valid_mods:
+        return b'invalid mods! (vn, rx, ap)'
+
+    # fetch scores
+    q = [f'SELECT scores_{mods}.*, maps.*, users.name FROM scores_{mods}']
+
+    args = []
+
+    q.append(f'JOIN maps ON scores_{mods}.map_md5 = maps.md5')
+    q.append(f'JOIN users ON scores_{mods}.userid = users.id')
+    q.append(f'WHERE scores_{mods}.id = %s')
+    args.append(id)
+
+    if glob.config.debug:
+        log(' '.join(q), Ansi.LGREEN)
+    res = await glob.db.fetch(' '.join(q), args)
+    return jsonify(res) if res else b'{}'
