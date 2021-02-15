@@ -260,9 +260,8 @@ a.foot-link {
 @media (min-width: 900px) {
   .noti-banner {
     flex-direction: row;
-    border-radius: 16px;
-    text-align: left;
-    margin-bottom: 12px;
+    text-align: center;
+    justify-content: center;
   }
 }
 
