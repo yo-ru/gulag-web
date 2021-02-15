@@ -10,7 +10,8 @@ def get_safe_name(name: str) -> str:
     """ Returns the safe version of a username. """
     return name.lower().replace(' ', '_')
 
-def convert_mode_int(mode: str) -> str:
+def convert_mode_int(mode: str) -> int:
+    """ Converts mode (str) to mode (int). """
     if mode == 'std':
         return 0
     elif mode == 'taiko':
@@ -22,7 +23,8 @@ def convert_mode_int(mode: str) -> str:
     else:
         return b'wrong mode type! (std, taiko, catch, mania)'
     
-def convert_mode_str(mode: int) -> int:
+def convert_mode_str(mode: int) -> str:
+    """ Converts mode (int) to mode (str). """
     if mode == 0:
         return 'std'
     elif mode == 0:

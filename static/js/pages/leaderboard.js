@@ -29,7 +29,7 @@ new Vue({
             vm.mods = mods;
             vm.sort = sort;
             window.history.replaceState('', document.title, "/leaderboard/" + vm.mode + "/" + vm.sort + "/" + vm.mods);
-            vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_leaderboard", { params: { 
+            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_leaderboard", { params: { 
                 mode: mode, 
                 sort: sort, 
                 mods: mods,

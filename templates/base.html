@@ -100,6 +100,33 @@
               Log in
             </a>
             {% endif %}
+      
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link">
+                Information
+              </a>
+              <div class="navbar-dropdown">
+                <a class="navbar-item" href="/docs">
+                  Documentation
+                </a>
+                <a class="navbar-item" href="/doc/rules">
+                  Rules
+                </a>
+                <a class="navbar-item" href="/discord">
+                  Discord
+                </a>
+                <hr class="navbar-divider">
+                <a class="navbar-item" href="https://github.com/Yo-ru/gulag-web/issues/new">
+                  Report an issue
+                </a>
+              </div>
+            </div>
+
+            {% if session.authenticated and session.user_data['is_staff'] %}
+            <a class="navbar-item" href="/admin">
+              Admin
+            </a>
+            {% endif %}
           </div>
         </div>
       </div>

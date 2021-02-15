@@ -5,6 +5,7 @@ import re
 import time
 import bcrypt
 import hashlib
+import markdown2
 from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
 from ip2geotools.databases.noncommercial import DbIpCity
@@ -58,7 +59,12 @@ async def profile(user):
         mode = 'std'
 
     userdata = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {user}')
-    
+
+    if not userdata or \
+    userdata and userdata['priv'] < 3 and not 'authenticated' in session or \
+    userdata and userdata['priv'] < 3 and 'authenticated' in session and not session['user_data']['priv'] & Privileges.Staff:  
+        return await render_template('404.html')
+
     return await render_template('profile.html', user=userdata, mode=mode, mods=mods)
 
 """ leaderboard """
@@ -125,10 +131,16 @@ async def login_post():
         bcrypt_cache[pw_bcrypt] = pw_md5
 
     # user not verified render verify page
-    if user_info['priv'] == 1:
+    if not user_info['priv'] & Privileges.Verified:
         if glob.config.debug:
             log(f'{username}\'s login failed - not verified.', Ansi.LYELLOW)
         return await render_template('verify.html')
+
+    # user banned
+    if not user_info['priv'] & Privileges.Normal:
+        if glob.config.debug:
+            log(f'{username}\'s login failed - banned.', Ansi.RED)
+        return await flash('error', 'You are banned!', 'login')
 
     # login successful; store session data
     if glob.config.debug:
@@ -261,10 +273,13 @@ async def logout():
     # render login
     return await flash('success', 'Successfully logged out!', 'login')
 
-""" rules """
-@frontend.route('/rules') # GET
-async def rules():
-    return await render_template('rules.html')
+""" docs """
+@frontend.route('/docs') # GET
+async def docs_nodata():
+    return await render_template('docs.html')
+@frontend.route('/doc/<doc>') # GET
+async def docs(doc):
+    return await render_template('doc.html', doc=markdown2.markdown_path(f'docs/{doc.lower()}.md'), doc_title=doc.lower().capitalize())
 
 """ discord redirect """
 @frontend.route('/discord') # GET

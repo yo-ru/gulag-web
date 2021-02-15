@@ -43,7 +43,7 @@ async def get_leaderboard():
         'plays_{0}_{1} plays, playtime_{0}_{1} playtime, '
         'acc_{0}_{1} acc, maxcombo_{0}_{1} maxcombo FROM stats '
         'JOIN users u ON stats.id = u.id '
-        'WHERE pp_{0}_{1} > 0'.format(mods, mode)]
+        'WHERE pp_{0}_{1} > 0 AND u.priv >= 3'.format(mods, mode)]
 
     args = []
 
@@ -245,6 +245,7 @@ async def get_most_beatmaps():
     res = await glob.db.fetchall(' '.join(q), args)
     return jsonify(maps=res) if res else jsonify(maps=[])
 
+""" /get_grade """
 @api.route('/get_grade') # GET
 async def get_grade():
     # get request args

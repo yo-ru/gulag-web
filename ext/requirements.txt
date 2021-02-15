@@ -6,3 +6,4 @@ mysql-connector
 asyncpg
 orjson
 timeago
+markdown2

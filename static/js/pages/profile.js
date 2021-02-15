@@ -28,7 +28,7 @@ new Vue({
     methods: {
         LoadProfileData(userid) {
             var vm = this;
-            vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_user", {
+            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_user", {
                 params: {
                     id: userid,
                 }
@@ -41,7 +41,7 @@ new Vue({
             var vm = this;
             vm.loaddata[2] = true
             vm.full[2] = true
-            vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_most_beatmaps", {
+            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_most_beatmaps", {
                 params: {
                     id: userid,
                     mode: mode,
@@ -68,7 +68,7 @@ new Vue({
                 default:
             }
             vm.full[type] = true
-            vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_scores", {
+            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_scores", {
                 params: {
                     id: userid,
                     mode: mode,
@@ -88,7 +88,7 @@ new Vue({
         },
         LoadGrades(userid, mode, mods) {
             var vm = this;
-            vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_grade", {
+            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_grade", {
                 params: {
                     id: userid,
                     mode: mode,
