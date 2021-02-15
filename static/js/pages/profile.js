@@ -11,8 +11,6 @@ new Vue({
             mode: mode,
             mods: mods,
             userid: userid,
-            limit: [5, 5, 5],
-            full: [false, false, false],
             loaddata: [false, false, false]
         }
     },
@@ -40,7 +38,6 @@ new Vue({
         LoadMostBeatmaps(userid, mode, mods) {
             var vm = this;
             vm.loaddata[2] = true
-            vm.full[2] = true
             vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_most_beatmaps", {
                 params: {
                     id: userid,
@@ -67,7 +64,6 @@ new Vue({
                     break;
                 default:
             }
-            vm.full[type] = true
             vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_scores", {
                 params: {
                     id: userid,
@@ -127,24 +123,6 @@ new Vue({
             vm.LoadScores(vm.userid, vm.mode, vm.mods, 'best')
             vm.LoadScores(vm.userid, vm.mode, vm.mods, 'recent')
             vm.LoadGrades(vm.userid, vm.mode, vm.mods)
-        },
-        AddLimit(which) {
-            var vm = this;
-            if (window.event) {
-                window.event.preventDefault();
-            }
-            if (which == 'bestscore') {
-                vm.limit[0] = vm.limit[0] + 5
-                vm.LoadScores(vm.userid, vm.mode, vm.mods, 'best')
-            }
-            else if (which == 'recentscore') {
-                vm.limit[1] = vm.limit[1] + 5
-                vm.LoadScores(vm.userid, vm.mode, vm.mods, 'recent')
-            }
-            else if (which == 'mostplay') {
-                vm.limit[2] = vm.limit[2] + 5
-                vm.LoadMostBeatmaps(vm.userid, vm.mode, vm.mods)
-            }
         },
         addCommas(nStr) {
             nStr += '';
