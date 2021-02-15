@@ -266,7 +266,7 @@ async def get_grade():
         return b'wrong mode type! (std, taiko, catch, mania)'
 
     # fetch grades
-    grades = ['xh','ss','sh','s','a']
+    grades = ['xh','x','sh','s','a']
     q = [f'SELECT userid, ']
 
     for grade in grades:
