@@ -239,6 +239,7 @@ async def get_most_beatmaps():
     res = await glob.db.fetchall(' '.join(q), args)
     return orjson.dumps(res) if res else b'{}'
 
+""" /get_grade """
 @api.route('/get_grade') # GET
 async def get_grade():
     # get request args
@@ -282,7 +283,8 @@ async def get_grade():
     print(res)
     return orjson.dumps(res) if res else b'{}'
 
-# for development in localhost
+""" /get_online """
+# TODO: fetch from gulag's internal api?
 @api.route('/get_online')
 async def api_get_online():
     return '{"online": 2}'.encode()
