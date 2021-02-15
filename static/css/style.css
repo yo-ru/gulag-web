@@ -524,7 +524,7 @@ a.foot-link {
   height: 100%;
   width: 100%;
   content: "";
-  background-color: #2f3e44;
+  background-color: hsla(var(--main), 40%, 40%, 0.7) !important;
 }
 
 @media (min-width: 900px) {
