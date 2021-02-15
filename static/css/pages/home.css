@@ -1,37 +1,51 @@
 /* gulag mascot/avatar */
 .gulag-avatar {
-    background-image: url("/static/images/pippi.png");
-    background-repeat: no-repeat;
-    /*     available avatar widths & heights      */
-    /* gulag.png:   width: 512px; height: 363px;  */
-    /* pippi.png:   width: 372px; height: 432px;  */
-    width: 372px;
-    height: 432px;
-    left: 50px; 
-    margin: 0;
-    padding: 0;
-    position: relative;
+  background-image: url("/static/images/pippi.png");
+  background-repeat: no-repeat;
+  /*     available avatar widths & heights      */
+  /* gulag.png:   width: 512px; height: 363px;  */
+  /* pippi.png:   width: 372px; height: 432px;  */
+  width: 372px;
+  height: 432px;
+  left: 50px;
+  margin: 0;
+  padding: 0;
+  position: relative;
 }
 
 .main-block {
-    width: 1024px;
+  width: 1024px;
 }
 
 @media screen and (max-width: 1023px) {
-    .gulag-avatar {
-        display: none;
-    }
-    
-    .main-block {
-        width: initial;
-        height: 285px;
-    }
+  .gulag-avatar {
+    display: none;
+  }
 
-    #mascot {
-        display: none;
-    }
+  .main-block {
+    width: initial;
+    height: 285px;
+  }
 
-    .columns {
-        height: 285px;
-    }
+  #mascot {
+    display: none;
+  }
+
+  .columns {
+    height: 285px;
+  }
+}
+
+.my-con {
+  margin: 53px 0 0 0;
+  width: 100%;
+  max-width: inherit;
+}
+
+.splash {
+  background: hsl(var(--main), 40%, 40%);
+}
+
+.footer {
+  margin: 0;
 }
