@@ -14,4 +14,14 @@ $(window).scroll(() => {
 function togglenavbar() {
     document.getElementById('navbar').classList.toggle("is-active");
     document.getElementById('navbar-burger').classList.toggle("is-active");
-  }
+}
+
+var modal = document.getElementById('contentreplay');
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (modal.innerHTML.length !== 0) {
+        if (event.target.id !== modal) {
+            document.getElementById('replaydisplayer').className = "modal"
+        }
+    }
+}

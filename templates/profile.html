@@ -20,7 +20,8 @@
             <div class="info-block">
                 <h1 class="title">
                     <p class="ranks">
-                        <img src="https://s.kurikku.pw/flags/{{ user['country']|upper }}.png" class="profile-flag"><span class="bgf">{{
+                        <img src="https://s.kurikku.pw/flags/{{ user['country']|upper }}.png" class="profile-flag"><span
+                            class="bgf">{{
                             user['name'] }}</span>
                     </p>
                 </h1>
@@ -30,10 +31,12 @@
                 </div>
                 <!-- end-require -->
             </div>
-            <div class="anime-girl"><img src="https://www.pngarts.com/files/8/Anime-Render-PNG-Image-Transparent-Background.png" alt="" srcset=""></div>
+            <div class="anime-girl"><img
+                    src="https://www.pngarts.com/files/8/Anime-Render-PNG-Image-Transparent-Background.png" alt=""
+                    srcset=""></div>
         </div>
         <div class="profile-flex">
-            <div class="profile-avatar-area"> 
+            <div class="profile-avatar-area">
                 <img src="https://a.{{ domain() }}/{{ user['id'] }}" alt="avatar" class="rounded-avatar profile-avatar">
             </div>
             <div class="bar-selection mode-selects">
@@ -154,25 +157,35 @@
                                 <div class="grade-line">
                                     <div class="rank-single">
                                         <div class="map-rank rank-S">SS</div>
-                                        <div class="rank-amount"> <% gradedata.ss %> </div>
+                                        <div class="rank-amount">
+                                            <% gradedata.x %>
+                                        </div>
                                     </div>
                                     <div class="rank-single">
                                         <div class="map-rank rank-XH">SS</div>
-                                        <div class="rank-amount"> <% gradedata.xh %> </div>
+                                        <div class="rank-amount">
+                                            <% gradedata.xh %>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="grade-line">
                                     <div class="rank-single">
                                         <div class="map-rank rank-S">S</div>
-                                        <div class="rank-amount"> <% gradedata.s %> </div>
+                                        <div class="rank-amount">
+                                            <% gradedata.s %>
+                                        </div>
                                     </div>
                                     <div class="rank-single">
                                         <div class="map-rank rank-SH">S</div>
-                                        <div class="rank-amount"> <% gradedata.sh %> </div>
+                                        <div class="rank-amount">
+                                            <% gradedata.sh %>
+                                        </div>
                                     </div>
                                     <div class="rank-single">
                                         <div class="map-rank rank-A">A</div>
-                                        <div class="rank-amount"> <% gradedata.a %> </div>
+                                        <div class="rank-amount">
+                                            <% gradedata.a %>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -197,42 +210,44 @@
                     </div>
                     <div :class="'scores' +(loaddata[0] ? ' load' : '')">
                         <div v-for="(map, index) in bestdata" class="map-single">
-                            <div class="map-content1">
-                                <div class="map-image">
-                                    <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
-                                        class="map-image-picture">
-                                </div>
-                                <div class="map-title-block">
-                                    <div class="map-title">
-                                        <a class="beatmap-link">
-                                            <% map.artist %> - <% map.title %> [<% map.version %>]
-                                        </a>
+                            <div @click="LoadReplay(map.id,this.mods)" class="map-data">
+                                <div class="map-content1">
+                                    <div class="map-image">
+                                        <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
+                                            class="map-image-picture">
                                     </div>
-                                    <div class="play-stats">
-                                        <% addCommas(map.score) %> / <% map.max_combo %>x
-                                    </div>
-                                    <div class="map-date">
-                                        <time>
-                                            <% timeago.format(map.play_time) %>
-                                        </time>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="map-content2">
-                                <div class="score-details d-flex">
-                                    <div class="score-details_right-block">
-                                        <div class="score-details_pp-block">
-                                            <div class="map-pp">
-                                                <% map.pp.toFixed() %><span class="map-pp-unit">pp</span>
-                                            </div>
-                                            <div class="map-acc">accuracy:&nbsp;<b>
-                                                    <% map.acc.toFixed(2) %>%
-                                                </b></div>
+                                    <div class="map-title-block">
+                                        <div class="map-title">
+                                            <a class="beatmap-link">
+                                                <% map.artist %> - <% map.title %> [<% map.version %>]
+                                            </a>
                                         </div>
-                                        <div class="score-details_grade-block">
-                                            <div class="rank-single">
-                                                <div v-bind:class="'map-rank rank-'+map.grade">
-                                                    <% map.grade %>
+                                        <div class="play-stats">
+                                            <% addCommas(map.score) %> / <% map.max_combo %>x
+                                        </div>
+                                        <div class="map-date">
+                                            <time>
+                                                <% timeago.format(map.play_time) %>
+                                            </time>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="map-content2">
+                                    <div class="score-details d-flex">
+                                        <div class="score-details_right-block">
+                                            <div class="score-details_pp-block">
+                                                <div class="map-pp">
+                                                    <% map.pp.toFixed() %><span class="map-pp-unit">pp</span>
+                                                </div>
+                                                <div class="map-acc">accuracy:&nbsp;<b>
+                                                        <% map.acc.toFixed(2) %>%
+                                                    </b></div>
+                                            </div>
+                                            <div class="score-details_grade-block">
+                                                <div class="rank-single">
+                                                    <div v-bind:class="'map-rank rank-'+map.grade">
+                                                        <% map.grade %>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -253,42 +268,44 @@
                     </div>
                     <div :class="'scores' +(loaddata[1] ? ' load' : '')">
                         <div v-for="(map, index) in recentdata" class="map-single">
-                            <div class="map-content1">
-                                <div class="map-image">
-                                    <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
-                                        class="map-image-picture">
-                                </div>
-                                <div class="map-title-block">
-                                    <div class="map-title">
-                                        <a class="beatmap-link">
-                                            <% map.artist %> - <% map.title %> [<% map.version %>]
-                                        </a>
+                            <div @click="LoadReplay(map.id,this.mods)" class="map-data">
+                                <div class="map-content1">
+                                    <div class="map-image">
+                                        <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
+                                            class="map-image-picture">
                                     </div>
-                                    <div class="play-stats">
-                                        <% addCommas(map.score) %> / <% map.max_combo %>x
-                                    </div>
-                                    <div class="map-date">
-                                        <time>
-                                            <% timeago.format(map.play_time) %>
-                                        </time>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="map-content2">
-                                <div class="score-details d-flex">
-                                    <div class="score-details_right-block">
-                                        <div class="score-details_pp-block">
-                                            <div class="map-pp">
-                                                <% map.pp.toFixed() %><span class="map-pp-unit">pp</span>
-                                            </div>
-                                            <div class="map-acc">accuracy:&nbsp;<b>
-                                                    <% map.acc.toFixed(2) %>%
-                                                </b></div>
+                                    <div class="map-title-block">
+                                        <div class="map-title">
+                                            <a class="beatmap-link">
+                                                <% map.artist %> - <% map.title %> [<% map.version %>]
+                                            </a>
                                         </div>
-                                        <div class="score-details_grade-block">
-                                            <div class="rank-single">
-                                                <div v-bind:class="'map-rank rank-'+map.grade">
-                                                    <% map.grade %>
+                                        <div class="play-stats">
+                                            <% addCommas(map.score) %> / <% map.max_combo %>x
+                                        </div>
+                                        <div class="map-date">
+                                            <time>
+                                                <% timeago.format(map.play_time) %>
+                                            </time>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="map-content2">
+                                    <div class="score-details d-flex">
+                                        <div class="score-details_right-block">
+                                            <div class="score-details_pp-block">
+                                                <div class="map-pp">
+                                                    <% map.pp.toFixed() %><span class="map-pp-unit">pp</span>
+                                                </div>
+                                                <div class="map-acc">accuracy:&nbsp;<b>
+                                                        <% map.acc.toFixed(2) %>%
+                                                    </b></div>
+                                            </div>
+                                            <div class="score-details_grade-block">
+                                                <div class="rank-single">
+                                                    <div v-bind:class="'map-rank rank-'+map.grade">
+                                                        <% map.grade %>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -312,11 +329,18 @@
                             <div class="beatmap-preview"
                                 v-bind:style='{ background: `url(https://assets.ppy.sh/beatmaps/${map.set_id}/covers/card.jpg)` }'>
                             </div>
-                            <div class="beatmap-stats"><span class="beatmap-title"> <% map.title %> </span> <span
-                                    class="beatmap-artist"> <% map.artist %> </span>
+                            <div class="beatmap-stats"><span class="beatmap-title">
+                                    <% map.title %>
+                                </span> <span class="beatmap-artist">
+                                    <% map.artist %>
+                                </span>
                                 <div class="beatmap-footer"><span class="beatmap-mapper"> by <span
-                                            class="newmaps-color"> <% map.creator %> </span></span>
-                                    <div class="d-flex align-items-baseline"><span><% map.count %></span>
+                                            class="newmaps-color">
+                                            <% map.creator %>
+                                        </span></span>
+                                    <div class="d-flex align-items-baseline"><span>
+                                            <% map.count %>
+                                        </span>
                                         <div class="target-button newmaps-color"><i class="fas fa-arrow-right"></i>
                                         </div>
                                     </div>

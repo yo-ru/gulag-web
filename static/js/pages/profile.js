@@ -13,7 +13,7 @@ new Vue({
             userid: userid,
             limit: [5, 5, 5],
             full: [false, false, false],
-            loaddata: [false,false,false]
+            loaddata: [false, false, false]
         }
     },
     created() {
@@ -40,63 +40,49 @@ new Vue({
         LoadMostBeatmaps(userid, mode, mods) {
             var vm = this;
             vm.loaddata[2] = true
+            vm.full[2] = true
             vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_most_beatmaps", {
                 params: {
                     id: userid,
                     mode: mode,
                     mods: mods,
-                    limit: vm.limit[2]
+                    limit: 5
                 }
             })
                 .then(function (response) {
-                    vm.mostdata = response.data;
+                    vm.mostdata = response.data.maps;
                     vm.loaddata[2] = false
-                    if (vm.mostdata.length != vm.limit[2]) {
-                        vm.full[2] = true
-                    }
                 });
         },
         LoadScores(userid, mode, mods, sort) {
             var vm = this;
             switch (sort) {
                 case 'best':
-                    limitdata = 0
+                    type = 0
                     vm.loaddata[0] = true
                     break;
                 case 'recent':
-                    limitdata = 1
+                    type = 1
                     vm.loaddata[1] = true
                     break;
                 default:
             }
+            vm.full[type] = true
             vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_scores", {
                 params: {
                     id: userid,
                     mode: mode,
                     mods: mods,
                     sort: sort,
-                    limit: vm.limit[limitdata]
+                    limit: 5
                 }
             })
                 .then(function (response) {
-                    vm[`${sort}data`] = response.data;
+                    vm[`${sort}data`] = response.data.scores;
                     if (sort == 'best') {
                         vm.loaddata[0] = false
                     } else if (sort == 'recent') {
                         vm.loaddata[1] = false
-                    }
-                    if (vm[`${sort}data`].length != vm.limit[limitdata]) {
-                        if (sort == 'best') {
-                            vm.full[0] = true
-                        } else if (sort == 'recent') {
-                            vm.full[1] = true
-                        }
-                    } else {
-                        if (sort == 'best') {
-                            vm.full[0] = false
-                        } else if (sort == 'recent') {
-                            vm.full[1] = false
-                        }
                     }
                 });
         },
@@ -113,6 +99,22 @@ new Vue({
                     vm.gradedata = response.data;
                 });
         },
+        LoadReplay(id, mods) {
+            var vm = this;
+            document.getElementById('contentreplay').innerHTML = ""
+            document.getElementById('replaydisplayer').className = "modal is-active"
+            vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_replay",
+                {
+                    params: {
+                        id: id,
+                        mods: mods,
+                    }
+                })
+                .then(function (response) {
+                    replaydata = response.data;
+                    document.getElementById('contentreplay').innerHTML = "<div class='score-beatmap'><h1 class='score-beatmap-title'><a class='score-beatmap-linkplain'>" + replaydata.artist + " - " + replaydata.title + " [" + replaydata.version + "]</a></h1></div><div class='score-info'><div class='infoitem infoitem-player'><div class='score-player'><div class='score-player-row--score'> <div class='score-player-score'>" + replaydata.score + "</div></div><div class='score-player-row--player'><span>Played by</span><strong>" + replaydata.name + "</strong><span>Submitted on</span><strong>" + replaydata.play_time + "</strong></div></div></div><div class='infoitem infoitem--dial'> <div class='score-dial'> <div class='score-dial-layer--grade'><span>" + replaydata.grade + "</span></div></div></div></div><div class='score-stats'> <div class='score-stats-group score-stats-group--stats'> <div class='score-stats-group-row'> <div class='score-stats-stat'> <div class='score-stats-stat-row--label'>Accuracy</div><div class='score-stats-stat-row'>" + replaydata.acc + "%</div></div><div class='score-stats-stat'> <div class='score-stats-stat-row--label'>Max Combo</div><div class='score-stats-stat-row'>" + replaydata.max_combo + "x</div></div><div class='score-stats-stat'> <div class='score-stats-stat-row--label'>pp</div><div class='score-stats-stat-row'><span>" + replaydata.pp + "</span></div></div></div><div class='score-stats-group-row'> <div class='score-stats-stat'> <div class='score-stats-stat-row--label'>300</div><div class='score-stats-stat-row'>" + replaydata.n300 + "</div></div><div class='score-stats-stat'> <div class='score-stats-stat-row--label'>100</div><div class='score-stats-stat-row'>" + replaydata.n100 + "</div></div><div class='score-stats-stat'> <div class='score-stats-stat-row--label'>50</div><div class='score-stats-stat-row'>" + replaydata.n50 + "</div></div><div class='score-stats-stat'> <div class='score-stats-stat-row--label'>miss</div><div class='score-stats-stat-row'>" + replaydata.nmiss + "</div></div></div></div></div>"
+                });
+        },
         ChangeModeMods(mode, mods) {
             var vm = this;
             if (window.event) {
@@ -120,6 +122,7 @@ new Vue({
             }
             vm.mode = mode
             vm.mods = mods
+            vm.limit = [5, 5, 5]
             vm.LoadMostBeatmaps(vm.userid, vm.mode, vm.mods)
             vm.LoadScores(vm.userid, vm.mode, vm.mods, 'best')
             vm.LoadScores(vm.userid, vm.mode, vm.mods, 'recent')
