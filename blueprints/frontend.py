@@ -60,6 +60,7 @@ async def profile(user):
 
     userdata = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {user}')
 
+    # don't display profile if user is banned
     if not userdata or \
     userdata and userdata['priv'] < 3 and not 'authenticated' in session or \
     userdata and userdata['priv'] < 3 and 'authenticated' in session and not session['user_data']['priv'] & Privileges.Staff:  
@@ -196,8 +197,8 @@ async def register_post():
     if '_' in username and ' ' in username:
         return await flash('error', 'Username may contain "_" or " ", but not both.', 'register')
 
-    # TODO: disallowed usernames
-    NotImplemented
+    if username in glob.config.disallowed_names:
+        return await flash('error', 'Disallowed username; pick another.', 'register')
 
     if await glob.db.fetch('SELECT 1 FROM users WHERE name = %s', username):
         return await flash('error', 'Username already taken by another user.', 'register')
@@ -221,8 +222,8 @@ async def register_post():
     if len(set(pw_txt)) <= 3:
         return await flash('error', 'Password must have more than 3 unique characters.', 'register')
 
-    # TODO: disallowed passwords
-    NotImplemented
+    if pw_text.lower() in glob.config.disallowed_passwords:
+        return await flash('error', 'That password was deemed too simple.', 'register')
 
     async with asyncio.Lock():
         pw_md5 = hashlib.md5(pw_txt.encode()).hexdigest().encode()
@@ -231,14 +232,13 @@ async def register_post():
 
         safe_name = get_safe_name(username)
 
+        country = 'xx'
         if request.remote_addr == '127.0.0.1':
             country = 'xx'
         else:
             match = geolite2.lookup(request.remote_addr)
-            if match is not None:
+            if match:
                 country = match.country.lower()
-            else:
-                country = 'xx'
 
         # add to `users` table.
         user_id = await glob.db.execute(
@@ -283,7 +283,9 @@ async def docs_nodata():
     return await render_template('docs.html')
 @frontend.route('/doc/<doc>') # GET
 async def docs(doc):
-    return await render_template('doc.html', doc=markdown2.markdown_path(f'docs/{doc.lower()}.md'), doc_title=doc.lower().capitalize())
+    async with asyncio.Lock():
+        markdown = markdown2.markdown_path(f'docs/{doc.lower()}.md')
+    return await render_template('doc.html', doc=markdown, doc_title=doc.lower().capitalize())
 
 """ discord redirect """
 @frontend.route('/discord') # GET

@@ -20,5 +20,17 @@ mysql = {
 # enable debug (disable when in production to improve performance)
 debug = False
 
+# disallowed names (hardcoded banned usernames)
+disallowed_names = {
+    'cookiezi', 'rrtyui',
+    'hvick225', 'qsc20010'
+}
+
+# disallowed passwords (hardcoded banned passwords)
+disallowed_passwords = {
+    'password', 'minilamp'
+}
+
+
 # social links (used throughout gulag-web)
 discord_server = 'https://discord.com/invite/Y5uPvcNpD9'
