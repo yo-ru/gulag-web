@@ -5,6 +5,7 @@ import re
 import time
 import bcrypt
 import hashlib
+import markdown2
 from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
 
@@ -259,6 +260,14 @@ async def logout():
 @frontend.route('/rules') # GET
 async def rules():
     return await render_template('rules.html')
+
+""" docs """
+@frontend.route('/docs') # GET
+async def docs_nodata():
+    return await render_template('docs.html')
+@frontend.route('/doc/<doc>') # GET
+async def docs(doc):
+    return await render_template('doc.html', doc=markdown2.markdown_path(f'docs/{doc.lower()}.md'), doc_title=doc.lower().capitalize())
 
 """ discord redirect """
 @frontend.route('/discord') # GET
