@@ -61,7 +61,7 @@ async def profile(user):
 
     if not userdata or \
     userdata and userdata['priv'] < 3 and not 'authenticated' in session or \
-    'authenticated' in session and not session['user_data']['priv'] & Privileges.Staff:  
+    userdata and userdata['priv'] < 3 and 'authenticated' in session and not session['user_data']['priv'] & Privileges.Staff:  
         return await render_template('404.html')
 
     return await render_template('profile.html', user=userdata, mode=mode, mods=mods)
