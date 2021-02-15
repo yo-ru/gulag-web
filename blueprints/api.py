@@ -288,6 +288,7 @@ async def get_grade():
     res = await glob.db.fetch(' '.join(q), args)
     return jsonify(res) if res else b'{}'
 
+""" /get_replay """
 @api.route('/get_replay')
 async def replay():
     id = request.args.get('id', type=int)
@@ -301,7 +302,7 @@ async def replay():
         return b'invalid mods! (vn, rx, ap)'
 
     # fetch scores
-    q = [f'SELECT scores_{mods}.*, maps.*, users.name FROM scores_{mods}']
+    q = ['SELECT scores_{0}.*, maps.*, users.name FROM scores_{0}'.format(mods)]
 
     args = []
 
