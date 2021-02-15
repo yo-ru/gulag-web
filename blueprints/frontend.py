@@ -6,9 +6,9 @@ import time
 import bcrypt
 import hashlib
 import markdown2
+from geoip import geolite2
 from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
-from ip2geotools.databases.noncommercial import DbIpCity
 
 from objects import glob
 from objects.privileges import Privileges
@@ -234,7 +234,11 @@ async def register_post():
         if request.remote_addr == '127.0.0.1':
             country = 'xx'
         else:
-            country = DbIpCity.get(request.remote_addr, api_key='free').country.lower()
+            match = geolite2.lookup(request.remote_addr)
+            if match is not None:
+                country = match.country.lower()
+            else:
+                country = 'xx'
 
         # add to `users` table.
         user_id = await glob.db.execute(
