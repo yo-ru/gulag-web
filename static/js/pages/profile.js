@@ -99,7 +99,7 @@ new Vue({
             var vm = this;
             document.getElementById('contentreplay').innerHTML = ""
             document.getElementById('replaydisplayer').className = "modal is-active"
-            vm.$axios.get("http://" + window.location.hostname + ":" + window.location.port + "/api/get_replay",
+            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_replay",
                 {
                     params: {
                         id: id,
