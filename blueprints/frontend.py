@@ -234,7 +234,7 @@ async def register_post():
         if request.remote_addr == '127.0.0.1':
             country = 'xx'
         else:
-            country = DbIpCity.get(request, api_key='free').country.lower()
+            country = DbIpCity.get(request.remote_addr, api_key='free').country.lower()
 
         # add to `users` table.
         user_id = await glob.db.execute(
