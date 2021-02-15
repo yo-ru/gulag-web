@@ -256,11 +256,6 @@ async def logout():
     # render login
     return await flash('success', 'Successfully logged out!', 'login')
 
-""" rules """
-@frontend.route('/rules') # GET
-async def rules():
-    return await render_template('rules.html')
-
 """ docs """
 @frontend.route('/docs') # GET
 async def docs_nodata():
