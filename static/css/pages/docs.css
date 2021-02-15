@@ -16,7 +16,7 @@
     border-top-right-radius: 16px;
 }
 
-h2 {
+h2, .doc-title {
     font-size: 1.7em;
     font-weight: 500;
 }
@@ -25,7 +25,7 @@ h2 {
     padding: 22px;
 }
 
-h3 {
+h3, .doc-subtitle {
     font-size: 1.5em;
     font-weight: 500;
 }
