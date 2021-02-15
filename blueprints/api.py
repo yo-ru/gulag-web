@@ -289,8 +289,8 @@ async def get_grade():
     return jsonify(res) if res else b'{}'
 
 """ /get_replay """
-@api.route('/get_replay')
-async def replay():
+@api.route('/get_replay') # GET
+async def get_replay():
     id = request.args.get('id', type=int)
     mods = request.args.get('mods', type=str)
 
@@ -315,3 +315,10 @@ async def replay():
         log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetch(' '.join(q), args)
     return jsonify(res) if res else b'{}'
+
+""" /get_online """
+@api.route('/get_online') # GET
+async def get_online():
+    # TODO: fetch from gulag
+    NotImplemented
+    
