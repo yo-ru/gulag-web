@@ -7,6 +7,7 @@ import bcrypt
 import hashlib
 from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
+from ip2geotools.databases.noncommercial import DbIpCity
 
 from objects import glob
 from objects.privileges import Privileges
@@ -218,12 +219,17 @@ async def register_post():
 
         safe_name = get_safe_name(username)
 
+        if request.remote_addr == '127.0.0.1':
+            country = 'xx'
+        else:
+            country = DbIpCity.get(request, api_key='free').country.lower()
+
         # add to `users` table.
         user_id = await glob.db.execute(
             'INSERT INTO users '
-            '(name, safe_name, email, pw_bcrypt, creation_time, latest_activity) '
-            'VALUES (%s, %s, %s, %s, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())',
-            [username, safe_name, email, pw_bcrypt]
+            '(name, safe_name, email, pw_bcrypt, country, creation_time, latest_activity) '
+            'VALUES (%s, %s, %s, %s, %s, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())',
+            [username, safe_name, email, pw_bcrypt, country]
         )
 
         # add to `stats` table.
