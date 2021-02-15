@@ -61,9 +61,8 @@ async def profile(user):
     userdata = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {user}')
 
     # don't display profile if user is banned
-    if not userdata or \
-    userdata and userdata['priv'] < 3 and not 'authenticated' in session or \
-    userdata and userdata['priv'] < 3 and 'authenticated' in session and not session['user_data']['priv'] & Privileges.Staff:  
+    is_staff = 'authenticated' in session and session['user_data']['is_staff']
+    if not userdata or not (userdata['priv'] & Privileges.Normal or is_staff):
         return await render_template('404.html')
 
     return await render_template('profile.html', user=userdata, mode=mode, mods=mods)

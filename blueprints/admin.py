@@ -24,7 +24,7 @@ async def home():
         return await flash('error', 'You must be logged in to access the admin panel!', 'login')
     
     # if authenticated but not staff; render home
-    elif not session['user_data']['priv'] & Privileges.Staff:
+    elif not session['user_data']['is_staff']:
         return await flash('error', f'Hey! You don\'t have enough clearance to access the admin panel {session["user_data"]["name"]}!', 'home')
     
     # fetch data from database
