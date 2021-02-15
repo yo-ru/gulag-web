@@ -79,6 +79,7 @@
   </div>
 </section>
 
+{% if not session.authenticated %}
 <section class="hero splash">
   <div class="hero-body">
     <div class="container has-text-centered">
@@ -91,5 +92,6 @@
     </div>
   </div>
 </section>
+{% endif %}
 
 {% endblock %}
