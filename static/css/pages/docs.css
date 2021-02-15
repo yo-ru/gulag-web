@@ -16,9 +16,16 @@
     border-top-right-radius: 16px;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+}
+
+h1 {
+    font-size: 1.9em;
+}
+
 h2, .doc-title {
     font-size: 1.7em;
-    font-weight: 500;
 }
 
 .doc-block {
@@ -27,15 +34,27 @@ h2, .doc-title {
 
 h3, .doc-subtitle {
     font-size: 1.5em;
-    font-weight: 500;
 }
 
-ol {
+h4 {
+    font-size: 1.3em;
+}
+
+h5 {
+    font-size: 1.1em;
+}
+
+h6 {
+    font-size: 0.9em;
+}
+
+ol, ul {
     padding: 0px 0px 10px 20px;
 }
 
 ol li {
     counter-increment: section !important;
+    list-style-type: none;
 }
 
 ol li:before {
@@ -43,6 +62,6 @@ ol li:before {
     content: counters(section, ".") ". ";
 }
 
-li {
-    list-style-type: none;
+ul {
+    list-style: disc !important;
 }
