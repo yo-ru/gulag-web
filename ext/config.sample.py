@@ -31,6 +31,8 @@ disallowed_passwords = {
     'password', 'minilamp'
 }
 
+# enable registration
+registration = True
 
 # social links (used throughout gulag-web)
 discord_server = 'https://discord.com/invite/Y5uPvcNpD9'

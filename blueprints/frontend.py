@@ -170,14 +170,22 @@ _email_rgx = re.compile(r'^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$')
 async def register():
     # if authenticated; redirect home
     if 'authenticated' in session:
-        return await flash('error', f'Hey You\'re already registered and logged in {session["user_data"]["name"]}!', 'home')
+        return await flash('error', f'Hey! You\'re already registered and logged in {session["user_data"]["name"]}!', 'home')
+
+    # if registration is disabled; redirect home
+    if not glob.config.registration:
+        return await flash('error', 'Hey! You can\'t register at this time! Sorry for the inconvenience!', 'home')
     
     return await render_template('register.html')
 @frontend.route('/register', methods=['POST']) # POST
 async def register_post():
     # if authenticated; deny post; return
     if 'authenticated' in session:
-        return await flash('error', f'Hey You\'re already registered and logged in {session["user_data"]["name"]}!', 'home')
+        return await flash('error', f'Hey! You\'re already registered and logged in {session["user_data"]["name"]}!', 'home')
+
+    # if registration is disabled; deny post; return
+    if not glob.config.registration:
+        return await flash('error', 'Hey! You can\'t register at this time! Sorry for the inconvenience!', 'home')
 
     # get form data (username, email, password)
     form = await request.form
