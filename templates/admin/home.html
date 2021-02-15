@@ -28,7 +28,7 @@
         </div>
         <div class="column is-paddingless p-3">
             <div class="card orange">
-                <div class="title">lastest users</div>
+                <div class="title">lastest user</div>
                 <i class="fa fa-book"></i>
                 <div class="value">{{ dashdata['lastest_user'] }}</div>
                 <div class="stat">latest and greatest! welcome!</div>
@@ -38,12 +38,13 @@
             <div class="card red">
                 <div class="title">total banned</div>
                 <i class="fa fa-calendar"></i>
-                <div class="value">NotImplemented</div>
+                <div class="value">{{ dashdata['banned'] }}</div>
                 <div class="stat">naughty naughty :(</div>
             </div>
         </div>
     </div>
 <div class="columns is-marginless is-paddingless">
+    {% if recentusers %}
     <div class="column is-paddingless m-2 is-3">
         <div class="recent-beat">
             <div class="columns is-marginless">
@@ -81,6 +82,8 @@
             </div>
         </div>
     </div>
+    {% endif %}
+    {% if recentscores %}
     <div class="column is-paddingless m-2">
         <div class="recent-beat">
             <div class="columns is-marginless">
@@ -131,7 +134,7 @@
             </div>
         </div>
     </div>
-</div>
+    {% endif %}
 </div>
 
 <script src="/static/js/pages/admin/dashboard.js"></script>

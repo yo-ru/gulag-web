@@ -28,8 +28,9 @@ async def home():
         return await flash('error', f'Hey! You don\'t have enough clearance to access the admin panel {session["user_data"]["name"]}!', 'home')
     
     # fetch data from database
-    dash_data = await glob.db.fetch('SELECT COUNT(id) AS count, '
-    '(SELECT `name` FROM users ORDER BY id DESC LIMIT 1) as lastest_user FROM users')
+    dash_data = await glob.db.fetch('SELECT COUNT(id) count, '
+    '(SELECT name FROM users ORDER BY id DESC LIMIT 1) lastest_user, '
+    '(SELECT COUNT(id) FROM users WHERE NOT priv & 1) banned FROM users')
     recent_users = await glob.db.fetchall('SELECT * FROM users ORDER BY id DESC LIMIT 5')
     recent_scores = await glob.db.fetchall('SELECT scores_vn.*, maps.artist, maps.title, maps.set_id, '
     'maps.creator, maps.version FROM scores_vn JOIN maps ON scores_vn.map_md5 = maps.md5 '
