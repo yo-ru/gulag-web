@@ -118,7 +118,6 @@ new Vue({
             }
             vm.mode = mode
             vm.mods = mods
-            vm.limit = [5, 5, 5]
             vm.LoadMostBeatmaps(vm.userid, vm.mode, vm.mods)
             vm.LoadScores(vm.userid, vm.mode, vm.mods, 'best')
             vm.LoadScores(vm.userid, vm.mode, vm.mods, 'recent')
