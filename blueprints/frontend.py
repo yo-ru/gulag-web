@@ -58,7 +58,12 @@ async def profile(user):
         mode = 'std'
 
     userdata = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {user}')
-    
+
+    if not userdata or \
+    userdata and userdata['priv'] < 3 and not 'authenticated' in session or \
+    'authenticated' in session and not session['user_data']['priv'] & Privileges.Staff:  
+        return await render_template('404.html')
+
     return await render_template('profile.html', user=userdata, mode=mode, mods=mods)
 
 """ leaderboard """
@@ -125,10 +130,16 @@ async def login_post():
         bcrypt_cache[pw_bcrypt] = pw_md5
 
     # user not verified render verify page
-    if user_info['priv'] == 1:
+    if not user_info['priv'] & Privileges.Verified:
         if glob.config.debug:
             log(f'{username}\'s login failed - not verified.', Ansi.LYELLOW)
         return await render_template('verify.html')
+
+    # user banned
+    if not user_info['priv'] & Privileges.Normal:
+        if glob.config.debug:
+            log(f'{username}\'s login failed - banned.', Ansi.RED)
+        return await flash('error', 'You are banned!', 'login')
 
     # login successful; store session data
     if glob.config.debug:
