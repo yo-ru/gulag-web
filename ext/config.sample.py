@@ -7,7 +7,7 @@ app_name = 'gulag-web'
 secret_key = 'changeme'
 
 # Domain (used for api, avatar, get_online)
-domain = "varkaria.cyou"
+domain = 'gulag.ca'
 
 # mysql credentials
 mysql = {

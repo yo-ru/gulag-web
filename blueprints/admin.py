@@ -27,7 +27,7 @@ async def home():
     elif not session['user_data']['priv'] & Privileges.Staff:
         return await flash('error', f'Hey! You don\'t have enough clearance to access the admin panel {session["user_data"]["name"]}!', 'home')
     
-    # Fetch data from database
+    # fetch data from database
     dash_data = await glob.db.fetch('SELECT COUNT(id) AS count, '
     '(SELECT `name` FROM users ORDER BY id DESC LIMIT 1) as lastest_user FROM users')
     recent_users = await glob.db.fetchall('SELECT * FROM users ORDER BY id DESC LIMIT 5')

@@ -282,7 +282,7 @@ async def get_grade():
     print(res)
     return orjson.dumps(res) if res else b'{}'
 
-# For Development in localhost
+# for development in localhost
 @api.route('/get_online')
 async def api_get_online():
     return '{"online": 2}'.encode()
