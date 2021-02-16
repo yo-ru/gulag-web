@@ -7,7 +7,6 @@ import bcrypt
 import hashlib
 import markdown2
 import requests
-from geoip import geolite2
 from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
 
