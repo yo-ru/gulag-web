@@ -7,5 +7,3 @@ asyncpg
 orjson
 timeago
 markdown2
-python-geoip
-python-geoip-geolite2
