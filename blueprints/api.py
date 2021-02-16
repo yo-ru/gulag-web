@@ -316,4 +316,6 @@ async def get_replay():
 async def get_online():
     # TODO: fetch from gulag
     NotImplemented
+
+    return b'{"online": 0}'
     
