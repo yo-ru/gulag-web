@@ -249,43 +249,36 @@ async def get_most_beatmaps():
 @api.route('/get_grade') # GET
 async def get_grade():
     # get request args
-    id = request.args.get('id', type=int)
+    uid = request.args.get('id', type=int)
     mode = request.args.get('mode', type=str)
     mods = request.args.get('mods', type=str)
 
     # check if required parameters are met
-    if not id:
+    if not uid:
         return b'missing parameters! (id)'
-    
+
     if mods not in valid_mods:
         return b'invalid mods! (vn, rx, ap)'
-    
+
     if mode in valid_modes:
         mode = convert_mode_int(mode)
     else:
         return b'wrong mode type! (std, taiko, catch, mania)'
-    
-    grades = ['xh','x','sh','s','a']
 
     # fetch grades
-    q = [f'SELECT userid,']
-    
-    for grade in grades:
-        if grade == 'a':
-            q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" and mode = {mode}) as {grade}')
-            break
-        q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" and mode = {mode}) as {grade},')
-    
-    # argumnts
-    args = []
-    
-    q.append(f'FROM scores_{mods}')
-    q.append(f'WHERE userid = %s AND mode = {mode}')
-    args.append(id)
+    grades = ['xh','x','sh','s','a']
+    q = [f'SELECT userid, ']
 
-    if glob.config.debug:
-        log(' '.join(q), Ansi.LGREEN)
-    res = await glob.db.fetch(' '.join(q), args)
+    for grade in grades:
+        if grade != "a":
+            q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" AND userid = {uid} AND mode = {mode}) AS {grade}, ')
+        else:
+            q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" AND userid = {uid} AND mode = {mode}) AS {grade} ')
+
+
+    q.append(f'FROM scores_{mods} ')
+    q.append(f'WHERE userid = {uid} AND mode = {mode}')
+    res = await glob.db.fetch(''.join(q))
     return jsonify(res) if res else b'{}'
 
 """ /get_replay """
