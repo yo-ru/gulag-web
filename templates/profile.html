@@ -145,13 +145,13 @@
                             <tr>
                                 <td><b>Playtime</b></td>
                                 <td class="right-aligned">
-                                    <% addCommas(userdata[0][`playtime_${mods}_${mode}`]) %>
+                                    <% secondsToDhm(userdata[0][`playtime_${mods}_${mode}`]) %>
                                 </td>
                             </tr>
                             <tr>
                                 <td><b>Accuracy</b></td>
                                 <td class="right-aligned">
-                                    <% userdata[0][`acc_${mods}_${mode}`] %>%
+                                    <% userdata[0][`acc_${mods}_${mode}`].toFixed(2) %>%
                                 </td>
                             </tr>
                         </tbody>
