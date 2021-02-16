@@ -93,6 +93,7 @@ new Vue({
             })
                 .then(function (response) {
                     vm.gradedata = response.data;
+                    console.log(vm.gradedata)
                 });
         },
         LoadReplay(id, mods) {
@@ -133,6 +134,17 @@ new Vue({
                 x1 = x1.replace(rgx, '$1' + ',' + '$2');
             }
             return x1 + x2;
+        },
+        secondsToDhm(seconds) {
+            seconds = Number(seconds);
+            var d = Math.floor(seconds / (3600*24));
+            var h = Math.floor(seconds % (3600*24) / 3600);
+            var m = Math.floor(seconds % 3600 / 60);
+            
+            var dDisplay = d + "d ";
+            var hDisplay = h + "h ";
+            var mDisplay = m + "m ";
+            return dDisplay + hDisplay + mDisplay;
         },
     },
     computed: {
