@@ -10,7 +10,7 @@
 - An admin panel allowing for easy management of the gulag instance and it's users*.
 - Built on [Quart](https://github.com/pgjones/quart) and [cmyui's multipurpose library](https://github.com/cmyui/cmyui_pkg) allowing for a fully
   asynchronous environment.
-- More soon! (Stay up to date with our [projects](https://github.com/Yo-ru/gulag-web/projects) to know what features are being worked on!)
+- More soon! (Stay up to date with our [projects](https://github.com/Yo-ru/gulag-web/projects) to know what features are being worked on!)  
 `* the feature is still under development or coming soon!`
 
 ### Project focuses and goals
