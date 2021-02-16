@@ -17,6 +17,13 @@
   width: 1024px;
 }
 
+.my-con {
+  margin: 53px 0 0 0;
+  width: 100%;
+  max-width: inherit;
+}
+
+
 @media screen and (max-width: 1023px) {
   .gulag-avatar {
     display: none;
@@ -30,13 +37,11 @@
   #mascot {
     display: none;
   }
-  
-}
 
-.my-con {
-  margin: 53px 0 0 0;
-  width: 100%;
-  max-width: inherit;
+  .my-con {
+    margin: 60px 0 0 0;
+  }
+  
 }
 
 .splash {

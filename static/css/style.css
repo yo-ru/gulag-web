@@ -257,13 +257,11 @@ a.foot-link {
   position: relative;
 }
 
-@media (min-width: 900px) {
   .noti-banner {
     flex-direction: row;
     text-align: center;
     justify-content: center;
   }
-}
 
 .noti-column {
   display: flex;
