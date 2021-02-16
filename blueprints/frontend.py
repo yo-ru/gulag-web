@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import asyncio
+import os
 import re
 import time
 import bcrypt
@@ -40,7 +41,7 @@ async def settings():
     # TODO: user settings page
     NotImplemented
 
-    return await render_template('settings.html')
+    return await render_template('settings.html')   
 
 @frontend.route('/u/<user>') # GET
 async def profile(user):
@@ -287,7 +288,12 @@ async def logout():
 """ docs """
 @frontend.route('/docs') # GET
 async def docs_nodata():
-    return await render_template('docs.html')
+    docs = []
+    async with asyncio.Lock():
+        for f in os.listdir('docs/'):
+            docs.append(os.path.splitext(f)[0])
+
+    return await render_template('docs.html', docs=docs)
 @frontend.route('/doc/<doc>') # GET
 async def docs(doc):
     async with asyncio.Lock():

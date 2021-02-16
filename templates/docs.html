@@ -10,9 +10,22 @@
 			Documentation
 		</h2>
 	</div>
-	<div class="doc-block">
-		Waiting yoru make backend for this!!
-	</div>
+	{% for doc in docs %}
+	<a href="/doc/{{ doc }}">
+		<div class="doc-block">
+			<div class="columns is-marginless is-vcentered">
+				<div class="column is-3">
+					<h1 class="title">{{ loop.index }}</h1>
+				</div>
+				<div class="column">
+					<h3 class="title">
+						{{ doc.capitalize() }}
+					</h3>
+				</div>
+			</div>
+		</div>
+	</a>
+	{% endfor %}
 </div>
 {% endblock %}
 
