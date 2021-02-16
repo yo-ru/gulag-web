@@ -4,10 +4,14 @@
 
 ### Features
 - Fully implemented session authentication system allowing users to have a more interpersonal experience.
-- A leaderboard supporting all mods and modes available within the gulag stack.
+- Leaderboards supporting all mods and modes available within the gulag stack.
+- A automated documentation system featuring markdown support.
+- User profiles featuring every single statistic a player would need from score UR to rank graphs*.
+- An admin panel allowing for easy management of the gulag instance and it's users*.
 - Built on [Quart](https://github.com/pgjones/quart) and [cmyui's multipurpose library](https://github.com/cmyui/cmyui_pkg) allowing for a fully
   asynchronous environment.
 - More soon! (Stay up to date with our [projects](https://github.com/Yo-ru/gulag-web/projects) to know what features are being worked on!)
+`* the feature is still under development or coming soon!`
 
 ### Project focuses and goals
 1. Written fully in modern Python.
@@ -64,7 +68,7 @@ cp ext/config.sample.py config.py
 nano config.py
 
 # Run gulag-web.
-python3.9 main.py # Run directly access debug features for development! (Port 5000)
+python3.9 main.py # Run directly to access debug features for development! (Port 5000)
 hypercorn main.py # Please run gulag-web with hypercorn when in production! 
                   # It will improve performance drastically by disabling all
                   # of the debug features a developer would need! (Port 8000)
@@ -73,26 +77,11 @@ hypercorn main.py # Please run gulag-web with hypercorn when in production!
 # - gulag Team
 ```
 
-## Screenshots
+## Live Versions
 Want a sneakpeek at what you'll get with gulag-web?
-
-### Home
-![Home](https://i.imgur.com/ODZkN5K.png)
-### Leaderboards
-![Leaderboards](https://i.imgur.com/Dwcgpbz.png)
-### Profiles
-![Profiles](https://i.imgur.com/m1peUvN.png)
-### Admin Panel
-![Admin](https://i.imgur.com/bOULK9c.png)
-### Authentication
-#### Login
-![Login](https://i.imgur.com/pKaeyQK.png)
-#### Register
-![Register](https://i.imgur.com/SBvjIWr.png)
-#### Verification
-![Verification](https://i.imgur.com/NXEWQFG.png)
-
-There will be so much more to come! Keep your eyes peeled~!
+* [Yoru's Development Build](https://osu.yoru.moe/)
+* [Miksu](https://miksu.pw/)
+There will be so much more to come! So keep your eyes peeled~!
 
 ## Woah! You made it to the end of the README file!
 Well know that you know everything, why not check out the original code gulag-web was based off of in [this](https://github.com/yo-ru/old-gulag-web) dusty old archived repository.
