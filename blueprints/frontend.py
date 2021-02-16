@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import asyncio
+import os
 import re
 import time
 import bcrypt
 import hashlib
 import markdown2
-from geoip import geolite2
+import requests
 from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
 
@@ -40,7 +41,7 @@ async def settings():
     # TODO: user settings page
     NotImplemented
 
-    return await render_template('settings.html')
+    return await render_template('settings.html')   
 
 @frontend.route('/u/<user>') # GET
 async def profile(user):
@@ -238,14 +239,15 @@ async def register_post():
         glob.cache['bcrypt'][pw_bcrypt] = pw_md5 # cache result for login
 
         safe_name = get_safe_name(username)
+        ip = request.headers['X-Real-IP']
 
         country = 'xx'
-        if request.remote_addr == '127.0.0.1':
+        if ip == '127.0.0.1':
             country = 'xx'
         else:
-            match = geolite2.lookup(request.remote_addr)
-            if match:
-                country = match.country.lower()
+            req = requests.get(f'https://ipinfo.io/{ip}/json').json()
+            if req:
+                country = req['country'].lower()
 
         # add to `users` table.
         user_id = await glob.db.execute(
@@ -287,7 +289,12 @@ async def logout():
 """ docs """
 @frontend.route('/docs') # GET
 async def docs_nodata():
-    return await render_template('docs.html')
+    docs = []
+    async with asyncio.Lock():
+        for f in os.listdir('docs/'):
+            docs.append(os.path.splitext(f)[0])
+
+    return await render_template('docs.html', docs=docs)
 @frontend.route('/doc/<doc>') # GET
 async def docs(doc):
     async with asyncio.Lock():
