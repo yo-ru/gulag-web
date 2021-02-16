@@ -1,6 +1,5 @@
 #profile {
   transition: 0.2s ease;
-  width: 1100px;
 }
 
 .main-block {
@@ -247,6 +246,10 @@ html {
 .column.is-1-tablet {
   flex: none;
   width: inherit;
+}
+
+.column.is-one-third, .column.is-one-third-tablet {
+  width: 26%;
 }
 
 .is-textcen {
@@ -589,12 +592,6 @@ span.beatmap-mapper {
   width: 500px;
   top: -150px;
   right: -30px;
-}
-
-@media screen and (min-width: 1024px) {
-  .container {
-    max-width: inherit;
-  }
 }
 
 @media screen and (max-width: 770px) {

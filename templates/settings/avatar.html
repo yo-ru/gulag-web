@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+
+{% block content %}
+
+<style>
+  html {
+    --base: 235;
+    --base-deg: 390.0deg;
+  }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+<link rel="stylesheet" href="/static/css/pages/settings.css">
+
+<div class="main-block">
+  {% include "settings/sidebar.html" %}
+  <div class="block-content right" id="settings-content">
+    <div id="general" class="single-right-block">
+      <title> general | settings </title>
+      <div class="right-block-header">
+        User Infomation
+      </div>
+      <div class="right-block-content">
+        <div class="single-block-content">
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Username</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <input class="input is-static" type="email" value="{{ user["name"] }}" readonly>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="single-block-content">
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Email</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <input class="input is-static" type="email" value="{{ user["email"] }}" readonly>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="single-block-content">
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">name aka</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <input class="input" type="aka" value="{{ user["aka"] }}">
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

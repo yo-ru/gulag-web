@@ -91,6 +91,32 @@ a.foot-link {
   -webkit-animation: slideup 0.2s ease;
 }
 
+@media screen and (max-width: 1024px) {
+  .container {
+    max-width: 960px;
+  }
+}
+@media screen and (max-width: 1215px) {
+  .container.is-widescreen {
+    width: 1152px;
+  }
+}
+@media screen and (max-width: 1407px) {
+  .container.is-fullhd {
+    width: 1344px;
+  }
+}
+@media screen and (min-width: 1216px) {
+  .container {
+    width: 1152px;
+  }
+}
+@media screen and (min-width: 1408px) {
+  .container {
+    width: 1344px;
+  }
+}
+
 @-webkit-keyframes slideup {
   0% {
     -webkit-transform: translateY(10px);

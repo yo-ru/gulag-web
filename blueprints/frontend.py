@@ -305,3 +305,7 @@ async def docs(doc):
 @frontend.route('/discord') # GET
 async def discord():
     return redirect(glob.config.discord_server)
+
+@frontend.route('/usetting') # GET
+async def settings_welcome():
+    return await render_template('settings/welcome.html')
