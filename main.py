@@ -1,15 +1,16 @@
 #!/usr/bin/python3.9
 # -*- coding: utf-8 -*-
 
-import quart.flask_patch # https://pgjones.gitlab.io/quart/how_to_guides/flask_extensions.html
+""" imports """
 import os
-from quart import Quart, render_template, request
+from quart import Quart, render_template, request, flask_patch
 from cmyui import AsyncSQLPool, Version, Ansi, log
 
 from objects import glob
 
 __all__ = ()
 
+""" app """
 app = Quart(__name__)
 
 """ app version """
@@ -48,7 +49,7 @@ _domain = glob.config.domain
 def domain() -> str:
     return _domain
 
-# import external blueprints
+""" external blueprints """
 from blueprints.frontend import frontend
 from blueprints.admin import admin
 from blueprints.api import api
@@ -62,6 +63,7 @@ async def page_not_found(e):
     # NOTE: we set the 404 status explicitly
     return await render_template('404.html'), 404
 
+""" run app """
 if __name__ == '__main__':
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
-    app.run(debug=True) # blocking call
+    app.run(debug=glob.config.debug) # blocking call
