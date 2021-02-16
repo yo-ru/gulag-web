@@ -10,7 +10,8 @@
 - An admin panel allowing for easy management of the gulag instance and it's users*.
 - Built on [Quart](https://github.com/pgjones/quart) and [cmyui's multipurpose library](https://github.com/cmyui/cmyui_pkg) allowing for a fully
   asynchronous environment.
-- More soon! (Stay up to date with our [projects](https://github.com/Yo-ru/gulag-web/projects) to know what features are being worked on!)  
+- More soon! (Stay up to date with our [projects](https://github.com/Yo-ru/gulag-web/projects) to know what features are being worked on!)
+
 `* the feature is still under development or coming soon!`
 
 ### Project focuses and goals
@@ -81,6 +82,7 @@ hypercorn main.py # Please run gulag-web with hypercorn when in production!
 Want a sneakpeek at what you'll get with gulag-web?
 * [Yoru's Development Build](https://osu.yoru.moe/)
 * [Miksu](https://miksu.pw/)
+
 There will be so much more to come! So keep your eyes peeled~!
 
 ## Woah! You made it to the end of the README file!
