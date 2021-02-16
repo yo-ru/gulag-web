@@ -4,7 +4,6 @@
 
 .sidebar {
     background: hsl(var(--main), 10%, 15%);
-    height: calc(100vh - 115px);
     width: 230px;
     top: 0;
     left: 0;
@@ -12,7 +11,7 @@
     background-size: cover;
     background-position: 50%;
     display: block;
-    transition: .5s cubic-bezier(.685, .0473, .346, 1)
+    transition: .5s cubic-bezier(.685, .0473, .346, 1);
 }
 
 .sidebar .sidebar-wrapper {
@@ -21,7 +20,7 @@
     max-height: calc(100vh - 705px);
     z-index: 4;
     position: relative;
-    overflow: auto
+    overflow: auto;
 }
 
 .sidebar .sidebar-wrapper>.nav [data-toggle=collapse]~div>ul>li>a .sidebar-normal {
