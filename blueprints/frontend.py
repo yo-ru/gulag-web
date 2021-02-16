@@ -7,7 +7,7 @@ import time
 import bcrypt
 import hashlib
 import markdown2
-from geoip import geolite2
+import requests
 from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
 
@@ -239,14 +239,15 @@ async def register_post():
         glob.cache['bcrypt'][pw_bcrypt] = pw_md5 # cache result for login
 
         safe_name = get_safe_name(username)
+        ip = request.headers['X-Real-IP']
 
         country = 'xx'
-        if request.remote_addr == '127.0.0.1':
+        if ip == '127.0.0.1':
             country = 'xx'
         else:
-            match = geolite2.lookup(request.remote_addr)
-            if match:
-                country = match.country.lower()
+            req = requests.get(f'https://ipinfo.io/{ip}/json').json()
+            if req:
+                country = req['country'].lower()
 
         # add to `users` table.
         user_id = await glob.db.execute(
