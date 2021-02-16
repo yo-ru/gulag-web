@@ -266,7 +266,7 @@ html {
 
 .scores {
   background: content-box;
-  transition: 0.2s ease;
+  transition: 0.2s transform ease;
 }
 
 .map-single {

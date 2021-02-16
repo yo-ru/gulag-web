@@ -269,6 +269,8 @@ async def get_grade():
     grades = ['xh','x','sh','s','a']
     q = [f'SELECT userid, ']
 
+    nodata = { "userid": uid, "a": 0, "s": 0, "sh": 0, "x": 0, "xh": 0 }
+
     for grade in grades:
         if grade != "a":
             q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" AND userid = {uid} AND mode = {mode}) AS {grade}, ')
@@ -279,7 +281,7 @@ async def get_grade():
     q.append(f'FROM scores_{mods} ')
     q.append(f'WHERE userid = {uid} AND mode = {mode}')
     res = await glob.db.fetch(''.join(q))
-    return jsonify(res) if res else b'{}'
+    return jsonify(res) if res else jsonify(nodata)
 
 """ /get_replay """
 @api.route('/get_replay') # GET

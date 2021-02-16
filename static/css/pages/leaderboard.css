@@ -3,6 +3,10 @@
     src: url(/static/fonts/extra.ttf) format("truetype")
 }
 
+#leaderboard {
+    width: 960px;
+}
+
 a,
 a:hover {
     text-decoration: none!important
@@ -12,10 +16,6 @@ a:hover {
  ::after,
  ::before {
     box-sizing: border-box
-}
-
-#leaderboard {
-    width: 1024px;
 }
 
 .main-block {
@@ -278,28 +278,33 @@ table th {
     opacity: .2;
 }
 
-@media only screen and (max-width: 1000px) {
+@media (max-width: 576px) {
     #leaderboard {
-        width: 780px;
+        width: 100%;
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .mode-icon {
+        display: none;
     }
 }
 
-@media only screen and (max-width: 780px) {
+@media (min-width: 576px) {
     #leaderboard {
-        width: 620px;
+        max-width: 540px;
     }
 }
 
-@media only screen and (max-width: 576px) {
+@media (min-width: 768px) {
     #leaderboard {
-        max-width: 445px;
+        max-width: 720px;
     }
+}
 
-    .simple-banner-swtich {
-        font-size: 10px;
-    }
-
-    .banner-text {
-        font-size: 36px;
+@media (min-width: 992px) {
+    #leaderboard {
+        max-width: 960px;
     }
 }

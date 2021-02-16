@@ -93,6 +93,7 @@ new Vue({
             })
                 .then(function (response) {
                     vm.gradedata = response.data;
+                    console.log(vm.gradedata)
                 });
         },
         LoadReplay(id, mods) {
