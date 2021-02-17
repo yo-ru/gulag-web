@@ -46,8 +46,8 @@ async def settings_avatar():
 
     return await render_template('settings/avatar.html')
 
-@frontend.route('/u/<user>') # GET
-async def profile(user):
+@frontend.route('/u/<id>') # GET
+async def profile(id):
     mode = request.args.get('mode', type=str)
     mods = request.args.get('mods', type=str)
     
@@ -62,7 +62,7 @@ async def profile(user):
     else:
         mode = 'std'
 
-    userdata = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {user}')
+    userdata = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {id}')
 
     # don't display profile if user is banned
     is_staff = 'authenticated' in session and session['user_data']['is_staff']
@@ -134,7 +134,7 @@ async def login_post():
         # login successful; cache password for next login
         bcrypt_cache[pw_bcrypt] = pw_md5
 
-    # user not verified render verify page
+    # user not verified
     if not user_info['priv'] & Privileges.Verified:
         if glob.config.debug:
             log(f'{username}\'s login failed - not verified.', Ansi.LYELLOW)
@@ -299,7 +299,22 @@ async def docs(doc):
         markdown = markdown2.markdown_path(f'docs/{doc.lower()}.md')
     return await render_template('doc.html', doc=markdown, doc_title=doc.lower().capitalize())
 
-""" discord redirect """
+""" social media redirects """
+@frontend.route('/github') # GET
+@frontend.route('/gh')
+async def github_redirect():
+    return redirect(glob.config.github)
 @frontend.route('/discord') # GET
-async def discord():
+async def discord_redirect():
     return redirect(glob.config.discord_server)
+@frontend.route('/youtube') # GET
+@frontend.route('/yt') # GET
+async def youtube_redirect():
+    return redirect(glob.config.youtube)
+@frontend.route('/twitter') # GET
+async def twitter_redirect():
+    return redirect(glob.config.twitter)
+@frontend.route('/instagram') # GET
+@frontend.route('/ig') # GET
+async def instagram_redirect():
+    return redirect(glob.config.instagram)
