@@ -103,7 +103,7 @@ a.foot-link {
 }
 
 .button:hover {
-  transform: translateY(-4px);
+  transform: scale(1.05);
 }
 
 /* navbar */
@@ -164,16 +164,31 @@ a.foot-link {
   font-weight: 500;
 }
 
-.navbar-item:hover, .navbar-item.navbar-dropdown:hover .navbar-item {
+.navbar-item:hover,
+.navbar-item.navbar-dropdown:hover .navbar-item {
   opacity: 1 !important;
 }
 
-.navbar.is-primary .navbar-end .navbar-link.is-active, .navbar.is-primary .navbar-end .navbar-link:focus, .navbar.is-primary .navbar-end .navbar-link:hover, .navbar.is-primary .navbar-end>a.navbar-item.is-active, .navbar.is-primary .navbar-end>a.navbar-item:focus, .navbar.is-primary .navbar-end>a.navbar-item:hover, .navbar.is-primary .navbar-item.has-dropdown.is-active .navbar-link, .navbar.is-primary .navbar-item.has-dropdown:focus .navbar-link, .navbar.is-primary .navbar-item.has-dropdown:hover .navbar-link, .navbar.is-primary .navbar-start .navbar-link.is-active, .navbar.is-primary .navbar-start .navbar-link:focus, .navbar.is-primary .navbar-start .navbar-link:hover, .navbar.is-primary .navbar-start>a.navbar-item.is-active, .navbar.is-primary .navbar-start>a.navbar-item:focus, .navbar.is-primary .navbar-start>a.navbar-item:hover {
+.navbar.is-primary .navbar-end .navbar-link.is-active,
+.navbar.is-primary .navbar-end .navbar-link:focus,
+.navbar.is-primary .navbar-end .navbar-link:hover,
+.navbar.is-primary .navbar-end > a.navbar-item.is-active,
+.navbar.is-primary .navbar-end > a.navbar-item:focus,
+.navbar.is-primary .navbar-end > a.navbar-item:hover,
+.navbar.is-primary .navbar-item.has-dropdown.is-active .navbar-link,
+.navbar.is-primary .navbar-item.has-dropdown:focus .navbar-link,
+.navbar.is-primary .navbar-item.has-dropdown:hover .navbar-link,
+.navbar.is-primary .navbar-start .navbar-link.is-active,
+.navbar.is-primary .navbar-start .navbar-link:focus,
+.navbar.is-primary .navbar-start .navbar-link:hover,
+.navbar.is-primary .navbar-start > a.navbar-item.is-active,
+.navbar.is-primary .navbar-start > a.navbar-item:focus,
+.navbar.is-primary .navbar-start > a.navbar-item:hover {
   background-color: transparent;
   color: #fff;
 }
 
-.navbar.is-primary .navbar-brand>a.navbar-item:hover {
+.navbar.is-primary .navbar-brand > a.navbar-item:hover {
   background-color: transparent;
   color: #fff;
 }
@@ -193,7 +208,8 @@ a.foot-link {
   opacity: 1;
 }
 
-.navbar-brand, .navbar-tabs {
+.navbar-brand,
+.navbar-tabs {
   min-height: 0rem;
 }
 
@@ -201,14 +217,17 @@ a.foot-link {
   width: 152px;
 }
 
-.input, .select select, .textarea {
+.input,
+.select select,
+.textarea {
   background-color: hsl(var(--main), 12%, 18%);
 }
 
 /* auth notification */
 
 .paper-snackbar {
-  transition-property: opacity, bottom, left, right, width, margin, border-radius;
+  transition-property: opacity, bottom, left, right, width, margin,
+    border-radius;
   transition-duration: 0.35s;
   transition-timing-function: ease;
   color: white;
@@ -274,7 +293,8 @@ a.foot-link {
   }
 }
 
-.noti-banner-alert .noti-col-icon, .noti-banner-warning .noti-col-icon {
+.noti-banner-alert .noti-col-icon,
+.noti-banner-warning .noti-col-icon {
   background-image: url(https://osu.ppy.sh/assets/images/exclamation-icon.0db8a908.svg);
 }
 
@@ -323,7 +343,9 @@ a.foot-link {
   color: #fc2;
 }
 
-.noti-banner-text a:active, .noti-banner-text a:focus, .noti-banner-text a:hover {
+.noti-banner-text a:active,
+.noti-banner-text a:focus,
+.noti-banner-text a:hover {
   color: #fd5;
 }
 
@@ -339,11 +361,13 @@ a.foot-link {
   }
 }
 
-.rank-SH, .rank-XH {
+.rank-SH,
+.rank-XH {
   color: rgb(205, 231, 231);
 }
 
-.rank-S, .rank-X {
+.rank-S,
+.rank-X {
   color: #fc2;
 }
 
@@ -399,7 +423,9 @@ a.foot-link {
   text-decoration: none;
 }
 
-.score-beatmap-linkplain:active, .score-beatmap-linkplain:focus, .score-beatmap-linkplain:hover {
+.score-beatmap-linkplain:active,
+.score-beatmap-linkplain:focus,
+.score-beatmap-linkplain:hover {
   color: #fff;
   text-decoration: none;
 }
@@ -621,4 +647,14 @@ a.foot-link {
   -o-transform: scale(1);
   transform: scale(1);
   opacity: 1;
+}
+
+body::-webkit-scrollbar {
+  width: 12px;
+  background-color: hsl(var(--main), 10%, 25%);
+  border-bottom-right-radius: 8px;
+}
+body::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: hsl(var(--main), 15%, 40%);
 }
