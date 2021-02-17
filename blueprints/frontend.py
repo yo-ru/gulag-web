@@ -7,8 +7,8 @@ import bcrypt
 import asyncio
 import hashlib
 import markdown2
-from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
+from quart import Blueprint, render_template, redirect, request, session
 
 from objects import glob
 from objects.privileges import Privileges

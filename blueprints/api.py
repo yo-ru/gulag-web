@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from quart import Blueprint, request, jsonify
 from cmyui import log, Ansi
+from quart import Blueprint, request, jsonify
 
 from objects import glob
 from objects.utils import convert_mode_int, get_safe_name

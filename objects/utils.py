@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from quart import render_template
 from cmyui import log, Ansi
+from quart import render_template
 
 import glob
 
