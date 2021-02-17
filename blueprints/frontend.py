@@ -230,7 +230,7 @@ async def register_post():
     if len(set(pw_txt)) <= 3:
         return await flash('error', 'Password must have more than 3 unique characters.', 'register')
 
-    if pw_text.lower() in glob.config.disallowed_passwords:
+    if pw_txt.lower() in glob.config.disallowed_passwords:
         return await flash('error', 'That password was deemed too simple.', 'register')
 
     async with asyncio.Lock():
