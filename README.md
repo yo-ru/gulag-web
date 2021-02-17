@@ -2,42 +2,57 @@
 
 [![Discord](https://discordapp.com/api/guilds/748687781605408908/widget.png?style=shield)](https://discord.gg/ShEQgUx)
 
-### Features
-- Fully implemented session authentication system allowing users to have a more interpersonal experience.
-- Leaderboards supporting all mods and modes available within the gulag stack.
-- A automated documentation system featuring markdown support.
-- User profiles featuring every single statistic a player would need from score UR to rank graphs*.
-- An admin panel allowing for easy management of the gulag instance and it's users*.
-- Built on [Quart](https://github.com/pgjones/quart) and [cmyui's multipurpose library](https://github.com/cmyui/cmyui_pkg) allowing for a fully
-  asynchronous environment.
-- More soon! (Stay up to date with our [projects](https://github.com/Yo-ru/gulag-web/projects) to know what features are being worked on!)
+Table of Contents
+==================
+- [Table of Contents](#table-of-contents)
+  - [What is gulag-web?](#what-is-gulag-web)
+  - [Setup](#setup)
+  - [Directory Structure](#directory-structure)
+  - [Live Demonstrations](#live-demonstrations)
+  - [The End](#the-end)
 
-`* the feature is still under development or coming soon!`
+What is gulag-web?
+------
 
-### Project focuses and goals
-1. Written fully in modern Python.
+gulag-web is the front-facing appearance of the osu! server protocol, [gulag](https://github.com/cmyui/gulag)!
+Using native async/await syntax written on top of [Quart](https://github.com/pgjones/quart) and 
+[cmyui's multipurpose library](https://github.com/cmyui/cmyui_pkg), gulag-web achieves flexability, cleanliness, 
+and efficiency not seen in other frontend implementations - all while maintaining the simplicity of Python.
 
-2. Active development! (Commits usually pushed daily!)
+A primary goal of gulag-web is to keep our codebase a developer-friendly API, so that 
+programming remains about about the logic and ideas, rather than the code itself.
 
-2. A focus on the developer. With this project I aim to keep code as simple and concise as
-   possible, while still maintaining high performance.
+Varkaria and I are mainly writing this. Varkaria handles the design aspect of the frontend, making it responsive 
+and snappy for mobile users, while I handle the backend, making sure it's easy to modify in every aspect as well 
+as well as make it as efficent as possible.
 
-3. Developing features for the frontend should be an enjoyable and thought-provoking experience of finding new ideas; when the codebase makes that
-   difficult, programming loses the aspect of fun and everything becomes and activity that requires effort. I'm trying my best to never let this code get to that state.
+gulag-web has come a long way, going from [this](https://github.com/Yo-ru/old-gulag-web) to what you see now.
+It's in quite the usuable state. We now have a fully implemented session authentication system allowing users 
+to have a more interpersonal experience, leaderboards supported all mods and modes available within the gulag 
+stack, a automated documentation system featuring markdown support, user profiles featuring every single statistic 
+a player would need from score UR to rank graphs*, an admin panel allowing for easy management of the gulag instance 
+and it's users*. If you are curious on how far we have gotten, check out our [projects](https://github.com/Yo-ru/gulag-web/projects), 
+you can see what we have done and what we are about to complete.
 
-## Requirements
-- Python >=3.9
+`* a feature that is in development or coming soon.`
+
+
+Requirements
+------
+
+- Some know-how with Linux (tested on Ubuntu 18.04), Python, and general-programming knowledge.
 - MySQL
 - NGINX
-- Some know-how with Linux (tested on Ubuntu 18.04), modern Python, and general-programming
-  knowledge.
 
-## Setup
+Setup
+------
 
-Setup is relatively simple, the commands should basically be copy-pastable.
+Setup is relatively simple - these commands should set you right up.
 
-If you have any difficulties setting up gulag-web, feel free to join the 
-Discord server at the top of the README, we now have a bit of a community!
+Notes:
+
+- Ubuntu 20.04 is known to have issues with NGINX and osu! for unknown reasons?
+- If you have any difficulties setting up gulag-web, feel free to join the Discord server at the top of the README, we now have a bit of a community!
 
 ```sh
 # Install Python >=3.9 and latest version of PIP.
@@ -53,16 +68,16 @@ sudo apt install mysql-server nginx
 git clone https://github.com/yo-ru/gulag-web.git
 cd gulag-web
 
-# Initialize and update the submodules
+# Initialize and update the submodules.
 git submodule init && git submodule update
 
 # Install requirements from pip.
 python3.9 -m pip install -r ext/requirements.txt
 
-# Add and configure gulag-web's NGINX 
-# config to your nginx/sites-enabled.
+# Add and configure gulag-web's NGINX config to your nginx/sites-enabled.
 sudo ln -r -s ext/nginx.conf /etc/nginx/sites-enabled/gulag-web.conf
 sudo nano ext/nginx.conf
+sudo nginx -s reload
 
 # Configure gulag-web.
 cp ext/config.sample.py config.py
@@ -70,20 +85,34 @@ nano config.py
 
 # Run gulag-web.
 python3.9 main.py # Run directly to access debug features for development! (Port 5000)
-hypercorn main.py # Please run gulag-web with hypercorn when in production! 
-                  # It will improve performance drastically by disabling all
-                  # of the debug features a developer would need! (Port 8000)
-
-# Have fun!
-# - gulag Team
+hypercorn main.py # Please run gulag-web with hypercorn when in production! It will improve performance drastically by disabling all of the debug features a developer would need! (Port 8000)
 ```
 
-## Live Versions
-Want a sneakpeek at what you'll get with gulag-web?
+Directory Structure
+------
+
+    .
+    ├── blueprints   # Modular routes such as the API, Frontend, or Admin Panel.
+    ├── docs         # Markdown files used in gulag-web's documentation system.
+    ├── ext          # External files from gulag-web's primary operation.
+    ├── objects      # Code for representing privileges, global objects, and more.
+    ├── static       # Code or content that is not modified or processed by gulag-web itself.
+    ├── templates    # HTML that contains content that is rendered after the page has loaded.
+        ├── admin    # Templated content for the admin panel (/admin).
+        ├── settings # Templated content for settings (/settings).
+        └ ...        # Templated content for all of gulag-web (/).
+
+Live Demonstrations
+------
+
+Want a sneakpeek at what you'll get with gulag-web? Here are some examples!
+
 * [Yoru's Development Build](https://osu.yoru.moe/)
 * [Miksu](https://miksu.pw/)
 
-There will be so much more to come! So keep your eyes peeled~!
+There is so much more to come! So keep your eyes peeled~!
 
-## Woah! You made it to the end of the README file!
-Well know that you know everything, why not check out the original code gulag-web was based off of in [this](https://github.com/yo-ru/old-gulag-web) dusty old archived repository.
+The End
+------
+
+Well know that you know everything, why not check out the original code gulag-web was based off of in [this](https://github.com/yo-ru/old-gulag-web) dusty old archived repository?
