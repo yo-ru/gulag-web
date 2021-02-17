@@ -1,9 +1,8 @@
 <div class="block-content left">
     <div class="left-header">
-        <a href="/u/21316" class="user-avatar-header user-avatar"
-            style="background-image: url(https://a.varkaria.cyou/{{ session['UserID']}});"></a>
+        <a href="/u/{{ session.user_data['id'] }}" class="user-avatar-header user-avatar"
+            style="background-image: url(https://a.{{ domain() }}/{{ session.user_data['id']}});"></a>
         <div class="welcome-text">
-            <span class="username"> Welcome, <span class="pink-bold">{{ session["Username"]}}</span> </span>
             <span class="welcome">Settings</span>
         </div>
     </div>

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'settings/base.html' %}
 {% block title %} Home {% endblock %}
 
 {% block content %}
@@ -7,28 +7,28 @@
 <div class="main-block collumdis">
   <div class="columns is-4">
     <div class="column title-block">
-      <h1 class="title">Welcome to Settings</h1>
+      <h1 class="title">Settings</h1>
     </div>
   </div>
   <div class="columns is-4">
     <a class="column selection-block" href="/settings/profile" id="Profile">
       <div class="titlecon">
         <h1 class="title">Profile</h1>
-        <h2 class="subtitle">Customise your profile page!</h2>
+        <h2 class="subtitle">Feeling fancy?</h2>
       </div>
     </a>
-    <a class="column selection-block" id="Avatar">
+    <a class="column selection-block" href="/settings/avatar" id="Avatar">
       <div class="titlecon">
         <h1 class="title">Avatar</h1>
-        <h2 class="subtitle">Make your avatar look cooler!</h2>
+        <h2 class="subtitle">Spicing up the look are we?</h2>
       </div>
     </a>
   </div>
   <div class="columns is-4">
-    <a class="column selection-block" id="Security">
+    <a class="column selection-block" href="/settings/security" id="Security">
       <div class="titlecon">
         <h1 class="title">Security</h1>
-        <h2 class="subtitle">Be account to stronger</h2>
+        <h2 class="subtitle">Password feeling a little weak?</h2>
       </div>
     </a>
     <a class="column selection-block" id="More">
