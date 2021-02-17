@@ -3,6 +3,7 @@
 
 """ imports """
 import os
+import orjson
 import aiohttp
 from quart import Quart, render_template, request, flask_patch, jsonify
 from cmyui import AsyncSQLPool, Version, Ansi, log
@@ -36,7 +37,7 @@ async def mysql_conn() -> None:
 """ retrieve a client session for http connections """
 @app.before_serving
 async def http_conn() -> None:
-    glob.http = aiohttp.ClientSession(json_serialize=jsonify)
+    glob.http = aiohttp.ClientSession(json_serialize=orjson.dumps)
     log('Got our Client Session!', Ansi.LGREEN)
 
 """ global templates """
