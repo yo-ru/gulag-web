@@ -53,4 +53,4 @@ async def fetch_geoloc(ip: str) -> str:
             if glob.config.debug:
                 log(f'Failed to get geoloc data: {lines[0]}.', Ansi.LRED)
             return 'xx'
-        return lines[1]
+        return lines[1].lower()
