@@ -85,25 +85,37 @@
       </div>
 
       <div class="navbar-end">
+        {% if session.authenticated %}
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            {{ session.user_data['name'] }}
+          </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="/settings">
+              Profile
+            </a>
+            <a class="navbar-item" href="/doc/rules">
+              Settings
+            </a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <a class="button is-light" href="/logout">
+            Logout
+          </a>
+        </div>
+        {% else %}
         <div class="navbar-item">
           <div class="buttons">
-            {% if session.authenticated %}
-            <a class="button is-light" href="/u/{{ session.user_data['id'] }}">
-              {{ session.user_data['name'] }}
-            </a>
-            <a class="button is-primary" href="/logout">
-              <strong>Logout</strong>
-            </a>
-            {% else %}
             <a class="button is-primary" href="/register">
               <strong>Sign up</strong>
             </a>
             <a class="button is-light" href="/login">
               Log in
             </a>
-            {% endif %}
           </div>
         </div>
+        {% endif %}
       </div>
     </div>
     </div>
