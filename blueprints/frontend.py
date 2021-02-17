@@ -245,7 +245,10 @@ async def register_post():
         safe_name = get_safe_name(username)
         
         # fetch the users' country
-        country = await fetch_geoloc(request.headers['X-Real-IP']) if request.headers and 'X-Real-IP' in request.headers else 'xx'
+        if request.headers and (ip := request.headers['X-Real-IP']):
+            country = await fetch_geoloc(ip)
+        else:
+            country = 'xx'
 
         # add to `users` table.
         user_id = await glob.db.execute(
