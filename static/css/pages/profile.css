@@ -1,5 +1,6 @@
 #profile {
   transition: 0.2s ease;
+  width: 1244px;
 }
 
 .main-block {
@@ -242,8 +243,7 @@ html {
   background: #a65973;
 }
 
-.column.is-1,
-.column.is-1-tablet {
+.column.is-1, .column.is-1-tablet {
   flex: none;
   width: inherit;
 }
@@ -306,8 +306,7 @@ html {
 .map-single:hover {
   border-radius: 8px;
   transform: translateY(-1px);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04),
-    0 16px 24px rgba(0, 0, 0, 0.04), 0 24px 32px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04), 0 24px 32px rgba(0, 0, 0, 0.04);
   background: hsl(var(--main), 30%, 30%);
 }
 
@@ -350,7 +349,7 @@ html {
   align-items: flex-start;
 }
 
-.map-date > time {
+.map-date>time {
   margin-top: 2px;
 }
 
@@ -498,14 +497,11 @@ html {
 
 .beatmap-block:hover {
   margin-top: -3px;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04),
-    0 16px 24px rgba(0, 0, 0, 0.04), 0 24px 32px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04), 0 24px 32px rgba(0, 0, 0, 0.04);
   color: #fff;
 }
 
-.beatmap-artist,
-.beatmap-mapper,
-.beatmap-title {
+.beatmap-artist, .beatmap-mapper, .beatmap-title {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -594,17 +590,14 @@ span.beatmap-mapper {
   right: -30px;
 }
 
-@media screen and (max-width: 770px) {
-  .title {
-    width: inherit;
+@media screen and (max-width: 1255px) {
+  #profile {
+    width: 900px;
   }
-}
-@media screen and (max-width: 1152px) {
   .two-sides {
     display: contents !important;
   }
-  .column.is-one-third,
-  .column.is-one-third-tablet {
+  .column.is-one-third, .column.is-one-third-tablet {
     flex: none;
     width: 100%;
   }
@@ -616,10 +609,7 @@ span.beatmap-mapper {
     border-top-left-radius: 10px;
   }
   .simple-banner-swtich {
-    font-size: 14px;
-  }
-  #profile {
-    width: 900px;
+    font-size: 12px;
   }
   .beatmaps {
     grid-template-columns: inherit;
@@ -630,17 +620,14 @@ span.beatmap-mapper {
 }
 
 @media screen and (max-width: 960px) {
-  .container {
-    max-width: 760px;
+  #profile {
+    width: 770px;
   }
   .bar-selection {
     padding: 10px 13px 10px 45px;
   }
   .anime-girl {
     opacity: 0;
-  }
-  #profile {
-    width: inherit;
   }
   .profile-avatar {
     width: 140px;
@@ -659,16 +646,16 @@ span.beatmap-mapper {
 }
 
 @media screen and (max-width: 770px) {
-  .profile-bg {
-    border-radius: 0;
-  }
-  .container {
-    max-width: -webkit-fill-available;
+  #profile {
+    width: 600px
   }
   .simple-banner-swtich {
     font-size: 12px;
   }
   .subtitle {
     width: 200px;
+  }
+  .title {
+    width: inherit;
   }
 }
