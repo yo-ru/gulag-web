@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from quart import render_template
+from cmyui import log, Ansi
+
+import glob
 
 async def flash(status, msg, template):
     """ Flashes a success/error message on a specified template. """
@@ -35,3 +38,19 @@ def convert_mode_str(mode: int) -> str:
         return 'mania'
     else:
         return b'wrong mode type! (0, 1, 2, 3)'
+
+async def fetch_geoloc(ip: str) -> str:
+    """ Fetches the country code corresponding to an IP. """
+    url = f'http://ip-api.com/line/{ip}'
+    
+    async with glob.http.get(url) as resp:
+        if not resp or resp.status != 200:
+            if glob.config.debug:
+                log('Failed to get geoloc data: request failed.', Ansi.LRED)
+            return 'xx'
+        status, *lines = (await resp.text()).split('\n')
+        if status != 'success':
+            if glob.config.debug:
+                log(f'Failed to get geoloc data: {lines[0]}.', Ansi.LRED)
+            return 'xx'
+        return lines[1]

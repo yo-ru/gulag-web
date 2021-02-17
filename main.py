@@ -3,6 +3,8 @@
 
 """ imports """
 import os
+import aiohttp
+import orjson
 from quart import Quart, render_template, request, flask_patch
 from cmyui import AsyncSQLPool, Version, Ansi, log
 
@@ -31,6 +33,12 @@ async def mysql_conn() -> None:
     glob.db = AsyncSQLPool()
     await glob.db.connect(glob.config.mysql)
     log('Connected to MySQL!', Ansi.LGREEN)
+
+""" retrieve a client session for http connections """
+@app.before_serving
+async def http_conn() -> None:
+    glob.http = aiohttp.ClientSession(json_serialize=orjson.dumps)
+    log('Got our Client Session!', Ansi.LGREEN)
 
 """ global templates """
 _version = repr(version)

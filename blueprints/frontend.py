@@ -6,14 +6,13 @@ import time
 import bcrypt
 import asyncio
 import hashlib
-import requests
 import markdown2
 from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
 
 from objects import glob
 from objects.privileges import Privileges
-from objects.utils import flash, get_safe_name
+from objects.utils import flash, get_safe_name, fetch_geoloc
 
 __all__ = ()
 
@@ -239,15 +238,9 @@ async def register_post():
         glob.cache['bcrypt'][pw_bcrypt] = pw_md5 # cache result for login
 
         safe_name = get_safe_name(username)
-        ip = request.headers['X-Real-IP']
-
-        country = 'xx'
-        if ip == '127.0.0.1':
-            country = 'xx'
-        else:
-            req = requests.get(f'https://ipinfo.io/{ip}/json').json()
-            if req:
-                country = req['country'].lower()
+        
+        # fetch the users' country
+        country = fetch_geoloc(request.headers['X-Real-IP']) if request.headers and 'X-Real-IP' in request.headers else 'xx'
 
         # add to `users` table.
         user_id = await glob.db.execute(
