@@ -35,12 +35,16 @@ async def home():
 async def settings():
     # if not authenticated; render login
     if not 'authenticated' in session:
-        return await flash('error', 'You must be logged in to access user settings!', 'login')
+        return await flash('error', 'You must be logged in to access settings!', 'login')
 
-    # TODO: user settings page
-    NotImplemented
+    return await render_template('settings/home.html')
+@frontend.route('/settings/avatar') # GET
+async def settings_avatar():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access avatar settings!', 'login')
 
-    return await render_template('settings.html')   
+    return await render_template('settings/avatar.html')
 
 @frontend.route('/u/<user>') # GET
 async def profile(user):
@@ -96,7 +100,7 @@ async def login_post():
 
     # check if account exists
     user_info = await glob.db.fetch(
-        'SELECT id, name, priv, pw_bcrypt, silence_end '
+        'SELECT id, name, email, priv, pw_bcrypt, silence_end '
         'FROM users WHERE safe_name = %s',
         [get_safe_name(username)]
     )
@@ -150,6 +154,7 @@ async def login_post():
     session['user_data'] = {
         'id': user_info['id'],
         'name': user_info['name'],
+        'email': user_info['email'],
         'priv': user_info['priv'],
         'silence_end': user_info['silence_end'],
         'is_staff': user_info['priv'] & Privileges.Staff
@@ -298,7 +303,3 @@ async def docs(doc):
 @frontend.route('/discord') # GET
 async def discord():
     return redirect(glob.config.discord_server)
-
-@frontend.route('/usetting') # GET
-async def settings_welcome():
-    return await render_template('settings/welcome.html')
