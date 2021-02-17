@@ -7,41 +7,36 @@
 {% if flash %}
 <div class='noti-banner noti-banner-warning'>
   <div class="container">
-    <div class="columns is-paddingless noti-column">
-      <div class="column is-flex">
-        <div class='noti-col noti-col-icon'></div>
-        <div class='noti-col noti-col-label'>
-          <div class='noti-bannertype'>
-            {% if status=='error' %}
-            Warning
-            {% elif status=='success' %}
-            Notice
-            {% endif %}
-          </div>
-          <div class='noti-bannertext'>
-            {% if status=='error' %}
-            Uh oh! Be careful!
-            {% elif status=='success' %}
-            Hey! Listen!
-            {% endif %}
-          </div>
+    <div class="noti-column">
+      <div class='noti-col noti-col-icon'></div>
+      <div class='noti-col noti-col-label'>
+        <div class='noti-bannertype'>
+          {% if status=='error' %}
+          Warning
+          {% elif status=='success' %}
+          Notice
+          {% endif %}
         </div>
-        <div class='noti-banner-text'>
-          {{ flash }}
+        <div class='noti-bannertext'>
+          {% if status=='error' %}
+          Uh oh! Be careful!
+          {% elif status=='success' %}
+          Hey! Listen!
+          {% endif %}
         </div>
       </div>
-      <div class="column is-flex is-vcentered is-lcentered">
-        
+      <div class='noti-banner-text'>
+        {{ flash }}
       </div>
     </div>
   </div>
 </div>
 {% endif %}
 
-<div class="hero splash is-padless">
+<div class="hero splash is-padless" id="home-hero">
   <div class="container is-flex is-lcentered">
     <div class="columns is-vcentered is-marginless">
-      <div class="column">
+      <div class="column is-size-2-desktop is-size-1-fullhd">
         <h1 class="title is-spaced is-size-2-desktop is-size-1-fullhd">{{ appName() }}</h1>
         <h2 class="subtitle">
           We are an osu! private server built from the ground up with many
