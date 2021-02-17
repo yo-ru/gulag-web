@@ -243,14 +243,12 @@ html {
   background: #a65973;
 }
 
-.column.is-1,
-.column.is-1-tablet {
+.column.is-1, .column.is-1-tablet {
   flex: none;
   width: inherit;
 }
 
-.column.is-one-third,
-.column.is-one-third-tablet {
+.column.is-one-third, .column.is-one-third-tablet {
   width: 26%;
 }
 
@@ -308,8 +306,7 @@ html {
 .map-single:hover {
   border-radius: 8px;
   transform: translateY(-1px);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04),
-    0 16px 24px rgba(0, 0, 0, 0.04), 0 24px 32px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04), 0 24px 32px rgba(0, 0, 0, 0.04);
   background: hsl(var(--main), 30%, 30%);
 }
 
@@ -352,7 +349,7 @@ html {
   align-items: flex-start;
 }
 
-.map-date > time {
+.map-date>time {
   margin-top: 2px;
 }
 
@@ -473,7 +470,7 @@ html {
   width: 100%;
   display: grid;
   grid-gap: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 350px));
+  grid-template-columns: repeat(auto-fill, minmax(325px, 444px));
   margin: 8px 0;
 }
 
@@ -490,7 +487,7 @@ html {
   align-items: center;
   overflow: hidden;
   height: 72px;
-  width: 350px;
+  width: 100%;
 }
 
 .beatmap-block {
@@ -500,14 +497,11 @@ html {
 
 .beatmap-block:hover {
   margin-top: -3px;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04),
-    0 16px 24px rgba(0, 0, 0, 0.04), 0 24px 32px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04), 0 24px 32px rgba(0, 0, 0, 0.04);
   color: #fff;
 }
 
-.beatmap-artist,
-.beatmap-mapper,
-.beatmap-title {
+.beatmap-artist, .beatmap-mapper, .beatmap-title {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -603,8 +597,7 @@ span.beatmap-mapper {
   .two-sides {
     display: contents !important;
   }
-  .column.is-one-third,
-  .column.is-one-third-tablet {
+  .column.is-one-third, .column.is-one-third-tablet {
     flex: none;
     width: 100%;
   }
@@ -673,8 +666,8 @@ span.beatmap-mapper {
   }
   .info-block {
     padding: 10px 110px 50px 195px;
-  }
-  .simple-banner-swtich {
-    font-size: 9px;
-  }
+}
+.simple-banner-swtich {
+  font-size: 9px;
+}
 }
