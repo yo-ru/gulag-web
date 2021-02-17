@@ -3,7 +3,7 @@
 from cmyui import log, Ansi
 from quart import render_template
 
-import glob
+from objects import glob
 
 async def flash(status, msg, template):
     """ Flashes a success/error message on a specified template. """
