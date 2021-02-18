@@ -1,7 +1,7 @@
 .main-block {
   background-color: hsl(var(--main), 10%, 15%);
   color: #fff;
-  width: 1222px;
+  width: 1155px;
 }
 .collumdis {
   flex-direction: column;
@@ -880,6 +880,6 @@ input:checked + label.checkbox:hover {
 
 @media screen and (max-width: 770px) {
   .main-block {
-    width: 600px
+    width: 500px;
   }
 }

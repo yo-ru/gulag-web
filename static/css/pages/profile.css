@@ -470,7 +470,7 @@ html {
   width: 100%;
   display: grid;
   grid-gap: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(444px, 348px));
+  grid-template-columns: repeat(auto-fill, minmax(325px, 444px));
   margin: 8px 0;
 }
 
@@ -647,7 +647,13 @@ span.beatmap-mapper {
 
 @media screen and (max-width: 770px) {
   #profile {
-    width: 600px
+    width: 600px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #profile {
+    width: 480px;
   }
   .simple-banner-swtich {
     font-size: 12px;
@@ -658,4 +664,10 @@ span.beatmap-mapper {
   .title {
     width: inherit;
   }
+  .info-block {
+    padding: 10px 110px 50px 195px;
+}
+.simple-banner-swtich {
+  font-size: 9px;
+}
 }
