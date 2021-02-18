@@ -20,7 +20,7 @@ Using native async/await syntax written on top of [Quart](https://github.com/pgj
 and efficiency not seen in other frontend implementations - all while maintaining the simplicity of Python.
 
 A primary goal of gulag-web is to keep our codebase a developer-friendly API, so that 
-programming remains about about the logic and ideas, rather than the code itself.
+programming remains about the logic and ideas, rather than the code itself.
 
 Varkaria and I are mainly writing this. Varkaria handles the design aspect of the frontend, making it responsive 
 and snappy for mobile users, while I handle the backend, making sure it's easy to modify in every aspect as well 
