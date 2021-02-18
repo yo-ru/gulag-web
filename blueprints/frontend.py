@@ -310,15 +310,6 @@ async def github_redirect():
 @frontend.route('/discord') # GET
 async def discord_redirect():
     return redirect(glob.config.discord_server)
-
-@frontend.route('/usetting') # GET
-async def settings_welcome():
-    return await render_template('settings/welcome.html')
-
-@frontend.route('/usetting/avatar') # GET
-async def settings_avatar():
-    return await render_template('settings/avatar.html')
-    
 @frontend.route('/youtube') # GET
 @frontend.route('/yt') # GET
 async def youtube_redirect():
