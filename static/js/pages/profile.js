@@ -32,7 +32,7 @@ new Vue({
                 }
             })
                 .then(function (response) {
-                    vm.userdata = response.data;
+                    vm.userdata = response.data.udata;
                 });
         },
         LoadMostBeatmaps(userid, mode, mods) {
