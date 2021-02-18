@@ -89,6 +89,7 @@ a.foot-link {
 
 .container {
   -webkit-animation: slideup 0.2s ease;
+  transition: 0.2s ease;
 }
 
 @-webkit-keyframes slideup {
@@ -103,7 +104,7 @@ a.foot-link {
 }
 
 .button:hover {
-  transform: translateY(-4px);
+  transform: scale(1.05);
 }
 
 /* navbar */
