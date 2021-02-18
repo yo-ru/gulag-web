@@ -100,7 +100,7 @@ Directory Structure
     ├── templates    # HTML that contains content that is rendered after the page has loaded.
         ├── admin    # Templated content for the admin panel (/admin).
         ├── settings # Templated content for settings (/settings).
-        └ ...        # Templated content for all of gulag-web (/).
+        └ ...         # Templated content for all of gulag-web (/).
 
 Live Demonstrations
 ------
