@@ -1,15 +1,18 @@
 #!/usr/bin/python3.9
 # -*- coding: utf-8 -*-
 
-import quart.flask_patch # https://pgjones.gitlab.io/quart/how_to_guides/flask_extensions.html
+""" imports """
 import os
-from quart import Quart, render_template, request
+import orjson
+import aiohttp
+from quart import Quart, render_template, request, flask_patch, jsonify
 from cmyui import AsyncSQLPool, Version, Ansi, log
 
 from objects import glob
 
 __all__ = ()
 
+""" app """
 app = Quart(__name__)
 
 """ app version """
@@ -31,6 +34,12 @@ async def mysql_conn() -> None:
     await glob.db.connect(glob.config.mysql)
     log('Connected to MySQL!', Ansi.LGREEN)
 
+""" retrieve a client session for http connections """
+@app.before_serving
+async def http_conn() -> None:
+    glob.http = aiohttp.ClientSession(json_serialize=orjson.dumps)
+    log('Got our Client Session!', Ansi.LGREEN)
+
 """ global templates """
 _version = repr(version)
 @app.before_serving
@@ -48,7 +57,7 @@ _domain = glob.config.domain
 def domain() -> str:
     return _domain
 
-# import external blueprints
+""" external blueprints """
 from blueprints.frontend import frontend
 from blueprints.admin import admin
 from blueprints.api import api
@@ -62,6 +71,7 @@ async def page_not_found(e):
     # NOTE: we set the 404 status explicitly
     return await render_template('404.html'), 404
 
+""" run app """
 if __name__ == '__main__':
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
-    app.run(debug=True) # blocking call
+    app.run(debug=glob.config.debug) # blocking call

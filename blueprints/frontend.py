@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
 
-import asyncio
 import os
 import re
 import time
 import bcrypt
+import asyncio
 import hashlib
 import markdown2
-import requests
-from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
+from quart import Blueprint, render_template, redirect, request, session
 
 from objects import glob
 from objects.privileges import Privileges
-from objects.utils import flash, get_safe_name
+from objects.utils import flash, get_safe_name, fetch_geoloc
 
 __all__ = ()
 
@@ -36,15 +35,19 @@ async def home():
 async def settings():
     # if not authenticated; render login
     if not 'authenticated' in session:
-        return await flash('error', 'You must be logged in to access user settings!', 'login')
+        return await flash('error', 'You must be logged in to access settings!', 'login')
 
-    # TODO: user settings page
-    NotImplemented
+    return await render_template('settings/home.html')
+@frontend.route('/settings/avatar') # GET
+async def settings_avatar():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access avatar settings!', 'login')
 
-    return await render_template('settings.html')   
+    return await render_template('settings/avatar.html')
 
-@frontend.route('/u/<user>') # GET
-async def profile(user):
+@frontend.route('/u/<id>') # GET
+async def profile(id):
     mode = request.args.get('mode', type=str)
     mods = request.args.get('mods', type=str)
     
@@ -59,7 +62,7 @@ async def profile(user):
     else:
         mode = 'std'
 
-    userdata = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {user}')
+    userdata = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {id}')
 
     # don't display profile if user is banned
     is_staff = 'authenticated' in session and session['user_data']['is_staff']
@@ -97,7 +100,7 @@ async def login_post():
 
     # check if account exists
     user_info = await glob.db.fetch(
-        'SELECT id, name, priv, pw_bcrypt, silence_end '
+        'SELECT id, name, email, priv, pw_bcrypt, silence_end '
         'FROM users WHERE safe_name = %s',
         [get_safe_name(username)]
     )
@@ -131,7 +134,7 @@ async def login_post():
         # login successful; cache password for next login
         bcrypt_cache[pw_bcrypt] = pw_md5
 
-    # user not verified render verify page
+    # user not verified
     if not user_info['priv'] & Privileges.Verified:
         if glob.config.debug:
             log(f'{username}\'s login failed - not verified.', Ansi.LYELLOW)
@@ -151,6 +154,7 @@ async def login_post():
     session['user_data'] = {
         'id': user_info['id'],
         'name': user_info['name'],
+        'email': user_info['email'],
         'priv': user_info['priv'],
         'silence_end': user_info['silence_end'],
         'is_staff': user_info['priv'] & Privileges.Staff
@@ -230,7 +234,7 @@ async def register_post():
     if len(set(pw_txt)) <= 3:
         return await flash('error', 'Password must have more than 3 unique characters.', 'register')
 
-    if pw_text.lower() in glob.config.disallowed_passwords:
+    if pw_txt.lower() in glob.config.disallowed_passwords:
         return await flash('error', 'That password was deemed too simple.', 'register')
 
     async with asyncio.Lock():
@@ -239,15 +243,12 @@ async def register_post():
         glob.cache['bcrypt'][pw_bcrypt] = pw_md5 # cache result for login
 
         safe_name = get_safe_name(username)
-        ip = request.headers['X-Real-IP']
-
-        country = 'xx'
-        if ip == '127.0.0.1':
-            country = 'xx'
+        
+        # fetch the users' country
+        if request.headers and (ip := request.headers.get('X-Real-IP')):
+            country = await fetch_geoloc(ip)
         else:
-            req = requests.get(f'https://ipinfo.io/{ip}/json').json()
-            if req:
-                country = req['country'].lower()
+            country = 'xx'
 
         # add to `users` table.
         user_id = await glob.db.execute(
@@ -301,9 +302,13 @@ async def docs(doc):
         markdown = markdown2.markdown_path(f'docs/{doc.lower()}.md')
     return await render_template('doc.html', doc=markdown, doc_title=doc.lower().capitalize())
 
-""" discord redirect """
+""" social media redirects """
+@frontend.route('/github') # GET
+@frontend.route('/gh')
+async def github_redirect():
+    return redirect(glob.config.github)
 @frontend.route('/discord') # GET
-async def discord():
+async def discord_redirect():
     return redirect(glob.config.discord_server)
 
 @frontend.route('/usetting') # GET
@@ -313,3 +318,15 @@ async def settings_welcome():
 @frontend.route('/usetting/avatar') # GET
 async def settings_avatar():
     return await render_template('settings/avatar.html')
+    
+@frontend.route('/youtube') # GET
+@frontend.route('/yt') # GET
+async def youtube_redirect():
+    return redirect(glob.config.youtube)
+@frontend.route('/twitter') # GET
+async def twitter_redirect():
+    return redirect(glob.config.twitter)
+@frontend.route('/instagram') # GET
+@frontend.route('/ig') # GET
+async def instagram_redirect():
+    return redirect(glob.config.instagram)
