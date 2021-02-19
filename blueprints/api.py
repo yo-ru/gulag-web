@@ -291,7 +291,8 @@ async def get_grade():
     q.append(f'FROM scores_{mods} ')
     q.append(f'WHERE userid = {uid} AND mode = {mode}')
     res = await glob.db.fetch(''.join(q))
-    return orjson.dumps(res) if res else b'{}'
+    ape = { "userid": uid, "a": 0, "s": 0, "sh": 0, "x": 0, "xh": 0 }
+    return orjson.dumps(res) if res else orjson.dumps(ape)
 
 @api.route('/get_online')
 async def api_get_online():

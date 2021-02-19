@@ -119,7 +119,7 @@ async def profile(user):
             clantag = ""
         if int(userdata['priv']) == 2:
             if 'authenticated' in session:
-                if session["user_data"]["id"] != userdata['id']:
+                if session["user_data"]["id"] != userdata['id'] and not session["user_data"]["is_staff"]:
                     return await render_template('resuser.html')
                 else:
                     return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag)
