@@ -12,7 +12,7 @@
 .title-block {
   height: auto;
   width: auto;
-  padding: 38px 22px 10px 22px;
+  padding: 60px 22px 20px 22px;
   background-color: hsl(var(--main), 30%, 50%);
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
@@ -469,8 +469,6 @@ input::placeholder {
   width: 100%;
   padding: 23px;
   align-items: center;
-  border-bottom: solid 3px #f6a;
-  background-color: #252525;
 }
 .left-header {
   border-top-left-radius: 8px;
@@ -866,6 +864,7 @@ input:checked + label.checkbox:hover {
 }
 
 
+
 @media screen and (max-width: 1255px) {
   .main-block {
     width: 900px;
@@ -883,3 +882,4 @@ input:checked + label.checkbox:hover {
     width: 500px;
   }
 }
+

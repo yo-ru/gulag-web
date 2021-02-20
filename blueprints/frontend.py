@@ -32,12 +32,17 @@ async def home():
 
 """ settings """
 @frontend.route('/settings') # GET
-async def settings():
+@frontend.route('/settings/profile') # GET
+async def settings_profile():
     # if not authenticated; render login
     if not 'authenticated' in session:
-        return await flash('error', 'You must be logged in to access settings!', 'login')
+        return await flash('error', 'You must be logged in to access profile settings!', 'login')
+        
+    userid = session['user_data']['id']
+    user = await glob.db.fetch(f"SELECT * FROM users WHERE id = {userid}")
 
-    return await render_template('settings/home.html')
+    return await render_template('settings/profile.html', user=user)
+
 @frontend.route('/settings/avatar') # GET
 async def settings_avatar():
     # if not authenticated; render login
@@ -45,6 +50,14 @@ async def settings_avatar():
         return await flash('error', 'You must be logged in to access avatar settings!', 'login')
 
     return await render_template('settings/avatar.html')
+
+@frontend.route('/settings/password') # GET
+async def settings_password():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access password settings!', 'login')
+
+    return await render_template('settings/password.html')
 
 @frontend.route('/u/<id>') # GET
 async def profile(id):

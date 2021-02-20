@@ -14,11 +14,81 @@
 <div class="main-block">
   {% include "settings/sidebar.html" %}
   <div class="block-content right" id="settings-content">
-    <div id="general" class="single-right-block">
+    <div class="single-right-block">
       <div class="right-block-header">
         Avatar
       </div>
+      <div class="right-block-content">
+        <div class="single-block-content avatar-block-content">
+          <div id="avatar-img" style="background-image: url(https://a.varkaria.cyou/{{ session.user_data['id']}});"
+            alt="Avatar Picture"></div>
+          <form id="upload-profile" method="post" enctype=multipart/form-data>
+            <div class="buttons margin-top" id="selection">
+              <label class="file-label">
+                <input class="file-input" type="file" id="file" name="file">
+                <span class="file-cta">
+                  <span class="file-icon">
+                    <i class="fa fa-upload"></i>
+                  </span>
+                  <span class="file-label">
+                    Choose a file!!
+                  </span>
+                </span>
+              </label>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+      var doone = 0;
+      
+      $("#file")
+        .change(function (e) {
+          var f = e.target.files;
+          if (f.length < 1) {
+            return;
+          }
+          var u = window.URL.createObjectURL(f[0]);
+          var i = $("#avatar-img")[0];
+          i.src = u;
+          $("#avatar-img").attr("style", "background-image: url(" + i.src + ");");
+          if (doone == 0) {
+            document.querySelector('#selection').innerHTML += "<button class='button is-primary' type='submit' value=Upload><span class='icon is-small'><i class='fas fa-check'></i></span><span>Save</span></button>"
+            doone = 1
+          }
+        });
+  </script>
+</div>
+
+{% if flash %}
+<div class='noti-banner noti-banner-warning'>
+  <div class="container">
+    <div class="noti-column">
+      <div class='noti-col noti-col-icon'></div>
+      <div class='noti-col noti-col-label'>
+        <div class='noti-bannertype'>
+          {% if status=='error' %}
+          Warning
+          {% elif status=='success' %}
+          Notice
+          {% endif %}
+        </div>
+        <div class='noti-bannertext'>
+          {% if status=='error' %}
+          Uh oh! Be careful!
+          {% elif status=='success' %}
+          Hey! Listen!
+          {% endif %}
+        </div>
+      </div>
+      <div class='noti-banner-text'>
+        {{ flash }}
+      </div>
+    </div>
   </div>
 </div>
+{% endif %}
 
 {% endblock %}
