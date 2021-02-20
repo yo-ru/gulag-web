@@ -90,7 +90,7 @@
                                     <% (sort=='rscore' ? scoreFormat(user.rscore) : "" ) %>
                             </td>
                             <td class="t-column t-column--dimmed">
-                                <% user.acc %>%
+                                <% user.acc.toFixed(2) %>%
                             </td>
                             <td class="t-column t-column--dimmed">
                                 <% addCommas(user.plays) %>
