@@ -37,12 +37,8 @@ async def settings_profile():
     # if not authenticated; render login
     if not 'authenticated' in session:
         return await flash('error', 'You must be logged in to access profile settings!', 'login')
-        
-    userid = session['user_data']['id']
-    user = await glob.db.fetch(f"SELECT * FROM users WHERE id = {userid}")
 
-    return await render_template('settings/profile.html', user=user)
-
+    return await render_template('settings/profile.html')
 @frontend.route('/settings/avatar') # GET
 async def settings_avatar():
     # if not authenticated; render login
@@ -50,15 +46,79 @@ async def settings_avatar():
         return await flash('error', 'You must be logged in to access avatar settings!', 'login')
 
     return await render_template('settings/avatar.html')
-
 @frontend.route('/settings/password') # GET
 async def settings_password():
     # if not authenticated; render login
     if not 'authenticated' in session:
-        return await flash('error', 'You must be logged in to access password settings!', 'login')
+        return await flash('error', 'You must be logged in to access password settings!', 'login')    
 
     return await render_template('settings/password.html')
+@frontend.route('/settings/password', methods=["POST"])
+async def settings_password_post():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access password settings!', 'login')   
+    
+    form = await request.form
 
+    old_password = form.get('old_password')
+    new_password = form.get('new_password')
+    repeat_password = form.get('repeat_password')
+
+    bcrypt_cache = glob.cache['bcrypt']
+    pw_bcrypt = (await glob.db.fetch('SELECT pw_bcrypt FROM users WHERE safe_name = %s', [get_safe_name(session['user_data']['name'])]))['pw_bcrypt'].encode()
+    pw_md5 = hashlib.md5(old_password.encode()).hexdigest().encode()
+
+    # check old password against db
+    # intentionally slow, will cache to speed up
+    if pw_bcrypt in bcrypt_cache:
+        if pw_md5 != bcrypt_cache[pw_bcrypt]: # ~0.1ms
+            if glob.config.debug:
+                log(f'{session["user_data"]["name"]}\'s change pw failed - pw incorrect.', Ansi.LYELLOW)
+            return await flash('error', 'Your old password is incorrect.', 'settings/password')
+    else: # ~200ms
+        if not bcrypt.checkpw(pw_md5, pw_bcrypt):
+            if glob.config.debug:
+                log(f'{session["user_data"]["name"]}\'s change pw failed - pw incorrect.', Ansi.LYELLOW)
+            return await flash('error', 'Your old password is incorrect.', 'settings/password')
+
+    # new password and old password match; deny password change
+    if old_password.lower() == new_password.lower():
+        return await flash('error', 'Your new password cannot be the same as your old password!', 'settings/password')
+
+    # new password and repeat password don't match; deny password change
+    if new_password != repeat_password:
+        return await flash('error', "Your new password doesn't match your repeated password!", 'settings/password')
+
+    # Passwords must:
+    # - be within 8-32 characters in length
+    # - have more than 3 unique characters
+    # - not be in the config's `disallowed_passwords` list
+    if not 8 < len(new_password) <= 32:
+        return await flash('error', 'Your new password must be 8-32 characters in length.', 'settings/password')
+
+    if len(set(new_password)) <= 3:
+        return await flash('error', 'Your new password must have more than 3 unique characters.', 'settings/password')
+
+    if new_password.lower() in glob.config.disallowed_passwords:
+        return await flash('error', 'Your new password was deemed too simple.', 'settings/password')
+
+    # remove old password from cache
+    if pw_bcrypt in bcrypt_cache:
+        del bcrypt_cache[pw_bcrypt] 
+
+    # update password in cache and db    
+    pw_md5 = hashlib.md5(new_password.encode()).hexdigest().encode()
+    pw_bcrypt = bcrypt.hashpw(pw_md5, bcrypt.gensalt())
+    await glob.db.execute('UPDATE users SET pw_bcrypt = %s WHERE safe_name = %s', [pw_bcrypt, get_safe_name(session['user_data']['name'])])
+    bcrypt_cache[pw_bcrypt] = pw_md5
+
+    # logout
+    session.pop('authenticated', None)
+    session.pop('user_data', None)
+    return await flash('success', 'Your password has been changed! Please login again.', 'login')
+
+""" profile """
 @frontend.route('/u/<id>') # GET
 async def profile(id):
     mode = request.args.get('mode', type=str)

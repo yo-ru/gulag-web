@@ -29,7 +29,7 @@
             <div class="field-body">
               <div class="field">
                 <p class="control">
-                  <input class="input is-static" type="email" value="{{ user["name"] }}" readonly>
+                  <input class="input is-static" type="text" value="{{ session.user_data['name'] }}" readonly>
                 </p>
               </div>
             </div>
@@ -45,12 +45,13 @@
             <div class="field-body">
               <div class="field">
                 <p class="control">
-                  <input class="input is-static" type="email" value="{{ user["email"] }}" readonly>
+                  <input class="input is-static" type="email" value="{{ session.user_data['email'] }}" readonly>
                 </p>
               </div>
             </div>
           </div>
         </div>
+        <!-- Disabled - Username AKA doesn't exist in gulag? (for now?)
         <div class="single-block-content">
           <div class="block-content--left">
             <div class="field-label is-normal">
@@ -61,12 +62,13 @@
             <div class="field-body">
               <div class="field">
                 <p class="control">
-                  <input class="input" type="aka" value="{{ user[" aka"] }}">
+                  <input class="input" type="aka" value="">
                 </p>
               </div>
             </div>
           </div>
         </div>
+        -->
         <button class='button is-primary' type='submit' value=Upload><span class='icon is-small'><i class='fas fa-check'></i></span><span>Save</span></button>
       </div>
     </div>
