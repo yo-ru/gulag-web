@@ -6,7 +6,7 @@ app_name = 'gulag-web'
 # secret key
 secret_key = 'changeme'
 
-# Domain (used for api, avatar, get_online)
+# domain (used for api, avatar, etc)
 domain = 'gulag.ca'
 
 # mysql credentials
@@ -17,7 +17,7 @@ mysql = {
     'password': 'changeme',
 }
 
-# path to gulag root (must have leading slash!)
+# path to gulag root (must have leading and following slash)
 path_to_gulag = '/path/to/gulag/'
 
 # enable debug (disable when in production to improve performance)

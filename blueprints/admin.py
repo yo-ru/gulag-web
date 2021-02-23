@@ -13,7 +13,9 @@ __all__ = ()
 
 admin = Blueprint('admin', __name__)
 
-""" admin home """
+"""
+home - the home page of the admin panel.
+"""
 @admin.route('/dashboard')
 @admin.route('/home')
 @admin.route('/')
