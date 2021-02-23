@@ -24,6 +24,10 @@ valid_mods = frozenset({'vn', 'rx', 'ap'})
 valid_sorts = frozenset({'tscore', 'rscore', 'pp', 'plays',
                         'playtime', 'acc', 'maxcombo'})
 
+""" regex """
+_username_rgx = re.compile(r'^[\w \[\]-]{2,15}$')
+_email_rgx = re.compile(r'^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$')
+
 """ home """
 @frontend.route('/home') # GET
 @frontend.route('/')
@@ -32,12 +36,67 @@ async def home():
 
 """ settings """
 @frontend.route('/settings') # GET
-async def settings():
+@frontend.route('/settings/profile') # GET
+async def settings_profile():
     # if not authenticated; render login
     if not 'authenticated' in session:
-        return await flash('error', 'You must be logged in to access settings!', 'login')
+        return await flash('error', 'You must be logged in to access profile settings!', 'login')
 
-    return await render_template('settings/home.html')
+    return await render_template('settings/profile.html')
+@frontend.route('/settings/profile', methods=['POST']) # POST
+async def settings_profile_post():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access profile settings!', 'login')
+    
+    form = await request.form
+
+    username = form.get('username')
+    email = form.get('email')
+
+    # deny post if no data has changed
+    if username == session['user_data']['name'] and email == session['user_data']['email']:
+        return await flash('error', 'No changes have been made.', 'settings/profile')
+
+    # Usernames must:
+    # - be within 2-15 characters in length
+    # - not contain both ' ' and '_', one is fine
+    # - not be in the config's `disallowed_names` list
+    # - not already be taken by another player
+    if not _username_rgx.match(username):
+        return await flash('error', 'Your new username syntax is invalid.', 'settings/profile')
+
+    if '_' in username and ' ' in username:
+        return await flash('error', 'Your new username may contain "_" or " ", but not both.', 'settings/profile')
+
+    if username in glob.config.disallowed_names:
+        return await flash('error', 'Your new username isn\'t allowed; pick another.', 'settings/profile')
+
+    if await glob.db.fetch('SELECT 1 FROM users WHERE name = %s AND NOT name = %s', [username, session['user_data']['name']]):
+        return await flash('error', 'Your new username already taken by another user.', 'settings/profile')
+
+    # Emails must:
+    # - match the regex `^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$`
+    # - not already be taken by another player
+    if not _email_rgx.match(email):
+        return await flash('error', 'Your new email syntax is invalid.', 'settings/profile')
+
+    if await glob.db.fetch('SELECT 1 FROM users WHERE email = %s AND NOT email = %s', [email, session['user_data']['email']]):
+        return await flash('error', 'Your new email already taken by another user.', 'settings/profile')
+
+    # username change successful
+    if username != session['user_data']['name']:
+        await glob.db.execute('UPDATE users SET name = %s, safe_name = %s WHERE safe_name = %s', [username, get_safe_name(username), get_safe_name(session['user_data']['name'])])
+    
+    # email change successful
+    if email != session['user_data']['email']:
+        safe_name = get_safe_name(username) if username != session['user_data']['name'] else get_safe_name(session['user_data']['name'])
+        await glob.db.execute('UPDATE users SET email = %s WHERE safe_name = %s', [email, safe_name])
+
+    # logout
+    session.pop('authenticated', None)
+    session.pop('user_data', None)
+    return await flash('success', 'Your username/email have been changed! Please login again.', 'login')
 @frontend.route('/settings/avatar') # GET
 async def settings_avatar():
     # if not authenticated; render login
@@ -45,7 +104,99 @@ async def settings_avatar():
         return await flash('error', 'You must be logged in to access avatar settings!', 'login')
 
     return await render_template('settings/avatar.html')
+@frontend.route('/settings/avatar', methods=['POST']) # POST
+async def settings_avatar_post():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access avatar settings!', 'login')
 
+    avatar = (await request.files).get('avatar')
+
+    # no file uploaded
+    if not avatar or avatar.filename == '':
+        return await flash('error', 'No image was selected!', 'settings/avatar')
+
+    if not avatar.filename.lower().endswith(('.jpg', '.jpeg')):
+        return await flash('error', 'The image you select must be a .JPG/.JPEG file!', 'settings/avatar')
+
+    # avatar change success
+    avatar.save(os.path.join(f'{glob.config.path_to_gulag}.data/avatars', f'{session["user_data"]["id"]}.jpg'))
+    return await flash('success', 'Your avatar has been successfully changed!', 'settings/avatar')
+
+
+@frontend.route('/settings/password') # GET
+async def settings_password():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access password settings!', 'login')    
+
+    return await render_template('settings/password.html')
+@frontend.route('/settings/password', methods=["POST"]) # POST
+async def settings_password_post():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access password settings!', 'login')   
+    
+    form = await request.form
+
+    old_password = form.get('old_password')
+    new_password = form.get('new_password')
+    repeat_password = form.get('repeat_password')
+
+    bcrypt_cache = glob.cache['bcrypt']
+    pw_bcrypt = (await glob.db.fetch('SELECT pw_bcrypt FROM users WHERE safe_name = %s', [get_safe_name(session['user_data']['name'])]))['pw_bcrypt'].encode()
+    pw_md5 = hashlib.md5(old_password.encode()).hexdigest().encode()
+
+    # check old password against db
+    # intentionally slow, will cache to speed up
+    if pw_bcrypt in bcrypt_cache:
+        if pw_md5 != bcrypt_cache[pw_bcrypt]: # ~0.1ms
+            if glob.config.debug:
+                log(f'{session["user_data"]["name"]}\'s change pw failed - pw incorrect.', Ansi.LYELLOW)
+            return await flash('error', 'Your old password is incorrect.', 'settings/password')
+    else: # ~200ms
+        if not bcrypt.checkpw(pw_md5, pw_bcrypt):
+            if glob.config.debug:
+                log(f'{session["user_data"]["name"]}\'s change pw failed - pw incorrect.', Ansi.LYELLOW)
+            return await flash('error', 'Your old password is incorrect.', 'settings/password')
+
+    # new password and old password match; deny password change
+    if old_password.lower() == new_password.lower():
+        return await flash('error', 'Your new password cannot be the same as your old password!', 'settings/password')
+
+    # new password and repeat password don't match; deny password change
+    if new_password != repeat_password:
+        return await flash('error', "Your new password doesn't match your repeated password!", 'settings/password')
+
+    # Passwords must:
+    # - be within 8-32 characters in length
+    # - have more than 3 unique characters
+    # - not be in the config's `disallowed_passwords` list
+    if not 8 < len(new_password) <= 32:
+        return await flash('error', 'Your new password must be 8-32 characters in length.', 'settings/password')
+
+    if len(set(new_password)) <= 3:
+        return await flash('error', 'Your new password must have more than 3 unique characters.', 'settings/password')
+
+    if new_password.lower() in glob.config.disallowed_passwords:
+        return await flash('error', 'Your new password was deemed too simple.', 'settings/password')
+
+    # remove old password from cache
+    if pw_bcrypt in bcrypt_cache:
+        del bcrypt_cache[pw_bcrypt] 
+
+    # update password in cache and db    
+    pw_md5 = hashlib.md5(new_password.encode()).hexdigest().encode()
+    pw_bcrypt = bcrypt.hashpw(pw_md5, bcrypt.gensalt())
+    await glob.db.execute('UPDATE users SET pw_bcrypt = %s WHERE safe_name = %s', [pw_bcrypt, get_safe_name(session['user_data']['name'])])
+    bcrypt_cache[pw_bcrypt] = pw_md5
+
+    # logout
+    session.pop('authenticated', None)
+    session.pop('user_data', None)
+    return await flash('success', 'Your password has been changed! Please login again.', 'login')
+
+""" profile """
 @frontend.route('/u/<id>') # GET
 async def profile(id):
     mode = request.args.get('mode', type=str)
@@ -157,7 +308,8 @@ async def login_post():
         'email': user_info['email'],
         'priv': user_info['priv'],
         'silence_end': user_info['silence_end'],
-        'is_staff': user_info['priv'] & Privileges.Staff
+        'is_staff': user_info['priv'] & Privileges.Staff,
+        'is_donator': user_info['priv'] & Privileges.Donator
     }
 
     if glob.config.debug:
@@ -168,8 +320,6 @@ async def login_post():
     return await flash('success', f'Hey! Welcome back {username}!', 'home')
 
 """ registration """
-_username_rgx = re.compile(r'^[\w \[\]-]{2,15}$')
-_email_rgx = re.compile(r'^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$')
 @frontend.route('/register') # GET
 async def register():
     # if authenticated; redirect home

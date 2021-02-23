@@ -10,10 +10,67 @@
   border-radius: 8px;
 }
 .title-block {
-  height: 125px;
-  display: flex;
-  align-items: center;
-  place-content: center;
+  height: auto;
+  width: auto;
+  padding: 60px 22px 20px 22px;
+  background-color: hsl(var(--main), 30%, 50%);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+}
+
+h1 {
+  font-size: 1.9em;
+}
+
+h2, .doc-title {
+  font-size: 1.7em;
+}
+
+.doc-block {
+  padding: 22px;
+}
+
+h3, .doc-subtitle {
+  font-size: 1.5em;
+}
+
+h3.title {
+  font-size: 1.5rem;
+  font-weight: normal;
+}
+
+h4 {
+  font-size: 1.3em;
+}
+
+h5 {
+  font-size: 1.1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+ol, ul {
+  padding: 0px 0px 10px 20px;
+}
+
+ol li {
+  counter-increment: section !important;
+  list-style-type: none;
+}
+
+ol li:before {
+  font-weight: 700;
+  content: counters(section, ".") ". ";
+}
+
+ul {
+  list-style: disc !important;
 }
 .selection-block {
   height: 175px;
@@ -412,8 +469,6 @@ input::placeholder {
   width: 100%;
   padding: 23px;
   align-items: center;
-  border-bottom: solid 3px #f6a;
-  background-color: #252525;
 }
 .left-header {
   border-top-left-radius: 8px;
@@ -809,6 +864,7 @@ input:checked + label.checkbox:hover {
 }
 
 
+
 @media screen and (max-width: 1255px) {
   .main-block {
     width: 900px;
@@ -826,3 +882,4 @@ input:checked + label.checkbox:hover {
     width: 500px;
   }
 }
+

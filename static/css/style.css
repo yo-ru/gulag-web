@@ -89,6 +89,7 @@ a.foot-link {
 
 .container {
   -webkit-animation: slideup 0.2s ease;
+  transition: 0.2s ease;
 }
 
 @-webkit-keyframes slideup {
@@ -98,6 +99,17 @@ a.foot-link {
   }
   100% {
     -webkit-transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes appear {
+  0% {
+    -webkit-transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: scale(1);
     opacity: 1;
   }
 }

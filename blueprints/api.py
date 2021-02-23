@@ -115,6 +115,12 @@ async def get_user():
         
         # join users
         'FROM stats JOIN users u ON stats.id = u.id']
+        
+    # achivement
+    q2 = ['''
+    SELECT userid, achid FROM user_achievements ua
+        INNER JOIN users u ON u.id = ua.userid
+    ''']
     
     # argumnts
     args = []
@@ -122,15 +128,20 @@ async def get_user():
     # append request arguments (id or name)
     if id:
         q.append('WHERE u.id = %s')
+        q2.append('WHERE u.id = %s')
         args.append(id)
     elif name:
         q.append('WHERE u.safe_name = %s')
+        q2.append('WHERE u.safe_name = %s')
         args.append(get_safe_name(name))
+
+    q2.append('ORDER BY ua.achid ASC')
 
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetchall(' '.join(q), args)
-    return jsonify(res) if res else b'{}'
+    res_ach = await glob.db.fetchall(' '.join(q2), args)
+    return jsonify(udata=res,achivement=res_ach) if res else b'{}'
 
 """ /get_scores """
 @api.route('/get_scores') # GET
@@ -244,44 +255,6 @@ async def get_most_beatmaps():
         log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetchall(' '.join(q), args)
     return jsonify(maps=res) if res else jsonify(maps=[])
-
-""" /get_grade """
-@api.route('/get_grade') # GET
-async def get_grade():
-    # get request args
-    uid = request.args.get('id', type=int)
-    mode = request.args.get('mode', type=str)
-    mods = request.args.get('mods', type=str)
-
-    # check if required parameters are met
-    if not uid:
-        return b'missing parameters! (id)'
-
-    if mods not in valid_mods:
-        return b'invalid mods! (vn, rx, ap)'
-
-    if mode in valid_modes:
-        mode = convert_mode_int(mode)
-    else:
-        return b'wrong mode type! (std, taiko, catch, mania)'
-
-    # fetch grades
-    grades = ['xh','x','sh','s','a']
-    q = [f'SELECT userid, ']
-
-    nodata = { "userid": uid, "a": 0, "s": 0, "sh": 0, "x": 0, "xh": 0 }
-
-    for grade in grades:
-        if grade != "a":
-            q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" AND userid = {uid} AND mode = {mode}) AS {grade}, ')
-        else:
-            q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" AND userid = {uid} AND mode = {mode}) AS {grade} ')
-
-
-    q.append(f'FROM scores_{mods} ')
-    q.append(f'WHERE userid = {uid} AND mode = {mode}')
-    res = await glob.db.fetch(''.join(q))
-    return jsonify(res) if res else jsonify(nodata)
 
 """ /get_replay """
 @api.route('/get_replay') # GET
