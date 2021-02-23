@@ -161,7 +161,7 @@
                             <div class="media-content">
                                 <div class="grade-line">
                                     <div class="rank-single">
-                                        <div class="map-rank rank-S">SS</div>
+                                        <div class="map-rank rank-X">SS</div>
                                         <div class="rank-amount">
                                             <% gradedata.x %>
                                         </div>
@@ -251,7 +251,7 @@
                                             <div class="score-details_grade-block">
                                                 <div class="rank-single">
                                                     <div v-bind:class="'map-rank rank-'+map.grade">
-                                                        <% map.grade %>
+                                                        <% map.grade.replace("X", "SS").replace("H", "") %>
                                                     </div>
                                                 </div>
                                             </div>
