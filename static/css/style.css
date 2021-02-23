@@ -600,7 +600,7 @@ a.foot-link {
   white-space: nowrap;
 }
 
-.beatpage {
+.modaldata {
   background-color: hsl(var(--main), 27%, 18%);
   border-radius: 15px !important;
 }
