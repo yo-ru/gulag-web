@@ -283,12 +283,4 @@ async def get_replay():
         log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetch(' '.join(q), args)
     return jsonify(res) if res else b'{}'
-
-""" /get_online """
-@api.route('/get_online') # GET
-async def get_online():
-    # TODO: fetch from gulag
-    NotImplemented
-
-    return b'{"online": 0}'
     
