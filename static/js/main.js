@@ -16,12 +16,12 @@ function togglenavbar() {
     document.getElementById('navbar-burger').classList.toggle("is-active");
 }
 
-var modal = document.getElementById('contentreplay');
+var modal = document.getElementById('contentmodal');
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
     if (modal.innerHTML.length !== 0) {
         if (event.target.id !== modal) {
-            document.getElementById('replaydisplayer').className = "modal"
+            document.getElementById('modaldisplayer').className = "modal"
         }
     }
 }
