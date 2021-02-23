@@ -104,6 +104,26 @@ async def settings_avatar():
         return await flash('error', 'You must be logged in to access avatar settings!', 'login')
 
     return await render_template('settings/avatar.html')
+@frontend.route('/settings/avatar', methods=['POST']) # POST
+async def settings_avatar_post():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access avatar settings!', 'login')
+
+    avatar = (await request.files).get('avatar')
+
+    # no file uploaded
+    if not avatar or avatar.filename == '':
+        return await flash('error', 'No image was selected!', 'settings/avatar')
+
+    if not avatar.filename.lower().endswith(('.jpg', '.jpeg')):
+        return await flash('error', 'The image you select must be a .JPG/.JPEG file!', 'settings/avatar')
+
+    # avatar change success
+    avatar.save(os.path.join(f'{glob.config.path_to_gulag}.data/avatars', f'{session["user_data"]["id"]}.jpg'))
+    return await flash('success', 'Your avatar has been successfully changed!', 'settings/avatar')
+
+
 @frontend.route('/settings/password') # GET
 async def settings_password():
     # if not authenticated; render login

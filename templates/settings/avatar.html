@@ -22,10 +22,10 @@
         <div class="single-block-content avatar-block-content">
           <div id="avatar-img" style="background-image: url(https://a.{{ domain() }}/{{ session.user_data['id']}});"
             alt="Avatar Picture"></div>
-          <form id="upload-profile" method="post" enctype=multipart/form-data>
+          <form id="upload-profile" action="/settings/avatar" method="post" enctype="multipart/form-data">
             <div class="buttons margin-top" id="selection">
               <label class="file-label">
-                <input class="file-input" type="file" id="file" name="file">
+                <input class="file-input" id="file" type="file" accept="image/jpeg" name="avatar">
                 <span class="file-cta">
                   <span class="file-icon">
                     <i class="fa fa-upload"></i>
@@ -35,6 +35,9 @@
                   </span>
                 </span>
               </label>
+              <button class="button is-primary" type="submit">
+                <span class="icon is-small"><i class="fas fa-check"></i></span><span>Save</span>
+              </button>
             </div>
           </form>
         </div>
@@ -42,23 +45,17 @@
     </div>
   </div>
   <script>
-      var doone = 0;
-      
-      $("#file")
-        .change(function (e) {
-          var f = e.target.files;
-          if (f.length < 1) {
-            return;
-          }
-          var u = window.URL.createObjectURL(f[0]);
-          var i = $("#avatar-img")[0];
-          i.src = u;
-          $("#avatar-img").attr("style", "background-image: url(" + i.src + ");");
-          if (doone == 0) {
-            document.querySelector('#selection').innerHTML += "<button class='button is-primary' type='submit' value=Upload><span class='icon is-small'><i class='fas fa-check'></i></span><span>Save</span></button>"
-            doone = 1
-          }
-        });
+    $("#file")
+      .change(function (e) {
+        var f = e.target.files;
+        if (f.length < 1) {
+          return;
+        }
+        var u = window.URL.createObjectURL(f[0]);
+        var i = $("#avatar-img")[0];
+        i.src = u;
+        $("#avatar-img").attr("style", "background-image: url(" + i.src + ");");
+      });
   </script>
 </div>
 

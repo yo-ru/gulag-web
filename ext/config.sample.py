@@ -17,6 +17,9 @@ mysql = {
     'password': 'changeme',
 }
 
+# path to gulag root (must have leading slash!)
+path_to_gulag = '/path/to/gulag/'
+
 # enable debug (disable when in production to improve performance)
 debug = False
 
