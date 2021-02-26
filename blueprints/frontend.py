@@ -45,6 +45,8 @@ home - the home page of gulag-web.
 async def home():
     return await render_template('home.html')
 
+
+
 """
 settings - the settings pages are used to change username (donator), 
            change email, change password, change avatar, etc.
@@ -171,6 +173,7 @@ async def settings_password_post():
     new_password = form.get('new_password')
     repeat_password = form.get('repeat_password')
 
+    # cache and other password related information
     bcrypt_cache = glob.cache['bcrypt']
     pw_bcrypt = (await glob.db.fetch('SELECT pw_bcrypt FROM users WHERE safe_name = %s', [get_safe_name(session['user_data']['name'])]))['pw_bcrypt'].encode()
     pw_md5 = hashlib.md5(old_password.encode()).hexdigest().encode()
@@ -313,8 +316,8 @@ async def login_post():
             log(f'{username}\'s login failed - account doesn\'t exist.', Ansi.LYELLOW)
         return await flash('error', 'Account does not exist.', 'login')
 
+    # cache and other related password information
     bcrypt_cache = glob.cache['bcrypt']
-
     pw_bcrypt = user_info['pw_bcrypt'].encode()
     pw_md5 = hashlib.md5(form.get('password').encode()).hexdigest().encode()
 
@@ -366,7 +369,7 @@ async def login_post():
         log(f'Login took {login_time:.2f}ms!', Ansi.LYELLOW)
 
     # authentication successful; render home
-    return await flash('success', f'Hey! Welcome back {username}!', 'home')
+    return await flash('success', f'Hey! Welcome back {username.lower().capitalize()}!', 'home')
 
 
 
@@ -516,6 +519,7 @@ async def docs_no_data():
 async def docs(doc):
     async with asyncio.Lock():
         markdown = markdown2.markdown_path(f'docs/{doc.lower()}.md')
+
     return await render_template('doc.html', doc=markdown, doc_title=doc.lower().capitalize())
 
 
@@ -524,7 +528,7 @@ async def docs(doc):
 social media redirects - links refering to social media urls in gulag-web's config.
 """
 @frontend.route('/github') # GET
-@frontend.route('/gh')
+@frontend.route('/gh') # GET
 async def github_redirect():
     return redirect(glob.config.github)
 
