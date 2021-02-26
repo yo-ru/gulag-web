@@ -241,14 +241,14 @@ async def profile(id):
     # check for valid mods
     if mods:
         if mods not in _valid_mods:
-            return await render_template('404.html')
+            return await render_template('404.html'), 404
     else:
         mods = 'vn'
 
     # check for valid modes
     if mode:
         if mode not in _valid_modes:
-            return await render_template('404.html')
+            return await render_template('404.html'), 404
     else:
         mode = 'std'
 
@@ -258,7 +258,7 @@ async def profile(id):
     # user is banned and we're not staff; render 404
     is_staff = 'authenticated' in session and session['user_data']['is_staff']
     if not user_data or not (user_data['priv'] & Privileges.Normal or is_staff):
-        return await render_template('404.html')
+        return await render_template('404.html'), 404
 
     return await render_template('profile.html', user=user_data, mode=mode, mods=mods)
 
