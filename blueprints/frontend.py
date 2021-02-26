@@ -266,7 +266,7 @@ leaderboard - the page containing all the leaderboards
               available in the gulag stack.
 """
 @frontend.route('/leaderboard') # GET
-async def leaderboard_nodata():
+async def leaderboard_no_data():
     return await render_template('leaderboard.html', mode='std', sort='pp', mods='vn')
 
 @frontend.route('/leaderboard/<mode>/<sort>/<mods>') # GET
@@ -504,7 +504,7 @@ async def logout():
 docs - dynamically generated html based on it's markdown equivalent.
 """
 @frontend.route('/docs') # GET
-async def docs_nodata():
+async def docs_no_data():
     docs = []
     async with asyncio.Lock():
         for f in os.listdir('docs/'):
