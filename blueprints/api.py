@@ -148,6 +148,9 @@ async def get_user():
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetchall(' '.join(q), args)
+    for e in res:
+        e['creation_time'] = timeago.format(datetime.fromtimestamp(e['creation_time']), datetime.now())
+        e['latest_activity'] = timeago.format(datetime.fromtimestamp(e['latest_activity']), datetime.now())
     return orjson.dumps(res) if res else b'{}'
 
 """ /get_scores """

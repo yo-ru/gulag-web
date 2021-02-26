@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %} Password Reset {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="static/css/pages/settings.css">
+<link rel="stylesheet" href="static/css/pages/key.css">
+<br>
+<div id="settingsboard">
+	<div class="leaderboard-banner ug-settings links-teilung main-banner">
+		<div class="banner-text">Reset Password</div>
+	</div>
+	<div class="main-block">
+		<div class="leaderboard-main-bg table-responsive ug-settings rechts-teilung leaderboard-main-bg">
+			<h1 class="descriptor-header">Enter your username</h1>
+			<form method="post">
+				<input name="username" class="descriptor-textfield" type="text" placeholder="Username"> <br>
+				<input type="submit" name="submit" class="descriptor-submit" value="Submit">
+			</form>
+			<br>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -21,7 +21,7 @@
                 <h1 class="title">
                     <p class="ranks">
                         <img src="https://s.kurikku.pw/flags/{{ user['country']|upper }}.png" class="profile-flag"><span class="bgf">{{ tag }} {{
-                            user['name'] }}</span>
+                            user['name'] }}</span> {% if verified %} <i title="Verified User" style="color:rgb(0, 255, 21);" class="fas fa-check"></i>{% endif %}{% if donator %} <i title="Donator" style="color:rgb(0, 162, 236);" class="fas fa-heart"></i>{% endif %}
                     </p>
                 </h1>
                 <!-- <div class="subtitle">
@@ -62,6 +62,9 @@
             </div>
             <div class="bar-selection badge-selects">
                 <span>
+                    {% if freeze[0] %}
+                    <b>{{ user['name'] }} is currently frozen. Their freeze timer runs out in {{ freeze[1] }}!</b>
+                    {% endif %}
                     <!--Badges is not developing : (-->
                 </span>
             </div>
@@ -101,6 +104,9 @@
                 <div class="stats-block">
                     <table class="is-striped">
                         <tbody>
+                            <tr>
+                                <td>{{ user['name'] }} created their account <% userdata[0][`creation_time`] %>. They were last seen <% userdata[0][`latest_activity`] %>.</td>
+                            </tr>
                             <tr>
                                 <td><b>PP</b></td>
                                 <td class="right-aligned">
@@ -213,7 +219,7 @@
                                     </div>
                                     <div class="map-date">
                                         <time>
-                                            <% map.play_time %> <a :href="'https://a.iteki.pw/replay/' + map.scoreid"><i class="fas fa-download"></i></a>
+                                            <% map.play_time %> <!--<a :href="'https://a.iteki.pw/replay/' + map.scoreid"><i class="fas fa-download"></i></a>-->
                                         </time>
                                     </div>
                                 </div>

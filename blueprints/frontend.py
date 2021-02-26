@@ -3,6 +3,7 @@
 import asyncio
 import re
 import time
+import timeago
 import bcrypt
 import hashlib
 import aiohttp
@@ -12,10 +13,13 @@ import random
 from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
 from cmyui.discord import Webhook, Embed
+from datetime import datetime
+from email.mime.text import MIMEText
 
 from objects import glob
 from objects.privileges import Privileges
 from objects.utils import flash, get_safe_name
+from async_sender import Message
 
 __all__ = ()
 
@@ -77,6 +81,34 @@ async def gen_key():
     else:
         return await render_template('key.html')
 
+@frontend.route('/pwreset') # GET
+async def pw():
+    return await render_template('pwreset.html')
+
+@frontend.route('/pwreset', methods=['POST'])
+async def reset_pw():
+    form = await request.form
+    if form['submit'] == 'Submit':
+        username = form['username']
+        e = await glob.db.fetch(f'SELECT email, id FROM users WHERE safe_name = "{username.lower()}"')
+        try:
+            email = e['email']
+            uid = e['id']
+            code = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
+            mail = f"""
+            Hey {username}!
+
+            Someone, hopefully you, has requested to reset your Iteki password! If this was you, please click <a href="https://iteki.pw/changepw?code={code}">here</a> to reset your password. If it was not you who requested this password reset, you can simply ignore this email.
+            """
+            msg = MIMEText(mail, 'html')
+            await Message("Iteki Password Reset", from_address="contact@iteki.pw", to=email, body=msg)
+            await glob.db.execute('INSERT INTO pwreset(uid, code, used, gentime) VALUES (%s, %s, 0, UNIX_TIMESTAMP())', [uid, code])
+            return await flash('success', "Password reset email sent! Please check your emails for further instructions.", 'home')
+        except:
+            return await flash('error', "Couldn't find a user with that username!", 'pwreset')
+    else:
+        return await render_template('pwreset.html')
+
 
 @frontend.route('/u/<user>') # GET
 async def profile(user):
@@ -106,8 +138,11 @@ async def profile(user):
             return await render_template('nouser.html')
 
     try:
-        userdata = await glob.db.fetch(f"SELECT name, id, priv, country FROM users WHERE id = {user}")
+        userdata = await glob.db.fetch(f"SELECT name, id, priv, country, frozen, freezetime, verified FROM users WHERE id = {user}")
+        freezeinfo = [userdata['frozen'], timeago.format(datetime.fromtimestamp(userdata['freezetime']), datetime.now())]
         in_clan = await glob.db.fetch(f"SELECT clan_id FROM users WHERE id = {user}")
+        verified = userdata['verified']
+        donator = userdata['priv'] & Privileges.Donator
         if in_clan['clan_id'] is not None:
             isclan = in_clan['clan_id']
             clandata = await glob.db.fetch(f"SELECT tag FROM clans WHERE id = {isclan}")
@@ -122,13 +157,13 @@ async def profile(user):
                 if session["user_data"]["id"] != userdata['id'] and not session["user_data"]["is_staff"]:
                     return await render_template('resuser.html')
                 else:
-                    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag)
+                    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, verified=verified, donator=donator)
             else:
                 return await render_template('resuser.html')
     except:
         return await render_template('nouser.html')
 
-    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag)
+    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, verified=verified, donator=donator)
 
 """ leaderboard """
 @frontend.route('/leaderboard') # GET
