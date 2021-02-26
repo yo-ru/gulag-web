@@ -8,6 +8,7 @@ import asyncio
 import hashlib
 import markdown2
 from cmyui import log, Ansi
+from aiofiles import os as aos
 from quart import Blueprint, render_template, redirect, request, session
 
 from objects import glob
@@ -43,6 +44,8 @@ home - the home page of gulag-web.
 @frontend.route('/')
 async def home():
     return await render_template('home.html')
+
+
 
 """
 settings - the settings pages are used to change username (donator), 
@@ -99,7 +102,7 @@ async def settings_profile_post():
         return await flash('error', 'Your new email already taken by another user.', 'settings/profile')
 
     # username change successful
-    if username != session['user_data']['name']:
+    if username != session['user_data']['name'] and session['user_data']['is_donator']:
         await glob.db.execute('UPDATE users SET name = %s, safe_name = %s WHERE safe_name = %s', [username, get_safe_name(username), get_safe_name(session['user_data']['name'])])
     
     # email change successful
@@ -126,8 +129,11 @@ async def settings_avatar_post():
     if not 'authenticated' in session:
         return await flash('error', 'You must be logged in to access avatar settings!', 'login')
 
-    # form data
+    # constants
+    AVATARS_PATH = f'{glob.config.path_to_gulag}.data/avatars'
     ALLOWED_EXTENSIONS = ['.jpeg', '.jpg', '.png']
+
+    # form data
     avatar = (await request.files).get('avatar')
     filename, file_extension = os.path.splitext(avatar.filename.lower())
 
@@ -139,8 +145,12 @@ async def settings_avatar_post():
     if not file_extension in ALLOWED_EXTENSIONS:
         return await flash('error', 'The image you select must be either a .JPG, .JPEG, or .PNG file!', 'settings/avatar')
 
+    # remove old avatars
+    tasks = [aos.remove(f'{AVATARS_PATH}/{session["user_data"]["id"]}{fx}') for fx in ALLOWED_EXTENSIONS]
+    await asyncio.gather(*tasks, return_exceptions=True)
+
     # avatar change success
-    avatar.save(os.path.join(f'{glob.config.path_to_gulag}.data/avatars', f'{session["user_data"]["id"]}{file_extension}'))
+    avatar.save(os.path.join(AVATARS_PATH, f'{session["user_data"]["id"]}{file_extension.lower()}'))
     return await flash('success', 'Your avatar has been successfully changed!', 'settings/avatar')
 
 @frontend.route('/settings/password') # GET
@@ -163,6 +173,7 @@ async def settings_password_post():
     new_password = form.get('new_password')
     repeat_password = form.get('repeat_password')
 
+    # cache and other password related information
     bcrypt_cache = glob.cache['bcrypt']
     pw_bcrypt = (await glob.db.fetch('SELECT pw_bcrypt FROM users WHERE safe_name = %s', [get_safe_name(session['user_data']['name'])]))['pw_bcrypt'].encode()
     pw_md5 = hashlib.md5(old_password.encode()).hexdigest().encode()
@@ -230,26 +241,26 @@ async def profile(id):
     # check for valid mods
     if mods:
         if mods not in _valid_mods:
-            return b'invalid mods! (vn, rx, ap)'
+            return await render_template('404.html'), 404
     else:
         mods = 'vn'
 
     # check for valid modes
     if mode:
         if mode not in _valid_modes:
-            return b'invalid mode! (std, taiko, catch, mania)'
+            return await render_template('404.html'), 404
     else:
         mode = 'std'
 
     # user data
-    userdata = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {id}')
+    user_data = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {id}')
 
     # user is banned and we're not staff; render 404
     is_staff = 'authenticated' in session and session['user_data']['is_staff']
-    if not userdata or not (userdata['priv'] & Privileges.Normal or is_staff):
-        return await render_template('404.html')
+    if not user_data or not (user_data['priv'] & Privileges.Normal or is_staff):
+        return await render_template('404.html'), 404
 
-    return await render_template('profile.html', user=userdata, mode=mode, mods=mods)
+    return await render_template('profile.html', user=user_data, mode=mode, mods=mods)
 
 
 
@@ -258,7 +269,7 @@ leaderboard - the page containing all the leaderboards
               available in the gulag stack.
 """
 @frontend.route('/leaderboard') # GET
-async def leaderboard_nodata():
+async def leaderboard_no_data():
     return await render_template('leaderboard.html', mode='std', sort='pp', mods='vn')
 
 @frontend.route('/leaderboard/<mode>/<sort>/<mods>') # GET
@@ -305,8 +316,8 @@ async def login_post():
             log(f'{username}\'s login failed - account doesn\'t exist.', Ansi.LYELLOW)
         return await flash('error', 'Account does not exist.', 'login')
 
+    # cache and other related password information
     bcrypt_cache = glob.cache['bcrypt']
-
     pw_bcrypt = user_info['pw_bcrypt'].encode()
     pw_md5 = hashlib.md5(form.get('password').encode()).hexdigest().encode()
 
@@ -358,7 +369,7 @@ async def login_post():
         log(f'Login took {login_time:.2f}ms!', Ansi.LYELLOW)
 
     # authentication successful; render home
-    return await flash('success', f'Hey! Welcome back {username}!', 'home')
+    return await flash('success', f'Hey! Welcome back {username.lower().capitalize()}!', 'home')
 
 
 
@@ -496,7 +507,7 @@ async def logout():
 docs - dynamically generated html based on it's markdown equivalent.
 """
 @frontend.route('/docs') # GET
-async def docs_nodata():
+async def docs_no_data():
     docs = []
     async with asyncio.Lock():
         for f in os.listdir('docs/'):
@@ -508,6 +519,7 @@ async def docs_nodata():
 async def docs(doc):
     async with asyncio.Lock():
         markdown = markdown2.markdown_path(f'docs/{doc.lower()}.md')
+
     return await render_template('doc.html', doc=markdown, doc_title=doc.lower().capitalize())
 
 
@@ -516,7 +528,7 @@ async def docs(doc):
 social media redirects - links refering to social media urls in gulag-web's config.
 """
 @frontend.route('/github') # GET
-@frontend.route('/gh')
+@frontend.route('/gh') # GET
 async def github_redirect():
     return redirect(glob.config.github)
 
