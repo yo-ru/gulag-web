@@ -49,7 +49,7 @@ async def mysql_conn() -> None:
 
 
 """
-clientsession - Get our client session for http connections.
+clientsession - get our client session for http connections.
 """
 @app.before_serving
 async def http_conn() -> None:
@@ -66,11 +66,13 @@ _version = repr(version)
 @app.template_global()
 def appVersion() -> str:
     return _version
+
 _app_name = glob.config.app_name
 @app.before_serving
 @app.template_global()
 def appName() -> str:
     return _app_name
+
 _domain = glob.config.domain
 @app.before_serving
 @app.template_global()
@@ -83,10 +85,12 @@ def domain() -> str:
 blueprints - modular code relating to separate sections of gulag-web.
 """
 from blueprints.frontend import frontend
-from blueprints.admin import admin
-from blueprints.api import api
 app.register_blueprint(frontend)
+
+from blueprints.admin import admin
 app.register_blueprint(admin, url_prefix='/admin')
+
+from blueprints.api import api
 app.register_blueprint(api, url_prefix='/api')
 
 
