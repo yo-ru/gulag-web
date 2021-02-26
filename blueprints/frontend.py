@@ -238,26 +238,26 @@ async def profile(id):
     # check for valid mods
     if mods:
         if mods not in _valid_mods:
-            return b'invalid mods! (vn, rx, ap)'
+            return await render_template('404.html')
     else:
         mods = 'vn'
 
     # check for valid modes
     if mode:
         if mode not in _valid_modes:
-            return b'invalid mode! (std, taiko, catch, mania)'
+            return await render_template('404.html')
     else:
         mode = 'std'
 
     # user data
-    userdata = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {id}')
+    user_data = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {id}')
 
     # user is banned and we're not staff; render 404
     is_staff = 'authenticated' in session and session['user_data']['is_staff']
-    if not userdata or not (userdata['priv'] & Privileges.Normal or is_staff):
+    if not user_data or not (user_data['priv'] & Privileges.Normal or is_staff):
         return await render_template('404.html')
 
-    return await render_template('profile.html', user=userdata, mode=mode, mods=mods)
+    return await render_template('profile.html', user=user_data, mode=mode, mods=mods)
 
 
 
