@@ -8,6 +8,7 @@ import asyncio
 import hashlib
 import markdown2
 from cmyui import log, Ansi
+from aiofiles import os as aos
 from quart import Blueprint, render_template, redirect, request, session
 
 from objects import glob
@@ -126,8 +127,11 @@ async def settings_avatar_post():
     if not 'authenticated' in session:
         return await flash('error', 'You must be logged in to access avatar settings!', 'login')
 
-    # form data
+    # constants
+    AVATARS_PATH = f'{glob.config.path_to_gulag}.data/avatars'
     ALLOWED_EXTENSIONS = ['.jpeg', '.jpg', '.png']
+
+    # form data
     avatar = (await request.files).get('avatar')
     filename, file_extension = os.path.splitext(avatar.filename.lower())
 
@@ -139,8 +143,12 @@ async def settings_avatar_post():
     if not file_extension in ALLOWED_EXTENSIONS:
         return await flash('error', 'The image you select must be either a .JPG, .JPEG, or .PNG file!', 'settings/avatar')
 
+    # remove old avatars
+    tasks = [aos.remove(f'{AVATARS_PATH}/{session["user_data"]["id"]}{fx}') for fx in ALLOWED_EXTENSIONS]
+    await asyncio.gather(*tasks, return_exceptions=True)
+
     # avatar change success
-    avatar.save(os.path.join(f'{glob.config.path_to_gulag}.data/avatars', f'{session["user_data"]["id"]}{file_extension}'))
+    avatar.save(os.path.join(AVATARS_PATH, f'{session["user_data"]["id"]}{file_extension.lower()}'))
     return await flash('success', 'Your avatar has been successfully changed!', 'settings/avatar')
 
 @frontend.route('/settings/password') # GET
