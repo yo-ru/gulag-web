@@ -76,7 +76,7 @@ async def get_user():
     # fetch user info and stats
     # user info
     q = ['SELECT u.id user_id, u.name username, u.safe_name username_safe, u.country, u.priv privileges, '
-        'u.silence_end, u.donor_end, u.creation_time, u.latest_activity, u.clan_id, u.clan_rank, '
+        'u.silence_end, u.donor_end, u.creation_time, u.latest_activity, u.clan_id, u.clan_priv, '
         
         # total score
         'tscore_vn_std, tscore_vn_taiko, tscore_vn_catch, tscore_vn_mania, '
