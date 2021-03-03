@@ -13,13 +13,19 @@
     position: relative;
 }
 
+#pprecords{
+    display: flex;
+
+}
 .main-block {
     width: 1024px;
 }
 .pp{
+    width: fit-content;
     margin-top: 20px;
     display: flex;
     padding: 10px;
+    margin: 10px;
 }
 .grpp{
     padding: 10px!important;
