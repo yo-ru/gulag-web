@@ -63,7 +63,7 @@
             <div class="bar-selection badge-selects">
                 <span>
                     {% if freeze[0] %}
-                    <b>{{ user['name'] }} is currently frozen. Their freeze timer runs out in {{ freeze[1] }}!</b>
+                    <b>{{ user['name'] }} is currently frozen. Their freeze timer runs out {{ freeze[1] }}!</b>
                     {% endif %}
                     <!--Badges is not developing : (-->
                 </span>
@@ -219,7 +219,7 @@
                                     </div>
                                     <div class="map-date">
                                         <time>
-                                            <% map.play_time %> <!--<a :href="'https://a.iteki.pw/replay/' + map.scoreid"><i class="fas fa-download"></i></a>-->
+                                            <% map.play_time %> <a :href="map.replayurl"><i class="fas fa-download"></i></a>
                                         </time>
                                     </div>
                                 </div>

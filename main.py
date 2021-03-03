@@ -11,10 +11,11 @@ from objects import glob
 __all__ = ()
 
 app = Quart(__name__)
-version = Version(0, 1, 6)
+version = Version(0, 1, 7)
 
 app.secret_key = glob.config.secret_key
 app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config["SESSION_PERMANENT"] = True
 
 @app.before_serving
 async def mysql_conn() -> None:
