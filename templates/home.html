@@ -32,53 +32,40 @@
 <div class="main-block">
   <div id="grid" class="columns is-reset is-flex">
     <div class="column is-padless" id="mascot">
-      <img src="https://iteki.pw/static/images/ape.png"></img>
+      <img src="https://iteki.pw/static/images/ape.png">
     </div>
     <div class="column is-vcentered" id="title">
       <div class="has-text-centered">
-        <p class="title">Welcome to {{ appName() }}.</p>
+        <p class="title">Welcome to Iteki.</p>
         <p class="subtitle">
           We are an osu! private server built from the ground up with many
           unique features not seen elsewhere - for more information, check
           out <a href="https://github.com/itekiosu/gulag">gulag</a>
           and <a href="https://github.com/itekiosu/gulag-web">gulag-web</a>
           on Github - we're fully open source!</p>
-        {% if not session.authenticated %}
-        <div class="buttons is-centered">
-          <a class="button is-primary" href="/register">
-            <strong>Sign up</strong>
-          </a>
-          <a class="button is-light" href="/login">
-            Log in
-          </a>
-        </div>
-        {% endif %}
-        <!--<div class="columns is-marginless is-paddingless">
-            <div class="column is-paddingless p-3">
-                <div class="card blue">
-                    <div class="title">top vanilla play</div>
-                    <i class="fa fa-users"></i>
-                    <div class="value">placeholder</div>
-                </div>
-            </div>
-            <div class="column is-paddingless p-3">
-                <div class="card green">
-                    <div class="title">top relax play</div>
-                    <i class="fa fa-circle"></i>
-                    <div class="value">
-                        placeholder
-                    </div>
-                </div>
-            </div>
-            <div class="column is-paddingless p-3">
-                <div class="card orange">
-                    <div class="title">top autopilot play</div>
-                    <i class="fa fa-book"></i>
-                    <div class="value">placeholder</div>
-                </div>
-            </div>
-        </div>-->
       </div>
+    </div>
+  </div>
+</div>
+  <div class="main-block pp">
+    <div id="grid grpp" class="columns is-reset is-flex">
+        <div id="pp-record">
+            <p>Placeholder is the current Vanilla PP Record</p>
+        </div>
+    </div>
+  </div>
+  <div class="main-block pp">
+    <div id="grid grpp" class="columns is-reset is-flex">
+        <div id="pp-record">
+            <p>Placeholder is the current Relax PP Record</p>
+        </div>
+    </div>
+  </div>
+  <div class="main-block pp">
+    <div id="grid grpp" class="columns is-reset is-flex">
+        <div id="pp-record">
+            <p>Placeholder is the current AutoPilot PP Record</p>
+        </div>
     </div>
   </div>
 </div>

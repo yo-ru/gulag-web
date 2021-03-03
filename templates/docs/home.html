@@ -3,9 +3,10 @@
 
 {% block content %}
 <link rel="stylesheet" href="static/css/pages/settings.css">
+<link rel="stylesheet" href="static/css/pages/docs.html">
 <!-- start -->
 <div id="docsboard">
-    <div class="ug-docs links-teilung main-banner">
+    <div class="leaderboard-banner ug-docs links-teilung main-banner">
         <div class="main-selector">
             <span class="simple-banner-desc">You're logged in as {{ session.user_data['name'] }}!</span>
         </div>
@@ -14,13 +15,13 @@
             <div class="leaderboard-main-bg main-banner">
                 <span class="main-header-doc">Choose your section</span>
                 <div class="doc-listing">
-                    <a class="listing-line">Bot Commands</a>
-                    <a class="listing-line">Connection</a>
-                    <a class="listing-line">Frequently Asked Questions</a>
-                    <a class="listing-line">Manual Installation</a>
-                    <a class="listing-line">Terms of Service</a>
+                    <a class="listing-line" href="#bot">Bot Commands</a>
+                    <a class="listing-line" href="#connection">Connection</a>
+                    <a class="listing-line" href="#faq">Frequently Asked Questions</a>
+                    <a class="listing-line" href="#manual">Manual Installation</a>
+                    <a class="listing-line" href="#tos">Terms of Service</a>
                 </div>
-                <div class="section-one">
+                <div class="section-one" id="bot">
                    <h1>Bot Commands</h1>
                    <table>
                        <tbody>

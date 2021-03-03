@@ -16,6 +16,14 @@
 .main-block {
     width: 1024px;
 }
+.pp{
+    margin-top: 20px;
+    display: flex;
+    padding: 10px;
+}
+.grpp{
+    padding: 10px!important;
+}
 
 @media screen and (max-width: 1023px) {
     .gulag-avatar {
@@ -35,3 +43,4 @@
         height: 285px;
     }
 }
+
