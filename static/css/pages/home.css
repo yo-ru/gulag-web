@@ -15,7 +15,8 @@
 
 #pprecords{
     display: flex;
-
+    width: fit-content;
+    margin: 0 auto;
 }
 .main-block {
     width: 1024px;
@@ -32,7 +33,9 @@
 }
 .ppsub{
     font-size: 12px;
+    text-align: center;
 }
+
 @media screen and (max-width: 1023px) {
     .gulag-avatar {
         display: none;
