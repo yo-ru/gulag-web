@@ -35,7 +35,10 @@ valid_sorts = frozenset({'tscore', 'rscore', 'pp', 'plays',
 @frontend.route('/home') # GET
 @frontend.route('/')
 async def home():
-    return await render_template('home.html')
+    vn = await glob.db.fetch('SELECT pp, users.name FROM scores_vn LEFT JOIN users ON scores_vn.userid = users.id LEFT JOIN maps ON scores_vn.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND maps.status = 2 ORDER BY pp DESC LIMIT 1')
+    rx = await glob.db.fetch('SELECT pp, users.name FROM scores_rx LEFT JOIN users ON scores_rx.userid = users.id LEFT JOIN maps ON scores_rx.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND maps.status = 2 ORDER BY pp DESC LIMIT 1')
+    ap = await glob.db.fetch('SELECT pp, users.name FROM scores_ap LEFT JOIN users ON scores_ap.userid = users.id LEFT JOIN maps ON scores_ap.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND maps.status = 2 ORDER BY pp DESC LIMIT 1')
+    return await render_template('home.html', vnpp=round(vn['pp']), vnuser=vn['name'], rxpp=round(rx['pp']), rxuser=rx['name'], appp=round(ap['pp']), apuser=ap['name'])
 
 """ settings """
 @frontend.route('/settings') # GET
