@@ -1,3 +1,8 @@
+:root{
+    --orange: #FF8C00;
+    --purple: #9400D3;	
+}
+
 #docsboard{
     height:auto;
     width: ;
@@ -70,4 +75,10 @@ table td {
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 5px;
+}
+.bn{
+    color: var(--orange);
+}
+.mod{
+    color: var(--purple);
 }
