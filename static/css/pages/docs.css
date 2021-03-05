@@ -5,6 +5,7 @@
 
     background-color: hsl(var(--main),10%,15%);
     color: #fff;
+    padding: 20px;
 }
 
 .title-block {
@@ -43,6 +44,25 @@ ol li:before {
 li {
     list-style-type: none;
 }
+
 .doc-listing{
     display:grid;
+}
+
+#bot{
+    transform: translateX(-20%);
+}
+h1{
+    font-size: 25px;
+}
+table th{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 20px;
+    padding-bottom: 5px;
+}
+table td {
+    padding-left: 10px;
+    padding-right: 10px;
+}
 }
