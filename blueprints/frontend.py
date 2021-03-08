@@ -213,7 +213,7 @@ async def profile(id):
     else:
         mode = 'std'
 
-    userdata = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = {id}')
+    userdata = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = %s', [id])
 
     # don't display profile if user is banned
     is_staff = 'authenticated' in session and session['user_data']['is_staff']
