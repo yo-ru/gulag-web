@@ -204,23 +204,25 @@
                     <div class="scores">
                         <div v-for="(map, index) in bestdata" class="map-single">
                             <div class="map-content1">
-                                <div class="map-image">
-                                    <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
-                                        class="map-image-picture">
-                                </div>
-                                <div class="map-title-block">
-                                    <div class="map-title">
-                                        <a class="beatmap-link">
-                                            <% map.artist %> - <% map.title %> [<% map.version %>] +<% map.mods_readable %>
-                                        </a>
+                                <div @click="LoadReplay(map.id,this.mods)" class="map-data">
+                                    <div class="map-image">
+                                        <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
+                                            class="map-image-picture">
                                     </div>
-                                    <div class="play-stats">
-                                        <% addCommas(map.score) %> / <% map.max_combo %>x
-                                    </div>
-                                    <div class="map-date">
-                                        <time>
-                                            <% map.play_time %> <a :href="map.replayurl"><i class="fas fa-download"></i></a>
-                                        </time>
+                                    <div class="map-title-block">
+                                        <div class="map-title">
+                                            <a class="beatmap-link">
+                                                <% map.artist %> - <% map.title %> [<% map.version %>] +<% map.mods_readable %>
+                                            </a>
+                                        </div>
+                                        <div class="play-stats">
+                                            <% addCommas(map.score) %> / <% map.max_combo %>x
+                                        </div>
+                                        <div class="map-date">
+                                            <time>
+                                                <% map.play_time %> <a :href="map.replayurl"><i class="fas fa-download"></i></a>
+                                            </time>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -259,24 +261,26 @@
                     </div>
                     <div class="scores">
                         <div v-for="(map, index) in recentdata" class="map-single">
-                            <div class="map-content1">
-                                <div class="map-image">
-                                    <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
-                                        class="map-image-picture">
-                                </div>
-                                <div class="map-title-block">
-                                    <div class="map-title">
-                                        <a class="beatmap-link">
-                                            <% map.artist %> - <% map.title %> [<% map.version %>] +<% map.mods_readable %>
-                                        </a>
+                            <div @click="LoadReplay(map.id,this.mods)" class="map-data">
+                                <div class="map-content1">
+                                    <div class="map-image">
+                                        <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
+                                            class="map-image-picture">
                                     </div>
-                                    <div class="play-stats">
-                                        <% addCommas(map.score) %> / <% map.max_combo %>x
-                                    </div>
-                                    <div class="map-date">
-                                        <time>
-                                            <% map.play_time %>
-                                        </time>
+                                    <div class="map-title-block">
+                                        <div class="map-title">
+                                            <a class="beatmap-link">
+                                                <% map.artist %> - <% map.title %> [<% map.version %>] +<% map.mods_readable %>
+                                            </a>
+                                        </div>
+                                        <div class="play-stats">
+                                            <% addCommas(map.score) %> / <% map.max_combo %>x
+                                        </div>
+                                        <div class="map-date">
+                                            <time>
+                                                <% map.play_time %>
+                                            </time>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -68,6 +68,35 @@ async def get_leaderboard():
     res = await glob.db.fetchall(' '.join(q), args)
     return Response(orjson.dumps(res) if res else b'{}', mimetype='text/json')
 
+""" /get_replay """
+@api.route('/get_replay') # GET
+async def get_replay():
+    id = request.args.get('id', type=int)
+    mods = request.args.get('mods', type=str)
+
+    # check if required parameters are met
+    if not id:
+        return b'missing parameters! (id)'
+    
+    if mods not in valid_mods:
+        return b'invalid mods! (vn, rx, ap)'
+
+    # fetch scores
+    q = ['SELECT scores_{0}.*, maps.*, users.name FROM scores_{0}'.format(mods)]
+
+    args = []
+
+    q.append(f'JOIN maps ON scores_{mods}.map_md5 = maps.md5')
+    q.append(f'JOIN users ON scores_{mods}.userid = users.id')
+    q.append(f'WHERE scores_{mods}.id = %s')
+    args.append(id)
+
+    if glob.config.debug:
+        log(' '.join(q), Ansi.LGREEN)
+    res = await glob.db.fetch(' '.join(q), args)
+    res['play_time'] = timeago.format(datetime.fromtimestamp(res['play_time']), datetime.now())
+    return Response(orjson.dumps(res) if res else b'{}', mimetype='text/json')
+
 """ /get_user """
 @api.route('/get_user') # GET
 async def get_user():
@@ -291,13 +320,13 @@ async def get_grade():
 
     for grade in grades:
         if grade != "a":
-            q.append('(SELECT COUNT(id) FROM scores_%s WHERE grade=%s AND userid = %s AND mode = %s) AS %s, ', [mods, grade, uid, mode, grade])
+            q.append('(SELECT COUNT(id) FROM scores_{} WHERE grade="{}" AND userid = {} AND mode = {}) AS {}, '.format(mods, grade, uid, mode, grade))
         else:
-            q.append('(SELECT COUNT(id) FROM scores_%s WHERE grade=%s AND userid = %s AND mode = %s) AS %s ', [mods, grade, uid, mode, grade])
+            q.append('(SELECT COUNT(id) FROM scores_{} WHERE grade="{}" AND userid = {} AND mode = {}) AS {} '.format(mods, grade, uid, mode, grade))
 
 
     q.append(f'FROM scores_{mods} ')
-    q.append('WHERE userid = %s AND mode = %s', [uid, mode])
+    q.append('WHERE userid = {} AND mode = {}'.format(uid, mode))
     res = await glob.db.fetch(''.join(q))
     ape = { "userid": uid, "a": 0, "s": 0, "sh": 0, "x": 0, "xh": 0 }
     return Response(orjson.dumps(res) if res else orjson.dumps(ape), mimetype='text/json')
