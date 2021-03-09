@@ -70,14 +70,14 @@ async def gen_key():
                 e = await glob.db.fetch(f'SELECT keygen FROM users WHERE id = {session["user_data"]["id"]}')
                 if not e['keygen'] > 0 and session["user_data"]["is_donator"]:
                     key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
-                    await glob.db.execute(f'INSERT INTO beta_keys(beta_key, generated_by) VALUES ("{key}", "{session["user_data"]["name"]}")')
-                    await glob.db.execute(f'UPDATE users SET keygen = keygen + 1 WHERE id = {session["user_data"]["id"]}')
+                    await glob.db.execute('INSERT INTO beta_keys(beta_key, generated_by) VALUES (%s, %s)', [key, session["user_data"]["name"]])
+                    await glob.db.execute('UPDATE users SET keygen = keygen + 1 WHERE id = %s', [session["user_data"]["id"]])
                     return await render_template('key.html', keygen=key)
                 elif e['keygen'] > 0 and session["user_data"]["is_donator"]:
                     return await flash('error', 'You have already generated a key!', 'key')
                 elif session["user_data"]["is_staff"]:
                     key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
-                    await glob.db.execute(f'INSERT INTO beta_keys(beta_key, generated_by) VALUES ("{key}", "{session["user_data"]["name"]}")')
+                    await glob.db.execute('INSERT INTO beta_keys(beta_key, generated_by) VALUES (%s, %s)', [key, session["user_data"]["name"]])
                     return await render_template('key.html', keygen=key)
         else:
             return await flash('error', 'You do not have permissions to do this!', 'key')
@@ -134,7 +134,7 @@ async def profile(user):
         user = int(user)
     except:
         try:
-            e = await glob.db.fetch(f'SELECT id FROM users WHERE safe_name = "{user.lower()}"')
+            e = await glob.db.fetch('SELECT id FROM users WHERE safe_name = %s', [user.lower()])
             uid = e['id']
             return redirect(f"https://iteki.pw/u/{uid}?mode={mode}&mods={mods}")
         except:
