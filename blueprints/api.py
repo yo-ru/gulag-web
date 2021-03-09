@@ -231,14 +231,13 @@ async def get_scores():
         e = await glob.db.fetch('SELECT id FROM users WHERE safe_name = %s', [name.lower()])
         id = e['id']
 
-    q.append(f'WHERE scores_{mods}.userid = %s '
+    q.append(f'WHERE scores_{mods}.userid = {id} '
             f'AND scores_{mods}.mode = {mode} '
-            f'AND maps.status = 2')
+            'AND maps.status = 2')
     if sort == 'pp':
         q.append(f'AND scores_{mods}.status = 2')
     q.append(f'ORDER BY scores_{mods}.{sort} DESC '
             f'LIMIT {limit}')
-    args.append(id)
 
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)
@@ -285,10 +284,12 @@ async def get_most_beatmaps():
     # argumnts
     args = []
 
-    q.append(f'WHERE userid = %s AND scores_{mods}.mode = {mode} GROUP BY map_md5')
+    q.append(f'WHERE userid = %s AND scores_{mods}.mode = %s GROUP BY map_md5')
     q.append(f'ORDER BY COUNT DESC '
-            f'LIMIT {limit}')
+            f'LIMIT %s')
     args.append(id)
+    args.append(mode)
+    args.append(limit)
 
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)
@@ -316,7 +317,8 @@ async def get_grade():
 
     # fetch grades
     grades = ['xh','x','sh','s','a']
-    q = [f'SELECT userid, ']
+    q = ['SELECT userid, ']
+    args = []
 
     for grade in grades:
         if grade != "a":
@@ -327,7 +329,7 @@ async def get_grade():
 
     q.append(f'FROM scores_{mods} ')
     q.append('WHERE userid = {} AND mode = {}'.format(uid, mode))
-    res = await glob.db.fetch(''.join(q))
+    res = await glob.db.fetch(''.join(q), args)
     ape = { "userid": uid, "a": 0, "s": 0, "sh": 0, "x": 0, "xh": 0 }
     return Response(orjson.dumps(res) if res else orjson.dumps(ape), mimetype='text/json')
 
