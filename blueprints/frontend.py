@@ -93,7 +93,7 @@ async def reset_pw():
     form = await request.form
     if form['submit'] == 'Submit':
         username = form['username']
-        e = await glob.db.fetch(f'SELECT email, id FROM users WHERE safe_name = "{username.lower()}"')
+        e = await glob.db.fetch('SELECT email, id FROM users WHERE safe_name = %s', [username.lower()])
         try:
             email = e['email']
             uid = e['id']
@@ -141,14 +141,14 @@ async def profile(user):
             return await render_template('nouser.html')
 
     try:
-        userdata = await glob.db.fetch(f"SELECT name, id, priv, country, frozen, freezetime, verified FROM users WHERE id = {user}")
+        userdata = await glob.db.fetch("SELECT name, id, priv, country, frozen, freezetime, verified FROM users WHERE id = %s", [user])
         freezeinfo = [userdata['frozen'], timeago.format(datetime.fromtimestamp(userdata['freezetime']), datetime.now())]
-        in_clan = await glob.db.fetch(f"SELECT clan_id FROM users WHERE id = {user}")
+        in_clan = await glob.db.fetch("SELECT clan_id FROM users WHERE id = %s", [user])
         verified = userdata['verified']
         donator = userdata['priv'] & Privileges.Donator
         if in_clan['clan_id'] is not None:
             isclan = in_clan['clan_id']
-            clandata = await glob.db.fetch(f"SELECT tag FROM clans WHERE id = {isclan}")
+            clandata = await glob.db.fetch("SELECT tag FROM clans WHERE id = %s", [isclan])
             if clandata is not None:
                 clantag = f"[{clandata['tag']}]"
             else:
@@ -462,3 +462,8 @@ async def discord():
 @frontend.route('/docs')
 async def docs():
     return await render_template('docs/home.html')
+
+""" avatar """
+@frontend.route("/settings/avatar")
+async def avatar():
+    return await render_template('avatar.html')

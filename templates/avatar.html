@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %} Settings {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="static/css/pages/avatar.css">
+<div class="wip-warning">
+	<div class="wip-message">
+		<h1 class="wip-text">The settings are still work in progress, all options are only placeholders until we add functionality to them. ~Aki </h1>
+	</div>
+</div>
+<br>
+<div id="settingsboard">
+	<div class="leaderboard-banner ug-settings links-teilung main-banner">
+		<div class="main-selector">
+			<span class="simple-banner-desc">You're logged in as {{ session.user_data['name'] }}!</span>
+		</div>
+		<div class="banner-text">Settings</div>
+		<div class="selector">
+			<a class="ug-a simple-banner-swtich switch--active">Profile</a>
+			<a class="ug-a simple-banner-swtich">Userpage</a>
+			<a class="ug-a simple-banner-swtich">Avatar</a>
+			<a class="ug-a simple-banner-swtich">Password</a>
+			<a class="ug-a simple-banner-swtich">Create Clan</a>
+			<a class="ug-a simple-banner-swtich">Clan settings</a>
+		</div>
+	</div>
+	<div class="main-block">
+		<div class="leaderboard-main-bg table-responsive ug-settings rechts-teilung leaderboard-main-bg">
+			<h1 class="descriptor-header">Here you can change your Alias and E-Mail address!</h1>
+			<span class="descriptor-field">Username</span>
+			<br>
+			<input class="descriptor-textfield --readonly" type="text" readonly value="{{ session.user_data['name'] }}">
+			<br>
+			<span class="descriptor-field aka">Alias</span> <span class="descriptor-field hidden-text">This will show as "a.k.a" on your profile, under your username. This does not change your username.</span>
+			<br>
+			<input class="descriptor-textfield" placeholder="a.k.a">
+			<br>
+			<span class="descriptor-field">E-Mail</span>
+			<br>
+			<input class="descriptor-textfield" type="text" placeholder="Enter new E-Mail address">
+			<br>
+			<p class="descriptor-field">Your current E-Mail address is:<br> <span class="descriptor-field hidden-email-text">PLACEHOLDER EMAIL</span></p>
+			<br>
+			<input type="submit" class="descriptor-submit" value="Save">
+			<br>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -2,7 +2,7 @@
 
 import orjson
 import re
-from quart import Blueprint, request
+from quart import Blueprint, request, Response
 from cmyui import log, Ansi
 from enum import IntEnum
 from datetime import datetime
@@ -66,7 +66,7 @@ async def get_leaderboard():
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetchall(' '.join(q), args)
-    return orjson.dumps(res) if res else b'{}'
+    return Response(orjson.dumps(res) if res else b'{}', mimetype='text/json')
 
 """ /get_user """
 @api.route('/get_user') # GET
@@ -151,21 +151,22 @@ async def get_user():
     for e in res:
         e['creation_time'] = timeago.format(datetime.fromtimestamp(e['creation_time']), datetime.now())
         e['latest_activity'] = timeago.format(datetime.fromtimestamp(e['latest_activity']), datetime.now())
-    return orjson.dumps(res) if res else b'{}'
+    return Response(orjson.dumps(res) if res else b'{}', mimetype='text/json')
 
 """ /get_scores """
 @api.route('/get_scores') # GET
 async def get_scores():
     # get request args
     id = request.args.get('id', type=int)
+    name = request.args.get('name', type=str)
     mode = request.args.get('mode', type=str)
     mods = request.args.get('mods', type=str)
     sort = request.args.get('sort', type=str)
     limit = request.args.get('limit', type=int)
 
     # check if required parameters are met
-    if not id:
-        return b'missing parameters! (id)'
+    if not id and not name:
+        return b'missing parameters! (id/name)'
 
     if sort == 'recent':
         sort = 'id'
@@ -197,6 +198,9 @@ async def get_scores():
 
     # argumnts
     args = []
+    if name:
+        e = await glob.db.fetch('SELECT id FROM users WHERE safe_name = %s', [name.lower()])
+        id = e['id']
 
     q.append(f'WHERE scores_{mods}.userid = %s '
             f'AND scores_{mods}.mode = {mode} '
@@ -213,7 +217,7 @@ async def get_scores():
     for e in res:
         e['play_time'] = timeago.format(datetime.fromtimestamp(e['play_time']), datetime.now())
         e['replayurl'] = f'https://a.iteki.pw/replay/{mods}/{e["scoreid"]}'
-    return orjson.dumps(res) if res else b'{}'
+    return Response(orjson.dumps(res) if res else b'{}', mimetype='text/json')
 
 """ /get_most_beatmaps """
 @api.route('/get_most_beatmaps') # GET
@@ -260,7 +264,7 @@ async def get_most_beatmaps():
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetchall(' '.join(q), args)
-    return orjson.dumps(res) if res else b'{}'
+    return Response(orjson.dumps(res) if res else b'{}', mimetype='text/json')
 
 @api.route('/get_grade') # GET
 async def get_grade():
@@ -287,19 +291,19 @@ async def get_grade():
 
     for grade in grades:
         if grade != "a":
-            q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" AND userid = {uid} AND mode = {mode}) AS {grade}, ')
+            q.append('(SELECT COUNT(id) FROM scores_%s WHERE grade=%s AND userid = %s AND mode = %s) AS %s, ', [mods, grade, uid, mode, grade])
         else:
-            q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" AND userid = {uid} AND mode = {mode}) AS {grade} ')
+            q.append('(SELECT COUNT(id) FROM scores_%s WHERE grade=%s AND userid = %s AND mode = %s) AS %s ', [mods, grade, uid, mode, grade])
 
 
     q.append(f'FROM scores_{mods} ')
-    q.append(f'WHERE userid = {uid} AND mode = {mode}')
+    q.append('WHERE userid = %s AND mode = %s', [uid, mode])
     res = await glob.db.fetch(''.join(q))
     ape = { "userid": uid, "a": 0, "s": 0, "sh": 0, "x": 0, "xh": 0 }
-    return orjson.dumps(res) if res else orjson.dumps(ape)
+    return Response(orjson.dumps(res) if res else orjson.dumps(ape), mimetype='text/json')
 
 @api.route('/get_online')
 async def api_get_online():
     res = await glob.db.fetch('SELECT online FROM server_stats')
     online = {"online": res['online']}
-    return orjson.dumps(online)
+    return Response(orjson.dumps(online), mimetype='text/json')
