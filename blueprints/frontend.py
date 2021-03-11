@@ -253,6 +253,14 @@ async def profile(id):
         mode = 'std'
 
     user_data = await glob.db.fetch(f'SELECT name, id, priv, country FROM users WHERE id = %s', [id])
+    
+    # Check if user with that ID could be found; If not, it may be the safename, not the user id
+    if not user_data:
+        # try to search for the user id by the safe name
+        user_id = await glob.db.fetch('SELECT id FROM users WHERE safe_name = %s', [id])
+        # check if a user id for that safename was found; if so, get user data again
+        if user_id:
+            user_data = await glob.db.fetch('SELECT name, id, priv, country FROM users WHERE id = %s', [user_id['id']])
 
     # user is banned and we're not staff; render 404
     is_staff = 'authenticated' in session and session['user_data']['is_staff']
