@@ -244,7 +244,7 @@ async def get_scores():
     res = await glob.db.fetchall(' '.join(q), args)
     for e in res:
         e['play_time'] = timeago.format(datetime.fromtimestamp(e['play_time']), datetime.now())
-        e['replayurl'] = f'https://a.iteki.pw/replay/{mods}/{e["scoreid"]}'
+        e['replayurl'] = f'https://iteki.pw/replay/{mods}/{e["scoreid"]}'
     return Response(orjson.dumps(res) if res else b'{}', mimetype='text/json')
 
 """ /get_most_beatmaps """
