@@ -258,42 +258,46 @@ async def get_player_most():
 
 @api.route('/get_user_grade') # GET
 async def get_user_grade():
-    # get request args
+    # get request stuff
+    mode = request.args.get('mode', default='std', type=str)
+    mods = request.args.get('mods', default='rx', type=str)
     id = request.args.get('id', type=int)
-    mode = request.args.get('mode', type=str)
-    mods = request.args.get('mods', type=str)
 
-    # check if required parameters are met
-    if not id:
-        return b'missing parameters! (id)'
-    
+    # validate everything
+    if mode not in valid_modes:
+        return b'invalid mode! (std, taiko, catch, mania)'
+    else:
+        mode = convert_mode_int(mode)
+
     if mods not in valid_mods:
         return b'invalid mods! (vn, rx, ap)'
-    
-    if mode in valid_modes:
-        mode = convert_mode_int(mode)
-    else:
-        return b'wrong mode type! (std, taiko, catch, mania)'
-    
-    grades = ['xh','x','sh','s','a']
 
-    # fetch grades
-    q = [f'SELECT']
-    
-    for grade in grades:
-        if grade == 'a':
-            q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" and mode = {mode}) as {grade}')
-            break
-        q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" and mode = {mode}) as {grade},')
-    
-    # argumnts
-    args = []
-    
-    q.append(f'FROM scores_{mods}')
-    q.append(f'WHERE userid = %s AND mode = {mode}')
-    args.append(id)
+    if not id:
+        return b'missing id!'
 
+    # get all scores
+    q = f'SELECT grade FROM scores_{mods} WHERE mode = {mode} AND userid = %s'
+
+    scores = await glob.db.fetchall(q, [id])
+
+    grades = {
+        "x": 0,
+        "xh": 0,
+        "s": 0,
+        "sh": 0,
+        "a": 0
+    }
+      
+    if not scores:
+        return jsonify(grades)
+
+
+
+    # count
+    for score in (x for x in scores if x['grade'].lower() in grades):
+        grades[score['grade'].lower()] += 1 
+        
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)
-    res = await glob.db.fetch(' '.join(q), args)
-    return jsonify(res) if res else b'{"a": 0, "s": 0, "sh": 0, "x": 0, "xh": 0}'
+    # return
+    return jsonify(grades)
