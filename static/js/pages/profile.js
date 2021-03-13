@@ -26,19 +26,19 @@ new Vue({
     methods: {
         LoadProfileData(userid) {
             var vm = this;
-            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_user", {
+            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_user_info", {
                 params: {
                     id: userid,
                 }
             })
                 .then(function (response) {
-                    vm.userdata = response.data.udata;
+                    vm.userdata = response.data.userdata;
                 });
         },
         LoadMostBeatmaps(userid, mode, mods) {
             var vm = this;
             vm.loaddata[2] = true
-            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_most_beatmaps", {
+            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_player_most", {
                 params: {
                     id: userid,
                     mode: mode,
@@ -64,7 +64,7 @@ new Vue({
                     break;
                 default:
             }
-            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_scores", {
+            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_player_scores", {
                 params: {
                     id: userid,
                     mode: mode,
@@ -84,7 +84,7 @@ new Vue({
         },
         LoadGrades(userid, mode, mods) {
             var vm = this;
-            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_grade", {
+            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_user_grade", {
                 params: {
                     id: userid,
                     mode: mode,

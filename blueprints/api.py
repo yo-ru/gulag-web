@@ -62,9 +62,9 @@ async def get_leaderboard():
     res = await glob.db.fetchall(' '.join(q), args)
     return jsonify(res) if res else b'{}'
 
-""" /get_user """
-@api.route('/get_user') # GET
-async def get_user():
+""" /get_user_info """
+@api.route('/get_user_info') # GET
+async def get_user_info():
     # get request args
     id = request.args.get('id', type=int)
     name = request.args.get('name', type=str)
@@ -141,11 +141,11 @@ async def get_user():
         log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetchall(' '.join(q), args)
     res_ach = await glob.db.fetchall(' '.join(q2), args)
-    return jsonify(udata=res,achivement=res_ach) if res else b'{}'
+    return jsonify(userdata=res,achivement=res_ach) if res else b'{}'
 
-""" /get_scores """
-@api.route('/get_scores') # GET
-async def get_scores():
+""" /get_player_scores """
+@api.route('/get_player_scores') # GET
+async def get_player_scores():
     # get request args
     id = request.args.get('id', type=int)
     mode = request.args.get('mode', type=str)
@@ -209,9 +209,9 @@ async def get_scores():
     limit = await glob.db.fetch(' '.join(q2), args)
     return jsonify(scores=res, limit=limit['result']) if res else jsonify(scores=[], limit=limit['result'])
 
-""" /get_most_beatmaps """
-@api.route('/get_most_beatmaps') # GET
-async def get_most_beatmaps():
+""" /get_player_most """
+@api.route('/get_player_most') # GET
+async def get_player_most():
     # get request args
     id = request.args.get('id', type=int)
     mode = request.args.get('mode', type=str)
@@ -256,10 +256,11 @@ async def get_most_beatmaps():
     res = await glob.db.fetchall(' '.join(q), args)
     return jsonify(maps=res) if res else jsonify(maps=[])
 
-""" /get_replay """
-@api.route('/get_replay') # GET
-async def get_replay():
+@api.route('/get_user_grade') # GET
+async def get_user_grade():
+    # get request args
     id = request.args.get('id', type=int)
+    mode = request.args.get('mode', type=str)
     mods = request.args.get('mods', type=str)
 
     # check if required parameters are met
@@ -268,27 +269,31 @@ async def get_replay():
     
     if mods not in valid_mods:
         return b'invalid mods! (vn, rx, ap)'
+    
+    if mode in valid_modes:
+        mode = convert_mode_int(mode)
+    else:
+        return b'wrong mode type! (std, taiko, catch, mania)'
+    
+    grades = ['xh','x','sh','s','a']
 
-    # fetch scores
-    q = ['SELECT scores_{0}.*, maps.*, users.name FROM scores_{0}'.format(mods)]
-
+    # fetch grades
+    q = [f'SELECT']
+    
+    for grade in grades:
+        if grade == 'a':
+            q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" and mode = {mode}) as {grade}')
+            break
+        q.append(f'(SELECT COUNT(id) FROM scores_{mods} WHERE grade="{grade}" and mode = {mode}) as {grade},')
+    
+    # argumnts
     args = []
-
-    q.append(f'JOIN maps ON scores_{mods}.map_md5 = maps.md5')
-    q.append(f'JOIN users ON scores_{mods}.userid = users.id')
-    q.append(f'WHERE scores_{mods}.id = %s')
+    
+    q.append(f'FROM scores_{mods}')
+    q.append(f'WHERE userid = %s AND mode = {mode}')
     args.append(id)
 
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)
     res = await glob.db.fetch(' '.join(q), args)
-    return jsonify(res) if res else b'{}'
-
-""" /get_online """
-@api.route('/get_online') # GET
-async def get_online():
-    # TODO: fetch from gulag
-    NotImplemented
-
-    return b'{"online": 0}'
-    
+    return jsonify(res) if res else b'{"a": 0, "s": 0, "sh": 0, "x": 0, "xh": 0}'
