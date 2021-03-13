@@ -280,9 +280,6 @@ async def get_user_grade():
 
     scores = await glob.db.fetchall(q, [id])
 
-    if not scores:
-        return '{"a":0,"s":0,"sh":0,"x":0,"xh":0}'
-
     grades = {
         "x": 0,
         "xh": 0,
@@ -290,10 +287,17 @@ async def get_user_grade():
         "sh": 0,
         "a": 0
     }
+      
+    if not scores:
+        return jsonify(grades)
+
+
 
     # count
     for score in (x for x in scores if x['grade'].lower() in grades):
         grades[score['grade'].lower()] += 1 
-
+        
+    if glob.config.debug:
+        log(' '.join(q), Ansi.LGREEN)
     # return
     return jsonify(grades)
