@@ -3,6 +3,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="/static/css/pages/auth.css">
+<script src="https://hcaptcha.com/1/api.js" async defer></script>
 
 <div class="main-block is-marginless is-paddingless is-auth">
   <div class="columns is-reset is-weeb">
@@ -44,15 +45,20 @@
             </span>
           </div>
         </div>
-        <div class="field">
-          <label for="" class="label">Key (<a href="https://forms.gle/dWb8JQYKNtYjjPHD6">get a key here</a>)</label>
-          <div class="control has-icons-left">
-            <input type="key" name="key" placeholder="e.g. H4LOAL5VTHD9I6P20HCE" class="input" required>
-            <span class="icon is-small is-left">
-              <i class="fa fa-key"></i>
-            </span>
+        {% if keys %}
+          <div class="field">
+            <label for="" class="label">Key (<a href="https://forms.gle/dWb8JQYKNtYjjPHD6">get a key here</a>)</label>
+            <div class="control has-icons-left">
+              <input type="key" name="key" placeholder="e.g. H4LOAL5VTHD9I6P20HCE" class="input" required>
+              <span class="icon is-small is-left">
+                <i class="fa fa-key"></i>
+              </span>
+            </div>
           </div>
-        </div>
+        {% endif %}
+        {% if captcha %}
+          <div class="h-captcha" style="display: flex; justify-content: center;" data-theme="dark" data-sitekey="{{ ckey }}"></div>
+        {% endif %}
         <div class="mt-5"></div>
         <div class="dialog">
           Already have an account? <a href="/login">Login</a>

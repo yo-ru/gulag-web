@@ -25,3 +25,14 @@ domain = 'iteki.pw'
 webhooks = {
     'audit-log': ''
 }
+
+# whether keys should be required for signup
+keys = False
+
+# captcha for signup page | uses hcaptcha.com
+captcha = True
+# below only required if captcha is true
+# captcha **site key** for your **website**
+hcaptcha_sitekey = ''
+# captcha **account key** for **your account** - don't mix this and the site key up!
+hcaptcha_key = ''

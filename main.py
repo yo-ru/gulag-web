@@ -11,7 +11,7 @@ from objects import glob
 __all__ = ()
 
 app = Quart(__name__)
-version = Version(0, 1, 7)
+version = Version(0, 1, 8)
 
 app.secret_key = glob.config.secret_key
 app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -34,6 +34,12 @@ _app_name = glob.config.app_name
 @app.template_global()
 def appName() -> str:
     return _app_name
+
+_key = glob.config.keys
+@app.before_serving
+@app.template_global()
+def key() -> str:
+    return _key
 
 # Import external blueprints & add to app
 from blueprints.frontend import frontend

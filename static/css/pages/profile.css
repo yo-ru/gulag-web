@@ -8,12 +8,12 @@
 }
 
 .second-block {
-    background: #2a2222
+    background: hsl(var(--main), 12%, 15%);
 }
 
 .stats-block {
     width: 100%;
-    background: #413030;
+    background: hsl(var(--main), 25%, 25%);
     border-radius: 16px;
     padding: 9.5px;
     margin-bottom: 9.5px!important
@@ -35,11 +35,13 @@
     align-items: flex-end;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
-    background: #a65973;
+    background: hsl(var(--main), 40%, 50%);
 }
 
 .profile-avatar {
     width: 185px;
+    max-width: 185px;
+    max-height: 185px;
     margin-top: -5.5rem;
     border-radius: 16px
 }
@@ -93,12 +95,12 @@
 }
 
 .mode-selects {
-    background: #413030
-}
-
-.badge-selects {
-    background: #322828
-}
+    background: hsl(var(--main), 25%, 22%);
+  }
+  
+  .badge-selects {
+    background: hsl(var(--main), 16%, 20%);
+  }
 
 .select-left {
     display: flex;
@@ -239,7 +241,7 @@ html {
 
 .header {
     padding: 10px 10px;
-    background: #a65973;
+    background: hsl(var(--main), 40%, 50%);
     border-radius: 16px;
     margin-bottom: 7px
 }
@@ -263,7 +265,7 @@ html {
     justify-content: space-between;
     border-radius: 10px;
     overflow: hidden;
-    background: #413030;
+    background: hsl(var(--main), 25%, 25%);
     transition: .2s ease;
     cursor: pointer
 }
@@ -271,7 +273,8 @@ html {
 .map-single:hover {
     border-radius: 8px;
     transform: translateY(-5px);
-    box-shadow: 0 0 1px rgba(0, 0, 0, .04), 0 4px 8px rgba(0, 0, 0, .04), 0 16px 24px rgba(0, 0, 0, .04), 0 24px 32px rgba(0, 0, 0, .04)
+    box-shadow: 0 0 1px rgba(0, 0, 0, .04), 0 4px 8px rgba(0, 0, 0, .04), 0 16px 24px rgba(0, 0, 0, .04), 0 24px 32px rgba(0, 0, 0, .04);
+    background: hsl(var(--main), 30%, 30%);
 }
 
 .map-single:first-child {
@@ -332,7 +335,7 @@ html {
 }
 
 .map-mod {
-    color: #cc5288;
+    color: hsl(var(--main), 25%, 25%);
     font-size: 16px;
     font-weight: 600;
     margin-left: 6px;
@@ -350,7 +353,7 @@ html {
 
 .map-pp {
     font-weight: 700;
-    color: #cc5288;
+    color: hsl(var(--main), 30%, 55%);
     font-size: 20px
 }
 
@@ -452,6 +455,7 @@ html {
 }
 
 .beatmap-block {
+    background-color: hsl(var(--main), 25%, 25%);
     transition: .2s ease
 }
 
@@ -468,7 +472,6 @@ html {
 }
 
 .beatmap-block {
-    background-color: #413030;
     color: #fff
 }
 
@@ -502,13 +505,13 @@ html {
 }
 
 .beatmap-footer .target-button {
-    background-color: #5d4343;
+    background-color: hsl(var(--main), 25%, 30%);
     border-radius: 6px;
     padding: 4.5px 7px;
     font-size: 12px;
     margin-left: 10px;
     transition: .2s background-color;
-    color: #ff679b
+    background: hsl(var(--main), 25%, 30%);
 }
 
 .beatmap-preview {
@@ -548,7 +551,7 @@ span.beatmap-mapper {
 
 .show-button {
     padding: 3px 34px;
-    background: #413030;
+    background: hsl(var(--main), 25%, 25%);
     color: white;
     border-radius: 30px;
     margin: 8px 8px;

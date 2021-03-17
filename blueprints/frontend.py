@@ -54,6 +54,9 @@ async def settings():
 
 @frontend.route('/key') # GET
 async def keygen():
+    if not glob.config.keys:
+        return await flash('error', 'The use of keys is currently disabled/unneeded!', 'home')
+
     if not 'authenticated' in session:
         return await flash('error', 'You must be logged in to access the key gen!', 'login')
 
@@ -64,25 +67,28 @@ async def keygen():
 
 @frontend.route('/key', methods=['POST'])
 async def gen_key():
-    form = await request.form
-    if form['submit'] == 'Generate':
-        if session["user_data"]["is_donator"] or session["user_data"]["is_staff"]:
-                e = await glob.db.fetch(f'SELECT keygen FROM users WHERE id = {session["user_data"]["id"]}')
-                if not e['keygen'] > 0 and session["user_data"]["is_donator"]:
-                    key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
-                    await glob.db.execute('INSERT INTO beta_keys(beta_key, generated_by) VALUES (%s, %s)', [key, session["user_data"]["name"]])
-                    await glob.db.execute('UPDATE users SET keygen = keygen + 1 WHERE id = %s', [session["user_data"]["id"]])
-                    return await render_template('key.html', keygen=key)
-                elif e['keygen'] > 0 and session["user_data"]["is_donator"]:
-                    return await flash('error', 'You have already generated a key!', 'key')
-                elif session["user_data"]["is_staff"]:
-                    key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
-                    await glob.db.execute('INSERT INTO beta_keys(beta_key, generated_by) VALUES (%s, %s)', [key, session["user_data"]["name"]])
-                    return await render_template('key.html', keygen=key)
+    if glob.config.keys:
+        form = await request.form
+        if form['submit'] == 'Generate':
+            if session["user_data"]["is_donator"] or session["user_data"]["is_staff"]:
+                    e = await glob.db.fetch(f'SELECT keygen FROM users WHERE id = {session["user_data"]["id"]}')
+                    if not e['keygen'] > 0 and session["user_data"]["is_donator"]:
+                        key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
+                        await glob.db.execute('INSERT INTO beta_keys(beta_key, generated_by) VALUES (%s, %s)', [key, session["user_data"]["name"]])
+                        await glob.db.execute('UPDATE users SET keygen = keygen + 1 WHERE id = %s', [session["user_data"]["id"]])
+                        return await render_template('key.html', keygen=key)
+                    elif e['keygen'] > 0 and session["user_data"]["is_donator"]:
+                        return await flash('error', 'You have already generated a key!', 'key')
+                    elif session["user_data"]["is_staff"]:
+                        key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
+                        await glob.db.execute('INSERT INTO beta_keys(beta_key, generated_by) VALUES (%s, %s)', [key, session["user_data"]["name"]])
+                        return await render_template('key.html', keygen=key)
+            else:
+                return await flash('error', 'You do not have permissions to do this!', 'key')
         else:
-            return await flash('error', 'You do not have permissions to do this!', 'key')
+            return await render_template('key.html')
     else:
-        return await render_template('key.html')
+        return await flash('error', 'The use of keys is currently disabled/unneeded!', 'home')
 
 @frontend.route('/pwreset') # GET
 async def pw():
@@ -326,7 +332,7 @@ async def register():
     if 'authenticated' in session:
         return await flash('error', f'Hey You\'re already registered and logged in {session["user_data"]["name"]}!', 'home')
 
-    return await render_template('register.html')
+    return await render_template('register.html', ckey=glob.config.hcaptcha_sitekey, captcha=glob.config.captcha, keys=glob.config.keys)
 @frontend.route('/register', methods=['POST']) # POST
 async def register_post():
     # if authenticated; deny post; return
@@ -340,97 +346,112 @@ async def register_post():
     pw_txt = form.get('password')
     key = form.get('key')
 
-    # Usernames must:
-    # - be within 2-15 characters in length
-    # - not contain both ' ' and '_', one is fine
-    # - not be in the config's `disallowed_names` list
-    # - not already be taken by another player
-    # check if username exists
-    if not _username_rgx.match(username):
-        return await flash('error', 'Invalid username syntax.', 'register')
-
-    if '_' in username and ' ' in username:
-        return await flash('error', 'Username may contain "_" or " ", but not both.', 'register')
-
-    # TODO: disallowed usernames
-    NotImplemented
-
-    if await glob.db.fetch('SELECT 1 FROM users WHERE name = %s', username):
-        return await flash('error', 'Username already taken by another user.', 'register')
-
-    # Emails must:
-    # - match the regex `^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$`
-    # - not already be taken by another player
-    if not _email_rgx.match(email):
-        return await flash('error', 'Invalid email syntax.', 'register')
-
-    if await glob.db.fetch('SELECT 1 FROM users WHERE email = %s', email):
-        return await flash('error', 'Email already taken by another user.', 'register')
-
-    if key == "H4LOAL5VTHD9I6P20HCE":
-        return await flash('error', 'Nice try...', 'register')
-
-    if await glob.db.fetch('SELECT 1 FROM beta_keys WHERE beta_key = %s', key):
-        key_valid = True
+    if glob.config.captcha:
+        token = form.get('h-captcha-response')
+        data = { 'secret': glob.config.hcaptcha_key, 'response': token }
+        async with aiohttp.ClientSession() as sessionn:
+            async with sessionn.post('https://hcaptcha.com/siteverify', data=data) as ses:
+                res = ses.json()
+                success = res['success']
     else:
-        return await flash('error', 'Invalid beta key.', 'register')
+        success = True
 
-    if key_valid:
-        used_key = await glob.db.fetch('SELECT used AS c FROM beta_keys WHERE beta_key = %s', key)
-        if int(used_key['c']):
-            return await flash('error', 'This beta key has already been used.', 'register')
+    if success:
+        # Usernames must:
+        # - be within 2-15 characters in length
+        # - not contain both ' ' and '_', one is fine
+        # - not be in the config's `disallowed_names` list
+        # - not already be taken by another player
+        # check if username exists
+        if not _username_rgx.match(username):
+            return await flash('error', 'Invalid username syntax.', 'register')
 
-    # Passwords must:
-    # - be within 8-32 characters in length
-    # - have more than 3 unique characters
-    # - not be in the config's `disallowed_passwords` list
-    if not 8 < len(pw_txt) <= 32:
-        return await flash('error', 'Password must be 8-32 characters in length', 'register')
+        if '_' in username and ' ' in username:
+            return await flash('error', 'Username may contain "_" or " ", but not both.', 'register')
 
-    if len(set(pw_txt)) <= 3:
-        return await flash('error', 'Password must have more than 3 unique characters.', 'register')
+        # TODO: disallowed usernames
+        NotImplemented
 
-    # TODO: disallowed passwords
-    NotImplemented
+        if await glob.db.fetch('SELECT 1 FROM users WHERE name = %s', username):
+            return await flash('error', 'Username already taken by another user.', 'register')
 
-    async with asyncio.Lock():
-        pw_md5 = hashlib.md5(pw_txt.encode()).hexdigest().encode()
-        pw_bcrypt = bcrypt.hashpw(pw_md5, bcrypt.gensalt())
-        glob.cache['bcrypt'][pw_bcrypt] = pw_md5 # cache result for login
+        # Emails must:
+        # - match the regex `^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$`
+        # - not already be taken by another player
+        if not _email_rgx.match(email):
+            return await flash('error', 'Invalid email syntax.', 'register')
 
-        safe_name = get_safe_name(username)
+        if await glob.db.fetch('SELECT 1 FROM users WHERE email = %s', email):
+            return await flash('error', 'Email already taken by another user.', 'register')
 
-        # add to `users` table.
-        user_id = await glob.db.execute(
-            'INSERT INTO users '
-            '(name, safe_name, email, pw_bcrypt, creation_time, latest_activity) '
-            'VALUES (%s, %s, %s, %s, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())',
-            [username, safe_name, email, pw_bcrypt]
-        )
+        if glob.config.keys:
+            if key == "H4LOAL5VTHD9I6P20HCE":
+                return await flash('error', 'Nice try...', 'register')
 
-        # add to `stats` table.
-        await glob.db.execute(
-            'INSERT INTO stats '
-            '(id) VALUES (%s)',
-            [user_id]
-        )
+            if await glob.db.fetch('SELECT 1 FROM beta_keys WHERE beta_key = %s', key):
+                key_valid = True
+            else:
+                return await flash('error', 'Invalid beta key.', 'register')
 
-    if glob.config.debug:
-        log(f'{username} has registered - awaiting verification.', Ansi.LGREEN)
+            if key_valid:
+                used_key = await glob.db.fetch('SELECT used AS c FROM beta_keys WHERE beta_key = %s', key)
+                if int(used_key['c']):
+                    return await flash('error', 'This beta key has already been used.', 'register')
 
-    # user has successfully registered
-    await glob.db.execute('UPDATE beta_keys SET used = 1 WHERE beta_key = %s', key)
-    await glob.db.execute('UPDATE beta_keys SET user = %s WHERE beta_key = %s', [username, key])
-    webhook_url = glob.config.webhooks['audit-log']
-    webhook = Webhook(url=webhook_url)
-    embed = Embed(title = f'')
-    embed.set_author(url = f"https://{glob.config.domain}/u/{user_id}", name = username, icon_url = f"https://a.{glob.config.domain}/{user_id}")
-    thumb_url = f'https://a.{glob.config.domain}/1'
-    embed.set_thumbnail(url=thumb_url)
-    embed.add_field(name = 'New user', value = f'{username} has registered.', inline = True)
-    webhook.add_embed(embed)
-    await webhook.post()
-    return await render_template('verify.html')
+        # Passwords must:
+        # - be within 8-32 characters in length
+        # - have more than 3 unique characters
+        # - not be in the config's `disallowed_passwords` list
+        if not 8 < len(pw_txt) <= 32:
+            return await flash('error', 'Password must be 8-32 characters in length', 'register')
+
+        if len(set(pw_txt)) <= 3:
+            return await flash('error', 'Password must have more than 3 unique characters.', 'register')
+
+        # TODO: disallowed passwords
+        NotImplemented
+
+        async with asyncio.Lock():
+            pw_md5 = hashlib.md5(pw_txt.encode()).hexdigest().encode()
+            pw_bcrypt = bcrypt.hashpw(pw_md5, bcrypt.gensalt())
+            glob.cache['bcrypt'][pw_bcrypt] = pw_md5 # cache result for login
+
+            safe_name = get_safe_name(username)
+
+            # add to `users` table.
+            user_id = await glob.db.execute(
+                'INSERT INTO users '
+                '(name, safe_name, email, pw_bcrypt, creation_time, latest_activity) '
+                'VALUES (%s, %s, %s, %s, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())',
+                [username, safe_name, email, pw_bcrypt]
+            )
+
+            # add to `stats` table.
+            await glob.db.execute(
+                'INSERT INTO stats '
+                '(id) VALUES (%s)',
+                [user_id]
+            )
+
+        if glob.config.debug:
+            log(f'{username} has registered - awaiting verification.', Ansi.LGREEN)
+
+        # user has successfully registered
+        if glob.config.keys:
+            await glob.db.execute('UPDATE beta_keys SET used = 1 WHERE beta_key = %s', key)
+            await glob.db.execute('UPDATE beta_keys SET user = %s WHERE beta_key = %s', [username, key])
+        webhook_url = glob.config.webhooks['audit-log']
+        webhook = Webhook(url=webhook_url)
+        embed = Embed(title = f'')
+        embed.set_author(url = f"https://{glob.config.domain}/u/{user_id}", name = username, icon_url = f"https://a.{glob.config.domain}/{user_id}")
+        thumb_url = f'https://a.{glob.config.domain}/1'
+        embed.set_thumbnail(url=thumb_url)
+        embed.add_field(name = 'New user', value = f'{username} has registered.', inline = True)
+        webhook.add_embed(embed)
+        await webhook.post()
+        return await render_template('verify.html')
+    else:
+        return await flash('error', 'Please complete the captcha and ensure you did so correctly!', 'register')
 
 """ logout """
 @frontend.route('/logout') # GET

@@ -1,0 +1,53 @@
+{% extends 'admin/base.html' %}
+{% block title %} Dashboard {% endblock %}
+
+{% block content %}
+<script src="/static/js/asserts/vue.js"></script>
+<script src="/static/js/asserts/vue-axios.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/4.0.2/timeago.min.js"></script>
+
+<div class="dashboard" id="dashboard">
+            <div class="blockdata">
+                {% for user in users %}
+                <a class="user-block{% if user.priv == 1 %} unverified{% endif %}">
+                    <img src="https://a.iteki.pw/{{ user.id }}" class="avatar-picture">
+                    <div onclick="location.href = 'https://iteki.pw/u/{{ user.id }}';" id="profilebutton" class="user-stats"><span class="user-title">
+                        <img src="https://s.kurikku.pw/flags/{{ user.country|upper }}.png" class="profile-flag"> {{ user.name }}
+                        </span><span class="user-artist">
+                            {{ user.email }}
+                        </span>
+                        <div class="user-footer">
+                            <span class="user-mapper">
+                            {{ timeago.format((datetime.datetime.fromtimestamp(user.creation_time)),
+                                (datetime.datetime.now() + datetime.timedelta(seconds = 60 * 3.4))) }}
+                            </span>
+                            <div class="d-flex align-items-baseline">
+                                <span>
+                                {{ timeago.format((datetime.datetime.fromtimestamp(user.latest_activity)),
+                                    (datetime.datetime.now() + datetime.timedelta(seconds = 60 * 3.4))) }}
+                                </span>
+                                <div class="target-button newmaps-color">
+                                    <i onclick="location.href = 'https://iteki.pw/u/{{ user.id }}';" id="profilebutton" class="fa fa-arrow-right"></i>
+                                </div>
+                                <script>
+                                    document.getElementById("profilebutton").onclick = function () {
+                                        location.href = "https://iteki.pw/u/{{ user.id }}";
+                                    };
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="/static/js/pages/admin/dashboard.js"></script>
+
+{% endblock %}
