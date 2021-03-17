@@ -54,3 +54,21 @@ async def fetch_geoloc(ip: str) -> str:
                 log(f'Failed to get geoloc data: {lines[0]}.', Ansi.LRED)
             return 'xx'
         return lines[1].lower()
+
+async def validate_captcha(data: str) -> bool:
+    url = f'https://hcaptcha.com/siteverify'
+    
+    data = {
+        'secret': glob.config.hCaptcha_secret,
+        'response': data
+    }
+
+    async with glob.http.post(url, data=data) as resp:
+        if not resp or resp.status != 200:
+            if glob.config.debug:
+                log('Failed to verify captcha: request failed.', Ansi.LRED)
+            return False
+
+        res = await resp.json()
+
+        return res['success']

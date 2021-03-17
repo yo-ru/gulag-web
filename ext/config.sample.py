@@ -6,6 +6,10 @@ app_name = 'gulag-web'
 # secret key
 secret_key = 'changeme'
 
+#hCaptcha settings:
+hCaptcha_sitekey = 'changeme'
+hCaptcha_secret = 'changeme'
+
 # domain (used for api, avatar, etc)
 domain = 'gulag.ca'
 
