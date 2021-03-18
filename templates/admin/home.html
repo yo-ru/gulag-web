@@ -49,7 +49,7 @@
             </div>
             <div class="blockdata">
                 {% for user in recentusers %}
-                <a class="user-block{% if user.priv == 1 %} unverified{% endif %}">
+                <a class="user-block{% if user.priv == 1 and user.id != 1 %} unverified{% endif %}">
                     <img src="https://a.iteki.pw/{{ user.id }}" class="avatar-picture">
                     <div onclick="location.href = 'https://iteki.pw/u/{{ user.id }}';" id="profilebutton" class="user-stats"><span class="user-title">
                         <img src="https://s.kurikku.pw/flags/{{ user.country|upper }}.png" class="profile-flag"> {{ user.name }}
@@ -58,14 +58,10 @@
                         </span>
                         <div class="user-footer">
                             <span class="user-mapper">
-                            {{ timeago.format((datetime.datetime.fromtimestamp(user.creation_time)),
+                            Registered {{ timeago.format((datetime.datetime.fromtimestamp(user.creation_time)),
                                 (datetime.datetime.now() + datetime.timedelta(seconds = 60 * 3.4))) }}
                             </span>
                             <div class="d-flex align-items-baseline">
-                                <span>
-                                {{ timeago.format((datetime.datetime.fromtimestamp(user.latest_activity)),
-                                    (datetime.datetime.now() + datetime.timedelta(seconds = 60 * 3.4))) }}
-                                </span>
                                 <div class="target-button newmaps-color">
                                     <i onclick="location.href = 'https://iteki.pw/u/{{ user.id }}';" id="profilebutton" class="fa fa-arrow-right"></i>
                                 </div>
@@ -86,7 +82,7 @@
         <div class="recent-beat">
             <div class="columns is-marginless">
                 <div class="column is-paddingless is-vcentered">
-                    <h2 class="section-title">Recent Score</h2>
+                    <h2 class="section-title">Recent Scores</h2>
                 </div>
             </div>
             <div class="blockdata">
@@ -97,7 +93,7 @@
                                 class="map-image-picture"></div>
                         <div class="map-title-block">
                             <div class="map-title"><a class="user-link">
-                                    [{{ maps.mode }}] {{ maps.title }} [{{ maps.version }}]
+                                    {{ maps.artist }} - {{ maps.title }} [{{ maps.version }}]
                                 </a></div>
                             <div class="play-stats">
                                 {{ maps.score }} / {{ maps.max_combo }}x

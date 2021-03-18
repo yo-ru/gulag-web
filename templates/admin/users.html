@@ -9,21 +9,21 @@
 <div class="dashboard" id="dashboard">
             <div class="blockdata">
                 {% for user in users %}
-                <a class="user-block{% if user.priv == 1 %} unverified{% endif %}">
+                <a class="user-block{% if user.priv == 1 and user.id != 1 %} unverified{% endif %}">
                     <img src="https://a.iteki.pw/{{ user.id }}" class="avatar-picture">
                     <div onclick="location.href = 'https://iteki.pw/u/{{ user.id }}';" id="profilebutton" class="user-stats"><span class="user-title">
                         <img src="https://s.kurikku.pw/flags/{{ user.country|upper }}.png" class="profile-flag"> {{ user.name }}
                         </span><span class="user-artist">
-                            {{ user.email }}
+                            {{ user['email'] }}
                         </span>
                         <div class="user-footer">
                             <span class="user-mapper">
-                            {{ timeago.format((datetime.datetime.fromtimestamp(user.creation_time)),
+                            Registered {{ timeago.format((datetime.datetime.fromtimestamp(user.creation_time)),
                                 (datetime.datetime.now() + datetime.timedelta(seconds = 60 * 3.4))) }}
                             </span>
                             <div class="d-flex align-items-baseline">
                                 <span>
-                                {{ timeago.format((datetime.datetime.fromtimestamp(user.latest_activity)),
+                                Last seen {{ timeago.format((datetime.datetime.fromtimestamp(user.latest_activity)),
                                     (datetime.datetime.now() + datetime.timedelta(seconds = 60 * 3.4))) }}
                                 </span>
                                 <div class="target-button newmaps-color">
