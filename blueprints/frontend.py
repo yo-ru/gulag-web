@@ -43,7 +43,7 @@ async def home():
     except:
         return await render_template('home.html', vnpp=0, vnuser="None", rxpp=0, rxuser="None", appp=round0, apuser="None")
 
-      """ settings """
+""" settings """
 @frontend.route('/settings') # GET
 async def settings():
     # if not authenticated; render login
