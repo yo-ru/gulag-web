@@ -76,7 +76,7 @@ def appName() -> str:
 _captcha_key = glob.config.hCaptcha_sitekey
 @app.before_serving
 @app.template_global()
-def captcaKey() -> str:
+def captchaKey() -> str:
     return _captcha_key
 
 _domain = glob.config.domain
