@@ -247,6 +247,67 @@ async def get_scores():
         e['replayurl'] = f'https://iteki.pw/replay/{mods}/{e["scoreid"]}'
     return Response(orjson.dumps(res) if res else b'{}', mimetype='text/json')
 
+""" /get_scores """
+@api.route('/get_user_score') # GET
+async def get_map_score():
+    # get request args
+    id = request.args.get('id', type=int)
+    name = request.args.get('name', type=str)
+    mode = request.args.get('mode', type=str)
+    mods = request.args.get('mods', type=str)
+    limit = request.args.get('limit', type=int)
+    map = request.args.get('map', type=int)
+
+    # check if required parameters are met
+    if not id and not name:
+        return b'missing parameters! (id/name)'
+
+    if mods not in valid_mods:
+        return b'invalid mods! (vn, rx, ap)'
+
+    if not map:
+        return b'please provide a map id!'
+
+    if mode == 'std':
+        mode = 0
+    elif mode == 'taiko':
+        mode = 1
+    elif mode == 'catch':
+        mode = 2
+    elif mode == 'mania':
+        mode = 3
+    else:
+        return b'wrong mode type! (std, taiko, catch, mania)'
+
+    if not limit:
+        limit = 5
+
+    # fetch scores
+    q = [f'SELECT scores_{mods}.id AS scoreid, scores_{mods}.*, maps.* '
+        f'FROM scores_{mods} JOIN maps ON scores_{mods}.map_md5 = maps.md5']
+
+    # argumnts
+    args = []
+    if name:
+        e = await glob.db.fetch('SELECT id FROM users WHERE safe_name = %s', [name.lower()])
+        id = e['id']
+
+    a = await glob.db.fetch('SELECT md5 FROM maps WHERE id = %s', [map])
+    md5 = a['md5']
+
+    q.append(f'WHERE scores_{mods}.userid = {id} '
+            f'AND scores_{mods}.mode = {mode} '
+            'AND maps.status = 2')
+    q.append(f'AND scores_{mods}.status > 0 AND scores_{mods}.map_md5 = %s')
+    args.append(md5)
+    q.append(f'ORDER BY scores_{mods}.pp DESC '
+            f'LIMIT {limit}')
+
+    if glob.config.debug:
+        log(' '.join(q), Ansi.LGREEN)
+    res = await glob.db.fetchall(' '.join(q), args)
+    return Response(orjson.dumps(res) if res else b'{}', mimetype='text/json')
+
 """ /get_most_beatmaps """
 @api.route('/get_most_beatmaps') # GET
 async def get_most_beatmaps():

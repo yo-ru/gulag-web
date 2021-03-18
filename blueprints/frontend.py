@@ -351,7 +351,7 @@ async def register_post():
         data = { 'secret': glob.config.hcaptcha_key, 'response': token }
         async with aiohttp.ClientSession() as sessionn:
             async with sessionn.post('https://hcaptcha.com/siteverify', data=data) as ses:
-                res = ses.json()
+                res = await ses.json()
                 success = res['success']
     else:
         success = True
@@ -421,8 +421,8 @@ async def register_post():
             # add to `users` table.
             user_id = await glob.db.execute(
                 'INSERT INTO users '
-                '(name, safe_name, email, pw_bcrypt, creation_time, latest_activity) '
-                'VALUES (%s, %s, %s, %s, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())',
+                '(name, safe_name, email, pw_bcrypt, creation_time, latest_activity, verif) '
+                'VALUES (%s, %s, %s, %s, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 1)',
                 [username, safe_name, email, pw_bcrypt]
             )
 
