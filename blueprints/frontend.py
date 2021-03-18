@@ -41,7 +41,7 @@ async def home():
     try:
         return await render_template('home.html', vnpp=round(vn['pp']), vnuser=vn['name'], rxpp=round(rx['pp']), rxuser=rx['name'], appp=round(ap['pp']), apuser=ap['name'])
     except:
-        return await render_template('home.html', vnpp=0, vnuser="None", rxpp=0, rxuser="None", appp=round0, apuser="None")
+        return await render_template('home.html', vnpp=0, vnuser="None", rxpp=0, rxuser="None", appp=0, apuser="None")
 
 """ settings """
 @frontend.route('/settings') # GET
