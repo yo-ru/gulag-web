@@ -245,6 +245,7 @@ async def get_scores():
     for e in res:
         e['play_time'] = timeago.format(datetime.fromtimestamp(e['play_time']), datetime.now())
         e['replayurl'] = f'https://iteki.pw/replay/{mods}/{e["scoreid"]}'
+        e['map_id'] = e['maps.id']
     return Response(orjson.dumps(res) if res else b'{}', mimetype='text/json')
 
 """ /get_scores """
