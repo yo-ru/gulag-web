@@ -63,10 +63,7 @@ cp ext/config.sample.py config.py
 nano config.py
 
 # Run gulag-web.
-python3.9 main.py # Run directly access debug features for development! (Port 5000)
-hypercorn main.py # Please run gulag-web with hypercorn when in production! 
-                  # It will improve performance drastically by disabling all
-                  # of the debug features a developer would need! (Port 8000)
+hypercorn gulag.py
 
 # Have fun!
 ```
