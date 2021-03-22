@@ -36,3 +36,9 @@ captcha = True
 hcaptcha_sitekey = ''
 # captcha **account key** for **your account** - don't mix this and the site key up!
 hcaptcha_key = ''
+
+# file location of your gulag instance
+gulag_path = '/home/iteki/gulag'
+
+# allowed file extensions for avatars, default is compatible with iteki's gulag instance
+avatar_extensions = ['.jpg', '.jpeg', '.png', '.gif']

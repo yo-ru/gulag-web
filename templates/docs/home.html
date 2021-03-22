@@ -7,9 +7,11 @@
 <!-- start -->
 <div id="docsboard">
     <div class="leaderboard-banner ug-docs links-teilung main-banner">
+        {% if session %}
         <div class="main-selector">
             <span class="simple-banner-desc">You're logged in as {{ session.user_data['name'] }}!</span>
         </div>
+        {% endif %}
         <div class="banner-text">Documentation</div>
     </div>
     <div class="main-block">

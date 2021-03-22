@@ -10,6 +10,10 @@ import aiohttp
 import orjson
 import string
 import random
+import os
+import aiofiles.os
+from PIL import Image
+from resizeimage import resizeimage
 from quart import Blueprint, render_template, redirect, request, session
 from cmyui import log, Ansi
 from cmyui.discord import Webhook, Embed
@@ -45,15 +49,116 @@ async def home():
 
 """ settings """
 @frontend.route('/settings') # GET
-async def settings():
+@frontend.route('/settings/profile') # GET
+async def settings_profile():
     # if not authenticated; render login
     if not 'authenticated' in session:
-        return await flash('error', 'You must be logged in to access user settings!', 'login')
+        return await flash('error', 'You must be logged in to access profile settings!', 'login')
 
-    # TODO: user settings page
-    NotImplemented
+    return await render_template('settings/profile.html')
 
-    return await render_template('settings.html')
+""" avatars """
+@frontend.route('/settings/avatar') # GET
+async def settings_avatar():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access profile settings!', 'login')
+
+    return await render_template('settings/avatar.html')
+
+@frontend.route('/settings/avatar', methods=['POST']) # POST
+async def settings_avatar_post():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access avatar settings!', 'login')
+
+    APATH = f'{glob.config.gulag_path}/.data/avatars'
+    EXT = glob.config.avatar_extensions
+    
+    files = await request.files
+
+    #this could possibly not look ANY uglier
+    avatar_file = (files.get('avatar'))
+    ava = (os.path.splitext(avatar_file.filename.lower()))[1]
+    new_dir = f"{APATH}/{session['user_data']['id']}{ava}"
+    
+    if ava not in EXT:
+        return await flash('error', 'Please submit an image which is either a png, jpg, jpeg or gif file!')
+
+    # remove any old avatars
+    for old_ava in EXT:
+        old_dir = f"{APATH}/{session['user_data']['id']}{old_ava}"
+        if os.path.exists(old_dir):
+            await aiofiles.os.remove(old_dir)
+
+    avatar_file.save(new_dir)
+
+    # force image resizing
+    img = Image.open(new_dir)
+    width, height = img.size
+    if width > 256 or height > 256:
+        new = resizeimage.resize_cover(img, [256, 256])
+        new.save(new_dir, img.format)
+
+    return await flash('success', 'Your avatar has been successfully changed!', 'settings/avatar')
+
+@frontend.route('/settings/profile', methods=['POST']) # POST
+async def settings_profile_post():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access profile settings!', 'login')
+    
+    # form data
+    form = await request.form
+    username = form.get('username')
+    email = form.get('email')
+
+    # no data has changed; deny post
+    if username == session['user_data']['name'] and email == session['user_data']['email']:
+        return await flash('error', 'No changes have been made.', 'settings/profile')
+
+    # Usernames must:
+    # - be within 2-15 characters in length
+    # - not contain both ' ' and '_', one is fine
+    # - not be in the config's `disallowed_names` list
+    # - not already be taken by another player
+    if not _username_rgx.match(username):
+        return await flash('error', 'Your new username syntax is invalid.', 'settings/profile')
+
+    if '_' in username and ' ' in username:
+        return await flash('error', 'Your new username may contain "_" or " ", but not both.', 'settings/profile')
+
+    if username in glob.config.disallowed_names:
+        return await flash('error', 'Your new username isn\'t allowed; pick another.', 'settings/profile')
+
+    if await glob.db.fetch('SELECT 1 FROM users WHERE name = %s AND NOT name = %s', [username, session['user_data']['name']]):
+        return await flash('error', 'Your new username already taken by another user.', 'settings/profile')
+
+    # Emails must:
+    # - match the regex `^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$`
+    # - not already be taken by another player
+    if not _email_rgx.match(email):
+        return await flash('error', 'Email syntax is invalid.', 'settings/profile')
+
+    if await glob.db.fetch('SELECT 1 FROM users WHERE email = %s AND NOT email = %s', [email, session['user_data']['email']]):
+        return await flash('error', 'This email is already taken by another user.', 'settings/profile')
+
+    # username change successful
+    if session['user_data']['is_donator']:
+        if username != session['user_data']['name']:
+            await glob.db.execute('UPDATE users SET name = %s, safe_name = %s WHERE safe_name = %s', [username, get_safe_name(username), get_safe_name(session['user_data']['name'])])
+    elif not session['user_data']['is_donator'] and username != session['user_data']['name']:
+        return await flash('error', 'You must be a supporter! to change your username!')
+    
+    # email change successful
+    if email != session['user_data']['email']:
+        safe_name = get_safe_name(username) if username != session['user_data']['name'] else get_safe_name(session['user_data']['name'])
+        await glob.db.execute('UPDATE users SET email = %s WHERE safe_name = %s', [email, safe_name])
+
+    # logout
+    session.pop('authenticated', None)
+    session.pop('user_data', None)
+    return await flash('success', 'Your username/email have been changed! Please login again.', 'login')
 
 @frontend.route('/key') # GET
 async def keygen():
@@ -110,10 +215,10 @@ async def reset_pw():
             mail = f"""
             Hey {username}!
 
-            Someone, hopefully you, has requested to reset your Iteki password! If this was you, please click <a href="https://iteki.pw/changepw?code={code}">here</a> to reset your password. If it was not you who requested this password reset, you can simply ignore this email.
+            Someone, hopefully you, has requested to reset your {glob.config.app_name} password! If this was you, please click <a href="https://{glob.config.domain}/changepw?code={code}">here</a> to reset your password. If it was not you who requested this password reset, you can simply ignore this email.
             """
             msg = MIMEText(mail, 'html')
-            await Message("Iteki Password Reset", from_address="contact@iteki.pw", to=email, body=msg)
+            await Message(f"{glob.config.app_name} Password Reset", from_address=f"contact@{glob.config.domain}", to=email, body=msg)
             await glob.db.execute('INSERT INTO pwreset(uid, code, used, gentime) VALUES (%s, %s, 0, UNIX_TIMESTAMP())', [uid, code])
             return await flash('success', "Password reset email sent! Please check your emails for further instructions.", 'home')
         except:
@@ -145,7 +250,7 @@ async def profile(user):
         try:
             e = await glob.db.fetch('SELECT id FROM users WHERE safe_name = %s', [user.lower()])
             uid = e['id']
-            return redirect(f"https://iteki.pw/u/{uid}?mode={mode}&mods={mods}")
+            return redirect(f"https://{glob.config.domain}/u/{uid}?mode={mode}&mods={mods}")
         except:
             return await render_template('nouser.html')
 
@@ -405,7 +510,7 @@ async def register_post():
         # - be within 8-32 characters in length
         # - have more than 3 unique characters
         # - not be in the config's `disallowed_passwords` list
-        if not 8 < len(pw_txt) <= 32:
+        if not 8 <= len(pw_txt) <= 32:
             return await flash('error', 'Password must be 8-32 characters in length', 'register')
 
         if len(set(pw_txt)) <= 3:
@@ -486,8 +591,3 @@ async def discord():
 @frontend.route('/docs')
 async def docs():
     return await render_template('docs/home.html')
-
-""" avatar """
-@frontend.route("/settings/avatar")
-async def avatar():
-    return await render_template('avatar.html')
