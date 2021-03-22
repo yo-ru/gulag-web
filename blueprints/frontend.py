@@ -128,9 +128,6 @@ async def settings_profile_post():
     if '_' in username and ' ' in username:
         return await flash('error', 'Your new username may contain "_" or " ", but not both.', 'settings/profile')
 
-    if username in glob.config.disallowed_names:
-        return await flash('error', 'Your new username isn\'t allowed; pick another.', 'settings/profile')
-
     if await glob.db.fetch('SELECT 1 FROM users WHERE name = %s AND NOT name = %s', [username, session['user_data']['name']]):
         return await flash('error', 'Your new username already taken by another user.', 'settings/profile')
 
@@ -147,8 +144,8 @@ async def settings_profile_post():
     if session['user_data']['is_donator']:
         if username != session['user_data']['name']:
             await glob.db.execute('UPDATE users SET name = %s, safe_name = %s WHERE safe_name = %s', [username, get_safe_name(username), get_safe_name(session['user_data']['name'])])
-    elif not session['user_data']['is_donator'] and username != session['user_data']['name']:
-        return await flash('error', 'You must be a supporter! to change your username!')
+    elif not session['user_data']['key'] and username != session['user_data']['name']:
+        return await flash('error', 'You must be a supporter or staff member to change your username!')
     
     # email change successful
     if email != session['user_data']['email']:
@@ -420,7 +417,7 @@ async def login_post():
         'silence_end': user_info['silence_end'],
         'is_staff': user_info['priv'] & Privileges.Staff,
         'is_donator': user_info['priv'] & Privileges.Donator,
-        'key': user_info['priv'] & Privileges.Donator or user_info['priv'] & Privileges.Staff
+        'key': user_info['priv'] & Privileges.Donator or user_info['priv'] & Privileges.Staff or user_info['priv'] & Privileges.Nominator
 
     }
 
