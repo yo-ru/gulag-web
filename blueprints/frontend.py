@@ -13,7 +13,7 @@ from quart import Blueprint, render_template, redirect, request, session
 
 from objects import glob
 from objects.privileges import Privileges
-from objects.utils import flash, get_safe_name, fetch_geoloc
+from objects.utils import flash, get_safe_name, fetch_geoloc, validate_captcha
 
 __all__ = ()
 
@@ -403,6 +403,10 @@ async def register_post():
     username = form.get('username')
     email = form.get('email')
     pw_txt = form.get('password')
+    captcha_data = form.get('h-captcha-response')
+
+    if not await validate_captcha(captcha_data):
+        return await flash('error', 'Captcha failed.', 'register')
 
     # Usernames must:
     # - be within 2-15 characters in length
