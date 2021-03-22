@@ -435,7 +435,7 @@ async def register_post():
     # - be within 8-32 characters in length
     # - have more than 3 unique characters
     # - not be in the config's `disallowed_passwords` list
-    if not 8 < len(pw_txt) <= 32:
+    if not 8 <= len(pw_txt) <= 32:
         return await flash('error', 'Password must be 8-32 characters in length', 'register')
 
     if len(set(pw_txt)) <= 3:
