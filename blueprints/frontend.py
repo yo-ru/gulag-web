@@ -232,6 +232,11 @@ async def profile(user):
     mode = request.args.get('mode', type=str)
     mods = request.args.get('mods', type=str)
 
+    if 'authenticated' in session and int(user) == int(session['user_data']['id']):
+        dist = True
+    else:
+        dist = False
+
     if mods:
         if mods not in valid_mods:
             return b'invalid mods! (vn, rx, ap)'
@@ -280,14 +285,14 @@ async def profile(user):
                 if session["user_data"]["id"] != userdata['id'] and not session["user_data"]["is_staff"]:
                     return await render_template('resuser.html')
                 else:
-                    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=False)
+                    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=False, dist=dist)
             else:
                 return await render_template('resuser.html')
 
     except:
         return await render_template('nouser.html')
 
-    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=badges, bi=defbadges)
+    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=badges, bi=defbadges, dist=dist)
 
 """ leaderboard """
 @frontend.route('/leaderboard') # GET

@@ -31,7 +31,7 @@
         </div>
         <div class="profile-flex">
             <div class="profile-avatar-area">
-                <img src="https://a.iteki.pw/{{ user['id'] }}" alt="avatar" class="rounded-avatar profile-avatar">
+                {% if dist %}<a href="/settings/avatar">{% endif %}<img src="https://a.iteki.pw/{{ user['id'] }}" alt="avatar" class="rounded-avatar profile-avatar" {% if dist %} title="Edit avatar"{% endif %}>{% if dist %}</a>{% endif %}
             </div>
             <div class="bar-selection mode-selects">
                 <div class="select-left">
