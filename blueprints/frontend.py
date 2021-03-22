@@ -414,7 +414,7 @@ async def login_post():
         'id': user_info['id'],
         'name': user_info['name'],
         'priv': user_info['priv'],
-        'email': user_info['email']
+        'email': user_info['email'],
         'silence_end': user_info['silence_end'],
         'is_staff': user_info['priv'] & Privileges.Staff,
         'is_donator': user_info['priv'] & Privileges.Donator,
