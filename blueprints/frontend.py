@@ -365,7 +365,7 @@ async def login_post():
 
     # check if account exists
     user_info = await glob.db.fetch(
-        'SELECT id, name, priv, pw_bcrypt, silence_end '
+        'SELECT id, name, priv, pw_bcrypt, email, silence_end '
         'FROM users WHERE safe_name = %s',
         [get_safe_name(username)]
     )
@@ -414,6 +414,7 @@ async def login_post():
         'id': user_info['id'],
         'name': user_info['name'],
         'priv': user_info['priv'],
+        'email': user_info['email']
         'silence_end': user_info['silence_end'],
         'is_staff': user_info['priv'] & Privileges.Staff,
         'is_donator': user_info['priv'] & Privileges.Donator,
