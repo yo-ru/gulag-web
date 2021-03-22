@@ -144,7 +144,7 @@ async def settings_profile_post():
         return await flash('error', 'This email is already taken by another user.', 'settings/profile')
 
     # username change successful
-    if session['user_data']['is_donator']:
+    if session['user_data']['key']:
         if username != session['user_data']['name']:
             await glob.db.execute('UPDATE users SET name = %s, safe_name = %s WHERE safe_name = %s', [username, get_safe_name(username), get_safe_name(session['user_data']['name'])])
     elif not session['user_data']['key'] and username != session['user_data']['name']:
