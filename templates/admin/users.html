@@ -23,7 +23,7 @@
                             </span>
                             <div class="d-flex align-items-baseline">
                                 <span>
-                                Last seen {{ timeago.format((datetime.datetime.fromtimestamp(user.latest_activity)),
+                                UID {{ user.id }} | Last seen {{ timeago.format((datetime.datetime.fromtimestamp(user.latest_activity)),
                                     (datetime.datetime.now() + datetime.timedelta(seconds = 60 * 3.4))) }}
                                 </span>
                                 <div class="target-button newmaps-color">

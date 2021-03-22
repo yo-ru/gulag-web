@@ -86,7 +86,7 @@ async def settings_avatar_post():
     new_dir = f"{APATH}/{session['user_data']['id']}{ava}"
     
     if ava not in EXT:
-        return await flash('error', 'Please submit an image which is either a png, jpg, jpeg or gif file!')
+        return await flash('error', 'Please submit an image which is either a png, jpg, jpeg or gif file!', 'settings/avatar')
 
     # remove any old avatars
     for old_ava in EXT:
@@ -144,7 +144,7 @@ async def settings_profile_post():
         return await flash('error', 'This email is already taken by another user.', 'settings/profile')
 
     # username change successful
-    if session['user_data']['key']:
+    if session['user_data']['is_donator']:
         if username != session['user_data']['name']:
             await glob.db.execute('UPDATE users SET name = %s, safe_name = %s WHERE safe_name = %s', [username, get_safe_name(username), get_safe_name(session['user_data']['name'])])
     elif not session['user_data']['key'] and username != session['user_data']['name']:
@@ -255,11 +255,16 @@ async def profile(user):
             return await render_template('nouser.html')
 
     try:
-        userdata = await glob.db.fetch("SELECT name, id, priv, country, frozen, freezetime, verified FROM users WHERE id = %s", [user])
+        userdata = await glob.db.fetch("SELECT name, id, priv, country, frozen, freezetime FROM users WHERE id = %s", [user])
         freezeinfo = [userdata['frozen'], timeago.format(datetime.fromtimestamp(userdata['freezetime']), datetime.now())]
+        if await glob.db.fetch('SELECT 1 FROM user_badges WHERE userid = %s', [user]):
+            badges = True
+            defbadges = await glob.db.fetchall("SELECT badgeid, badges.name, badges.colour, badges.icon FROM user_badges LEFT JOIN badges ON user_badges.badgeid = badges.id WHERE userid = %s", [user])
+        else:
+            badges = None
+            defbadges = None
+
         in_clan = await glob.db.fetch("SELECT clan_id FROM users WHERE id = %s", [user])
-        verified = userdata['verified']
-        donator = userdata['priv'] & Privileges.Donator
         if in_clan['clan_id'] is not None:
             isclan = in_clan['clan_id']
             clandata = await glob.db.fetch("SELECT tag FROM clans WHERE id = %s", [isclan])
@@ -269,18 +274,20 @@ async def profile(user):
                 clantag = ""
         else:
             clantag = ""
+
         if int(userdata['priv']) == 2:
             if 'authenticated' in session:
                 if session["user_data"]["id"] != userdata['id'] and not session["user_data"]["is_staff"]:
                     return await render_template('resuser.html')
                 else:
-                    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, verified=verified, donator=donator)
+                    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=False)
             else:
                 return await render_template('resuser.html')
+
     except:
         return await render_template('nouser.html')
 
-    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, verified=verified, donator=donator)
+    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=badges, bi=defbadges)
 
 """ leaderboard """
 @frontend.route('/leaderboard') # GET

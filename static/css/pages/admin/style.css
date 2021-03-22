@@ -283,7 +283,7 @@ li {
     margin-bottom: 0
 }
 
-.user-block {
+.23-block {
     transition: .2s ease;
     background-color: hsl(var(--main), 25%, 25%);
 }
@@ -298,6 +298,7 @@ li {
     overflow: hidden;
     background-color: hsl(var(--main), 25%, 25%);
     height: 76px;
+    width: 200px;
     margin-top: 8px
 }
 

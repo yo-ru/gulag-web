@@ -21,7 +21,7 @@
                 <h1 class="title">
                     <p class="ranks">
                         <img src="https://s.kurikku.pw/flags/{{ user['country']|upper }}.png" class="profile-flag"><span class="bgf">{{ tag }} {{
-                            user['name'] }}</span> {% if verified %} <i title="Verified User" style="color:rgb(0, 255, 21);" class="fas fa-check"></i>{% endif %}{% if donator %} <i title="Donator" style="color:rgb(0, 162, 236);" class="fas fa-heart"></i>{% endif %}
+                            user['name'] }}</span>
                     </p>
                 </h1>
                 <!-- <div class="subtitle">
@@ -65,7 +65,13 @@
                     {% if freeze[0] %}
                     <b>{{ user['name'] }} is currently frozen. Their freeze timer runs out {{ freeze[1] }}!</b>
                     {% endif %}
-                    <!--Badges is not developing : (-->
+                    {% if not freeze[0] %}
+                    {% if ub %}
+                    {% for b in bi %}
+                        <i title="{{ b['name'] }}" style="{{ b['colour'] }}" class="{{ b['icon'] }}"></i>  
+                    {% endfor %}
+                    {% endif %}
+                    {% endif %}
                 </span>
             </div>
         </div>
