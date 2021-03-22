@@ -35,6 +35,9 @@ valid_mods = frozenset({'vn', 'rx', 'ap'})
 valid_sorts = frozenset({'tscore', 'rscore', 'pp', 'plays',
                         'playtime', 'acc', 'maxcombo'})
 
+_username_rgx = re.compile(r'^[\w \[\]-]{2,15}$')
+_email_rgx = re.compile(r'^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$')
+
 """ home """
 @frontend.route('/home') # GET
 @frontend.route('/')
@@ -430,8 +433,6 @@ async def login_post():
     return await flash('success', f'Hey! Welcome back {username}!', 'home')
 
 """ registration """
-_username_rgx = re.compile(r'^[\w \[\]-]{2,15}$')
-_email_rgx = re.compile(r'^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$')
 @frontend.route('/register') # GET
 async def register():
     # if authenticated; redirect home
