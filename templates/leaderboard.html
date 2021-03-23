@@ -79,6 +79,7 @@
                             <td class="t-column column-player-rank">#<% index + 1 %>
                             </td>
                             <td class="t-column column-player-name is-lefttext">
+                                <img :src="'https://s.kurikku.pw/flags/'+user.country.toUpperCase()+'.png'" class="flag">
                                 <a :href="'/u/'+user.user_id"><% user.username %></a>
                             </td>
                             <td v-if="sort == 'pp' || sort == 'rscore'" class="t-column">
