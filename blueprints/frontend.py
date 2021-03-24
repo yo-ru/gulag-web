@@ -69,6 +69,70 @@ async def settings_avatar():
 
     return await render_template('settings/avatar.html')
 
+@frontend.route('/settings/password') # GET
+async def settings_pw():
+    # if not authenticated; render login
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to access password settings!', 'login')
+
+    return await render_template('settings/password.html')
+
+@frontend.route('/settings/password', methods=['POST']) # POST
+async def settings_pw_post():
+    if not 'authenticated' in session:
+        return await flash('error', 'You must be logged in to change your password!', 'login')
+
+    # get required info from form
+    form = await request.form
+    old_text = form.get('old_password')
+    oldpw = hashlib.md5(old_text.encode()).hexdigest().encode()
+    newpw = form.get('new_password')
+    check = form.get('repeat_password')
+
+    # check new password & repeated password match
+    if check != newpw:
+        return await flash('error', "Repeat password doesn't match new password!", 'settings/password')
+
+
+    # get current pw
+    ui = await glob.db.fetch('SELECT pw_bcrypt FROM users WHERE id = %s', [session["user_data"]["id"]])
+    dbpw = ui['pw_bcrypt'].encode()
+
+    # check current pw against old pw
+    bcache = glob.cache['bcrypt']
+    if dbpw in bcache:
+        if oldpw != bcache[dbpw]:
+            return await flash('error', 'Old password is incorrect!', 'settings/password')
+    else:
+        if not bcrypt.checkpw(oldpw, dbpw):
+            return await flash('error', 'Old password is incorrect!', 'settings/password')
+
+    # make sure new password isn't the same as old password
+    if old_text == newpw:
+        return await flash('error', "Old and new password cannot be the same!", 'settings/password')
+
+    # Passwords must:
+    # - be within 8-32 characters in length
+    # - have more than 3 unique characters
+    # - not be in the config's `disallowed_passwords` list
+    if not 8 <= len(oldpw) <= 32:
+        return await flash('error', 'Password must be 8-32 characters in length', 'settings/password')
+
+    if len(set(oldpw)) <= 3:
+        return await flash('error', 'Password must have more than 3 unique characters.', 'settings/password')
+
+    async with asyncio.Lock():
+        # hash & cache new password
+        newmd5 = hashlib.md5(newpw.encode()).hexdigest().encode()
+        newbc = bcrypt.hashpw(newmd5, bcrypt.gensalt())
+        bcache[newbc] = newmd5
+
+        # set new password & make user relog
+        await glob.db.execute('UPDATE users SET pw_bcrypt = %s WHERE id = %s', [newbc, session["user_data"]["id"]])
+        session.pop('authenticated', None)
+        session.pop('user_data', None)
+        return await flash('success', 'Your password has been changed! Please login again.', 'login')
+
 @frontend.route('/settings/avatar', methods=['POST']) # POST
 async def settings_avatar_post():
     # if not authenticated; render login
