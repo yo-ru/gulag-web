@@ -296,10 +296,16 @@ async def profile(user):
     mode = request.args.get('mode', type=str)
     mods = request.args.get('mods', type=str)
 
-    if 'authenticated' in session and int(user) == int(session['user_data']['id']):
-        dist = True
-    else:
-        dist = False
+    try:
+        if 'authenticated' in session and int(user) == int(session['user_data']['id']):
+            dist = True
+        else:
+            dist = False
+    except:
+        if 'authenticated' in session and user.lower() == session['user_data']['name'].lower():
+            dist = True
+        else:
+            dist = False
 
     if mods:
         if mods not in valid_mods:
@@ -312,28 +318,17 @@ async def profile(user):
     else:
         mode = 'std'
 
-
     try:
-        user = int(user)
-    except:
-        try:
-            e = await glob.db.fetch('SELECT id FROM users WHERE safe_name = %s', [user.lower()])
-            uid = e['id']
-            return redirect(f"https://{glob.config.domain}/u/{uid}?mode={mode}&mods={mods}")
-        except:
-            return await render_template('nouser.html')
-
-    try:
-        userdata = await glob.db.fetch("SELECT name, id, priv, country, frozen, freezetime FROM users WHERE id = %s", [user])
+        userdata = await glob.db.fetch("SELECT name, id, priv, country, frozen, freezetime FROM users WHERE id = %s OR safe_name = %s", [user, get_safe_name(user)])
         freezeinfo = [userdata['frozen'], timeago.format(datetime.fromtimestamp(userdata['freezetime']), datetime.now())]
-        if await glob.db.fetch('SELECT 1 FROM user_badges WHERE userid = %s', [user]):
+        if await glob.db.fetch('SELECT 1 FROM user_badges WHERE userid = %s', [userdata['id']]):
             badges = True
-            defbadges = await glob.db.fetchall("SELECT badgeid, badges.name, badges.colour, badges.icon FROM user_badges LEFT JOIN badges ON user_badges.badgeid = badges.id WHERE userid = %s", [user])
+            defbadges = await glob.db.fetchall("SELECT badgeid, badges.name, badges.colour, badges.icon FROM user_badges LEFT JOIN badges ON user_badges.badgeid = badges.id WHERE userid = %s", [userdata['id']])
         else:
             badges = None
             defbadges = None
 
-        in_clan = await glob.db.fetch("SELECT clan_id FROM users WHERE id = %s", [user])
+        in_clan = await glob.db.fetch("SELECT clan_id FROM users WHERE id = %s", [userdata['id']])
         if in_clan['clan_id'] is not None:
             isclan = in_clan['clan_id']
             clandata = await glob.db.fetch("SELECT tag FROM clans WHERE id = %s", [isclan])
@@ -344,19 +339,21 @@ async def profile(user):
         else:
             clantag = ""
 
-        if int(userdata['priv']) == 2:
+        if not int(userdata['priv']) & 1:
+            res = True
             if 'authenticated' in session:
                 if session["user_data"]["id"] != userdata['id'] and not session["user_data"]["is_staff"]:
                     return await render_template('resuser.html')
                 else:
-                    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=False, dist=dist)
+                    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=False, dist=dist, res=res)
             else:
                 return await render_template('resuser.html')
-
+        else:
+            res = False
     except:
         return await render_template('nouser.html')
 
-    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=badges, bi=defbadges, dist=dist)
+    return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=badges, bi=defbadges, dist=dist, res=res)
 
 """ leaderboard """
 @frontend.route('/leaderboard') # GET

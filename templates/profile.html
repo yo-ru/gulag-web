@@ -65,7 +65,7 @@
                     {% if freeze[0] %}
                     <b>{{ user['name'] }} is currently frozen. Their freeze timer runs out {{ freeze[1] }}!</b>
                     {% endif %}
-                    {% if not freeze[0] %}
+                    {% if not freeze[0] and not res %}
                     {% if ub %}
                     {% for b in bi %}
                         <i title="{{ b['name'] }}" style="{{ b['colour'] }} padding-left:2px; font-size: 25px;" class="{{ b['icon'] }}"></i>  
@@ -79,6 +79,7 @@
     <div class="second-block">
         <div class="columns is-marginless two-sides">
             <div class="column is-one-third">
+                {% if not res %}
                 <div class="header">
                     <div class="title">
                         <i class="fas fa-user-friends"></i> Rank
@@ -102,6 +103,7 @@
                         </tbody>
                     </table>
                 </div>
+                {% endif %}
                 <div class="header">
                     <div class="title">
                         <i class="fas fa-chart-pie"></i> Statistics
