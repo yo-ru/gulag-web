@@ -247,7 +247,8 @@ html {
 }
 
 .header .title {
-    font-size: 18px
+    font-size: 18px;
+    line-height: 18px;
 }
 
 .scores {

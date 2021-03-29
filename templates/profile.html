@@ -11,7 +11,7 @@
 <script>
     var userid = Number("{{ user['id'] }}"); //For text editor doesn't dizzy lmao
     var mode = '{{ mode }}';
-    var mods = '{{ mods }}'
+    var mods = '{{ mods }}';
 </script>
 
 <div id="profile">
@@ -212,7 +212,7 @@
                     <div class="scores">
                         <div v-for="(map, index) in bestdata" class="map-single">
                             <div class="map-content1">
-                                <div @click="LoadReplay(map.id,this.mods)" class="map-data">
+                                <div @click="LoadReplay(map.id,mods)" class="map-data">
                                     <div class="map-image">
                                         <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
                                             class="map-image-picture">
