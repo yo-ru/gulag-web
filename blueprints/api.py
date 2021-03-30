@@ -161,49 +161,49 @@ async def get_user():
         'u.silence_end, u.donor_end, u.creation_time, u.latest_activity, u.clan_id, u.clan_rank, '
 
         # total score
-        'tscore_cheat_vn_std, tscore_cheat_vn_taiko, tscore_cheat_vn_catch, tscore_cheat_vn_mania, '
-        'tscore_cheat_rx_std, tscore_cheat_rx_taiko, tscore_cheat_rx_catch, '
-        'tscore_cheat_ap_std, '
+        'tscore_vn_std, tscore_vn_taiko, tscore_vn_catch, tscore_vn_mania, '
+        'tscore_rx_std, tscore_rx_taiko, tscore_rx_catch, '
+        'tscore_ap_std, '
 
         # ranked score
-        'rscore_cheat_vn_std, rscore_cheat_vn_taiko, rscore_cheat_vn_catch, rscore_cheat_vn_mania, '
-        'rscore_cheat_rx_std, rscore_cheat_rx_taiko, rscore_cheat_rx_catch, '
-        'rscore_cheat_ap_std, '
+        'rscore_vn_std, rscore_vn_taiko, rscore_vn_catch, rscore_vn_mania, '
+        'rscore_rx_std, rscore_rx_taiko, rscore_rx_catch, '
+        'rscore_ap_std, '
 
         # pp
-        'pp_cheat_vn_std, pp_cheat_vn_taiko, pp_cheat_vn_catch, pp_cheat_vn_mania, '
-        'pp_cheat_rx_std, pp_cheat_rx_taiko, pp_cheat_rx_catch, '
-        'pp_cheat_ap_std, '
+        'pp_vn_std, pp_vn_taiko, pp_vn_catch, pp_vn_mania, '
+        'pp_rx_std, pp_rx_taiko, pp_rx_catch, '
+        'pp_ap_std, '
 
         # plays
-        'plays_cheat_vn_std, plays_cheat_vn_taiko, plays_cheat_vn_catch, plays_cheat_vn_mania, '
-        'plays_cheat_rx_std, plays_cheat_rx_taiko, plays_cheat_rx_catch, '
-        'plays_cheat_ap_std, '
+        'plays_vn_std, plays_vn_taiko, plays_vn_catch, plays_vn_mania, '
+        'plays_rx_std, plays_rx_taiko, plays_rx_catch, '
+        'plays_ap_std, '
 
         # playtime
-        'playtime_cheat_vn_std, playtime_cheat_vn_taiko, playtime_cheat_vn_catch, playtime_cheat_vn_mania, '
-        'playtime_cheat_rx_std, playtime_cheat_rx_taiko, playtime_cheat_rx_catch, '
-        'playtime_cheat_ap_std, '
+        'playtime_vn_std, playtime_vn_taiko, playtime_vn_catch, playtime_vn_mania, '
+        'playtime_rx_std, playtime_rx_taiko, playtime_rx_catch, '
+        'playtime_ap_std, '
 
         # accuracy
-        'ROUND(acc_cheat_vn_std, 2) AS acc_cheat_vn_std, ROUND(acc_cheat_vn_taiko, 2) AS acc_cheat_vn_taiko, ROUND(acc_cheat_vn_catch, 2) AS acc_cheat_vn_catch, ROUND(acc_cheat_vn_mania, 2) AS acc_cheat_vn_mania, '
-        'ROUND(acc_cheat_rx_std, 2) AS acc_cheat_rx_std, ROUND(acc_cheat_rx_taiko, 2) AS acc_cheat_rx_taiko, ROUND(acc_cheat_rx_catch, 2) AS acc_cheat_rx_catch, '
-        'ROUND(acc_cheat_ap_std, 2) AS acc_cheat_ap_std, '
+        'ROUND(acc_vn_std, 2) AS acc_vn_std, ROUND(acc_vn_taiko, 2) AS acc_vn_taiko, ROUND(acc_vn_catch, 2) AS acc_vn_catch, ROUND(acc_vn_mania, 2) AS acc_vn_mania, '
+        'ROUND(acc_rx_std, 2) AS acc_rx_std, ROUND(acc_rx_taiko, 2) AS acc_rx_taiko, ROUND(acc_rx_catch, 2) AS acc_rx_catch, '
+        'ROUND(acc_ap_std, 2) AS acc_ap_std, '
 
         # maximum combo
-        'maxcombo_cheat_vn_std, maxcombo_cheat_vn_taiko, maxcombo_cheat_vn_catch, maxcombo_cheat_vn_mania, '
-        'maxcombo_cheat_rx_std, maxcombo_cheat_rx_taiko, maxcombo_cheat_rx_catch, '
-        'maxcombo_cheat_ap_std, '
+        'maxcombo_vn_std, maxcombo_vn_taiko, maxcombo_vn_catch, maxcombo_vn_mania, '
+        'maxcombo_rx_std, maxcombo_rx_taiko, maxcombo_rx_catch, '
+        'maxcombo_ap_std, '
 
         # ranks
-        'rank_cheat_vn_std, rank_cheat_vn_taiko, rank_cheat_vn_catch, rank_cheat_vn_mania, '
-        'rank_cheat_rx_std, rank_cheat_rx_taiko, rank_cheat_rx_catch, '
-        'rank_cheat_ap_std, '
+        'rank_vn_std, rank_vn_taiko, rank_vn_catch, rank_vn_mania, '
+        'rank_rx_std, rank_rx_taiko, rank_rx_catch, '
+        'rank_ap_std, '
 
         # country ranks
-        'crank_cheat_vn_std, crank_cheat_vn_taiko, crank_cheat_vn_catch, crank_cheat_vn_mania, '
-        'crank_cheat_rx_std, crank_cheat_rx_taiko, crank_cheat_rx_catch, '
-        'crank_cheat_ap_std '
+        'crank_vn_std, crank_vn_taiko, crank_vn_catch, crank_vn_mania, '
+        'crank_rx_std, crank_rx_taiko, crank_rx_catch, '
+        'crank_ap_std '
 
 
         # join users
@@ -433,8 +433,7 @@ async def get_cscores():
         id = e['id']
 
     q.append(f'WHERE scores_{mods}_cheat.userid = {id} '
-            f'AND scores_{mods}_cheat.mode = {mode} '
-            'AND maps.status = 2')
+            f'AND scores_{mods}_cheat.mode = {mode} ')
     if sort == 'pp':
         q.append(f'AND scores_{mods}_cheat.status = 2')
     q.append(f'ORDER BY scores_{mods}_cheat.{sort} DESC '

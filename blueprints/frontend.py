@@ -42,13 +42,16 @@ _email_rgx = re.compile(r'^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$')
 @frontend.route('/home') # GET
 @frontend.route('/')
 async def home():
-    vn = await glob.db.fetch('SELECT pp, users.name FROM scores_vn LEFT JOIN users ON scores_vn.userid = users.id LEFT JOIN maps ON scores_vn.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND maps.status = 2 ORDER BY pp DESC LIMIT 1')
-    rx = await glob.db.fetch('SELECT pp, users.name FROM scores_rx LEFT JOIN users ON scores_rx.userid = users.id LEFT JOIN maps ON scores_rx.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND maps.status = 2 ORDER BY pp DESC LIMIT 1')
-    ap = await glob.db.fetch('SELECT pp, users.name FROM scores_ap LEFT JOIN users ON scores_ap.userid = users.id LEFT JOIN maps ON scores_ap.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND maps.status = 2 ORDER BY pp DESC LIMIT 1')
+    vn = await glob.db.fetch('SELECT pp, users.name FROM scores_vn LEFT JOIN users ON scores_vn.userid = users.id LEFT JOIN maps ON scores_vn.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND maps.status = 2 AND scores_vn.status = 2 ORDER BY pp DESC LIMIT 1')
+    rx = await glob.db.fetch('SELECT pp, users.name FROM scores_rx LEFT JOIN users ON scores_rx.userid = users.id LEFT JOIN maps ON scores_rx.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND maps.status = 2 AND scores_rx.status = 2 ORDER BY pp DESC LIMIT 1')
+    ap = await glob.db.fetch('SELECT pp, users.name FROM scores_ap LEFT JOIN users ON scores_ap.userid = users.id LEFT JOIN maps ON scores_ap.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND maps.status = 2 AND scores_ap.status = 2 ORDER BY pp DESC LIMIT 1')
+    vnc = await glob.db.fetch('SELECT pp, users.name FROM scores_vn_cheat LEFT JOIN users ON scores_vn_cheat.userid = users.id LEFT JOIN maps ON scores_vn_cheat.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND scores_vn_cheat.status = 2 ORDER BY pp DESC LIMIT 1')
+    rxc = await glob.db.fetch('SELECT pp, users.name FROM scores_rx_cheat LEFT JOIN users ON scores_rx_cheat.userid = users.id LEFT JOIN maps ON scores_rx_cheat.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND scores_rx_cheat.status = 2 ORDER BY pp DESC LIMIT 1')
+    apc = await glob.db.fetch('SELECT pp, users.name FROM scores_ap_cheat LEFT JOIN users ON scores_ap_cheat.userid = users.id LEFT JOIN maps ON scores_ap_cheat.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND scores_ap_cheat.status = 2 ORDER BY pp DESC LIMIT 1')
     try:
-        return await render_template('home.html', vnpp=round(vn['pp']), vnuser=vn['name'], rxpp=round(rx['pp']), rxuser=rx['name'], appp=round(ap['pp']), apuser=ap['name'])
+        return await render_template('home.html', vnpp=round(vn['pp']), vnuser=vn['name'], rxpp=round(rx['pp']), rxuser=rx['name'], appp=round(ap['pp']), apuser=ap['name'], vnppc=round(vnc['pp']), vnuserc=vnc['name'], rxppc=round(rxc['pp']), rxuserc=rxc['name'], apppc=round(apc['pp']), apuserc=apc['name'])
     except:
-        return await render_template('home.html', vnpp=0, vnuser="None", rxpp=0, rxuser="None", appp=0, apuser="None")
+        return await render_template('home.html', vnpp=0, vnuser="None", rxpp=0, rxuser="None", appp=0, apuser="None", vnppc=0, vnuserc="None", rxppc=0, rxuserc="None", apppc=0, apuserc="None")
 
 """ settings """
 @frontend.route('/settings') # GET
