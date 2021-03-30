@@ -1,0 +1,355 @@
+{% extends 'base.html' %}
+{% block title %} Cheat Profile {% endblock %}
+
+{% block content %}
+<script src="/static/js/asserts/vue.js"></script>
+<script src="/static/js/asserts/vue-axios.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/4.0.2/timeago.min.js"></script>
+
+<link rel="stylesheet" href="/static/css/pages/profile.css">
+
+<script>
+    var userid = Number("{{ user['id'] }}"); //For text editor doesn't dizzy lmao
+    var mode = '{{ mode }}';
+    var mods = '{{ mods }}';
+</script>
+
+<div id="profile">
+    <div class="main-block">
+        <div class="profile-bg">
+            <div class="info-block">
+                <h1 class="title">
+                    <p class="ranks">
+                        <img src="https://s.kurikku.pw/flags/{{ user['country']|upper }}.png" class="profile-flag"><span class="bgf">{{ tag }} {{
+                            user['name'] }}</span>
+                    </p>
+                </h1>
+                <!-- <div class="subtitle">
+                    <i class="fas fa-circle"></i> Offline
+                </div> -->
+            </div>
+        </div>
+        <div class="profile-flex">
+            <div class="profile-avatar-area">
+                {% if dist %}<a href="/settings/avatar">{% endif %}<img src="https://a.iteki.pw/{{ user['id'] }}" alt="avatar" class="rounded-avatar profile-avatar" {% if dist %} title="Edit avatar"{% endif %}>{% if dist %}</a>{% endif %}
+            </div>
+            <div class="bar-selection mode-selects">
+                <div class="select-left">
+                    <a :href="'/cheat/u/std/'+mods+'/'+userid"
+                        :class="'simple-banner-swtich ' + (mode == 'std' ? 'selected ' : '')"
+                        @click="ChangeModeMods('std',mods)">osu!</a>
+                    <a :href="'/cheat/u/taiko/'+mods+'/'+userid"
+                        :class="'simple-banner-swtich ' + (mode == 'taiko' ? 'selected ' : '') + (mods == 'ap' ? 'disabled':'')"
+                        @click="ChangeModeMods('taiko',mods)">osu!taiko</a>
+                    <a :href="'/cheat/u/catch/'+mods+'/'+userid"
+                        :class="'simple-banner-swtich ' + (mode == 'catch' ? 'selected ' : '') + (mods == 'ap' ? 'disabled':'')"
+                        @click="ChangeModeMods('catch',mods)">osu!catch</a>
+                    <a :href="'/cheat/u/mania/'+mods+'/'+userid"
+                        :class="'simple-banner-swtich ' + (mode == 'mania' ? 'selected ' : '') + (mods == 'ap' ? 'disabled':'') + (mods == 'rx' ? 'disabled':'')"
+                        @click="ChangeModeMods('mania',mods)">osu!mania</a>
+                </div>
+                <div class="select-right">
+                    <a :href="'/cheat/u/'+mode+'/vn/'+userid"
+                        :class="'simple-banner-swtich ' + (mods == 'vn' ? 'selected ' : '')"
+                        @click="ChangeModeMods(mode,'vn')">Vanilla</a>
+                    <a :href="'/cheat/u/'+mode+'/rx/'+userid"
+                        :class="'simple-banner-swtich ' + (mods == 'rx' ? 'selected ' : '') + (mode == 'mania' ? 'disabled':'')"
+                        @click="ChangeModeMods(mode,'rx')">Relax</a>
+                    <a :href="'/cheat/u/'+mode+'/ap/'+userid"
+                        :class="'simple-banner-swtich ' + (mods == 'ap' ? 'selected ' : '') + (mode == 'mania' ? 'disabled':'') + (mode == 'catch' ? 'disabled':'') + (mode == 'taiko' ? 'disabled':'')"
+                        @click="ChangeModeMods(mode,'ap')">Autopilot</a>
+                </div>
+            </div>
+            <div class="bar-selection badge-selects">
+                <span>
+                    {% if freeze[0] %}
+                    <b>{{ user['name'] }} is currently frozen. Their freeze timer runs out {{ freeze[1] }}!</b>
+                    {% endif %}
+                    {% if not freeze[0] and not res %}
+                    {% if ub %}
+                    {% for b in bi %}
+                        <i title="{{ b['name'] }}" style="{{ b['colour'] }} padding-left:2px; font-size: 25px;" class="{{ b['icon'] }}"></i>  
+                    {% endfor %}
+                    {% endif %}
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="second-block">
+        <div class="columns is-marginless two-sides">
+            <div class="column is-one-third">
+                {% if not res %}
+                <div class="header">
+                    <div class="title">
+                        <i class="fas fa-user-friends"></i> Rank
+                    </div>
+                </div>
+                <div class="stats-block rank-block">
+                    <table class="is-striped">
+                        <tbody>
+                            <tr>
+                                <td>Global rank</td>
+                                <td class="right-aligned">#
+                                    <span id="global-rank"><% userdata[0][`rank_cheat_${mods}_${mode}`] %></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Country rank</td>
+                                <td class="right-aligned">#
+                                    <span id="country-rank"><% userdata[0][`crank_cheat_${mods}_${mode}`] %></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+                <div class="header">
+                    <div class="title">
+                        <i class="fas fa-chart-pie"></i> Statistics
+                    </div>
+                </div>
+                <div class="stats-block">
+                    <table class="is-striped">
+                        <tbody>
+                            <tr>
+                                <td>{{ user['name'] }} created their account <% userdata[0][`creation_time`] %>. They were last seen <% userdata[0][`latest_activity`] %>. They use <% userdata[0][`timewarp`] %> timewarp!</td>
+                            </tr>
+                            <tr>
+                                <td><b>PP</b></td>
+                                <td class="right-aligned">
+                                    <% addCommas(userdata[0][`pp_cheat_${mods}_${mode}`]) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Ranked score</b></td>
+                                <td class="right-aligned">
+                                    <% addCommas(userdata[0][`rscore_cheat_${mods}_${mode}`]) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Total score</b></td>
+                                <td class="right-aligned">
+                                    <% addCommas(userdata[0][`tscore_cheat_${mods}_${mode}`]) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Max combo</b></td>
+                                <td class="right-aligned">
+                                    <% addCommas(userdata[0][`maxcombo_cheat_${mods}_${mode}`]) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Playcount</b></td>
+                                <td class="right-aligned">
+                                    <% addCommas(userdata[0][`plays_cheat_${mods}_${mode}`]) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Playtime</b></td>
+                                <td class="right-aligned">
+                                    <% addCommas(userdata[0][`playtime_cheat_${mods}_${mode}`]) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Accuracy</b></td>
+                                <td class="right-aligned">
+                                    <% userdata[0][`acc_cheat_${mods}_${mode}`] %>%
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="grade-block">
+                        <article class="media">
+                            <!--<figure class="media-left">
+                                <canvas id="myChart" width="100" height="100"></canvas>
+                            </figure>-->
+                            <div class="media-content">
+                                <div class="grade-line">
+                                    <div class="rank-single">
+                                        <div class="map-rank rank-S">SS</div>
+                                        <div class="rank-amount"> <% gradedata.x %> </div>
+                                    </div>
+                                    <div class="rank-single">
+                                        <div class="map-rank rank-XH">SS</div>
+                                        <div class="rank-amount"> <% gradedata.xh %> </div>
+                                    </div>
+                                </div>
+                                <div class="grade-line">
+                                    <div class="rank-single">
+                                        <div class="map-rank rank-S">S</div>
+                                        <div class="rank-amount"> <% gradedata.s %> </div>
+                                    </div>
+                                    <div class="rank-single">
+                                        <div class="map-rank rank-SH">S</div>
+                                        <div class="rank-amount"> <% gradedata.sh %> </div>
+                                    </div>
+                                    <div class="rank-single">
+                                        <div class="map-rank rank-A">A</div>
+                                        <div class="rank-amount"> <% gradedata.a %> </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <!-- <div class="level-block">
+                    <div class="columns is-marginless is-2">
+                        <div class="column level-bar is-paddingless">
+                            <div class="progress-level"></div>
+                        </div>
+                        <div class="column level-num is-one-fifth is-textcen">20</div>
+                    </div>
+                </div> -->
+            </div>
+            <div class="column">
+                <div class="log-block">
+                    <div class="header">
+                        <div class="title">
+                            <i class="fas fa-trophy"></i> Best Scores
+                        </div>
+                    </div>
+                    <div class="scores">
+                        <div v-for="(map, index) in bestdata" class="map-single">
+                            <div class="map-content1">
+                                <div @click="LoadReplay(map.id,mods)" class="map-data">
+                                    <div class="map-image">
+                                        <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
+                                            class="map-image-picture">
+                                    </div>
+                                    <div class="map-title-block">
+                                        <div class="map-title">
+                                            <a class="beatmap-link">
+                                                <% map.artist %> - <% map.title %> [<% map.version %>] +<% map.mods_readable %>
+                                            </a>
+                                        </div>
+                                        <div class="play-stats">
+                                            <% addCommas(map.score) %> / <% map.max_combo %>x
+                                        </div>
+                                        <div class="map-date">
+                                            <time>
+                                                <% map.play_time %> <a :href="map.replayurl"><i class="fas fa-download"></i></a>
+                                            </time>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="map-content2">
+                                <div class="score-details d-flex">
+                                    <div class="score-details_right-block">
+                                        <div class="score-details_pp-block">
+                                            <div class="map-pp">
+                                                <% map.pp.toFixed() %><span class="map-pp-unit">pp</span>
+                                            </div>
+                                            <div class="map-acc">accuracy:&nbsp;<b>
+                                                    <% map.acc.toFixed(2) %>%
+                                                </b></div>
+                                        </div>
+                                        <div class="score-details_grade-block">
+                                            <div class="rank-single">
+                                                <div v-bind:class="'map-rank rank-'+map.grade">
+                                                    <% map.grade %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="full[0] == false" class="extra-block">
+                        <a class="show-button" @click="AddLimit('bestscore')">Show more</a>
+                    </div>
+                </div>
+                <div class="log-block">
+                    <div class="header">
+                        <div class="title">
+                            <i class="fas fa-clock"></i> Recent Scores
+                        </div>
+                    </div>
+                    <div class="scores">
+                        <div v-for="(map, index) in recentdata" class="map-single">
+                            <div class="map-content1">
+                                <div @click="LoadReplay(map.id,this.mods)" class="map-data">
+                                    <div class="map-image">
+                                        <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
+                                            class="map-image-picture">
+                                    </div>
+                                    <div class="map-title-block">
+                                        <div class="map-title">
+                                            <a class="beatmap-link">
+                                                <% map.artist %> - <% map.title %> [<% map.version %>] +<% map.mods_readable %>
+                                            </a>
+                                        </div>
+                                        <div class="play-stats">
+                                            <% addCommas(map.score) %> / <% map.max_combo %>x
+                                        </div>
+                                        <div class="map-date">
+                                            <time>
+                                                <% map.play_time %> <a :href="map.replayurl"><i class="fas fa-download"></i></a>
+                                            </time>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="map-content2">
+                                <div class="score-details d-flex">
+                                    <div class="score-details_right-block">
+                                        <div class="score-details_pp-block">
+                                            <div class="map-pp">
+                                                <% map.pp.toFixed() %><span class="map-pp-unit">pp</span>
+                                            </div>
+                                            <div class="map-acc">accuracy:&nbsp;<b>
+                                                    <% map.acc.toFixed(2) %>%
+                                                </b></div>
+                                        </div>
+                                        <div class="score-details_grade-block">
+                                            <div class="rank-single">
+                                                <div v-bind:class="'map-rank rank-'+map.grade">
+                                                    <% map.grade %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="full[1] == false" class="extra-block">
+                        <a class="show-button" @click="AddLimit('recentscore')">Show more</a>
+                    </div>
+                </div>
+                <div class="log-block">
+                    <div class="header">
+                        <div class="title">
+                            <i class="fas fa-address-book"></i> Most Played Beatmaps
+                        </div>
+                    </div>
+                    <div class="beatmaps">
+                        <a v-for="(map, index) in mostdata" class="beatmap-block">
+                            <div class="beatmap-preview"
+                                v-bind:style='{ background: `url(https://assets.ppy.sh/beatmaps/${map.set_id}/covers/card.jpg)` }'>
+                            </div>
+                            <div class="beatmap-stats"><span class="beatmap-title"> <% map.title %> </span> <span
+                                    class="beatmap-artist"> <% map.artist %> </span>
+                                <div class="beatmap-footer"><span class="beatmap-mapper"> by <span
+                                            class="newmaps-color"> <% map.creator %> </span></span>
+                                    <div class="d-flex align-items-baseline"><span><% map.count %></span>
+                                        <div class="target-button newmaps-color"><i class="fas fa-arrow-right"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div v-if="full[2] == false" class="extra-block">
+                        <a class="show-button" @click="AddLimit('mostplay')">Show more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/pages/cprofile.js"></script>
+{% endblock %}

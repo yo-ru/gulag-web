@@ -46,9 +46,19 @@
               Home
             </a>
 
-            <a class="navbar-item" href="/leaderboard">
-              Leaderboards
-            </a>
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link">
+                Leaderboards
+              </a>
+              <div class="navbar-dropdown">
+                <a class="navbar-item" href="/leaderboard">
+                  Legit Leaderboards
+                </a>
+                <a class="navbar-item" href="/cleaderboard">
+                  Cheat Leaderboards
+                </a>
+              </div>
+            </div>
 
             <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link">
@@ -106,7 +116,8 @@
                   {{ session.user_data['name'] }}
                 </a>
                 <div class="navbar-dropdown">
-                  <a class="navbar-item" href="/u/{{ session.user_data['id'] }}">Profile</a>
+                  <a class="navbar-item" href="/u/{{ session.user_data['id'] }}">Legit Profile</a>
+                  <a class="navbar-item" href="/cheat/u/{{ session.user_data['id'] }}">Cheat Profile</a>
                   <a class="navbar-item" href="/settings">Settings</a>
                   <a class="navbar-item" href="/clans">Clans</a>
                 </div>

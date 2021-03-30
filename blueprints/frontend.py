@@ -355,6 +355,71 @@ async def profile(user):
 
     return await render_template('profile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=badges, bi=defbadges, dist=dist, res=res)
 
+@frontend.route('/cheat/u/<user>') # GET
+async def cprofile(user):
+    mode = request.args.get('mode', type=str)
+    mods = request.args.get('mods', type=str)
+
+    try:
+        if 'authenticated' in session and int(user) == int(session['user_data']['id']):
+            dist = True
+        else:
+            dist = False
+    except:
+        if 'authenticated' in session and user.lower() == session['user_data']['name'].lower():
+            dist = True
+        else:
+            dist = False
+
+    if mods:
+        if mods not in valid_mods:
+            return b'invalid mods! (vn, rx, ap)'
+    else:
+        mods = 'vn'
+    if mode:
+        if mode not in valid_modes:
+            return b'invalid mode! (std, taiko, catch, mania)'
+    else:
+        mode = 'std'
+
+    try:
+        userdata = await glob.db.fetch("SELECT name, id, priv, country, frozen, freezetime FROM users WHERE id = %s OR safe_name = %s", [user, get_safe_name(user)])
+        freezeinfo = [userdata['frozen'], timeago.format(datetime.fromtimestamp(userdata['freezetime']), datetime.now())]
+        if await glob.db.fetch('SELECT 1 FROM user_badges WHERE userid = %s', [userdata['id']]):
+            badges = True
+            defbadges = await glob.db.fetchall("SELECT badgeid, badges.name, badges.colour, badges.icon FROM user_badges LEFT JOIN badges ON user_badges.badgeid = badges.id WHERE userid = %s AND badgeid != 1", [userdata['id']])
+        else:
+            badges = None
+            defbadges = None
+
+        in_clan = await glob.db.fetch("SELECT clan_id FROM users WHERE id = %s", [userdata['id']])
+        if in_clan['clan_id'] is not None:
+            isclan = in_clan['clan_id']
+            clandata = await glob.db.fetch("SELECT tag FROM clans WHERE id = %s", [isclan])
+            if clandata is not None:
+                clantag = f"[{clandata['tag']}]"
+            else:
+                clantag = ""
+        else:
+            clantag = ""
+
+        if not int(userdata['priv']) & 1:
+            res = True
+            if 'authenticated' in session:
+                if session["user_data"]["id"] != userdata['id'] and not session["user_data"]["is_staff"]:
+                    return await render_template('resuser.html')
+                else:
+                    return await render_template('cprofile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=False, dist=dist, res=res)
+            else:
+                return await render_template('resuser.html')
+        else:
+            res = False
+    except:
+        return await render_template('nouser.html')
+
+    return await render_template('cprofile.html', user=userdata, mode=mode, mods=mods, tag=clantag, freeze=freezeinfo, ub=badges, bi=defbadges, dist=dist, res=res)
+
+
 """ leaderboard """
 @frontend.route('/leaderboard') # GET
 async def leaderboard_nodata():
@@ -362,6 +427,14 @@ async def leaderboard_nodata():
 @frontend.route('/leaderboard/<mode>/<sort>/<mods>') # GET
 async def leaderboard(mode, sort, mods):
     return await render_template('leaderboard.html', mode=mode, sort=sort, mods=mods)
+
+""" cheat leaderboard """
+@frontend.route('/cleaderboard') # GET
+async def cleaderboard_nodata():
+    return await render_template('cleaderboard.html', mode='std', sort='pp', mods='vn')
+@frontend.route('/cleaderboard/<mode>/<sort>/<mods>') # GET
+async def cleaderboard(mode, sort, mods):
+    return await render_template('cleaderboard.html', mode=mode, sort=sort, mods=mods)
 
 @frontend.route('/leaderboard/clans') # GET
 async def c_leaderboard_nodata():
