@@ -434,7 +434,7 @@ async def get_cscores():
         id = e['id']
 
     q.append(f'WHERE scores_{mods}_cheat.userid = {id} '
-            f'AND scores_{mods}_cheat.mode = {mode} ')
+            f'AND scores_{mods}_cheat.mode = {mode} AND maps.status IN (2, 3, 4, 5) ')
     if sort == 'pp':
         q.append(f'AND scores_{mods}_cheat.status = 2')
     q.append(f'ORDER BY scores_{mods}_cheat.{sort} DESC '
