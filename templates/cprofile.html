@@ -244,11 +244,11 @@
                                             <div class="map-acc">accuracy:&nbsp;<b>
                                                     <% map.acc.toFixed(2) %>%
                                                 </b></div>
-                                                <div class="map-acc">timewarp:&nbsp;<b>
+                                                <div v-if="map.timewarp != 1" class="map-acc">timewarp:&nbsp;<b>
                                                     <% map.timewarp %>
                                                 </b></div>
-                                                <div class="map-acc">circle size:&nbsp;<b>
-                                                    <% map.cs %>
+                                                <div v-if="(map.csval != 0 && map.csval != 100)" class="map-acc">circle size:&nbsp;<b>
+                                                    <% map.csval %>
                                                 </b></div>
                                         </div>
                                         <div class="score-details_grade-block">

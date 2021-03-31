@@ -145,6 +145,36 @@ async def get_replay():
     res['play_time'] = timeago.format(datetime.fromtimestamp(res['play_time']), datetime.now())
     return Response(orjson.dumps(res) if res else b'{}', mimetype='text/json')
 
+""" /get_replay_cheat """
+@api.route('/get_replay_cheat') # GET
+async def get_creplay():
+    id = request.args.get('id', type=int)
+    mods = request.args.get('mods', type=str)
+
+    # check if required parameters are met
+    if not id:
+        return b'missing parameters! (id)'
+    
+    if mods not in valid_mods:
+        return b'invalid mods! (vn, rx, ap)'
+
+    # fetch scores
+    q = ['SELECT scores_{0}_cheat.*, maps.*, users.name FROM scores_{0}_cheat'.format(mods)]
+
+    args = []
+
+    q.append(f'JOIN maps ON scores_{mods}_cheat.map_md5 = maps.md5')
+    q.append(f'JOIN users ON scores_{mods}_cheat.userid = users.id')
+    q.append(f'WHERE scores_{mods}_cheat.id = %s')
+    args.append(id)
+
+    if glob.config.debug:
+        log(' '.join(q), Ansi.LGREEN)
+    res = await glob.db.fetch(' '.join(q), args)
+    res['play_time'] = timeago.format(datetime.fromtimestamp(res['play_time']), datetime.now())
+    return Response(orjson.dumps(res) if res else b'{}', mimetype='text/json')
+
+
 """ /get_user """
 @api.route('/get_user') # GET
 async def get_user():
