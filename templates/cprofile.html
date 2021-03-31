@@ -113,7 +113,7 @@
                     <table class="is-striped">
                         <tbody>
                             <tr>
-                                <td>{{ user['name'] }} created their account <% userdata[0][`creation_time`] %>. They were last seen <% userdata[0][`latest_activity`] %>. They use <% userdata[0][`timewarp`] %> timewarp!</td>
+                                <td>{{ user['name'] }} created their account <% userdata[0][`creation_time`] %>. They were last seen <% userdata[0][`latest_activity`] %>. They use <% userdata[0][`timewarp`] %> timewarp and <% userdata[0][`cs`] %> circle size.</td>
                             </tr>
                             <tr>
                                 <td><b>PP</b></td>
@@ -246,6 +246,9 @@
                                                 </b></div>
                                                 <div class="map-acc">timewarp:&nbsp;<b>
                                                     <% map.timewarp %>
+                                                </b></div>
+                                                <div class="map-acc">timewarp:&nbsp;<b>
+                                                    <% map.cs %>
                                                 </b></div>
                                         </div>
                                         <div class="score-details_grade-block">
