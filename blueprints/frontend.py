@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import asyncio
+import quart.flask_patch
 import re
 import time
 import timeago
@@ -275,21 +276,23 @@ async def reset_pw():
     if form['submit'] == 'Submit':
         username = form['username']
         e = await glob.db.fetch('SELECT email, id FROM users WHERE safe_name = %s', [username.lower()])
-        try:
-            email = e['email']
-            uid = e['id']
-            code = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
-            mail = f"""
-            Hey {username}!
+        email = e['email']
+        uid = e['id']
+        code = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
+        mail = f"""
+        Hey {username}!
 
-            Someone, hopefully you, has requested to reset your {glob.config.app_name} password! If this was you, please click <a href="https://{glob.config.domain}/changepw?code={code}">here</a> to reset your password. If it was not you who requested this password reset, you can simply ignore this email.
-            """
-            msg = MIMEText(mail, 'html')
-            await Message(f"{glob.config.app_name} Password Reset", from_address=f"contact@{glob.config.domain}", to=email, body=msg)
-            await glob.db.execute('INSERT INTO pwreset(uid, code, used, gentime) VALUES (%s, %s, 0, UNIX_TIMESTAMP())', [uid, code])
-            return await flash('success', "Password reset email sent! Please check your emails for further instructions.", 'home')
-        except:
-            return await flash('error', "Couldn't find a user with that username!", 'pwreset')
+        Someone, hopefully you, has requested to reset your {glob.config.app_name} password! If this was you, please click <a href="https://{glob.config.domain}/changepw?code={code}">here</a> to reset your password. If it was not you who requested this password reset, you can simply ignore this email.
+        """
+        #msg = MIMEText(mail, 'html')
+        #await Message(f"{glob.config.app_name} Password Reset", from_address=f"contact@{glob.config.domain}", to=email, body=msg)
+        session = aiohttp.ClientSession()
+        params = {"from": f"{glob.config.app_name} Support <contact@{glob.config.domain}>", "to": email, "subject": f"{glob.config.app_name} Password Reset", "text": mail}
+        headers = {"api": glob.config.mailgun_key}
+        await session.post(f'https://api.eu.mailgun.net/v3/{glob.config.domain}/messages', params=params, headers=headers)
+        await session.close()
+        await glob.db.execute('INSERT INTO pwreset(uid, code, used, gentime) VALUES (%s, %s, 0, UNIX_TIMESTAMP())', [uid, code])
+        return await flash('success', "Password reset email sent! Please check your emails for further instructions.", 'home')
     else:
         return await render_template('pwreset.html')
 

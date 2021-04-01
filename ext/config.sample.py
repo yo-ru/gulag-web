@@ -42,3 +42,6 @@ gulag_path = '/home/iteki/gulag'
 
 # allowed file extensions for avatars, default is compatible with iteki's gulag instance
 avatar_extensions = ['.jpg', '.jpeg', '.png', '.gif']
+
+# mailgun apikey for password resets
+mailgun_key = ''
