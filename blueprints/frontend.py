@@ -268,11 +268,11 @@ async def profile(id):
 leaderboard - the page containing all the leaderboards 
               available in the gulag stack.
 """
-@frontend.route('/leaderboard') # GET
+@frontend.route('/lb') # GET
 async def leaderboard_no_data():
     return await render_template('leaderboard.html', mode='std', sort='pp', mods='vn')
 
-@frontend.route('/leaderboard/<mode>/<sort>/<mods>') # GET
+@frontend.route('/lb/<mode>/<sort>/<mods>') # GET
 async def leaderboard(mode, sort, mods):
     return await render_template('leaderboard.html', mode=mode, sort=sort, mods=mods)
 
