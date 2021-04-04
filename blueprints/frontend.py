@@ -40,19 +40,19 @@ _username_rgx = re.compile(r'^[\w \[\]-]{2,15}$')
 _email_rgx = re.compile(r'^[^@\s]{1,200}@[^@\s\.]{1,30}\.[^@\.\s]{1,24}$')
 
 """ home """
-@frontend.route('/home') # GET
+@frontend.route('/home')
 @frontend.route('/')
 async def home():
-    vn = await glob.db.fetch('SELECT pp, users.name FROM scores_vn LEFT JOIN users ON scores_vn.userid = users.id LEFT JOIN maps ON scores_vn.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND maps.status = 2 AND scores_vn.status = 2 AND scores_vn.mode = 0 ORDER BY pp DESC LIMIT 1')
-    rx = await glob.db.fetch('SELECT pp, users.name FROM scores_rx LEFT JOIN users ON scores_rx.userid = users.id LEFT JOIN maps ON scores_rx.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND maps.status = 2 AND scores_rx.status = 2 AND scores_rx.mode = 0 ORDER BY pp DESC LIMIT 1')
-    ap = await glob.db.fetch('SELECT pp, users.name FROM scores_ap LEFT JOIN users ON scores_ap.userid = users.id LEFT JOIN maps ON scores_ap.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND maps.status = 2 AND scores_ap.status = 2 AND scores_ap.mode = 0 ORDER BY pp DESC LIMIT 1')
-    vnc = await glob.db.fetch('SELECT pp, users.name FROM scores_vn_cheat LEFT JOIN users ON scores_vn_cheat.userid = users.id LEFT JOIN maps ON scores_vn_cheat.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND scores_vn_cheat.status = 2 AND scores_vn_cheat.mode = 0 AND maps.status IN (2,3,4,5) ORDER BY pp DESC LIMIT 1')
-    rxc = await glob.db.fetch('SELECT pp, users.name FROM scores_rx_cheat LEFT JOIN users ON scores_rx_cheat.userid = users.id LEFT JOIN maps ON scores_rx_cheat.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND scores_rx_cheat.status = 2 AND scores_rx_cheat.mode = 0 AND maps.status IN (2,3,4,5) ORDER BY pp DESC LIMIT 1')
-    apc = await glob.db.fetch('SELECT pp, users.name FROM scores_ap_cheat LEFT JOIN users ON scores_ap_cheat.userid = users.id LEFT JOIN maps ON scores_ap_cheat.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND scores_ap_cheat.status = 2 AND scores_ap_cheat.mode = 0 AND maps.status IN (2,3,4,5) ORDER BY pp DESC LIMIT 1')
+    vn = await glob.db.fetch('SELECT pp, users.name, play_time FROM scores_vn LEFT JOIN users ON scores_vn.userid = users.id LEFT JOIN maps ON scores_vn.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND maps.status = 2 AND scores_vn.status = 2 AND scores_vn.mode = 0 ORDER BY pp DESC LIMIT 1')
+    rx = await glob.db.fetch('SELECT pp, users.name, play_time FROM scores_rx LEFT JOIN users ON scores_rx.userid = users.id LEFT JOIN maps ON scores_rx.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND maps.status = 2 AND scores_rx.status = 2 AND scores_rx.mode = 0 ORDER BY pp DESC LIMIT 1')
+    ap = await glob.db.fetch('SELECT pp, users.name, play_time FROM scores_ap LEFT JOIN users ON scores_ap.userid = users.id LEFT JOIN maps ON scores_ap.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND maps.status = 2 AND scores_ap.status = 2 AND scores_ap.mode = 0 ORDER BY pp DESC LIMIT 1')
+    vnc = await glob.db.fetch('SELECT pp, users.name, play_time FROM scores_vn_cheat LEFT JOIN users ON scores_vn_cheat.userid = users.id LEFT JOIN maps ON scores_vn_cheat.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND scores_vn_cheat.status = 2 AND scores_vn_cheat.mode = 0 AND maps.status IN (2,3,4,5) ORDER BY pp DESC LIMIT 1')
+    rxc = await glob.db.fetch('SELECT pp, users.name, play_time FROM scores_rx_cheat LEFT JOIN users ON scores_rx_cheat.userid = users.id LEFT JOIN maps ON scores_rx_cheat.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND scores_rx_cheat.status = 2 AND scores_rx_cheat.mode = 0 AND maps.status IN (2,3,4,5) ORDER BY pp DESC LIMIT 1')
+    apc = await glob.db.fetch('SELECT pp, users.name, play_time FROM scores_ap_cheat LEFT JOIN users ON scores_ap_cheat.userid = users.id LEFT JOIN maps ON scores_ap_cheat.map_md5 = maps.md5 WHERE users.priv & 1 AND users.frozen = 0 AND scores_ap_cheat.status = 2 AND scores_ap_cheat.mode = 0 AND maps.status IN (2,3,4,5) ORDER BY pp DESC LIMIT 1')
     try:
-        return await render_template('home.html', vnpp=round(vn['pp']), vnuser=vn['name'], rxpp=round(rx['pp']), rxuser=rx['name'], appp=round(ap['pp']), apuser=ap['name'], vnppc=round(vnc['pp']), vnuserc=vnc['name'], rxppc=round(rxc['pp']), rxuserc=rxc['name'], apppc=round(apc['pp']), apuserc=apc['name'])
+        return await render_template('home.html', vnpp=round(vn['pp']), vndate=timeago.format(datetime.fromtimestamp(vn['play_time'])), rxdate=timeago.format(datetime.fromtimestamp(rx['play_time'])), apdate=timeago.format(datetime.fromtimestamp(ap['play_time'])), apcdate=timeago.format(datetime.fromtimestamp(apc['play_time'])), rxcdate=timeago.format(datetime.fromtimestamp(rxc['play_time'])), vncdate=timeago.format(datetime.fromtimestamp(vnc['play_time'])), vnuser=vn['name'], rxpp=round(rx['pp']), rxuser=rx['name'], appp=round(ap['pp']), apuser=ap['name'], vnppc=round(vnc['pp']), vnuserc=vnc['name'], rxppc=round(rxc['pp']), rxuserc=rxc['name'], apppc=round(apc['pp']), apuserc=apc['name'])
     except:
-        return await render_template('home.html', vnpp=0, vnuser="None", rxpp=0, rxuser="None", appp=0, apuser="None", vnppc=0, vnuserc="None", rxppc=0, rxuserc="None", apppc=0, apuserc="None")
+        return await render_template('home.html', vnpp=0, vnuser="None", vndate=0, rxdate=0, apdate=0, apcdate=0, rxcdate=0, vncdate=0, rxpp=0, rxuser="None", appp=0, apuser="None", vnppc=0, vnuserc="None", rxppc=0, rxuserc="None", apppc=0, apuserc="None")
 
 """ settings """
 @frontend.route('/settings') # GET
