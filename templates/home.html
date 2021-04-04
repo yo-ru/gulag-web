@@ -12,16 +12,16 @@
       <div class='noti-col noti-col-label'>
         <div class='noti-bannertype'>
           {% if status=='error' %}
-          Warning
+          warning
           {% elif status=='success' %}
-          Notice
+          notice
           {% endif %}
         </div>
         <div class='noti-bannertext'>
           {% if status=='error' %}
-          Uh oh! Be careful!
+          uh oh! be careful!
           {% elif status=='success' %}
-          Hey! Listen!
+          hey! listen!
           {% endif %}
         </div>
       </div>
@@ -36,17 +36,17 @@
 <div class="main-block">
   <div id="grid" class="columns is-reset is-flex">
     <div class="column is-padless" id="mascot">
-      <img src="https://iteki.pw/static/images/ape.png">
+      <img src="https://www.freepnglogos.com/uploads/monkey-png/monkey-png-transparent-images-png-only-4.png">
     </div>
     <div class="column is-vcentered" id="title">
       <div class="has-text-centered">
-        <p class="title">Welcome to Iteki.</p>
+        <p class="title">welcome to iteki.</p>
         <p class="subtitle">
-          We are an osu! private server built from the ground up with many
+          we are an osu! private server built from the ground up with many
           unique features not seen elsewhere - for more information, check
           out <a href="https://github.com/itekiosu/gulag">gulag</a>
           and <a href="https://github.com/itekiosu/gulag-web">gulag-web</a>
-          on Github - we're fully open source!</p>
+          on github - we're fully open source!</p>
       </div>
     </div>
   </div>
@@ -55,27 +55,28 @@
   <div class="main-block pp">
     <div id="grid grpp" class="columns is-reset is-flex">
         <div id="pp-record">
-            <h1>Current Legit Vanilla PP Record</h1>
+            <h1>current vanilla pp record:</h1>
             <p style="text-align: center; font-weight: bold;">{{ vnpp }}pp</p>
-            <p class="ppsub">done by <a href="https://iteki.pw/u/{{ vnuser }}?mods=vn">{{ vnuser }}</a></p>
+            <p class="ppsub">done by <a href="https://iteki.pw/u/{{ vnuser }}?mods=vn">{{ vnuser }}</a>, {{ vndate }}</p>
+
         </div>
     </div>
   </div>
   <div class="main-block pp">
     <div id="grid grpp" class="columns is-reset is-flex">
         <div id="pp-record">
-          <h1>Current Legit Relax PP Record</h1>
+          <h1>current relax pp record:</h1>
           <p style="text-align: center; font-weight: bold;">{{ rxpp }}pp</p>
-          <p class="ppsub">done by <a href="https://iteki.pw/u/{{ rxuser }}?mods=rx">{{ rxuser }}</a></p>
+          <p class="ppsub">done by <a href="https://iteki.pw/u/{{ rxuser }}?mods=rx">{{ rxuser }}</a>, {{ rxdate }}</p>
         </div>
     </div>
   </div>
   <div class="main-block pp">
     <div id="grid grpp" class="columns is-reset is-flex">
         <div id="pp-record">
-          <h1>Current Legit AutoPilot PP Record</h1>
+          <h1>current autopilot pp record:</h1>
           <p style="text-align: center; font-weight: bold;">{{ appp }}pp</p>
-          <p class="ppsub">done by <a href="https://iteki.pw/u/{{ apuser }}?mods=ap">{{ apuser }}</a></p>
+          <p class="ppsub">done by <a href="https://iteki.pw/u/{{ apuser }}?mods=ap">{{ apuser }}</a>, {{ apdate }}</p>
         </div>
     </div>
   </div>
@@ -84,27 +85,27 @@
   <div class="main-block pp">
     <div id="grid grpp" class="columns is-reset is-flex">
         <div id="pp-record">
-            <h1>Current Cheat Vanilla PP Record</h1>
+            <h1>current cheat vanilla pp record:</h1>
             <p style="text-align: center; font-weight: bold;">{{ vnppc }}pp</p>
-            <p class="ppsub">done by <a href="https://iteki.pw/cheat/u/{{ vnuserc }}?mods=vn">{{ vnuserc }}</a></p>
+            <p class="ppsub">done by <a href="https://iteki.pw/cheat/u/{{ vnuserc }}?mods=vn">{{ vnuserc }}</a>, {{ vncdate }}</p>
         </div>
     </div>
   </div>
   <div class="main-block pp">
     <div id="grid grpp" class="columns is-reset is-flex">
         <div id="pp-record">
-          <h1>Current Cheat Relax PP Record</h1>
+          <h1>current cheat relax pp record:</h1>
           <p style="text-align: center; font-weight: bold;">{{ rxppc }}pp</p>
-          <p class="ppsub">done by <a href="https://iteki.pw/cheat/u/{{ rxuserc }}?mods=rx">{{ rxuserc }}</a></p>
+          <p class="ppsub">done by <a href="https://iteki.pw/cheat/u/{{ rxuserc }}?mods=rx">{{ rxuserc }}</a>, {{ rxcdate }}</p>
         </div>
     </div>
   </div>
   <div class="main-block pp">
     <div id="grid grpp" class="columns is-reset is-flex">
         <div id="pp-record">
-          <h1>Current Cheat AutoPilot PP Record</h1>
+          <h1>current cheat autopilot pp record:</h1>
           <p style="text-align: center; font-weight: bold;">{{ apppc }}pp</p>
-          <p class="ppsub">done by <a href="https://iteki.pw/cheat/u/{{ apuserc }}?mods=ap">{{ apuserc }}</a></p>
+          <p class="ppsub">done by <a href="https://iteki.pw/cheat/u/{{ apuserc }}?mods=ap">{{ apuserc }}</a>, {{ apcdate }}</p>
         </div>
     </div>
   </div>
