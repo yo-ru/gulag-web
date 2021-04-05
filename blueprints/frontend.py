@@ -268,6 +268,10 @@ async def profile(id):
 leaderboard - the page containing all the leaderboards 
               available in the gulag stack.
 """
+@frontend.route('/leaderboard') # GET
+async def leaderboard_old_url():
+    return redirect("/leaderboard")
+                             
 @frontend.route('/lb') # GET
 async def leaderboard_no_data():
     return await render_template('leaderboard.html', mode='std', sort='pp', mods='vn')
