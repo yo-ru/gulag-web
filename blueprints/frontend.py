@@ -269,14 +269,12 @@ leaderboard - the page containing all the leaderboards
               available in the gulag stack.
 """
 @frontend.route('/leaderboard') # GET
-async def leaderboard_old_url():
-    return redirect("/leaderboard")
-                             
-@frontend.route('/lb') # GET
+@frontend.route('/lb')
 async def leaderboard_no_data():
     return await render_template('leaderboard.html', mode='std', sort='pp', mods='vn')
 
-@frontend.route('/lb/<mode>/<sort>/<mods>') # GET
+@frontend.route('/leaderboard/<mode>/<sort>/<mods>') # GET
+@frontend.route('/lb/<mode>/<sort>/<mods>')
 async def leaderboard(mode, sort, mods):
     return await render_template('leaderboard.html', mode=mode, sort=sort, mods=mods)
 
