@@ -102,16 +102,6 @@ Directory Structure
         ├── settings # Templated content for settings (/settings).
         └ ...         # Templated content for all of gulag-web (/).
 
-Live Demonstrations
-------
-
-Want a sneakpeek at what you'll get with gulag-web? Here are some examples!
-
-* [Yoru's Development Build](https://osu.yoru.moe/)
-* [Miksu](https://miksu.pw/)
-
-There is so much more to come! So keep your eyes peeled~!
-
 The End
 ------
 
