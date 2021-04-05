@@ -16,21 +16,21 @@
 <div id="leaderboard">
     <div class="leaderboard-banner main-banner">
         <div class="main-selector">
-            <a :href="'/leaderboard/osu/'+sort+'/'+mods" :class="'mode-select '+(mode == 'std' ? '--selected ' : '')"
+            <a :href="'/lb/osu/'+sort+'/'+mods" :class="'mode-select '+(mode == 'std' ? '--selected ' : '')"
                 @click="LoadLeaderboard(sort, 'std', mods)">
                 <i class="mode-icon mode-osu"></i><span class="modetext"> osu!</span>
             </a>
-            <a :href="'/leaderboard/taiko/'+sort+'/'+mods"
+            <a :href="'/lb/taiko/'+sort+'/'+mods"
                 :class="'mode-select '+(mode == 'taiko' ? '--selected ' : '') +(mods == 'ap' ? 'disabled':'')"
                 @click="LoadLeaderboard(sort, 'taiko', mods)">
                 <i class="mode-icon mode-taiko"></i><span class="modetext"> osu!taiko</span>
             </a>
-            <a :href="'/leaderboard/catch/'+sort+'/'+mods"
+            <a :href="'/lb/catch/'+sort+'/'+mods"
                 :class="'mode-select '+(mode == 'catch' ? '--selected ' : '') +(mods == 'ap' ? 'disabled':'')"
                 @click="LoadLeaderboard(sort, 'catch', mods)">
                 <i class="mode-icon mode-catch"></i><span class="modetext"> osu!catch</span>
             </a>
-            <a :href="'/leaderboard/mania/'+sort+'/'+mods"
+            <a :href="'/lb/mania/'+sort+'/'+mods"
                 :class="'mode-select '+(mode == 'mania' ? '--selected ' : '') +(mods == 'ap' ? 'disabled':'') +(mods == 'rx' ? 'disabled':'')"
                 @click="LoadLeaderboard(sort, 'mania', mods)">
                 <i class="mode-icon mode-mania"></i><span class="modetext"> osu!mania</span>
@@ -39,23 +39,23 @@
         <div class="banner-text">Leaderboard</div>
         <div class="selector">
             <div class="selectleft">
-                <a :href="'/leaderboard/'+mode+'/pp'" @click="LoadLeaderboard('pp', mode, mods, '')"
+                <a :href="'/lb/'+mode+'/pp'" @click="LoadLeaderboard('pp', mode, mods, '')"
                     :class="'simple-banner-swtich'+(sort == 'pp' ? ' switch--active' :'')">PP</a>
-                <a :href="'/leaderboard/'+mode+'/rscore'" @click="LoadLeaderboard('rscore', mode, mods, '')"
+                <a :href="'/lb/'+mode+'/rscore'" @click="LoadLeaderboard('rscore', mode, mods, '')"
                     :class="'simple-banner-swtich'+(sort == 'rscore' ? ' switch--active' :'')">Score</a>
                 <!-- Disable for now? Still deciding on whether or not we should actually allow accuracy sort? Seems pointless imo.
-                    <a :href="'/leaderboard/'+mode+'/acc'" @click="LoadLeaderboard('acc', mode, mods, '')"
+                    <a :href="'/lb/'+mode+'/acc'" @click="LoadLeaderboard('acc', mode, mods, '')"
                     :class="'simple-banner-swtich'+(sort == 'acc' ? ' switch--active' :'')">Accuracy</a>
                 -->
             </div>
             <div class="selectright">
-                <a :href="'/leaderboard/'+mode+'/'+sort+'/vn'"
+                <a :href="'/lb/'+mode+'/'+sort+'/vn'"
                     :class="'simple-banner-swtich '+(mods == 'vn' ? 'switch--active' : '')"
                     @click="LoadLeaderboard(sort, mode, 'vn')">Vanilla</a>
-                <a :href="'/leaderboard/'+mode+'/'+sort+'/rx'"
+                <a :href="'/lb/'+mode+'/'+sort+'/rx'"
                     :class="'simple-banner-swtich '+(mods == 'rx' ? 'switch--active' : '')+(mode == 'mania' ? 'disabled':'')"
                     @click="LoadLeaderboard(sort, mode, 'rx')">Relax</a>
-                <a :href="'/leaderboard/'+mode+'/'+sort+'/ap'"
+                <a :href="'/lb/'+mode+'/'+sort+'/ap'"
                     :class="'simple-banner-swtich '+(mods == 'ap' ? 'switch--active' : '')+(mode == 'mania' ? 'disabled':'')+(mode == 'catch' ? 'disabled':'')+(mode == 'taiko' ? 'disabled':'')"
                     @click="LoadLeaderboard(sort, mode, 'ap')">Autopilot</a>
             </div>
