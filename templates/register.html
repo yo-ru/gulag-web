@@ -18,27 +18,27 @@
       <div class="login-bg"></div>
       <form action="/register" method="post" class="form-content">
         <div class="field">
-          <label for="" class="label">Username</label>
+          <label for="user" class="label">Username</label>
           <div class="control has-icons-left">
-            <input type="username" name="username" placeholder="e.g. Aika" class="input" required>
+            <input id="user" type="text" name="username" placeholder="e.g. Aika" class="input" autocomplete="username" required>
             <span class="icon is-small is-left">
               <i class="fa fa-envelope"></i>
             </span>
           </div>
         </div>
         <div class="field">
-          <label for="" class="label">Email</label>
+          <label for="email" class="label">Email</label>
           <div class="control has-icons-left">
-            <input type="email" name="email" placeholder="e.g. aika@gul.ag" class="input" required>
+            <input id="email" type="email" name="email" placeholder="e.g. aika@gul.ag" class="input" autocomplete="email" required>
             <span class="icon is-small is-left">
               <i class="fa fa-lock"></i>
             </span>
           </div>
         </div>
         <div class="field">
-          <label for="" class="label">Password</label>
+          <label for="pass" class="label">Password</label>
           <div class="control has-icons-left">
-            <input type="password" name="password" placeholder="*************" class="input" required>
+            <input id="pass" type="password" name="password" placeholder="*************" class="input" autocomplete="new-password" required>
             <span class="icon is-small is-left">
               <i class="fa fa-lock"></i>
             </span>
