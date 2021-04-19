@@ -48,9 +48,11 @@
         <div class="dialog">
           Already have an account? <a href="/login">Login</a>
         </div>
+        {% if not captchaKey() == 'changeme' %}
         <div class="field">
           <div class="h-captcha" data-sitekey="{{ captchaKey() }}" data-theme="dark" style="display: flex; justify-content: center;"></div>
         </div>
+        {% endif %}
         <div class="field">
           <button type="submit" class="button is-primary">
             Register
@@ -68,5 +70,9 @@
 {% endif %}
 
 <script src="/static/js/pages/register.js"></script>
+
+{% if not captchaKey() == 'changeme' %}
 <script src="https://hcaptcha.com/1/api.js" async defer></script>
+{% endif %}
+
 {% endblock %}
