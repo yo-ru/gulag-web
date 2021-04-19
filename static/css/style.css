@@ -24,40 +24,52 @@ html {
 
 /* stuffs */
 
-.is-vcentered {
+.flex {
+  display: flex;
+}
+
+.flex-vcenter {
   align-self: center;
 }
 
-.is-lcentered {
+.flex-lcenter {
   justify-content: center;
 }
 
-.is-lefttext {
+.text-left {
   text-align: left !important;
 }
 
-.is-righttext {
+.text-right {
   text-align: right !important;
 }
 
-.is-centertext {
+.text-center {
   text-align: center !important;
 }
 
-.is-padless {
+.p-less {
   padding: 0 !important;
 }
 
-.is-reset {
+.m-less {
+  margin: 0 !important;
+}
+
+.pm-reset {
   padding: 0 !important;
   margin: 0 !important;
 }
 
-.is-padding {
+.p-pad {
   padding: 1.25rem;
 }
 
-.is-locked {
+.h-max {
+  height: 100%;
+}
+
+.w-locked {
   width: 1152px;
 }
 
@@ -67,11 +79,7 @@ html {
   border-top-left-radius: 16px;
 }
 
-.is-maxheight {
-  height: 100%;
-}
-
-.is-headericon {
+.headericon {
   font-size: 74px;
 }
 
@@ -94,7 +102,7 @@ a.foot-link {
 
 @-webkit-keyframes slideup {
   0% {
-    -webkit-transform: translateY(10px);
+    -webkit-transform: translateY(5px);
     opacity: 0;
   }
   100% {

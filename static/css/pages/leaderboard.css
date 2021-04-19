@@ -55,7 +55,7 @@ a:hover {
     padding-bottom: 24px;
 }
 
-.t-column {
+tr td {
     padding: 6px 0;
 }
 
@@ -109,11 +109,6 @@ tr.leaderboard-column td {
     transition: .1s background-color;
     color: #fff !important;
     text-align: center;
-}
-
-.t-column--dimmed {
-    color: #555;
-    font-weight: 400 !important;
 }
 
 table td,
@@ -199,13 +194,13 @@ table th {
     width: 100%;
 }
 
-.selectright {
+.selector .right {
     margin-left: auto;
     display: flex;
     flex-direction: row;
 }
 
-.selectleft {
+.selector .left {
     display: flex;
     flex-direction: row;
 }

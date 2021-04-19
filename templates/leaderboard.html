@@ -31,14 +31,15 @@
                 <i class="mode-icon mode-catch"></i><span class="modetext"> osu!catch</span>
             </a>
             <a :href="'/lb/mania/'+sort+'/'+mods"
-                :class="'mode-select '+(mode == 'mania' ? '--selected ' : '') +(mods == 'ap' ? 'disabled':'') +(mods == 'rx' ? 'disabled':'')"
+                :class="'mode-select '+(mode == 'mania' ? '--selected ' : '') +(mods == 'ap' ? 'disabled':'') 
+                +(mods == 'rx' ? 'disabled':'')"
                 @click="LoadLeaderboard(sort, 'mania', mods)">
                 <i class="mode-icon mode-mania"></i><span class="modetext"> osu!mania</span>
             </a>
         </div>
         <div class="banner-text">Leaderboard</div>
         <div class="selector">
-            <div class="selectleft">
+            <div class="left">
                 <a :href="'/lb/'+mode+'/pp'" @click="LoadLeaderboard('pp', mode, mods, '')"
                     :class="'simple-banner-swtich'+(sort == 'pp' ? ' switch--active' :'')">PP</a>
                 <a :href="'/lb/'+mode+'/rscore'" @click="LoadLeaderboard('rscore', mode, mods, '')"
@@ -48,7 +49,7 @@
                     :class="'simple-banner-swtich'+(sort == 'acc' ? ' switch--active' :'')">Accuracy</a>
                 -->
             </div>
-            <div class="selectright">
+            <div class="right">
                 <a :href="'/lb/'+mode+'/'+sort+'/vn'"
                     :class="'simple-banner-swtich '+(mods == 'vn' ? 'switch--active' : '')"
                     @click="LoadLeaderboard(sort, mode, 'vn')">Vanilla</a>
@@ -80,22 +81,22 @@
                     </thead>
                     <tbody>
                         <tr v-for="(user, index) in boards" class="leaderboard-column">
-                            <td class="t-column column-player-rank">#<% index + 1 %>
+                            <td class="column-player-rank">#<% index + 1 %>
                             </td>
-                            <td class="t-column column-player-name is-lefttext">
+                            <td class="column-player-name text-left">
                                 <a :href="'/u/'+user.user_id"><% user.username %></a>
                             </td>
-                            <td v-if="sort == 'pp' || sort == 'rscore'" class="t-column">
+                            <td v-if="sort == 'pp' || sort == 'rscore'">
                                 <% (sort=='pp' ? user.pp+'pp' : "" ) %>
                                     <% (sort=='rscore' ? scoreFormat(user.rscore) : "" ) %>
                             </td>
-                            <td class="t-column t-column--dimmed">
+                            <td>
                                 <% user.acc.toFixed(2) %>%
                             </td>
-                            <td class="t-column t-column--dimmed">
+                            <td>
                                 <% addCommas(user.plays) %>
                             </td>
-                            <td class="t-column t-column--dimmed">
+                            <td>
                                 <% addCommas(user.maxcombo) %>
                             </td>
                         </tr>
@@ -103,7 +104,7 @@
                 </table>
             </div>
             <div v-else>
-                <div class="is-centertext">
+                <div class="text-center">
                     there are no scores to display!
                 </div>
             </div>
