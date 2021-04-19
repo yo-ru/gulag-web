@@ -72,5 +72,3 @@ async def validate_captcha(data: str) -> bool:
         res = await resp.json()
 
         return res['success']
-    
-hi
