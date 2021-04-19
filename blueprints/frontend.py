@@ -405,10 +405,11 @@ async def register_post():
     username = form.get('username')
     email = form.get('email')
     pw_txt = form.get('password')
-    captcha_data = form.get('h-captcha-response')
-
-    if not await validate_captcha(captcha_data):
-        return await flash('error', 'Captcha failed.', 'register')
+    
+    if not glob.config.hCaptcha_sitekey == 'changeme':
+        captcha_data = form.get('h-captcha-response')
+        if not await validate_captcha(captcha_data):
+            return await flash('error', 'Captcha failed.', 'register')
 
     # Usernames must:
     # - be within 2-15 characters in length
