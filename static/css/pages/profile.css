@@ -284,7 +284,6 @@ html {
   border-radius: 10px;
   overflow: hidden;
   background: hsl(var(--main), 25%, 25%);
-  -webkit-animation: appear 0.2s ease;
   transition: 0.2s ease;
   cursor: pointer;
 }

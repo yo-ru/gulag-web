@@ -103,17 +103,6 @@ a.foot-link {
   }
 }
 
-@-webkit-keyframes appear {
-  0% {
-    -webkit-transform: scale(0.95);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: scale(1);
-    opacity: 1;
-  }
-}
-
 .button:hover {
   transform: scale(1.05);
 }
