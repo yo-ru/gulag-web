@@ -41,23 +41,23 @@
         <div class="selector">
             <div class="left">
                 <a :href="'/lb/'+mode+'/pp'" @click="LoadLeaderboard('pp', mode, mods, '')"
-                    :class="'simple-banner-swtich'+(sort == 'pp' ? ' switch--active' :'')">PP</a>
+                    :class="'simple-banner-switch'+(sort == 'pp' ? ' switch--active' :'')">PP</a>
                 <a :href="'/lb/'+mode+'/rscore'" @click="LoadLeaderboard('rscore', mode, mods, '')"
-                    :class="'simple-banner-swtich'+(sort == 'rscore' ? ' switch--active' :'')">Score</a>
+                    :class="'simple-banner-switch'+(sort == 'rscore' ? ' switch--active' :'')">Score</a>
                 <!-- Disable for now? Still deciding on whether or not we should actually allow accuracy sort? Seems pointless imo.
                     <a :href="'/lb/'+mode+'/acc'" @click="LoadLeaderboard('acc', mode, mods, '')"
-                    :class="'simple-banner-swtich'+(sort == 'acc' ? ' switch--active' :'')">Accuracy</a>
+                    :class="'simple-banner-switch'+(sort == 'acc' ? ' switch--active' :'')">Accuracy</a>
                 -->
             </div>
             <div class="right">
                 <a :href="'/lb/'+mode+'/'+sort+'/vn'"
-                    :class="'simple-banner-swtich '+(mods == 'vn' ? 'switch--active' : '')"
+                    :class="'simple-banner-switch '+(mods == 'vn' ? 'switch--active' : '')"
                     @click="LoadLeaderboard(sort, mode, 'vn')">Vanilla</a>
                 <a :href="'/lb/'+mode+'/'+sort+'/rx'"
-                    :class="'simple-banner-swtich '+(mods == 'rx' ? 'switch--active' : '')+(mode == 'mania' ? 'disabled':'')"
+                    :class="'simple-banner-switch '+(mods == 'rx' ? 'switch--active' : '')+(mode == 'mania' ? 'disabled':'')"
                     @click="LoadLeaderboard(sort, mode, 'rx')">Relax</a>
                 <a :href="'/lb/'+mode+'/'+sort+'/ap'"
-                    :class="'simple-banner-swtich '+(mods == 'ap' ? 'switch--active' : '')+(mode == 'mania' ? 'disabled':'')+(mode == 'catch' ? 'disabled':'')+(mode == 'taiko' ? 'disabled':'')"
+                    :class="'simple-banner-switch '+(mods == 'ap' ? 'switch--active' : '')+(mode == 'mania' ? 'disabled':'')+(mode == 'catch' ? 'disabled':'')+(mode == 'taiko' ? 'disabled':'')"
                     @click="LoadLeaderboard(sort, mode, 'ap')">Autopilot</a>
             </div>
         </div>
