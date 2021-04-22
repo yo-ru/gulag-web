@@ -1,3 +1,10 @@
+/* Font import (mode icons) */
+
+@font-face {
+  font-family: osu-mode;
+  src: url(/static/fonts/extra.ttf) format("truetype")
+}
+
 /* layout */
 
 body {
@@ -115,6 +122,38 @@ a.foot-link {
   transform: scale(1.05);
 }
 
+.mode-icon {
+  font-family: osu-mode;
+  color: #fff !important;
+  font-size: 14px;
+  width: 19px;
+  height: 19px;
+  margin-right: 4px;
+  font-weight: 400;
+  font-style: initial;
+}
+
+.mode-osu::before {
+  content: "\E800";
+  position: relative;
+}
+
+.mode-catch::before {
+  content: "\E801";
+  position: relative;
+}
+
+.mode-mania::before {
+  content: "\E802";
+  position: relative;
+}
+
+.mode-taiko::before {
+  content: "\E803";
+  position: relative;
+}
+
+
 /* navbar */
 
 .navbar {
@@ -230,6 +269,14 @@ a.foot-link {
 .select select,
 .textarea {
   background-color: hsl(var(--main), 12%, 18%);
+}
+
+.bg-accent {
+  background-color: hsl(var(--main), 30%, 50%);
+}
+
+.bg-seccond {
+  background-color: hsl(var(--main),10%,15%);
 }
 
 /* auth notification */

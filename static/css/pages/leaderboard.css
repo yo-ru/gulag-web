@@ -1,8 +1,3 @@
-@font-face {
-    font-family: osu-mode;
-    src: url(/static/fonts/extra.ttf) format("truetype")
-}
-
 #leaderboard {
     width: 960px;
 }
@@ -205,7 +200,7 @@ table th {
     flex-direction: row;
 }
 
-.simple-banner-swtich {
+.simple-banner-switch {
     color: #fff !important;
     text-shadow: -1px 2px 2px rgba(0, 0, 0, .33);
     padding: 0 12px;
@@ -216,46 +211,15 @@ table th {
     margin: 10px 8px;
 }
 
-.simple-banner-swtich:hover {
+.simple-banner-switch:hover {
     opacity: 1;
 }
 
 .mode-select.--selected,
-.simple-banner-swtich.switch--active {
+.simple-banner-switch.switch--active {
     border-bottom-width: 6px;
     opacity: 1;
     font-weight: 600;
-}
-
-.mode-icon {
-    font-family: osu-mode;
-    color: #fff !important;
-    font-size: 14px;
-    width: 19px;
-    height: 19px;
-    margin-right: 4px;
-    font-weight: 400;
-    font-style: initial;
-}
-
-.mode-osu::before {
-    content: "\E800";
-    position: relative;
-}
-
-.mode-catch::before {
-    content: "\E801";
-    position: relative;
-}
-
-.mode-mania::before {
-    content: "\E802";
-    position: relative;
-}
-
-.mode-taiko::before {
-    content: "\E803";
-    position: relative;
 }
 
 .main-selector {

@@ -44,28 +44,35 @@
             <div class="bar-selection mode-selects">
                 <div class="select-left">
                     <a :href="'/u/std/'+mods+'/'+userid"
-                        :class="'simple-banner-swtich ' + (mode == 'std' ? 'selected ' : '')"
-                        @click="ChangeModeMods('std',mods)">osu!</a>
+                        :class="'simple-banner-switch ' + (mode == 'std' ? 'selected ' : '')"
+                        @click="ChangeModeMods('std',mods)"><i class="mode-icon mode-osu"></i><span
+                            class="mode-text">osu!</span></a>
                     <a :href="'/u/taiko/'+mods+'/'+userid"
-                        :class="'simple-banner-swtich ' + (mode == 'taiko' ? 'selected ' : '') + (mods == 'ap' ? 'disabled':'')"
-                        @click="ChangeModeMods('taiko',mods)">osu!taiko</a>
+                        :class="'simple-banner-switch ' + (mode == 'taiko' ? 'selected ' : '') + (mods == 'ap' ? 'disabled':'')"
+                        @click="ChangeModeMods('taiko',mods)"><i class="mode-icon mode-taiko"></i><span
+                            class="mode-text">osu!taiko</span></a>
                     <a :href="'/u/catch/'+mods+'/'+userid"
-                        :class="'simple-banner-swtich ' + (mode == 'catch' ? 'selected ' : '') + (mods == 'ap' ? 'disabled':'')"
-                        @click="ChangeModeMods('catch',mods)">osu!catch</a>
+                        :class="'simple-banner-switch ' + (mode == 'catch' ? 'selected ' : '') + (mods == 'ap' ? 'disabled':'')"
+                        @click="ChangeModeMods('catch',mods)"><i class="mode-icon mode-catch"></i><span
+                            class="mode-text">osu!catch</span></a>
                     <a :href="'/u/mania/'+mods+'/'+userid"
-                        :class="'simple-banner-swtich ' + (mode == 'mania' ? 'selected ' : '') + (mods == 'ap' ? 'disabled':'') + (mods == 'rx' ? 'disabled':'')"
-                        @click="ChangeModeMods('mania',mods)">osu!mania</a>
+                        :class="'simple-banner-switch ' + (mode == 'mania' ? 'selected ' : '') + (mods == 'ap' ? 'disabled':'') + (mods == 'rx' ? 'disabled':'')"
+                        @click="ChangeModeMods('mania',mods)"><i class="mode-icon mode-mania"></i><span
+                            class="mode-text">osu!mania</span></a>
                 </div>
                 <div class="select-right">
                     <a :href="'/u/'+mode+'/vn/'+userid"
-                        :class="'simple-banner-swtich ' + (mods == 'vn' ? 'selected ' : '')"
-                        @click="ChangeModeMods(mode,'vn')">Vanilla</a>
+                        :class="'simple-banner-switch ' + (mods == 'vn' ? 'selected ' : '')"
+                        @click="ChangeModeMods(mode,'vn')"><span class="mods-fulltext">Vanilla</span>
+                        <span class="mods-shorttext">VN</span></a>
                     <a :href="'/u/'+mode+'/rx/'+userid"
-                        :class="'simple-banner-swtich ' + (mods == 'rx' ? 'selected ' : '') + (mode == 'mania' ? 'disabled':'')"
-                        @click="ChangeModeMods(mode,'rx')">Relax</a>
+                        :class="'simple-banner-switch ' + (mods == 'rx' ? 'selected ' : '') + (mode == 'mania' ? 'disabled':'')"
+                        @click="ChangeModeMods(mode,'rx')"><span class="mods-fulltext">Relax</span>
+                        <span class="mods-shorttext">RX</span></a>
                     <a :href="'/u/'+mode+'/ap/'+userid"
-                        :class="'simple-banner-swtich ' + (mods == 'ap' ? 'selected ' : '') + (mode == 'mania' ? 'disabled':'') + (mode == 'catch' ? 'disabled':'') + (mode == 'taiko' ? 'disabled':'')"
-                        @click="ChangeModeMods(mode,'ap')">Autopilot</a>
+                        :class="'simple-banner-switch ' + (mods == 'ap' ? 'selected ' : '') + (mode == 'mania' ? 'disabled':'') + (mode == 'catch' ? 'disabled':'') + (mode == 'taiko' ? 'disabled':'')"
+                        @click="ChangeModeMods(mode,'ap')"><span class="mods-fulltext">Autopilot</span><span
+                            class="mods-shorttext">AP</span></a>
                 </div>
             </div>
             <div class="bar-selection badge-selects">
@@ -253,7 +260,7 @@
                                             <div class="score-details_grade-block">
                                                 <div class="rank-single">
                                                     <div v-bind:class="'map-rank rank-'+map.grade">
-                                                        <% map.grade.replace("X", "SS").replace("H", "") %>
+                                                        <% map.grade.replace("X", "SS" ).replace("H", "" ) %>
                                                     </div>
                                                 </div>
                                             </div>
