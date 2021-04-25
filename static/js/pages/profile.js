@@ -1,5 +1,5 @@
 new Vue({
-    el: "#profile",
+    el: "#app",
     delimiters: ["<%", "%>"],
     data() {
         return {

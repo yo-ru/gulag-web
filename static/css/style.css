@@ -153,6 +153,18 @@ a.foot-link {
   position: relative;
 }
 
+/* layout */
+
+#app {
+  width: 96vw;
+  transition: 0.2s ease; /* for responsive animation */
+}
+
+@media (min-width: 1140px) {
+  #app {
+      width: 1140px;
+  }
+}
 
 /* navbar */
 

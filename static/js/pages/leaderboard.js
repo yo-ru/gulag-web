@@ -1,5 +1,5 @@
 new Vue({
-    el: "#leaderboard",
+    el: "#app",
     delimiters: ["<%", "%>"],
     data() {
         return {
