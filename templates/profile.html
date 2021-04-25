@@ -119,7 +119,7 @@
                             <tr>
                                 <td><b>PP</b></td>
                                 <td class="right-aligned">
-                                    <div v-if="(this.mode == 'std') || (this.mode == 'taiko')">
+                                    <div v-if="(this.mode == 'std') || (this.mode == 'taiko') || (this.mode == 'mania')">
                                         <% addCommas(userdata[0][`pp_${mods}_${mode}`]) %>
                                     </div>
                                     <div v-else>
