@@ -1,5 +1,5 @@
 #leaderboard {
-    width: 960px;
+    width: 96vw;
 }
 
 a,
@@ -238,32 +238,16 @@ table th {
 }
 
 @media (max-width: 576px) {
-    #leaderboard {
-        width: 100%;
-        padding-right: 0px !important;
-        padding-left: 0px !important;
-        margin-right: auto;
-        margin-left: auto;
-    }
     .mode-icon {
         display: none;
     }
 }
 
-@media (min-width: 576px) {
+@media (min-width: 1140px) {
     #leaderboard {
-        max-width: 540px;
+        width: 1140px;
     }
-}
-
-@media (min-width: 768px) {
-    #leaderboard {
-        max-width: 720px;
-    }
-}
-
-@media (min-width: 992px) {
-    #leaderboard {
-        max-width: 960px;
+    .mode-icon {
+        display: none;
     }
 }
