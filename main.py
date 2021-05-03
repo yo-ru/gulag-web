@@ -58,7 +58,7 @@ async def http_conn() -> None:
 
 
 
-""" 
+"""
 global templates - python variables used in template throughout gulag-web.
 """
 _version = repr(version)

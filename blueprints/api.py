@@ -77,7 +77,7 @@ async def get_user_info():
     # user info
     q = ['SELECT u.id user_id, u.name username, u.safe_name username_safe, u.country, u.priv privileges, '
         'u.silence_end, u.donor_end, u.creation_time, u.latest_activity, u.clan_id, u.clan_priv, '
-        
+
         # total score
         'tscore_vn_std, tscore_vn_taiko, tscore_vn_catch, tscore_vn_mania, '
         'tscore_rx_std, tscore_rx_taiko, tscore_rx_catch, '
@@ -87,41 +87,41 @@ async def get_user_info():
         'rscore_vn_std, rscore_vn_taiko, rscore_vn_catch, rscore_vn_mania, '
         'rscore_rx_std, rscore_rx_taiko, rscore_rx_catch, '
         'rscore_ap_std, '
-        
+
         # pp
         'pp_vn_std, pp_vn_taiko, pp_vn_catch, pp_vn_mania, '
         'pp_rx_std, pp_rx_taiko, pp_rx_catch, '
         'pp_ap_std, '
-        
+
         # plays
         'plays_vn_std, plays_vn_taiko, plays_vn_catch, plays_vn_mania, '
         'plays_rx_std, plays_rx_taiko, plays_rx_catch, '
         'plays_ap_std, '
-        
+
         # playtime
         'playtime_vn_std, playtime_vn_taiko, playtime_vn_catch, playtime_vn_mania, '
         'playtime_rx_std, playtime_rx_taiko, playtime_rx_catch, '
         'playtime_ap_std, '
-        
+
         # accuracy
         'acc_vn_std, acc_vn_taiko, acc_vn_catch, acc_vn_mania, '
         'acc_rx_std, acc_rx_taiko, acc_rx_catch, '
         'acc_ap_std, '
-        
+
         # maximum combo
         'maxcombo_vn_std, maxcombo_vn_taiko, maxcombo_vn_catch, maxcombo_vn_mania, '
         'maxcombo_rx_std, maxcombo_rx_taiko, maxcombo_rx_catch, '
         'maxcombo_ap_std '
-        
+
         # join users
         'FROM stats JOIN users u ON stats.id = u.id']
-        
+
     # achivement
     q2 = ['''
     SELECT userid, achid FROM user_achievements ua
         INNER JOIN users u ON u.id = ua.userid
     ''']
-    
+
     # argumnts
     args = []
 
@@ -156,17 +156,17 @@ async def get_player_scores():
     # check if required parameters are met
     if not id:
         return b'missing parameters! (id)'
-    
+
     if sort == 'recent':
         sort = 'id'
     elif sort == 'best':
         sort = 'pp'
     else:
         return b'invalid sort! (recent or best)'
-    
+
     if mods not in valid_mods:
         return b'invalid mods! (vn, rx, ap)'
-    
+
     if mode == 'std':
         mode = 0
     elif mode == 'taiko':
@@ -186,14 +186,14 @@ async def get_player_scores():
         f'FROM scores_{mods} JOIN maps ON scores_{mods}.map_md5 = maps.md5']
     q2 = [f'SELECT COUNT(scores_{mods}.id) AS result '
         f'FROM scores_{mods} JOIN maps ON scores_{mods}.map_md5 = maps.md5']
-    
+
     # argumnts
     args = []
 
-    q.append(f'WHERE scores_{mods}.userid = %s ' 
+    q.append(f'WHERE scores_{mods}.userid = %s '
             f'AND scores_{mods}.mode = {mode} '
             f'AND maps.status = 2')
-    q2.append(f'WHERE scores_{mods}.userid = %s ' 
+    q2.append(f'WHERE scores_{mods}.userid = %s '
             f'AND scores_{mods}.mode = {mode}')
     if sort == 'pp':
         q.append(f'AND scores_{mods}.status = 2')
@@ -221,10 +221,10 @@ async def get_player_most():
     # check if required parameters are met
     if not id:
         return b'missing parameters! (id)'
-    
+
     if mods not in valid_mods:
         return b'invalid mods! (vn, rx, ap)'
-    
+
     if mode == 'std':
         mode = 0
     elif mode == 'taiko':
@@ -242,7 +242,7 @@ async def get_player_most():
     # fetch scores
     q = [f'SELECT scores_{mods}.mode, scores_{mods}.map_md5, maps.artist, maps.title, maps.set_id, maps.creator, COUNT(*) AS `count` '
         f'FROM scores_{mods} JOIN maps ON scores_{mods}.map_md5 = maps.md5']
-    
+
     # argumnts
     args = []
 
@@ -287,7 +287,7 @@ async def get_user_grade():
         "sh": 0,
         "a": 0
     }
-      
+
     if not scores:
         return jsonify(grades)
 
@@ -295,8 +295,8 @@ async def get_user_grade():
 
     # count
     for score in (x for x in scores if x['grade'].lower() in grades):
-        grades[score['grade'].lower()] += 1 
-        
+        grades[score['grade'].lower()] += 1
+
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)
     # return

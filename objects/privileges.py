@@ -38,4 +38,3 @@ class Privileges(IntFlag):
 
     Donator = Supporter | Premium
     Staff = Mod | Admin | Dangerous
-    

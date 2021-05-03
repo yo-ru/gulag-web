@@ -48,7 +48,7 @@ async def home():
 
 
 """
-settings - the settings pages are used to change username (donator), 
+settings - the settings pages are used to change username (donator),
            change email, change password, change avatar, etc.
 """
 @frontend.route('/settings') # GET
@@ -65,7 +65,7 @@ async def settings_profile_post():
     # if not authenticated; render login
     if not 'authenticated' in session:
         return await flash('error', 'You must be logged in to access profile settings!', 'login')
-    
+
     # form data
     form = await request.form
     username = form.get('username')
@@ -104,7 +104,7 @@ async def settings_profile_post():
     # username change successful
     if username != session['user_data']['name'] and session['user_data']['is_donator']:
         await glob.db.execute('UPDATE users SET name = %s, safe_name = %s WHERE safe_name = %s', [username, get_safe_name(username), get_safe_name(session['user_data']['name'])])
-    
+
     # email change successful
     if email != session['user_data']['email']:
         safe_name = get_safe_name(username) if username != session['user_data']['name'] else get_safe_name(session['user_data']['name'])
@@ -157,7 +157,7 @@ async def settings_avatar_post():
 async def settings_password():
     # if not authenticated; render login
     if not 'authenticated' in session:
-        return await flash('error', 'You must be logged in to access password settings!', 'login')    
+        return await flash('error', 'You must be logged in to access password settings!', 'login')
 
     return await render_template('settings/password.html')
 
@@ -165,8 +165,8 @@ async def settings_password():
 async def settings_password_post():
     # if not authenticated; render login
     if not 'authenticated' in session:
-        return await flash('error', 'You must be logged in to access password settings!', 'login')   
-    
+        return await flash('error', 'You must be logged in to access password settings!', 'login')
+
     # form data
     form = await request.form
     old_password = form.get('old_password')
@@ -214,9 +214,9 @@ async def settings_password_post():
 
     # remove old password from cache
     if pw_bcrypt in bcrypt_cache:
-        del bcrypt_cache[pw_bcrypt] 
+        del bcrypt_cache[pw_bcrypt]
 
-    # update password in cache and db    
+    # update password in cache and db
     pw_md5 = hashlib.md5(new_password.encode()).hexdigest().encode()
     pw_bcrypt = bcrypt.hashpw(pw_md5, bcrypt.gensalt())
     bcrypt_cache[pw_bcrypt] = pw_md5
@@ -237,7 +237,7 @@ async def profile(id):
     # request args
     mode = request.args.get('mode', type=str)
     mods = request.args.get('mods', type=str)
-    
+
     # check for valid mods
     if mods:
         if mods not in _valid_mods:
@@ -265,7 +265,7 @@ async def profile(id):
 
 
 """
-leaderboard - the page containing all the leaderboards 
+leaderboard - the page containing all the leaderboards
               available in the gulag stack.
 """
 @frontend.route('/leaderboard') # GET
@@ -387,7 +387,7 @@ async def register():
     # if registration is disabled; redirect home
     if not glob.config.registration:
         return await flash('error', 'Hey! You can\'t register at this time! Sorry for the inconvenience!', 'home')
-    
+
     return await render_template('register.html')
 
 @frontend.route('/register', methods=['POST']) # POST
@@ -405,7 +405,7 @@ async def register_post():
     username = form.get('username')
     email = form.get('email')
     pw_txt = form.get('password')
-    
+
     if not glob.config.hCaptcha_sitekey == 'changeme':
         captcha_data = form.get('h-captcha-response')
         if not await validate_captcha(captcha_data):
@@ -459,7 +459,7 @@ async def register_post():
 
         # get safe name
         safe_name = get_safe_name(username)
-        
+
         # fetch the users' country
         if request.headers and (ip := request.headers.get('X-Real-IP')):
             country = await fetch_geoloc(ip)

@@ -25,7 +25,7 @@ def convert_mode_int(mode: str) -> int:
         return 3
     else:
         return b'wrong mode type! (std, taiko, catch, mania)'
-    
+
 def convert_mode_str(mode: int) -> str:
     """ Converts mode (int) to mode (str). """
     if mode == 0:
@@ -42,7 +42,7 @@ def convert_mode_str(mode: int) -> str:
 async def fetch_geoloc(ip: str) -> str:
     """ Fetches the country code corresponding to an IP. """
     url = f'http://ip-api.com/line/{ip}'
-    
+
     async with glob.http.get(url) as resp:
         if not resp or resp.status != 200:
             if glob.config.debug:
@@ -57,7 +57,7 @@ async def fetch_geoloc(ip: str) -> str:
 
 async def validate_captcha(data: str) -> bool:
     url = f'https://hcaptcha.com/siteverify'
-    
+
     data = {
         'secret': glob.config.hCaptcha_secret,
         'response': data

@@ -11,7 +11,7 @@ new Vue({
             no_player : false, // soon
         }
     },
-    created() { 
+    created() {
         var vm = this;
         vm.mode = mode
         vm.mods = mods
@@ -29,17 +29,17 @@ new Vue({
             vm.mods = mods;
             vm.sort = sort;
             window.history.replaceState('', document.title, "/leaderboard/" + vm.mode + "/" + vm.sort + "/" + vm.mods);
-            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_leaderboard", { params: { 
-                mode: mode, 
-                sort: sort, 
+            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_leaderboard", { params: {
+                mode: mode,
+                sort: sort,
                 mods: mods,
             }})
             .then(function(response){
                 vm.boards = response.data;
                 vm.load = false;
             });
-        }, 
-        scoreFormat(score){ 
+        },
+        scoreFormat(score){
             var addCommas = this.addCommas;
             if (score > 1000 * 1000){
                 if(score > 1000 * 1000 * 1000)
@@ -47,7 +47,7 @@ new Vue({
                 return addCommas((score / 1000000).toFixed(2))+" million";
             }
             return addCommas(score);
-        },    
+        },
         addCommas(nStr) {
             nStr += '';
             var x = nStr.split('.');
@@ -58,7 +58,7 @@ new Vue({
                 x1 = x1.replace(rgx, '$1' + ',' + '$2');
             }
             return x1 + x2;
-        },   
+        },
     },
     computed: {
     }

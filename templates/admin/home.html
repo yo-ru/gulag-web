@@ -63,12 +63,12 @@
                         </span>
                         <div class="user-footer">
                             <span class="user-mapper">
-                            {{ timeago.format((datetime.datetime.fromtimestamp(user.creation_time)), 
+                            {{ timeago.format((datetime.datetime.fromtimestamp(user.creation_time)),
                                 (datetime.datetime.now() + datetime.timedelta(seconds = 60 * 3.4))) }}
                             </span>
                             <div class="d-flex align-items-baseline">
                                 <span>
-                                {{ timeago.format((datetime.datetime.fromtimestamp(user.latest_activity)), 
+                                {{ timeago.format((datetime.datetime.fromtimestamp(user.latest_activity)),
                                     (datetime.datetime.now() + datetime.timedelta(seconds = 60 * 3.4))) }}
                                 </span>
                                 <div class="target-button newmaps-color">
