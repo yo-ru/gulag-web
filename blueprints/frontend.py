@@ -508,29 +508,6 @@ async def logout():
     # render login
     return await flash('success', 'Successfully logged out!', 'login')
 
-
-
-"""
-docs - dynamically generated html based on it's markdown equivalent.
-"""
-@frontend.route('/docs') # GET
-async def docs_no_data():
-    docs = []
-    async with asyncio.Lock():
-        for f in os.listdir('docs/'):
-            docs.append(os.path.splitext(f)[0])
-
-    return await render_template('docs.html', docs=docs)
-
-@frontend.route('/doc/<doc>') # GET
-async def docs(doc):
-    async with asyncio.Lock():
-        markdown = markdown2.markdown_path(f'docs/{doc.lower()}.md')
-
-    return await render_template('doc.html', doc=markdown, doc_title=doc.lower().capitalize())
-
-
-
 """
 social media redirects - links refering to social media urls in gulag-web's config.
 """
