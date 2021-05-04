@@ -323,7 +323,7 @@ html {
 
 .map-title {
   font-size: 14px;
-  display: flex;
+  display: flow-root;
   font-weight: 500;
   align-items: center;
   white-space: nowrap;
