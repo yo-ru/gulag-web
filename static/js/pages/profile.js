@@ -35,7 +35,7 @@ new Vue({
         },
         LoadProfileData() {
             var vm = this;
-            vm.$axios.get(`${this.GettingUrl()}/api/get_user_info`, {
+            vm.$axios.get(`${this.GettingUrl()}/gw_api/get_user_info`, {
                 params: {
                     id: vm.userid,
                 }
@@ -46,7 +46,7 @@ new Vue({
         },
         LoadGrades() {
             var vm = this;
-            vm.$axios.get(`${this.GettingUrl()}/api/get_user_grade`, {
+            vm.$axios.get(`${this.GettingUrl()}/gw_api/get_user_grade`, {
                 params: {
                     id: vm.userid,
                     mode: vm.mode,
@@ -70,7 +70,7 @@ new Vue({
                 default:
             }
             vm.data.scores.load[type] = true
-            vm.$axios.get(`${this.GettingUrl()}/api/get_player_scores`, {
+            vm.$axios.get(`${this.GettingUrl()}/gw_api/get_player_scores`, {
                 params: {
                     id: vm.userid,
                     mode: vm.mode,
@@ -88,7 +88,7 @@ new Vue({
         LoadMostBeatmaps() {
             var vm = this;
             vm.data.scores.load[2] = true
-            vm.$axios.get(`${this.GettingUrl()}/api/get_player_most`, {
+            vm.$axios.get(`${this.GettingUrl()}/gw_api/get_player_most`, {
                 params: {
                     id: vm.userid,
                     mode: vm.mode,

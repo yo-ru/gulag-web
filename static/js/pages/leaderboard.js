@@ -35,7 +35,7 @@ new Vue({
             vm.mods = mods;
             vm.sort = sort;
             window.history.replaceState('', document.title, `/leaderboard/${vm.mode}/${vm.sort}/${vm.mods}`);
-            vm.$axios.get(`${vm.GettingUrl()}/api/get_leaderboard`, { params: {
+            vm.$axios.get(`${vm.GettingUrl()}/gw_api/get_leaderboard`, { params: {
                 mode: vm.mode,
                 sort: vm.sort,
                 mods: vm.mods,
