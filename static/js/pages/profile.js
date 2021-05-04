@@ -3,112 +3,102 @@ new Vue({
     delimiters: ["<%", "%>"],
     data() {
         return {
-            userdata: {},
-            mostdata: {},
-            recentdata: {},
-            bestdata: {},
-            gradedata: {},
-            mode: mode,
-            mods: mods,
-            userid: userid,
-            loaddata: [false, false, false]
+            data: {
+                stats: {},
+                grades: {},
+                scores: {
+                    recent: {},
+                    best: {},
+                    most: {},
+                    load: [false, false, false]
+                },
+            },
+            mode: mode, // Getting from URL
+            mods: mods, // Getting from URL
+            userid: userid, // Getting from URL
         }
     },
     created() {
-        var vm = this;
-        vm.LoadProfileData(vm.userid)
-        vm.LoadMostBeatmaps(vm.userid, vm.mode, vm.mods)
-        vm.LoadScores(vm.userid, vm.mode, vm.mods, 'best')
-        vm.LoadScores(vm.userid, vm.mode, vm.mods, 'recent')
-        vm.LoadGrades(vm.userid, vm.mode, vm.mods)
-        window.history.replaceState('', document.title, `/u/${vm.userid}`);
+        // starting a page
+        this.LoadProfileData()
+        this.LoadAllofdata()
     },
     methods: {
-        LoadProfileData(userid) {
+        LoadAllofdata() {
+            this.LoadMostBeatmaps()
+            this.LoadScores('best')
+            this.LoadScores('recent')
+            this.LoadGrades()
+        },
+        GettingUrl() {
+            return `${window.location.protocol}//${window.location.hostname}:${window.location.port}`
+        },
+        LoadProfileData() {
             var vm = this;
-            vm.$axios.get(`${window.location.protocol}//${window.location.hostname}:${window.location.port}/api/get_user_info`, {
+            vm.$axios.get(`${this.GettingUrl()}/api/get_user_info`, {
                 params: {
-                    id: userid,
+                    id: vm.userid,
                 }
             })
                 .then(function (response) {
-                    vm.userdata = response.data.userdata;
+                    vm.data.stats = response.data.userdata;
                 });
         },
-        LoadMostBeatmaps(userid, mode, mods) {
+        LoadGrades() {
             var vm = this;
-            vm.loaddata[2] = true
-            vm.$axios.get(`${window.location.protocol}//${window.location.hostname}:${window.location.port}/api/get_player_most`, {
+            vm.$axios.get(`${this.GettingUrl()}/api/get_user_grade`, {
                 params: {
-                    id: userid,
-                    mode: mode,
-                    mods: mods,
-                    limit: 5
+                    id: vm.userid,
+                    mode: vm.mode,
+                    mods: vm.mods,
                 }
             })
                 .then(function (response) {
-                    vm.mostdata = response.data.maps;
-                    vm.loaddata[2] = false
+                    vm.data.grades = response.data;
                 });
         },
-        LoadScores(userid, mode, mods, sort) {
+        LoadScores(sort) {
             var vm = this;
+            let type;
             switch (sort) {
                 case 'best':
                     type = 0
-                    vm.loaddata[0] = true
                     break;
                 case 'recent':
                     type = 1
-                    vm.loaddata[1] = true
                     break;
                 default:
             }
-            vm.$axios.get(`${window.location.protocol}//${window.location.hostname}:${window.location.port}/api/get_player_scores`, {
+            vm.data.scores.load[type] = true
+            vm.$axios.get(`${this.GettingUrl()}/api/get_player_scores`, {
                 params: {
-                    id: userid,
-                    mode: mode,
-                    mods: mods,
+                    id: vm.userid,
+                    mode: vm.mode,
+                    mods: vm.mods,
                     sort: sort,
                     limit: 5
                 }
             })
                 .then(function (response) {
-                    vm[`${sort}data`] = response.data.scores;
-                    if (sort == 'best') {
-                        vm.loaddata[0] = false
-                    } else if (sort == 'recent') {
-                        vm.loaddata[1] = false
-                    }
+                    vm.data.scores[sort] = response.data.scores;
+                    vm.data.scores.load[type] = false
+                    console.log(vm.data.scores.load)
                 });
         },
-        LoadGrades(userid, mode, mods) {
+        LoadMostBeatmaps() {
             var vm = this;
-            vm.$axios.get(`${window.location.protocol}//${window.location.hostname}:${window.location.port}/api/get_user_grade`, {
+            vm.data.scores.load[2] = true
+            vm.$axios.get(`${this.GettingUrl()}/api/get_player_most`, {
                 params: {
-                    id: userid,
-                    mode: mode,
-                    mods: mods,
+                    id: vm.userid,
+                    mode: vm.mode,
+                    mods: vm.mods,
+                    limit: 5
                 }
             })
                 .then(function (response) {
-                    vm.gradedata = response.data;
-                });
-        },
-        LoadReplay(id, mods) {
-            var vm = this;
-            document.getElementById('contentmodal').innerHTML = "";
-            document.getElementById('modaldisplayer').className = "modal is-active";
-            vm.$axios.get(`${window.location.protocol}//${window.location.hostname}:${window.location.port}/api/get_replay`,
-                {
-                    params: {
-                        id: id,
-                        mods: mods,
-                    }
-                })
-                .then(function (response) {
-                    replaydata = response.data;
-                    document.getElementById('contentmodal').innerHTML = `<div class='score-beatmap'><h1 class='score-beatmap-title'><a class='score-beatmap-linkplain'>${replaydata.artist} - ${replaydata.title} [${replaydata.version}]</a></h1></div><div class='score-info'><div class='infoitem infoitem-player'><div class='score-player'><div class='score-player-row--score'> <div class='score-player-score'>${replaydata.score}</div></div><div class='score-player-row--player'><span>Played by</span><strong>${replaydata.name}</strong><span>Submitted on</span><strong>${replaydata.play_time}</strong></div></div></div><div class='infoitem infoitem--dial'> <div class='score-dial'> <div class='score-dial-layer--grade'><span>${replaydata.grade}</span></div></div></div></div><div class='score-stats'> <div class='score-stats-group score-stats-group--stats'> <div class='score-stats-group-row'> <div class='score-stats-stat'> <div class='score-stats-stat-row--label'>Accuracy</div><div class='score-stats-stat-row'>${replaydata.acc}%</div></div><div class='score-stats-stat'> <div class='score-stats-stat-row--label'>Max Combo</div><div class='score-stats-stat-row'>${replaydata.max_combo}x</div></div><div class='score-stats-stat'> <div class='score-stats-stat-row--label'>pp</div><div class='score-stats-stat-row'><span>${replaydata.pp}</span></div></div></div><div class='score-stats-group-row'> <div class='score-stats-stat'> <div class='score-stats-stat-row--label'>300</div><div class='score-stats-stat-row'>${replaydata.n300}</div></div><div class='score-stats-stat'> <div class='score-stats-stat-row--label'>100</div><div class='score-stats-stat-row'>${replaydata.n100}</div></div><div class='score-stats-stat'> <div class='score-stats-stat-row--label'>50</div><div class='score-stats-stat-row'>${replaydata.n50}</div></div><div class='score-stats-stat'> <div class='score-stats-stat-row--label'>miss</div><div class='score-stats-stat-row'>${replaydata.nmiss}</div></div></div></div></div>`
+                    vm.data.scores.most = response.data.maps;
+                    vm.data.scores.load[2] = false
                 });
         },
         ChangeModeMods(mode, mods) {
@@ -118,10 +108,7 @@ new Vue({
             }
             vm.mode = mode
             vm.mods = mods
-            vm.LoadMostBeatmaps(vm.userid, vm.mode, vm.mods)
-            vm.LoadScores(vm.userid, vm.mode, vm.mods, 'best')
-            vm.LoadScores(vm.userid, vm.mode, vm.mods, 'recent')
-            vm.LoadGrades(vm.userid, vm.mode, vm.mods)
+            vm.LoadAllofdata()
         },
         addCommas(nStr) {
             nStr += '';
