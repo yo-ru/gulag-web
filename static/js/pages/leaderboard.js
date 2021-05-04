@@ -28,8 +28,8 @@ new Vue({
             vm.mode = mode;
             vm.mods = mods;
             vm.sort = sort;
-            window.history.replaceState('', document.title, "/leaderboard/" + vm.mode + "/" + vm.sort + "/" + vm.mods);
-            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_leaderboard", { params: {
+            window.history.replaceState('', document.title, `/leaderboard/${vm.mode}/${vm.sort}/${vm.mods}`);
+            vm.$axios.get(`${window.location.protocol}//${window.location.hostname}:${window.location.port}/api/get_leaderboard`, { params: {
                 mode: mode,
                 sort: sort,
                 mods: mods,
@@ -43,8 +43,8 @@ new Vue({
             var addCommas = this.addCommas;
             if (score > 1000 * 1000){
                 if(score > 1000 * 1000 * 1000)
-                    return addCommas((score / 1000000000).toFixed(2))+" billion";
-                return addCommas((score / 1000000).toFixed(2))+" million";
+                    return `${addCommas((score / 1000000000).toFixed(2))} billion`;
+                return `${addCommas((score / 1000000).toFixed(2))} million`;
             }
             return addCommas(score);
         },

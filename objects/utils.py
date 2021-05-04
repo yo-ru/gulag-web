@@ -1,46 +1,51 @@
 # -*- coding: utf-8 -*-
 
-from cmyui import log, Ansi
+from typing import Optional
+
+from cmyui.logging import Ansi
+from cmyui.logging import log
 from quart import render_template
 
 from objects import glob
 
 async def flash(status, msg, template):
-    """ Flashes a success/error message on a specified template. """
+    """Flashes a success/error message on a specified template."""
     return await render_template(f'{template}.html', flash=msg, status=status)
 
 def get_safe_name(name: str) -> str:
-    """ Returns the safe version of a username. """
+    """Returns the safe version of a username."""
     return name.lower().replace(' ', '_')
 
-def convert_mode_int(mode: str) -> int:
-    """ Converts mode (str) to mode (int). """
-    if mode == 'std':
-        return 0
-    elif mode == 'taiko':
-        return 1
-    elif mode == 'catch':
-        return 2
-    elif mode == 'mania':
-        return 3
-    else:
-        return b'wrong mode type! (std, taiko, catch, mania)'
+def convert_mode_int(mode: str) -> Optional[int]:
+    """Converts mode (str) to mode (int)."""
+    if mode not in _str_mode_dict:
+        print('invalid mode passed into utils.convert_mode_int?')
+        return None
+    return _str_mode_dict[mode]
 
-def convert_mode_str(mode: int) -> str:
-    """ Converts mode (int) to mode (str). """
-    if mode == 0:
-        return 'std'
-    elif mode == 0:
-        return 'taiko'
-    elif mode == 0:
-        return 'catch'
-    elif mode == 0:
-        return 'mania'
-    else:
-        return b'wrong mode type! (0, 1, 2, 3)'
+_str_mode_dict = {
+    'std': 0,
+    'taiko': 1,
+    'catch': 2,
+    'mania': 3
+}
+
+def convert_mode_str(mode: int) -> Optional[str]:
+    """Converts mode (int) to mode (str)."""
+    if mode not in _mode_str_dict:
+        print('invalid mode passed into utils.convert_mode_str?')
+        return None
+    return _mode_str_dict[mode]
+
+_mode_str_dict = {
+    0: 'std',
+    1: 'taiko',
+    2: 'catch',
+    3: 'mania'
+}
 
 async def fetch_geoloc(ip: str) -> str:
-    """ Fetches the country code corresponding to an IP. """
+    """Fetches the country code corresponding to an IP."""
     url = f'http://ip-api.com/line/{ip}'
 
     async with glob.http.get(url) as resp:
@@ -56,6 +61,7 @@ async def fetch_geoloc(ip: str) -> str:
         return lines[1].lower()
 
 async def validate_captcha(data: str) -> bool:
+    """Verify `data` with hcaptcha's API."""
     url = f'https://hcaptcha.com/siteverify'
 
     data = {

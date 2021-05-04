@@ -1,12 +1,20 @@
 # -*- coding: utf-8 -*-
 
-from cmyui import log, Ansi
-from quart import Blueprint, request, jsonify
-
-from objects import glob
-from objects.utils import convert_mode_int, get_safe_name
+# NOTE: this branch of gulag-web will soon be deprecated
+# by the developing api within cmyui/gulag; you should
+# refer there instead if you're looking to use our api.
+# api docs: https://github.com/JKBGL/gulag-api-docs
 
 __all__ = ()
+
+from cmyui.logging import Ansi
+from cmyui.logging import log
+from quart import Blueprint
+from quart import jsonify
+from quart import request
+
+from objects import glob
+from objects import utils
 
 api = Blueprint('api', __name__)
 
@@ -14,7 +22,7 @@ api = Blueprint('api', __name__)
 valid_modes = frozenset({'std', 'taiko', 'catch', 'mania'})
 valid_mods = frozenset({'vn', 'rx', 'ap'})
 valid_sorts = frozenset({'tscore', 'rscore', 'pp', 'plays',
-                        'playtime', 'acc', 'maxcombo'})
+                        'playtime', 'acc', 'max_combo'})
 
 """ /get_leaderboard """
 @api.route('/get_leaderboard') # GET
@@ -41,7 +49,7 @@ async def get_leaderboard():
         'u.country, tscore_{0}_{1} tscore, '
         'rscore_{0}_{1} rscore, pp_{0}_{1} pp, '
         'plays_{0}_{1} plays, playtime_{0}_{1} playtime, '
-        'acc_{0}_{1} acc, maxcombo_{0}_{1} maxcombo FROM stats '
+        'acc_{0}_{1} acc, max_combo_{0}_{1} max_combo FROM stats '
         'JOIN users u ON stats.id = u.id '
         'WHERE pp_{0}_{1} > 0 AND u.priv >= 3'.format(mods, mode)]
 
@@ -109,9 +117,9 @@ async def get_user_info():
         'acc_ap_std, '
 
         # maximum combo
-        'maxcombo_vn_std, maxcombo_vn_taiko, maxcombo_vn_catch, maxcombo_vn_mania, '
-        'maxcombo_rx_std, maxcombo_rx_taiko, maxcombo_rx_catch, '
-        'maxcombo_ap_std '
+        'max_combo_vn_std, max_combo_vn_taiko, max_combo_vn_catch, max_combo_vn_mania, '
+        'max_combo_rx_std, max_combo_rx_taiko, max_combo_rx_catch, '
+        'max_combo_ap_std '
 
         # join users
         'FROM stats JOIN users u ON stats.id = u.id']
@@ -133,7 +141,7 @@ async def get_user_info():
     elif name:
         q.append('WHERE u.safe_name = %s')
         q2.append('WHERE u.safe_name = %s')
-        args.append(get_safe_name(name))
+        args.append(utils.get_safe_name(name))
 
     q2.append('ORDER BY ua.achid ASC')
 
@@ -167,16 +175,8 @@ async def get_player_scores():
     if mods not in valid_mods:
         return b'invalid mods! (vn, rx, ap)'
 
-    if mode == 'std':
-        mode = 0
-    elif mode == 'taiko':
-        mode = 1
-    elif mode == 'catch':
-        mode = 2
-    elif mode == 'mania':
-        mode = 3
-    else:
-        return b'wrong mode type! (std, taiko, catch, mania)'
+    if (mode := utils.convert_mode_int(mode)) is None:
+        return b'invalid mode type! (std, taiko, catch, mania)'
 
     if not limit:
         limit = 50
@@ -225,16 +225,8 @@ async def get_player_most():
     if mods not in valid_mods:
         return b'invalid mods! (vn, rx, ap)'
 
-    if mode == 'std':
-        mode = 0
-    elif mode == 'taiko':
-        mode = 1
-    elif mode == 'catch':
-        mode = 2
-    elif mode == 'mania':
-        mode = 3
-    else:
-        return b'wrong mode type! (std, taiko, catch, mania)'
+    if (mode := utils.convert_mode_int(mode)) is None:
+        return b'invalid mode type! (std, taiko, catch, mania)'
 
     if not limit:
         limit = 50
@@ -264,10 +256,9 @@ async def get_user_grade():
     id = request.args.get('id', type=int)
 
     # validate everything
-    if mode not in valid_modes:
-        return b'invalid mode! (std, taiko, catch, mania)'
-    else:
-        mode = convert_mode_int(mode)
+
+    if (mode := utils.convert_mode_int(mode)) is None:
+        return b'invalid mode type! (std, taiko, catch, mania)'
 
     if mods not in valid_mods:
         return b'invalid mods! (vn, rx, ap)'
@@ -291,13 +282,11 @@ async def get_user_grade():
     if not scores:
         return jsonify(grades)
 
-
-
     # count
     for score in (x for x in scores if x['grade'].lower() in grades):
         grades[score['grade'].lower()] += 1
 
     if glob.config.debug:
-        log(' '.join(q), Ansi.LGREEN)
+        log(q, Ansi.LGREEN)
     # return
     return jsonify(grades)

@@ -16,7 +16,8 @@
 <div id="app">
     <div class="leaderboard-banner main-banner">
         <div class="main-selector">
-            <a :href="'/lb/osu/'+sort+'/'+mods" :class="'mode-select '+(mode == 'std' ? '--selected ' : '')"
+            <a :href="'/lb/osu/'+sort+'/'+mods"
+                :class="'mode-select '+(mode == 'std' ? '--selected ' : '')"
                 @click="LoadLeaderboard(sort, 'std', mods)">
                 <i class="mode-icon mode-osu"></i><span class="modetext"> osu!</span>
             </a>
@@ -97,7 +98,7 @@
                                 <% addCommas(user.plays) %>
                             </td>
                             <td>
-                                <% addCommas(user.maxcombo) %>
+                                <% addCommas(user.max_combo) %>
                             </td>
                         </tr>
                     </tbody>

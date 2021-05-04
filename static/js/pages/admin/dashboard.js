@@ -13,7 +13,7 @@ new Vue({
     methods: {
         GetOnlineUsers() {
             var vm = this;
-            vm.$axios.get(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/api/get_online")
+            vm.$axios.get(`${window.location.protocol}//${window.location.hostname}:${window.location.port}/api/get_online`)
                 .then(function (response) {
                     vm.online_users = response.data.online;
                 });

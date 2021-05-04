@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
 
-"""
-This is a modified version of the privileges object
-from cmyui's gulag. It will be adjusted accordingly
-to fit any updates he makes to the object as well
-as being adjusted to better fit the web implementation.
-"""
-
-from enum import IntFlag, unique
+from enum import IntFlag
+from enum import unique
 
 __all__ = ('Privileges')
 
