@@ -468,7 +468,7 @@ html {
   width: 100%;
   display: grid;
   grid-gap: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(325px, 444px));
+  grid-template-columns: repeat(auto-fill, minmax(405px, 405px));
   margin: 8px 0;
 }
 
