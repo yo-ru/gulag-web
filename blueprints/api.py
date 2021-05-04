@@ -147,8 +147,8 @@ async def get_user_info():
 
     if glob.config.debug:
         log(' '.join(q), Ansi.LGREEN)
-    res = await glob.db.fetchall(' '.join(q), args)
-    res_ach = await glob.db.fetchall(' '.join(q2), args)
+    res = await glob.db.fetch(' '.join(q), args)
+    res_ach = await glob.db.fetch(' '.join(q2), args)
     return jsonify(userdata=res,achivement=res_ach) if res else b'{}'
 
 """ /get_player_scores """
