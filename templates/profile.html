@@ -20,9 +20,8 @@
             <div class="info-block">
                 <h1 class="title">
                     <p class="ranks">
-                        <img src="/static/images/flags/{{ user['country']|upper }}.png" class="profile-flag"><span
-                            class="bgf">{{
-                            user['name'] }}</span>
+                        <img src="/static/images/flags/{{ user['country']|upper }}.png" class="profile-flag">
+                        <span class="bgf">{{ user['name'] }}</span>
                     </p>
                 </h1>
                 <!-- This part should change it to your domain like https://c.varkaria.cyou -->
@@ -85,7 +84,7 @@
     <div class="second-block">
         <div class="columns is-marginless two-sides">
             <div class="column is-one-third">
-                <!--<div class="header">
+                <!-- <div class="header">
                     <div class="title">
                         <i class="fas fa-user-friends"></i> Rank
                     </div>
@@ -107,20 +106,20 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>-->
+                </div> -->
                 <div class="header">
                     <div class="title">
                         <i class="fas fa-chart-pie"></i> Statistics
                     </div>
                 </div>
-                <div class="stats-block" v-if="userdata">
+                <div class="stats-block">
                     <table class="is-striped">
                         <tbody>
                             <tr>
                                 <td><b>PP</b></td>
                                 <td class="right-aligned">
-                                    <div v-if="(this.mode == 'std') || (this.mode == 'taiko') || (this.mode == 'mania')">
-                                        <% addCommas(userdata[0][`pp_${mods}_${mode}`]) %>
+                                    <div v-if="(mode == 'std') || (mode == 'taiko') || (mode == 'mania')">
+                                        <% addCommas(data.stats[`pp_${mods}_${mode}`]) %>
                                     </div>
                                     <div v-else>
                                         not yet
@@ -130,55 +129,55 @@
                             <tr>
                                 <td><b>Ranked score</b></td>
                                 <td class="right-aligned">
-                                    <% addCommas(userdata[0][`rscore_${mods}_${mode}`]) %>
+                                    <% addCommas(data.stats[`rscore_${mods}_${mode}`]) %>
                                 </td>
                             </tr>
                             <tr>
                                 <td><b>Total score</b></td>
                                 <td class="right-aligned">
-                                    <% addCommas(userdata[0][`tscore_${mods}_${mode}`]) %>
+                                    <% addCommas(data.stats[`tscore_${mods}_${mode}`]) %>
                                 </td>
                             </tr>
                             <tr>
                                 <td><b>Max combo</b></td>
                                 <td class="right-aligned">
-                                    <% addCommas(userdata[0][`max_combo_${mods}_${mode}`]) %>
+                                    <% addCommas(data.stats[`max_combo_${mods}_${mode}`]) %>
                                 </td>
                             </tr>
                             <tr>
                                 <td><b>Playcount</b></td>
                                 <td class="right-aligned">
-                                    <% addCommas(userdata[0][`plays_${mods}_${mode}`]) %>
+                                    <% addCommas(data.stats[`plays_${mods}_${mode}`]) %>
                                 </td>
                             </tr>
                             <tr>
                                 <td><b>Playtime</b></td>
                                 <td class="right-aligned">
-                                    <% secondsToDhm(userdata[0][`playtime_${mods}_${mode}`]) %>
+                                    <% secondsToDhm(data.stats[`playtime_${mods}_${mode}`]) %>
                                 </td>
                             </tr>
                             <tr>
                                 <td><b>Accuracy</b></td>
                                 <td class="right-aligned">
-                                    <% userdata[0][`acc_${mods}_${mode}`].toFixed(2) %>%
+                                    <% data.stats[`acc_${mods}_${mode}`] %>%
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <div class="grade-block" v-if="gradedata">
+                    <div class="grade-block" v-if="data.grades">
                         <article class="media">
                             <div class="media-content">
                                 <div class="grade-line">
                                     <div class="rank-single">
                                         <div class="map-rank rank-X">SS</div>
                                         <div class="rank-amount">
-                                            <% gradedata.x %>
+                                            <% data.grades.x %>
                                         </div>
                                     </div>
                                     <div class="rank-single">
                                         <div class="map-rank rank-XH">SS</div>
                                         <div class="rank-amount">
-                                            <% gradedata.xh %>
+                                            <% data.grades.xh %>
                                         </div>
                                     </div>
                                 </div>
@@ -186,19 +185,19 @@
                                     <div class="rank-single">
                                         <div class="map-rank rank-S">S</div>
                                         <div class="rank-amount">
-                                            <% gradedata.s %>
+                                            <% data.grades.s %>
                                         </div>
                                     </div>
                                     <div class="rank-single">
                                         <div class="map-rank rank-SH">S</div>
                                         <div class="rank-amount">
-                                            <% gradedata.sh %>
+                                            <% data.grades.sh %>
                                         </div>
                                     </div>
                                     <div class="rank-single">
                                         <div class="map-rank rank-A">A</div>
                                         <div class="rank-amount">
-                                            <% gradedata.a %>
+                                            <% data.grades.a %>
                                         </div>
                                     </div>
                                 </div>
@@ -222,9 +221,9 @@
                             <i class="fas fa-trophy"></i> Best Scores
                         </div>
                     </div>
-                    <div v-if="bestdata.length != 0" :class="'scores' +(loaddata[0] ? ' load' : '')">
-                        <div v-for="(map, index) in bestdata" class="map-single">
-                            <div @click="LoadReplay(map.id,this.mods)" class="map-data">
+                    <div v-if="data.scores.best.length != 0" :class="'scores' + (data.scores.load[0] ? ' load' : '')">
+                        <div v-for="(map, index) in data.scores.best" class="map-single">
+                            <div class="map-data">
                                 <div class="map-content1">
                                     <div class="map-image">
                                         <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
@@ -251,10 +250,10 @@
                                         <div class="score-details_right-block">
                                             <div class="score-details_pp-block">
                                                 <div class="map-pp">
-                                                    <% map.pp.toFixed() %><span class="map-pp-unit">pp</span>
+                                                    <% map.pp %><span class="map-pp-unit">pp</span>
                                                 </div>
                                                 <div class="map-acc">accuracy:&nbsp;<b>
-                                                        <% map.acc.toFixed(2) %>%
+                                                        <% map.acc %>%
                                                     </b></div>
                                             </div>
                                             <div class="score-details_grade-block">
@@ -270,7 +269,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="bestdata.length == 0" class="stats-block">
+                    <div v-if="data.scores.best.length == 0" class="stats-block">
                         <div class="columns is-marginless">
                             <div class="column is-1">
                                 <h1 class="title">: (</h1>
@@ -288,9 +287,9 @@
                             <i class="fas fa-clock"></i> Recent Scores
                         </div>
                     </div>
-                    <div v-if="recentdata.length != 0" :class="'scores' +(loaddata[1] ? ' load' : '')">
-                        <div v-for="(map, index) in recentdata" class="map-single">
-                            <div @click="LoadReplay(map.id,this.mods)" class="map-data">
+                    <div v-if="data.scores.recent.length != 0" :class="'scores' +(data.scores.load[1] ? ' load' : '')">
+                        <div v-for="(map, index) in data.scores.recent" class="map-single">
+                            <div class="map-data">
                                 <div class="map-content1">
                                     <div class="map-image">
                                         <img v-bind:src="'https://assets.ppy.sh/beatmaps/' + map.set_id + '/covers/card.jpg'"
@@ -317,10 +316,10 @@
                                         <div class="score-details_right-block">
                                             <div class="score-details_pp-block">
                                                 <div class="map-pp">
-                                                    <% map.pp.toFixed() %><span class="map-pp-unit">pp</span>
+                                                    <% map.pp %><span class="map-pp-unit">pp</span>
                                                 </div>
                                                 <div class="map-acc">accuracy:&nbsp;<b>
-                                                        <% map.acc.toFixed(2) %>%
+                                                        <% map.acc %>%
                                                     </b></div>
                                             </div>
                                             <div class="score-details_grade-block">
@@ -336,7 +335,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="recentdata.length == 0" class="stats-block">
+                    <div v-if="data.scores.recent.length == 0" class="stats-block">
                         <div class="columns is-marginless">
                             <div class="column is-1">
                                 <h1 class="title">: (</h1>
@@ -354,8 +353,8 @@
                             <i class="fas fa-address-book"></i> Most Played Beatmaps
                         </div>
                     </div>
-                    <div v-if="mostdata.length != 0" :class="'beatmaps' +(loaddata[2] ? ' load' : '')">
-                        <a v-for="(map, index) in mostdata" class="beatmap-block">
+                    <div v-if="data.scores.most.length != 0" :class="'beatmaps' +(data.scores.load[2] ? ' load' : '')">
+                        <a v-for="(map, index) in data.scores.most" class="beatmap-block">
                             <div class="beatmap-preview"
                                 v-bind:style='{ background: `url(https://assets.ppy.sh/beatmaps/${map.set_id}/covers/card.jpg)` }'>
                             </div>
@@ -378,7 +377,7 @@
                             </div>
                         </a>
                     </div>
-                    <div v-if="mostdata.length == 0" class="stats-block">
+                    <div v-if="data.scores.most.length == 0" class="stats-block">
                         <div class="columns is-marginless">
                             <div class="column is-1">
                                 <h1 class="title">: (</h1>
