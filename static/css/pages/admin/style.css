@@ -112,7 +112,7 @@
     position: relative;
     padding: .5rem .7rem;
     z-index: 4;
-    background: hsl(var(--main), 45%, 25%)
+    background: hsl(var(--main),37%,50%);
 }
 
 .sidebar .logo a.logo-normal {
@@ -231,7 +231,8 @@ li {
     color: #fff;
     padding: 10px;
     position: relative;
-    border: 0
+    border: 0;
+    background: hsl(var(--main),15%,25%);
 }
 
 .card .stat {
@@ -252,22 +253,6 @@ li {
 .card .value {
     font-size: 28px;
     padding: 0 10px
-}
-
-.card.blue {
-    background-color: #2298f1
-}
-
-.card.green {
-    background-color: #66b92e
-}
-
-.card.orange {
-    background-color: #da932c
-}
-
-.card.red {
-    background-color: #d65b4a
 }
 
 .recent-beat {
