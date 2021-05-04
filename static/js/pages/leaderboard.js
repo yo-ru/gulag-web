@@ -12,13 +12,19 @@ new Vue({
         }
     },
     created() {
-        var vm = this;
-        vm.mode = mode
-        vm.mods = mods
-        vm.sort = sort
-        vm.LoadLeaderboard(sort, mode, mods)
+        this.GettingDataFromUrl(mode, mods, sort)
+        this.LoadLeaderboard(sort, mode, mods)
     },
     methods: {
+        GettingDataFromUrl(mode,mods,sort) {
+            var vm = this;
+            vm.mode = mode
+            vm.mods = mods
+            vm.sort = sort
+        },
+        GettingUrl() {
+            return `${window.location.protocol}//${window.location.hostname}:${window.location.port}`
+        },
         LoadLeaderboard(sort, mode, mods) {
             var vm = this;
             if (window.event){
@@ -29,10 +35,10 @@ new Vue({
             vm.mods = mods;
             vm.sort = sort;
             window.history.replaceState('', document.title, `/leaderboard/${vm.mode}/${vm.sort}/${vm.mods}`);
-            vm.$axios.get(`${window.location.protocol}//${window.location.hostname}:${window.location.port}/api/get_leaderboard`, { params: {
-                mode: mode,
-                sort: sort,
-                mods: mods,
+            vm.$axios.get(`${vm.GettingUrl()}/api/get_leaderboard`, { params: {
+                mode: vm.mode,
+                sort: vm.sort,
+                mods: vm.mods,
             }})
             .then(function(response){
                 vm.boards = response.data;
