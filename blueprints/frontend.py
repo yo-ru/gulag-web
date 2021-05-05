@@ -147,8 +147,7 @@ async def settings_avatar_post():
     # remove old avatars
     for fx in ALLOWED_EXTENSIONS:
         if os.path.isfile(f'{AVATARS_PATH}/{session["user_data"]["id"]}{fx}'): # Checking file e
-            tasks = [os.remove(f'{AVATARS_PATH}/{session["user_data"]["id"]}{fx}')]
-            await asyncio.gather(*tasks, return_exceptions=True)
+            os.remove(f'{AVATARS_PATH}/{session["user_data"]["id"]}{fx}')
 
     # avatar change success
     avatar.save(os.path.join(AVATARS_PATH, f'{session["user_data"]["id"]}{file_extension.lower()}'))
