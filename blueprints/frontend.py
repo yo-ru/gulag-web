@@ -145,9 +145,10 @@ async def settings_avatar_post():
         return await flash('error', 'The image you select must be either a .JPG, .JPEG, or .PNG file!', 'settings/avatar')
 
     # remove old avatars
-    if os.path.isfile(f'{AVATARS_PATH}/{session["user_data"]["id"]}.jpeg') or os.path.isfile(f'{AVATARS_PATH}/{session["user_data"]["id"]}.jpg') or os.path.isfile(f'{AVATARS_PATH}/{session["user_data"]["id"]}.png'): # Checking file e
-        tasks = [os.remove(f'{AVATARS_PATH}/{session["user_data"]["id"]}{fx}') for fx in ALLOWED_EXTENSIONS]
-        await asyncio.gather(*tasks, return_exceptions=True)
+    for fx in ALLOWED_EXTENSIONS:
+        if os.path.isfile(f'{AVATARS_PATH}/{session["user_data"]["id"]}.{fx}'): # Checking file e
+            tasks = [os.remove(f'{AVATARS_PATH}/{session["user_data"]["id"]}{fx}')]
+            await asyncio.gather(*tasks, return_exceptions=True)
 
     # avatar change success
     avatar.save(os.path.join(AVATARS_PATH, f'{session["user_data"]["id"]}{file_extension.lower()}'))
