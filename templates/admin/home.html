@@ -9,7 +9,7 @@
 <div class="dashboard" id="dashboard">
     <div class="columns is-marginless is-paddingless">
         <div class="column is-paddingless p-3">
-            <div class="card blue">
+            <div class="card">
                 <div class="title">total users</div>
                 <i class="fa fa-users"></i>
                 <div class="value">{{ dashdata['count'] }}</div>
@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="column is-paddingless p-3">
-            <div class="card green">
+            <div class="card">
                 <div class="title">total online</div>
                 <i class="fa fa-circle"></i>
                 <div class="value">
@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="column is-paddingless p-3">
-            <div class="card orange">
+            <div class="card">
                 <div class="title">lastest user</div>
                 <i class="fa fa-book"></i>
                 <div class="value">{{ dashdata['lastest_user'] }}</div>
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="column is-paddingless p-3">
-            <div class="card red">
+            <div class="card">
                 <div class="title">total banned</div>
                 <i class="fa fa-calendar"></i>
                 <div class="value">{{ dashdata['banned'] }}</div>
@@ -48,7 +48,7 @@
     <div class="column is-paddingless m-2 is-3">
         <div class="recent-beat">
             <div class="columns is-marginless">
-                <div class="column is-paddingless is-vcentered">
+                <div class="column is-paddingless flex-vcenter">
                     <h2 class="section-title">Recent Users</h2>
                 </div>
             </div>
@@ -63,12 +63,12 @@
                         </span>
                         <div class="user-footer">
                             <span class="user-mapper">
-                            {{ timeago.format((datetime.datetime.fromtimestamp(user.creation_time)), 
+                            {{ timeago.format((datetime.datetime.fromtimestamp(user.creation_time)),
                                 (datetime.datetime.now() + datetime.timedelta(seconds = 60 * 3.4))) }}
                             </span>
                             <div class="d-flex align-items-baseline">
                                 <span>
-                                {{ timeago.format((datetime.datetime.fromtimestamp(user.latest_activity)), 
+                                {{ timeago.format((datetime.datetime.fromtimestamp(user.latest_activity)),
                                     (datetime.datetime.now() + datetime.timedelta(seconds = 60 * 3.4))) }}
                                 </span>
                                 <div class="target-button newmaps-color">
@@ -87,7 +87,7 @@
     <div class="column is-paddingless m-2">
         <div class="recent-beat">
             <div class="columns is-marginless">
-                <div class="column is-paddingless is-vcentered">
+                <div class="column is-paddingless flex-vcenter">
                     <h2 class="section-title">Recent Score</h2>
                 </div>
             </div>

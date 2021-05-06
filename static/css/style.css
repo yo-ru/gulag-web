@@ -1,3 +1,10 @@
+/* Font import (mode icons) */
+
+@font-face {
+  font-family: osu-mode;
+  src: url(/static/fonts/extra.ttf) format("truetype")
+}
+
 /* layout */
 
 body {
@@ -24,40 +31,52 @@ html {
 
 /* stuffs */
 
-.is-vcentered {
+.flex {
+  display: flex;
+}
+
+.flex-vcenter {
   align-self: center;
 }
 
-.is-lcentered {
+.flex-lcenter {
   justify-content: center;
 }
 
-.is-lefttext {
+.text-left {
   text-align: left !important;
 }
 
-.is-righttext {
+.text-right {
   text-align: right !important;
 }
 
-.is-centertext {
+.text-center {
   text-align: center !important;
 }
 
-.is-padless {
+.p-less {
   padding: 0 !important;
 }
 
-.is-reset {
+.m-less {
+  margin: 0 !important;
+}
+
+.pm-reset {
   padding: 0 !important;
   margin: 0 !important;
 }
 
-.is-padding {
+.p-pad {
   padding: 1.25rem;
 }
 
-.is-locked {
+.h-max {
+  height: 100%;
+}
+
+.w-locked {
   width: 1152px;
 }
 
@@ -67,11 +86,7 @@ html {
   border-top-left-radius: 16px;
 }
 
-.is-maxheight {
-  height: 100%;
-}
-
-.is-headericon {
+.headericon {
   font-size: 74px;
 }
 
@@ -94,7 +109,7 @@ a.foot-link {
 
 @-webkit-keyframes slideup {
   0% {
-    -webkit-transform: translateY(10px);
+    -webkit-transform: translateY(5px);
     opacity: 0;
   }
   100% {
@@ -103,19 +118,52 @@ a.foot-link {
   }
 }
 
-@-webkit-keyframes appear {
-  0% {
-    -webkit-transform: scale(0.95);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: scale(1);
-    opacity: 1;
-  }
-}
-
 .button:hover {
   transform: scale(1.05);
+}
+
+.mode-icon {
+  font-family: osu-mode;
+  color: #fff !important;
+  font-size: 14px;
+  width: 19px;
+  height: 19px;
+  margin-right: 4px;
+  font-weight: 400;
+  font-style: initial;
+}
+
+.mode-osu::before {
+  content: "\E800";
+  position: relative;
+}
+
+.mode-catch::before {
+  content: "\E801";
+  position: relative;
+}
+
+.mode-mania::before {
+  content: "\E802";
+  position: relative;
+}
+
+.mode-taiko::before {
+  content: "\E803";
+  position: relative;
+}
+
+/* layout */
+
+#app {
+  width: 96vw;
+  transition: 0.2s ease; /* for responsive animation */
+}
+
+@media (min-width: 1140px) {
+  #app {
+      width: 1140px;
+  }
 }
 
 /* navbar */
@@ -233,6 +281,14 @@ a.foot-link {
 .select select,
 .textarea {
   background-color: hsl(var(--main), 12%, 18%);
+}
+
+.bg-accent {
+  background-color: hsl(var(--main), 30%, 50%);
+}
+
+.bg-seccond {
+  background-color: hsl(var(--main),10%,15%);
 }
 
 /* auth notification */

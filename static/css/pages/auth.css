@@ -95,7 +95,7 @@ input.input {
 
 /* Change autocomplete styles in WebKit */
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
+input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
@@ -112,7 +112,7 @@ select:-webkit-autofill:focus {
 @media only screen and (max-width: 770px) {
     .is-auth {
         width: 500px;
-    } 
+    }
     .icon-block{
         height: 125px;
         display: none;
@@ -124,7 +124,7 @@ select:-webkit-autofill:focus {
 @media only screen and (max-width: 500px) {
     .is-auth {
         width: initial;
-    } 
+    }
     .icon-block{
         height: 125px;
         display: none;

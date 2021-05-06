@@ -1,9 +1,7 @@
 .main-block {
     height: auto;
-    max-width: 1152px;
     background-color: hsl(var(--main),10%,15%);
     color: #fff;
-    width: 935px;
 }
 
 .title-block {

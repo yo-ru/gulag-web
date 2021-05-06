@@ -6,32 +6,32 @@ Table of Contents
 ==================
 - [Table of Contents](#table-of-contents)
   - [What is gulag-web?](#what-is-gulag-web)
+  - [Requirements](#requirements)
   - [Setup](#setup)
   - [Directory Structure](#directory-structure)
-  - [Live Demonstrations](#live-demonstrations)
   - [The End](#the-end)
 
 What is gulag-web?
 ------
 
 gulag-web is the front-facing appearance of the osu! server protocol, [gulag](https://github.com/cmyui/gulag)!
-Using native async/await syntax written on top of [Quart](https://github.com/pgjones/quart) and 
-[cmyui's multipurpose library](https://github.com/cmyui/cmyui_pkg), gulag-web achieves flexability, cleanliness, 
+Using native async/await syntax written on top of [Quart](https://github.com/pgjones/quart) and
+[cmyui's multipurpose library](https://github.com/cmyui/cmyui_pkg), gulag-web achieves flexability, cleanliness,
 and efficiency not seen in other frontend implementations - all while maintaining the simplicity of Python.
 
-A primary goal of gulag-web is to keep our codebase a developer-friendly API, so that 
+A primary goal of gulag-web is to keep our codebase a developer-friendly API, so that
 programming remains about the logic and ideas, rather than the code itself.
 
-Varkaria and I are mainly writing this. Varkaria handles the design aspect of the frontend, making it responsive 
-and snappy for mobile users, while I handle the backend, making sure it's easy to modify in every aspect as well 
+Varkaria and I are mainly writing this. Varkaria handles the design aspect of the frontend, making it responsive
+and snappy for mobile users, while I handle the backend, making sure it's easy to modify in every aspect as well
 as well as make it as efficent as possible.
 
 gulag-web has come a long way, going from [this](https://github.com/Yo-ru/old-gulag-web), to what you see now.
-It's in quite the usuable state. We now have a fully implemented session authentication system allowing users 
-to have a more interpersonal experience, leaderboards supported all mods and modes available within the gulag 
-stack, a automated documentation system featuring markdown support, user profiles featuring every single statistic 
-a player would need from score UR to rank graphs*, and a admin panel allowing for easy management of the gulag instance 
-and it's users*. If you are curious on how far we have gotten, check out our [projects](https://github.com/Yo-ru/gulag-web/projects), 
+It's in quite the usuable state. We now have a fully implemented session authentication system allowing users
+to have a more interpersonal experience, leaderboards supported all mods and modes available within the gulag
+stack, a automated documentation system featuring markdown support, user profiles featuring every single statistic
+a player would need from score UR to rank graphs*, and a admin panel allowing for easy management of the gulag instance
+and it's users*. If you are curious on how far we have gotten, check out our [projects](https://github.com/Yo-ru/gulag-web/projects),
 you can see what we have done and what we are about to complete.
 
 `* a feature that is in development or coming soon.`

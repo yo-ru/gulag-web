@@ -142,11 +142,10 @@
         <div class="main-content">
           <div class="columns is-marginless">
             <div class="column is-paddingless is-avatar">
-              <img
-                src="https://images-ext-1.discordapp.net/external/TPUUeHF9WWbAmo1qN_UZIEPN9z3LKJY5O4avA4IzHyk/%3Fsize%3D256/https/cdn.discordapp.com/avatars/391573480493154316/2fd3cfe134db3b335ed37562c0badda5.png"
-                class="header-avatar">
+              <img src="https://a.{{ domain() }}/{{ session.user_data['id'] }}"
+                onError="this.src='/static/images/avatar_notwork.png';" class="header-avatar">
             </div>
-            <div class="column is-paddingless is-vcentered">
+            <div class="column is-paddingless flex-vcenter">
               <h2 class="section-title">Dashboard</h2>
               <p class="section-lead">Welcome to {{ appName() }} admin panel!</p>
             </div>
